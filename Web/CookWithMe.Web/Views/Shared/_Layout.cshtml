@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>@this.ViewData["Title"]</title>
+
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/colors/green.css" id="colors" asp-append-version="true">
+</head>
+<body>
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+
+        <!-- Header
+        ================================================== -->
+        <header id="header">
+
+            <!-- Container -->
+            <div class="container">
+
+                <!-- Logo / Mobile Menu -->
+                <div class="three columns">
+                    <div id="logo">
+                        <h1><a href="/Home/Index"><img src="~/images/Logo.png" alt="Cook With Me" /></a></h1>
+                    </div>
+                </div>
+
+                <!-- Navigation
+                ================================================== -->
+                <div class="thirteen columns navigation">
+
+                    <nav id="navigation" class="menu nav-collapse">
+                        @*<partial name="_LoginPartial" />*@
+                        <ul>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+                            <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+                        </ul>
+                    </nav>
+
+                </div>
+
+            </div>
+            <!-- Container / End -->
+        </header>
+    </div>
+    <!-- Container / End -->
+
+    <div class="margin-top-5"></div>
+
+    <!-- Wrapper / End -->
+
+    <main role="main">
+        @*<partial name="_CookieConsentPartial" />*@
+        @this.RenderBody()
+    </main>
+
+    <!-- Footer
+    ================================================== -->
+    <div id="footer">
+
+        <!-- Container -->
+        <div class="container">
+
+            <div class="twelve columns">
+                <!-- Headline -->
+                <h3 class="headline footer">About</h3>
+                <span class="line"></span>
+                <div class="clearfix"></div>
+                <p>Cras at ultrices erat, sed vulputate eros. Nunc at augue gravida est fermentum vulputate. Pellentesque et ipsum in dui malesuada tempus.</p>
+            </div>
+
+            <div class="four columns">
+
+                <!-- Headline -->
+                <h3 class="headline footer">Recipes</h3>
+                <span class="line"></span>
+                <div class="clearfix"></div>
+
+                <ul class="footer-links">
+                    <li><a href="browse-recipes.html">All</a></li>
+                </ul>
+
+            </div>
+
+        </div>
+        <!-- Container / End -->
+
+    </div>
+    <!-- Footer / End -->
+    <!-- Footer Bottom / Start -->
+    <div id="footer-bottom">
+
+        <!-- Container -->
+        <div class="container">
+
+            <div class="eight columns">© Copyright @DateTime.Now.Year by <a href="#">Cook With Me</a>. All Rights Reserved.</div>
+
+        </div>
+        <!-- Container / End -->
+
+    </div>
+    <!-- Footer Bottom / End -->
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    <script src="~/js/scripts/jquery-1.11.0.min.js" asp-append-version="true"></script>
+    <script src="~/js/scripts/jquery-migrate-1.2.1.min.js" asp-append-version="true"></script>
+    <script src="~/js/scripts/jquery.superfish.js" asp-append-version="true"></script>
+    <script src="~/js/scripts/jquery.royalslider.min.js" asp-append-version="true"></script>
+    <script src="~/js/scripts/responsive-nav.js" asp-append-version="true"></script>
+   <script src="~/js/scripts/hoverIntent.js" asp-append-version="true"></script>
+   <script src="~/js/scripts/isotope.pkgd.min.js" asp-append-version="true"></script>
+   <script src="~/js/scripts/chosen.jquery.min.js" asp-append-version="true"></script>
+    <script src="~/js/scripts/jquery.tooltips.min.js" asp-append-version="true"></script>
+    <script src="~/js/scripts/jquery.magnific-popup.min.js" asp-append-version="true"></script>
+    <script src="~/js/scripts/jquery.pricefilter.js" asp-append-version="true"></script>
+    <script src="~/js/scripts/custom.js" asp-append-version="true"></script>
+
+    @this.RenderSection("Scripts", required: false)
+
+</body>
+</html>

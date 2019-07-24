@@ -1,0 +1,79 @@
+/* ------------------------------------------------------------------- */
+/* Navy #495d7f
+---------------------------------------------------------------------- */
+.rsDefaultInv .rsThumb.rsNavSelected {
+	-webkit-box-shadow: inset 0px -1px 0px 0px rgba(50, 50, 50, 0.12), 1px 0px 0px 0px #495d7f;
+	-moz-box-shadow: inset 0px -1px 0px 0px rgba(50, 50, 50, 0.12), 1px 0px 0px 0px #495d7f;
+	box-shadow: inset 0px -1px 0px 0px rgba(50, 50, 50, 0.12), 1px 0px 0px 0px #495d7f;
+}
+
+#current,
+.menu ul li a:hover,
+.menu ul > li:hover > a,
+.menu ul ul,
+.rsDefaultInv .rsThumb.rsNavSelected,
+.rsDefault .rsThumb.rsNavSelected,
+.ingredients input[type=checkbox]:checked + label:before {
+	border-color: #495d7f;
+}
+
+
+.alternative #current:hover,
+.menu.alternative ul li a:hover,
+.menu.alternative ul > li.sfHover > a {
+	background-color: #495d7f !important;
+}
+
+
+.rsDefault .rsArrowIcn:hover,
+a.print,
+.ingredients input[type=checkbox]:checked + label:before,
+#slider-prev:hover,
+#slider-next:hover,
+.search button,
+.rsSlideTitle.tags ul li,
+ul.categories li a:hover,
+.post-icon,
+.rate-recipe,
+.comment-by a.reply:hover,
+.newsletter-btn,
+.product-button,
+.search-by-keyword button,
+.chosen-container .chosen-results li.highlighted,
+.chosen-container-multi .chosen-choices li.search-choice,
+.tabs-nav li.active a,
+.ui-accordion .ui-accordion-header-active:hover,
+.ui-accordion .ui-accordion-header-active,
+a.nav-toggle.active,
+.upload-btn,
+a.button.color, input[type="button"], 
+input[type="submit"],
+a.button.light:hover,
+.pagination ul li a.current-page { background-color: #495d7f; }
+
+
+.rsDefaultInv .rsThumb.rsNavSelected,
+a.blockTitle:hover,
+.rsDefault .rsThumb.rsNavSelected,
+.rsDefault .rsThumbsArrow:hover,
+.qtyplus:hover,
+.qtyminus:hover,
+.mfp-close:hover,
+.mfp-arrow:hover,
+.pagination .current,
+.pagination ul li a:hover,
+.pagination-next-prev ul li a:hover,
+.highlight.color { background: #495d7f; }
+
+
+.author-box .title,
+.author-box .contact a:hover,
+ul.product_list_widget li a:hover,
+a.adv-search-btn.active i,
+a.adv-search-btn.active,
+a.adv-search-btn:hover i,
+a.adv-search-btn:hover,
+.list-1.color li:before,
+.list-2.color li:before,
+.list-3.color li:before,
+.list-4.color li:before { color: #495d7f; }

@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.5.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CookWithMe.Common\CookWithMe.Common.csproj" />
+    <ProjectReference Include="..\..\Data\CookWithMe.Data.Common\CookWithMe.Data.Common.csproj" />
+    <ProjectReference Include="..\..\Data\CookWithMe.Data.Models\CookWithMe.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\CookWithMe.Data\CookWithMe.Data.csproj" />
+    <ProjectReference Include="..\..\Services\CookWithMe.Services.Data\CookWithMe.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Services\CookWithMe.Services.Mapping\CookWithMe.Services.Mapping.csproj" />
+    <ProjectReference Include="..\..\Services\CookWithMe.Services.Messaging\CookWithMe.Services.Messaging.csproj" />
+    <ProjectReference Include="..\..\Services\CookWithMe.Services\CookWithMe.Services.csproj" />
+  </ItemGroup>
+
+</Project>
