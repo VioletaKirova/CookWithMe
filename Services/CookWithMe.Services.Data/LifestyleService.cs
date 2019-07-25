@@ -14,7 +14,7 @@
             this.lifestyleRepository = lifestyleRepository;
         }
 
-        public async Task<bool> CreateAsync(string[] types)
+        public async Task<bool> CreateAllAsync(string[] types)
         {
             foreach (var type in types)
             {

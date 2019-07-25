@@ -4,6 +4,6 @@
 
     public interface ILifestyleService
     {
-        Task<bool> CreateAsync(string[] types);
+        Task<bool> CreateAllAsync(string[] types);
     }
 }

@@ -31,7 +31,7 @@
                 "Soybeans",
             };
 
-            await allergenService.CreateAsync(allergenNames);
+            await allergenService.CreateAllAsync(allergenNames);
         }
     }
 }

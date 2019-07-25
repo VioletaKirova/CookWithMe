@@ -30,7 +30,7 @@
                 "Desserts",
             };
 
-            await categoryService.CreateAsync(categoryTitles);
+            await categoryService.CreateAllAsync(categoryTitles);
         }
     }
 }

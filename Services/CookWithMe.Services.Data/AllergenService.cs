@@ -14,7 +14,7 @@
             this.allergenRepository = allergenRepository;
         }
 
-        public async Task<bool> CreateAsync(string[] names)
+        public async Task<bool> CreateAllAsync(string[] names)
         {
             foreach (var name in names)
             {

@@ -28,7 +28,7 @@
                 "Vegan",
             };
 
-            await lifestyleService.CreateAsync(lifestyleTypes);
+            await lifestyleService.CreateAllAsync(lifestyleTypes);
         }
     }
 }

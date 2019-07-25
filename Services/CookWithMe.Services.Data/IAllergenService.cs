@@ -4,6 +4,6 @@
 
     public interface IAllergenService
     {
-        Task<bool> CreateAsync(string[] names);
+        Task<bool> CreateAllAsync(string[] names);
     }
 }

@@ -14,7 +14,7 @@
             this.categoryRepository = categoryRepository;
         }
 
-        public async Task<bool> CreateAsync(string[] titles)
+        public async Task<bool> CreateAllAsync(string[] titles)
         {
             foreach (var title in titles)
             {

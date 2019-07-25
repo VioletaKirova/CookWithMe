@@ -4,6 +4,6 @@
 
     public interface ICategoryService
     {
-        Task<bool> CreateAsync(string[] titles);
+        Task<bool> CreateAllAsync(string[] titles);
     }
 }
