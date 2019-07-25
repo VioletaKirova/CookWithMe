@@ -39,9 +39,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookWithMe.Web.Tests", "Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookWithMe.Web.ViewModels", "Web\CookWithMe.Web.ViewModels\CookWithMe.Web.ViewModels.csproj", "{13B7AACB-9C85-4409-8D4B-95A67D0DFFF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookWithMe.Web.InputModels", "Web\CookWithMe.Web.InputModels\CookWithMe.Web.InputModels.csproj", "{5AB44CFF-FFD6-4B26-81DB-8C7C343D3F02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookWithMe.Web.InputModels", "Web\CookWithMe.Web.InputModels\CookWithMe.Web.InputModels.csproj", "{5AB44CFF-FFD6-4B26-81DB-8C7C343D3F02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookWithMe.Services.Models", "Services\CookWithMe.Services.Models\CookWithMe.Services.Models.csproj", "{B0F710FD-DAA7-489F-8E13-2D77D69F7072}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookWithMe.Services.Models", "Services\CookWithMe.Services.Models\CookWithMe.Services.Models.csproj", "{B0F710FD-DAA7-489F-8E13-2D77D69F7072}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

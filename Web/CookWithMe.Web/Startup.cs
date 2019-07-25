@@ -2,12 +2,14 @@
 {
     using System.Reflection;
 
+    using CloudinaryDotNet;
     using CookWithMe.Data;
     using CookWithMe.Data.Common;
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
     using CookWithMe.Data.Repositories;
     using CookWithMe.Data.Seeding;
+    using CookWithMe.Services;
     using CookWithMe.Services.Data;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Messaging;
@@ -41,6 +43,15 @@
             // TODO: Add pooling when this bug is fixed: https://github.com/aspnet/EntityFrameworkCore/issues/9741
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+
+            Account cloudinaryCredentials = new Account(
+                this.configuration["Cloudinary:CloudName"],
+                this.configuration["Cloudinary:ApiKey"],
+                this.configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinaryUtility = new Cloudinary(cloudinaryCredentials);
+
+            services.AddSingleton(cloudinaryUtility);
 
             services
                 .AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -102,6 +113,7 @@
             services.AddTransient<IAllergenService, AllergenService>();
             services.AddTransient<ILifestyleService, LifestyleService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
