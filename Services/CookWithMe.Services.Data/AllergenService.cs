@@ -1,9 +1,12 @@
 ﻿namespace CookWithMe.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class AllergenService : IAllergenService
     {
@@ -29,6 +32,23 @@
             int result = await this.allergenRepository.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        public async Task<IEnumerable<string>> GetAllNamesAsync()
+        {
+            return this.allergenRepository
+                .AllAsNoTracking()
+                .Select(x => x.Name)
+                .ToList();
+        }
+
+        public async Task<int> GetIdByName(string name)
+        {
+            var allergen = await this.allergenRepository
+                .AllAsNoTracking()
+                .SingleOrDefaultAsync(x => x.Name == name);
+
+            return allergen.Id;
         }
     }
 }

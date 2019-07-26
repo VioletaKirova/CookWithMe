@@ -1341,14 +1341,16 @@ button.button {
 }
 
 input[type="button"],
-input[type="submit"] {
-	padding: 10px 14px;
+input[type="submit"],
+input[type="file"] {
+    padding: 10px 14px;
 }
 
-a.button.color, 
-button.button.color, 
-input[type="button"], 
-input[type="submit"] {
+a.button.color,
+button.button.color,
+input[type="button"],
+input[type="submit"],
+input[type="file"] {
     background-color: #808080;
 }
 a.button.light, 
@@ -1359,7 +1361,8 @@ button.button.light {
 
 input[type="button"]:hover,
 input[type="submit"]:hover,
-a.button:hover, 
+input[type="file"]:hover,
+a.button:hover,
 button.button:hover {
     background-color: #555 !important;
 }

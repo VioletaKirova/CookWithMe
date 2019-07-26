@@ -21,11 +21,10 @@
             this.userAllergensRepository = userAllergensRepository;
         }
 
-        public async Task<bool> UpdateUserAdditionalInfoAsync(string userId, AdditionalInfoServiceModel additionalInfoServiceModel)
+        public async Task<bool> UpdateUserAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
-            user.FullName = additionalInfoServiceModel.FullName;
             user.Biography = additionalInfoServiceModel.Biography;
             user.ProfilePhoto = additionalInfoServiceModel.ProfilePhoto;
             user.LifestyleId = additionalInfoServiceModel.LifestyleId;

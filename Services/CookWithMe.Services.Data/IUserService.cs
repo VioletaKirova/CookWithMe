@@ -6,6 +6,6 @@
 
     public interface IUserService
     {
-        Task<bool> UpdateUserAdditionalInfoAsync(string userId, AdditionalInfoServiceModel additionalInfoServiceModel);
+        Task<bool> UpdateUserAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel);
     }
 }

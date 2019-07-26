@@ -2,9 +2,12 @@
 {
     using System.Collections.Generic;
 
-    public class AdditionalInfoServiceModel
+    public class UserAdditionalInfoServiceModel
     {
-        public string FullName { get; set; }
+        public UserAdditionalInfoServiceModel()
+        {
+            this.Allergies = new HashSet<UserAllergenServiceModel>();
+        }
 
         public string Biography { get; set; }
 

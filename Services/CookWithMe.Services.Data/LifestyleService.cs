@@ -1,9 +1,12 @@
 ﻿namespace CookWithMe.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class LifestyleService : ILifestyleService
     {
@@ -29,6 +32,23 @@
             var result = await this.lifestyleRepository.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        public async Task<IEnumerable<string>> GetAllTypesAsync()
+        {
+            return this.lifestyleRepository
+                .AllAsNoTracking()
+                .Select(x => x.Type)
+                .ToList();
+        }
+
+        public async Task<int> GetIdByType(string type)
+        {
+            var lifeStyle = await this.lifestyleRepository
+                .AllAsNoTracking()
+                .SingleOrDefaultAsync(x => x.Type == type);
+
+            return lifeStyle.Id;
         }
     }
 }

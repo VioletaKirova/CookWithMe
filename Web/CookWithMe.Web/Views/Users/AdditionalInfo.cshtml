@@ -1,0 +1,102 @@
+﻿@using CookWithMe.Web.ViewModels.Users;
+@model CookWithMe.Web.InputModels.Users.UserAdditionalInfoInputModel;
+
+@{
+    ViewData["Title"] = "Additional Info";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Titlebar
+================================================== -->
+<section id="titlebar">
+    <!-- Container -->
+    <div class="container">
+
+        <div class="eight columns">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+
+    </div>
+    <!-- Container / End -->
+</section>
+
+<!-- Content
+================================================== -->
+<div class="container">
+    <div class="sixteen columns">
+        <form asp-action="AdditionalInfo" method="post" class="register-user-form" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!-- Short Bio -->
+            <h4>Short Bio</h4>
+            <nav class="input-val form-group">
+                <textarea asp-for="Biography" class="WYSIWYG form-control" name="biography" cols="40" rows="3" id="biography" spellcheck="true"></textarea>
+                <span asp-validation-for="Biography" class="text-danger"></span>
+            </nav>
+
+            <div class="clearfix"></div>
+
+            <div class="margin-top-25"></div>
+
+            <!-- Upload Profile Photo -->
+            <h4>Profile Photo</h4>
+            <div class="form-group">
+
+                <label asp-for="ProfilePhoto" class="upload-btn">
+                    <input asp-for="ProfilePhoto" type="file" class="form-control" />
+                    <i class="fa fa-upload"></i> Upload
+                    <span asp-validation-for="ProfilePhoto" class="text-danger"></span>
+                </label>
+
+            </div>
+
+            <div class="clearfxix"></div>
+
+            <div class="margin-top-15"></div>
+
+            <!-- Allergies -->
+            <div class="select form-group">
+                <h4>Allergies</h4>
+                <select asp-for="Allergies" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple>
+                    @foreach (var allergyName in ((UserAdditionalInfoViewModel)ViewData["Types"]).Allergies)
+                    {
+                        <option value="@allergyName">@allergyName</option>
+                    }
+                </select>
+                <span asp-validation-for="Allergies" class="text-danger"></span>
+            </div>
+
+            <div class="clearfxix"></div>
+
+            <div class="margin-top-25"></div>
+
+            <!-- Lifestyle -->
+            <div class="select form-group">
+                <h4>Lifestyle</h4>
+                <select asp-for="Lifestyle" data-placeholder="Choose Lifestyle" class="chosen-select-no-single form-control">
+                    @foreach (var lifestyleType in ((UserAdditionalInfoViewModel)ViewData["Types"]).Lifestyles)
+                    {
+                        <option value="@lifestyleType">@lifestyleType</option>
+                    }
+                </select>
+                <span asp-validation-for="Lifestyle" class="text-danger"></span>
+            </div>
+
+            <div class="margin-top-30"></div>
+
+            <button type="submit" class="button color big">Submit</button>
+        </form>
+
+        <div class="margin-top-15"></div>
+
+        <a href="/">Skip this step</a>
+
+    </div>
+</div>
+<!-- Container / End -->
+
+<div class="margin-top-50"></div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

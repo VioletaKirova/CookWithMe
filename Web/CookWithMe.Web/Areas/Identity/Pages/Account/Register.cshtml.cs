@@ -48,7 +48,7 @@
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? this.Url.Content("~/");
+            returnUrl = returnUrl ?? "/Users/AdditionalInfo";
             if (this.ModelState.IsValid)
             {
                 var user = new ApplicationUser
