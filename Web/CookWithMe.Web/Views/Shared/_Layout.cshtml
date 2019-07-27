@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using CookWithMe.Common;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -20,27 +22,119 @@
             <!-- Container -->
             <div class="container">
 
-                <!-- Logo / Mobile Menu -->
-                <div class="three columns">
-                    <div id="logo">
-                        <h1><a href="/Home/Index"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1564057890/common/logo_u08lwu.png" alt="Cook With Me" /></a></h1>
+                @if (this.User.Identity.IsAuthenticated && this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <!-- Logo / Mobile Menu -->
+                    <div class="three columns">
+                        <div id="logo">
+                            <h1><a href="/Home/Index"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1564057890/common/logo_u08lwu.png" alt="Cook With Me" /></a></h1>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Navigation
-                ================================================== -->
-                <div class="thirteen columns navigation">
 
-                    <nav id="navigation" class="menu nav-collapse">
-                        @*<partial name="_LoginPartial" />*@
-                        <ul>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                            <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
-                            <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
-                        </ul>
-                    </nav>
+                    <!-- Navigation
+        ================================================== -->
+                    <div class="thirteen columns navigation">
 
-                </div>
+                        <nav id="navigation" class="menu nav-collapse">
+                            <ul>
+                                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+
+                                <li>
+                                    <a href="#">Recipes</a>
+                                    <ul>
+                                        <li><a href="">My Recipes</a></li>
+                                        <li><a href="">Browse</a></li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a href="#">Create</a>
+                                    <ul>
+                                        <li><a href="">Recipe</a></li>
+                                        <li><a asp-area="Administration" asp-controller="Categories" asp-action="Create">Category</a></li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a href="#">Account</a>
+                                    <ul>
+                                        <li><a href="">My Profile</a></li>
+                                        <li><a href="">Reviews</a></li>
+                                        <li><a asp-area="Identity" asp-page="/Account/Logout">Logout</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+
+                    </div>
+                }
+                else if (this.User.Identity.IsAuthenticated && this.User.IsInRole(GlobalConstants.UserRoleName))
+                {
+                    <!-- Logo / Mobile Menu -->
+                    <div class="three columns">
+                        <div id="logo">
+                            <h1><a href="/Home/Index"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1564057890/common/logo_u08lwu.png" alt="Cook With Me" /></a></h1>
+                        </div>
+                    </div>
+
+
+                    <!-- Navigation
+        ================================================== -->
+                    <div class="thirteen columns navigation">
+
+                        <nav id="navigation" class="menu nav-collapse">
+                            <ul>
+                                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+
+                                <li>
+                                    <a href="#">Recipes</a>
+                                    <ul>
+                                        <li><a href="">Favorites</a></li>
+                                        <li><a href="">Cooked Dishes</a></li>
+                                        <li><a href="">Cook Later</a></li>
+                                        <li><a href="">Browse</a></li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a href="#">Account</a>
+                                    <ul>
+                                        <li><a href="">My Profile</a></li>
+                                        <li><a href="">Meal of the Day</a></li>
+                                        <li><a href="">Shopping Lists</a></li>
+                                        <li><a asp-area="Identity" asp-page="/Account/Logout">Logout</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+
+                    </div>
+                }
+                else
+                {
+                    <!-- Logo / Mobile Menu -->
+                    <div class="three columns">
+                        <div id="logo">
+                            <h1><a href="/Home/Index"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1564057890/common/logo_u08lwu.png" alt="Cook With Me" /></a></h1>
+                        </div>
+                    </div>
+
+                    <!-- Navigation
+        ================================================== -->
+                    <div class="thirteen columns navigation">
+
+                        <nav id="navigation" class="menu nav-collapse">
+                            @*<partial name="_LoginPartial" />*@
+                            <ul>
+                                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                                <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+                                <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+                            </ul>
+                        </nav>
+
+                    </div>
+                }
 
             </div>
             <!-- Container / End -->
@@ -57,6 +151,8 @@
         @this.RenderBody()
     </main>
 
+    <br/>
+
     <!-- Footer
     ================================================== -->
     <div id="footer">
@@ -69,7 +165,7 @@
                 <h3 class="headline footer">About</h3>
                 <span class="line"></span>
                 <div class="clearfix"></div>
-                <p>Cras at ultrices erat, sed vulputate eros. Nunc at augue gravida est fermentum vulputate. Pellentesque et ipsum in dui malesuada tempus.</p>
+                <p>The team of experts behind "Cook With Me" is here to present you with tested recipes and make your experience in the kitchen as easy as possible.</p>
             </div>
 
             <div class="four columns">
