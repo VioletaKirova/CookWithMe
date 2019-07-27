@@ -34,12 +34,11 @@
             return result > 0;
         }
 
-        public async Task<IEnumerable<string>> GetAllNamesAsync()
+        public IQueryable<string> GetAllNames()
         {
             return this.allergenRepository
                 .AllAsNoTracking()
-                .Select(x => x.Name)
-                .ToList();
+                .Select(x => x.Name);
         }
 
         public async Task<int> GetIdByName(string name)

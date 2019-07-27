@@ -13,9 +13,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\CookWithMe.Data.Models\CookWithMe.Data.Models.csproj" />
+    <ProjectReference Include="..\CookWithMe.Services.Mapping\CookWithMe.Services.Mapping.csproj" />
   </ItemGroup>
 
 </Project>

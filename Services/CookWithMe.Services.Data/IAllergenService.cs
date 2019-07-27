@@ -1,13 +1,13 @@
 ﻿namespace CookWithMe.Services.Data
 {
-    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public interface IAllergenService
     {
         Task<bool> CreateAllAsync(string[] names);
 
-        Task<IEnumerable<string>> GetAllNamesAsync();
+        IQueryable<string> GetAllNames();
 
         Task<int> GetIdByName(string name);
     }

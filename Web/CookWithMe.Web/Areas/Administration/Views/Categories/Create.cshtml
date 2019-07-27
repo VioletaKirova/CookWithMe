@@ -1,0 +1,61 @@
+﻿@model CookWithMe.Web.InputModels.Categories.CategoryCreateInputModel
+
+@{
+    ViewData["Title"] = "Create Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Titlebar
+================================================== -->
+<section id="titlebar">
+    <!-- Container -->
+    <div class="container">
+
+        <div class="eight columns">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+
+    </div>
+    <!-- Container / End -->
+</section>
+
+<!-- Content
+================================================== -->
+<div class="container">
+    <div class="sixteen columns">
+        <div class="submit-recipe-form">
+
+
+            <!-- Title -->
+            <h4>Title</h4>
+            <nav class="title form-group">
+                <form asp-action="Create">
+
+                    <input asp-for="Title" class="search-field form-control" type="text" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+
+                    <div class="clearfix"></div>
+
+                    <div class="margin-top-30"></div>
+
+                    <button type="submit" class="button color big">Create</button>
+
+                </form>
+            </nav>
+
+
+        </div>
+    </div>
+</div>
+<!-- Container / End -->
+
+<div class="margin-top-50"></div>
+
+@for (int i = 0; i < 5; i++)
+{
+    <br/>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

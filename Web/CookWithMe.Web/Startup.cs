@@ -13,6 +13,8 @@
     using CookWithMe.Services.Data;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Messaging;
+    using CookWithMe.Services.Models;
+    using CookWithMe.Web.InputModels.Categories;
     using CookWithMe.Web.ViewModels;
 
     using Microsoft.AspNetCore.Builder;
@@ -115,12 +117,16 @@
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICategoryService, CategoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(
+                typeof(ErrorViewModel).GetTypeInfo().Assembly,
+                typeof(CategoryCreateInputModel).GetTypeInfo().Assembly,
+                typeof(CategoryServiceModel).GetTypeInfo().Assembly);
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())

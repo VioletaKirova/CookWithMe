@@ -4,6 +4,7 @@
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
+    using CookWithMe.Services.Models;
 
     public class CategoryService : ICategoryService
     {
@@ -25,6 +26,17 @@
 
                 await this.categoryRepository.AddAsync(category);
             }
+
+            var result = await this.categoryRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public async Task<bool> CreateAsync(CategoryServiceModel model)
+        {
+            var category = AutoMapper.Mapper.Map<CategoryServiceModel, Category>(model);
+
+            await this.categoryRepository.AddAsync(category);
 
             var result = await this.categoryRepository.SaveChangesAsync();
 

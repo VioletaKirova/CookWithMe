@@ -34,12 +34,11 @@
             return result > 0;
         }
 
-        public async Task<IEnumerable<string>> GetAllTypesAsync()
+        public IQueryable<string> GetAllTypes()
         {
             return this.lifestyleRepository
                 .AllAsNoTracking()
-                .Select(x => x.Type)
-                .ToList();
+                .Select(x => x.Type);
         }
 
         public async Task<int> GetIdByType(string type)

@@ -1,9 +1,9 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
-    using System;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using CookWithMe.Common;
     using CookWithMe.Services;
     using CookWithMe.Services.Data;
@@ -13,6 +13,7 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     [Authorize]
     public class UsersController : BaseController
@@ -33,8 +34,8 @@
         [HttpGet]
         public async Task<IActionResult> AdditionalInfo()
         {
-            var allergyNames = await this.allergenService.GetAllNamesAsync();
-            var lifestyleTypes = await this.lifestyleService.GetAllTypesAsync();
+            var allergyNames = await this.allergenService.GetAllNames().ToListAsync();
+            var lifestyleTypes = await this.lifestyleService.GetAllTypes().ToListAsync();
 
             var userAdditionalInfoViewModel = new UserAdditionalInfoViewModel
             {
