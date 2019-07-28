@@ -1,5 +1,4 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace CookWithMe.Data.Models
+﻿namespace CookWithMe.Data.Models
 {
     using System;
 

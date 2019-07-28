@@ -1,11 +1,11 @@
 ﻿namespace CookWithMe.Services.Data
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
+
     using Microsoft.EntityFrameworkCore;
 
     public class LifestyleService : ILifestyleService

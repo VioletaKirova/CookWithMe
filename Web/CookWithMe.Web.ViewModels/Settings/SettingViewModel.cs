@@ -1,9 +1,9 @@
 ﻿namespace CookWithMe.Web.ViewModels.Settings
 {
+    using AutoMapper;
+
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {

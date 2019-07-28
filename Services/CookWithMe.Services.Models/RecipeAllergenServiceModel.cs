@@ -3,10 +3,8 @@
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Mapping;
 
-    public class UserAllergenServiceModel : IMapTo<UserAllergen>
+    public class RecipeAllergenServiceModel : IMapTo<RecipeAllergen>
     {
-        public string UserId { get; set; }
-
         public int AllergenId { get; set; }
     }
 }

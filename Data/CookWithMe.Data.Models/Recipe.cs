@@ -38,7 +38,6 @@
         [Required]
         public string Directions { get; set; }
 
-        [Required]
         public string ShoppingListId { get; set; }
 
         public ShoppingList ShoppingList { get; set; }
@@ -61,12 +60,16 @@
 
         public Size Serving { get; set; }
 
-        [Required]
         public string NutritionalValueId { get; set; }
 
         public NutritionalValue NutritionalValue { get; set; }
 
         public decimal? Yield { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
+
+        public ApplicationUser User { get; set; }
 
         public ICollection<UserFavoriteRecipe> FavoritedBy { get; set; }
 

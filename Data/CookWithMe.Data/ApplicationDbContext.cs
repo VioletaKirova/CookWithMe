@@ -187,6 +187,12 @@
                 .WithOne(r => r.Reviewer)
                 .HasForeignKey(r => r.ReviewerId);
 
+            // Many-to-one relationship between Users and Recipes
+            builder.Entity<ApplicationUser>()
+                .HasMany(u => u.MyRecipes)
+                .WithOne(r => r.User)
+                .HasForeignKey(r => r.UserId);
+
             // Many-to-many unidirectional relationship between Recipes and Allergens
             builder.Entity<RecipeAllergen>()
                 .HasKey(ra => new { ra.RecipeId, ra.AllergenId });

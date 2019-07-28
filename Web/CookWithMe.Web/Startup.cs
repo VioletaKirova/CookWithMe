@@ -118,6 +118,8 @@
             services.AddTransient<ICloudinaryService, CloudinaryService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IRecipeService, RecipeService>();
+            services.AddTransient<IShoppingListService, ShoppingListService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -154,7 +156,7 @@
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //app.UseCookiePolicy();
+            app.UseCookiePolicy();
             app.UseAuthentication();
 
             app.UseMvc(routes =>

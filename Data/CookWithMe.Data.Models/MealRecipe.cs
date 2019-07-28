@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CookWithMe.Data.Models
+﻿namespace CookWithMe.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class MealRecipe
     {
         [Required]

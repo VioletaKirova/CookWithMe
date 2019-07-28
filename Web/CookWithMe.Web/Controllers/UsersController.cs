@@ -58,7 +58,7 @@
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            string pictureUrl = await this.cloudinaryService.UploadPhotoAsync(
+            string photoUrl = await this.cloudinaryService.UploadPhotoAsync(
                 model.ProfilePhoto,
                 userId,
                 GlobalConstants.CloudFolderForUserProfilePhotos);
@@ -68,7 +68,7 @@
             var userAdditionalInfoServiceModel = new UserAdditionalInfoServiceModel
             {
                 Biography = model.Biography,
-                ProfilePhoto = pictureUrl,
+                ProfilePhoto = photoUrl,
                 LifestyleId = lifestyleId,
             };
 

@@ -4,14 +4,16 @@ using CookWithMe.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CookWithMe.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190728001105_MakingRecipeShoppingListIdNullable")]
+    partial class MakingRecipeShoppingListIdNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -312,9 +314,6 @@ namespace CookWithMe.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
                     b.Property<decimal?>("Yield");
 
                     b.HasKey("Id");
@@ -324,8 +323,6 @@ namespace CookWithMe.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("LifestyleId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Recipes");
                 });
@@ -609,11 +606,6 @@ namespace CookWithMe.Data.Migrations
                     b.HasOne("CookWithMe.Data.Models.Lifestyle", "Lifestyle")
                         .WithMany("Recipes")
                         .HasForeignKey("LifestyleId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("CookWithMe.Data.Models.ApplicationUser", "User")
-                        .WithMany("MyRecipes")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

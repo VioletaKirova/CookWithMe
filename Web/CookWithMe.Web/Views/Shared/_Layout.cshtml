@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/colors/green.css" id="colors" asp-append-version="true">
+    <link rel="shortcut icon" href="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1564235731/common/favicon_wcqzk3.ico" />
 </head>
 <body>
     <!-- Wrapper -->
@@ -51,8 +52,9 @@
                                 <li>
                                     <a href="#">Create</a>
                                     <ul>
-                                        <li><a href="">Recipe</a></li>
+                                        <li><a asp-area="Administration" asp-controller="Recipes" asp-action="Create">Recipe</a></li>
                                         <li><a asp-area="Administration" asp-controller="Categories" asp-action="Create">Category</a></li>
+                                        <li><a href="">Admin</a></li>
                                     </ul>
                                 </li>
 
@@ -165,7 +167,7 @@
                 <h3 class="headline footer">About</h3>
                 <span class="line"></span>
                 <div class="clearfix"></div>
-                <p>The team of experts behind "Cook With Me" is here to present you with tested recipes and make your experience in the kitchen as easy as possible.</p>
+                <p>The team of experts behind "Cook With Me" is here to present you with awesome recipes specific for your needs and make your experience in the kitchen as smooth as possible.</p>
             </div>
 
             <div class="four columns">

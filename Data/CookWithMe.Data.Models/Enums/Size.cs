@@ -3,10 +3,10 @@
     public enum Size
     {
         All = 0,
-        ForOne = 1,
-        ForTwo = 2,
-        ForThree = 3,
-        ForFour = 4,
-        ForMore = 5,
+        One = 1,
+        Two = 2,
+        Three = 3,
+        Four = 4,
+        More = 5,
     }
 }

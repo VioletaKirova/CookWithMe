@@ -1,5 +1,4 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace CookWithMe.Data.Models
+﻿namespace CookWithMe.Data.Models
 {
     using System;
     using System.Collections.Generic;
@@ -21,6 +20,7 @@ namespace CookWithMe.Data.Models
             this.Logins = new HashSet<IdentityUserLogin<string>>();
 
             this.Allergies = new HashSet<UserAllergen>();
+            this.MyRecipes = new HashSet<Recipe>();
             this.FavoriteRecipes = new HashSet<UserFavoriteRecipe>();
             this.CookedRecipes = new HashSet<UserCookedRecipe>();
             this.CookLaterRecipes = new HashSet<UserCookLaterRecipe>();
@@ -58,6 +58,8 @@ namespace CookWithMe.Data.Models
         public Lifestyle Lifestyle { get; set; }
 
         public ICollection<UserAllergen> Allergies { get; set; }
+
+        public ICollection<Recipe> MyRecipes { get; set; }
 
         public ICollection<UserFavoriteRecipe> FavoriteRecipes { get; set; }
 
