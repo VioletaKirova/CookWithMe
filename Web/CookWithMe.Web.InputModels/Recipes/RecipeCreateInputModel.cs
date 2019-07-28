@@ -15,20 +15,20 @@
         public string Title { get; set; }
 
         [Required]
-        public string Category { get; set; }
+        public IFormFile Photo { get; set; }
+
+        [Required]
+        public string CategoryTitle { get; set; }
 
         [Required]
         [StringLength(200, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 10)]
         public string Summary { get; set; }
 
         [Required]
-        public IFormFile Photo { get; set; }
-
-        [Required]
-        public string ShoppingListIngredients { get; set; }
-
-        [Required]
         public string Directions { get; set; }
+
+        [Required]
+        public RecipeCreateShoppingListInputModel ShoppingList { get; set; }
 
         [Required]
         public string PreparationTime { get; set; }
@@ -43,7 +43,7 @@
         public string SkillLevel { get; set; }
 
         [Required]
-        public string Lifestyle { get; set; }
+        public string LifestyleType { get; set; }
 
         public IEnumerable<string> AllergenNames { get; set; }
 
@@ -52,6 +52,6 @@
 
         public decimal? Yield { get; set; }
 
-        public RecipeCreateNutritionalValueInputModel NutritionalValueInputModel { get; set; }
+        public RecipeCreateNutritionalValueInputModel NutritionalValue { get; set; }
     }
 }

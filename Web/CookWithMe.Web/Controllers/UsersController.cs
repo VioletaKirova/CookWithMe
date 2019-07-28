@@ -53,8 +53,21 @@
         {
             if (!this.ModelState.IsValid)
             {
+                var allergyNames = await this.allergenService.GetAllNames().ToListAsync();
+                var lifestyleTypes = await this.lifestyleService.GetAllTypes().ToListAsync();
+
+                var userAdditionalInfoViewModel = new UserAdditionalInfoViewModel
+                {
+                    Allergies = allergyNames,
+                    Lifestyles = lifestyleTypes,
+                };
+
+                this.ViewData["Types"] = userAdditionalInfoViewModel;
+
                 return this.View();
             }
+
+            var userAdditionalInfoServiceModel = AutoMapper.Mapper.Map<UserAdditionalInfoInputModel, UserAdditionalInfoServiceModel>(model);
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -62,29 +75,8 @@
                 model.ProfilePhoto,
                 userId,
                 GlobalConstants.CloudFolderForUserProfilePhotos);
+            userAdditionalInfoServiceModel.ProfilePhoto = photoUrl;
 
-            var lifestyleId = await this.lifestyleService.GetIdByType(model.Lifestyle);
-
-            var userAdditionalInfoServiceModel = new UserAdditionalInfoServiceModel
-            {
-                Biography = model.Biography,
-                ProfilePhoto = photoUrl,
-                LifestyleId = lifestyleId,
-            };
-
-            if (model.Allergies.Any())
-            {
-                foreach (var allergy in model.Allergies)
-                {
-                    var allergenId = await this.allergenService.GetIdByName(allergy);
-
-                    userAdditionalInfoServiceModel.Allergies.Add(new UserAllergenServiceModel
-                    {
-                        UserId = userId,
-                        AllergenId = allergenId,
-                    });
-                }
-            }
 
             await this.userService.UpdateUserAdditionalInfoAsync(userId, userAdditionalInfoServiceModel);
 

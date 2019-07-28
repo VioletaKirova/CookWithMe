@@ -6,8 +6,6 @@
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
 
-    using Microsoft.EntityFrameworkCore;
-
     public class AllergenService : IAllergenService
     {
         private readonly IRepository<Allergen> allergenRepository;
@@ -39,15 +37,6 @@
             return this.allergenRepository
                 .AllAsNoTracking()
                 .Select(x => x.Name);
-        }
-
-        public async Task<int> GetIdByName(string name)
-        {
-            var allergen = await this.allergenRepository
-                .AllAsNoTracking()
-                .SingleOrDefaultAsync(x => x.Name == name);
-
-            return allergen.Id;
         }
     }
 }

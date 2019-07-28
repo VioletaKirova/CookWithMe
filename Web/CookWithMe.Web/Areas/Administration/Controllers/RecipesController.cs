@@ -87,29 +87,13 @@
             var recipeServiceModel = AutoMapper.Mapper.Map<RecipeCreateInputModel, RecipeServiceModel>(model);
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            recipeServiceModel.UserId = userId;
 
             var photoUrl = await this.cloudinaryService.UploadPhotoAsync(
                 model.Photo,
                 $"{userId}-{model.Title}",
                 GlobalConstants.CloudFolderForRecipePhotos);
-            var categoryId = await this.categoryService.GetIdByTitle(model.Category);
-            var lifestyleId = await this.lifestyleService.GetIdByType(model.Lifestyle);
-            var shoppingListServiceModel = new ShoppingListServiceModel { Ingredients = model.ShoppingListIngredients };
-
             recipeServiceModel.Photo = photoUrl;
-            recipeServiceModel.CategoryId = categoryId;
-            recipeServiceModel.LifestyleId = lifestyleId;
-            recipeServiceModel.ShoppingList = shoppingListServiceModel;
-            recipeServiceModel.UserId = userId;
-
-            if (model.AllergenNames != null)
-            {
-                foreach (var allergen in model.AllergenNames)
-                {
-                    var allergenId = await this.allergenService.GetIdByName(allergen);
-                    recipeServiceModel.Allergens.Add(new RecipeAllergenServiceModel{ AllergenId = allergenId });
-                }
-            }
 
             await this.recipeService.CreateAsync(recipeServiceModel);
 

@@ -76,13 +76,13 @@
             <!-- Lifestyle -->
             <div class="select form-group">
                 <h4>Lifestyle</h4>
-                <select asp-for="Lifestyle" data-placeholder="Choose Lifestyle" class="chosen-select-no-single form-control">
+                <select asp-for="LifestyleType" data-placeholder="Choose Lifestyle" class="chosen-select-no-single form-control">
                     @foreach (var lifestyleType in ((UserAdditionalInfoViewModel)ViewData["Types"]).Lifestyles)
                     {
                         <option value="@lifestyleType">@lifestyleType</option>
                     }
                 </select>
-                <span asp-validation-for="Lifestyle" class="text-danger"></span>
+                <span asp-validation-for="LifestyleType" class="text-danger"></span>
             </div>
 
             <div class="margin-top-30"></div>

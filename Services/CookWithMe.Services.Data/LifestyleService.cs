@@ -40,14 +40,5 @@
                 .AllAsNoTracking()
                 .Select(x => x.Type);
         }
-
-        public async Task<int> GetIdByType(string type)
-        {
-            var lifeStyle = await this.lifestyleRepository
-                .AllAsNoTracking()
-                .SingleOrDefaultAsync(x => x.Type == type);
-
-            return lifeStyle.Id;
-        }
     }
 }

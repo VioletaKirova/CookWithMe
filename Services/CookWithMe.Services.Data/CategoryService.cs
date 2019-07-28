@@ -7,8 +7,6 @@
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Models;
 
-    using Microsoft.EntityFrameworkCore;
-
     public class CategoryService : ICategoryService
     {
         private readonly IDeletableEntityRepository<Category> categoryRepository;
@@ -51,15 +49,6 @@
             return this.categoryRepository
                 .AllAsNoTracking()
                 .Select(x => x.Title);
-        }
-
-        public async Task<int> GetIdByTitle(string title)
-        {
-            var category = await this.categoryRepository
-                .AllAsNoTracking()
-                .SingleOrDefaultAsync(x => x.Title == title);
-
-            return category.Id;
         }
     }
 }

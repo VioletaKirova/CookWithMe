@@ -8,7 +8,5 @@
         Task<bool> CreateAllAsync(string[] names);
 
         IQueryable<string> GetAllNames();
-
-        Task<int> GetIdByName(string name);
     }
 }

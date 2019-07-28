@@ -12,7 +12,5 @@
         IQueryable<string> GetAllTitles();
 
         Task<bool> CreateAsync(CategoryServiceModel model);
-
-        Task<int> GetIdByTitle(string title);
     }
 }

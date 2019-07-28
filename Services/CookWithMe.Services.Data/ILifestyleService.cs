@@ -8,7 +8,5 @@
         Task<bool> CreateAllAsync(string[] types);
 
         IQueryable<string> GetAllTypes();
-
-        Task<int> GetIdByType(string type);
     }
 }
