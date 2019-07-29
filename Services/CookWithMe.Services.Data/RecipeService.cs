@@ -6,29 +6,27 @@
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Models;
 
-    using Microsoft.EntityFrameworkCore;
-
     public class RecipeService : IRecipeService
     {
-        private readonly IDeletableEntityRepository<Category> categoryRepository;
-        private readonly IRepository<Allergen> allergenRepository;
-        private readonly IRepository<Lifestyle> lifestyleRepository;
         private readonly IDeletableEntityRepository<Recipe> recipeRepository;
+        private readonly ICategoryService categoryService;
+        private readonly IAllergenService allergenService;
+        private readonly ILifestyleService lifestyleService;
         private readonly IShoppingListService shoppingListService;
         private readonly INutritionalValueService nutritionalValueService;
 
         public RecipeService(
-            IDeletableEntityRepository<Category> categoryRepository,
-            IRepository<Allergen> allergenRepository,
-            IRepository<Lifestyle> lifestyleRepository,
             IDeletableEntityRepository<Recipe> recipeRepository,
-            IShoppingListService shoppingListService,
+            ICategoryService categoryService,
+            IAllergenService allergenService,
+            ILifestyleService lifestyleService,
+            IShoppingListService shoppingListService, 
             INutritionalValueService nutritionalValueService)
         {
-            this.categoryRepository = categoryRepository;
-            this.allergenRepository = allergenRepository;
-            this.lifestyleRepository = lifestyleRepository;
             this.recipeRepository = recipeRepository;
+            this.categoryService = categoryService;
+            this.allergenService = allergenService;
+            this.lifestyleService = lifestyleService;
             this.shoppingListService = shoppingListService;
             this.nutritionalValueService = nutritionalValueService;
         }
@@ -37,15 +35,12 @@
         {
             var recipe = AutoMapper.Mapper.Map<RecipeServiceModel, Recipe>(model);
 
-            recipe.Category = await this.categoryRepository.All().SingleOrDefaultAsync(x => x.Title == model.CategoryTitle);
-            recipe.Lifestyle = await this.lifestyleRepository.All().SingleOrDefaultAsync(x => x.Type == model.LifestyleType);
+            await this.categoryService.SetCategoryToRecipe(model.CategoryTitle, recipe);
+            await this.lifestyleService.SetLifestyleToRecipe(model.LifestyleType, recipe);
 
             foreach (var allergenName in model.AllergenNames)
             {
-                recipe.Allergens.Add(new RecipeAllergen
-                {
-                    Allergen = await this.allergenRepository.All().SingleOrDefaultAsync(x => x.Name == allergenName),
-                });
+                await this.allergenService.SetAllergenToRecipe(allergenName, recipe);
             }
 
             await this.recipeRepository.AddAsync(recipe);

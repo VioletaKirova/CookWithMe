@@ -17,7 +17,6 @@
             this.userManager = userManager;
         }
 
-
         public async Task<bool> RegisterAsync(AdministratorServiceModel model)
         {
             var user = AutoMapper.Mapper.Map<AdministratorServiceModel, ApplicationUser>(model);

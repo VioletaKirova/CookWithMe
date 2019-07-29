@@ -7,28 +7,24 @@
     using CookWithMe.Services.Models;
 
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
 
     public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
-        private readonly IRepository<Allergen> allergenRepository;
-        private readonly IRepository<UserAllergen> userAllergenRepository;
-        private readonly IRepository<Lifestyle> lifestyleRepository;
+        private readonly ILifestyleService lifestyleService;
+        private readonly IAllergenService allergenService;
 
         public UserService(
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<ApplicationUser> userRepository,
-            IRepository<Allergen> allergenRepository,
-            IRepository<UserAllergen> userAllergenRepository,
-            IRepository<Lifestyle> lifestyleRepository)
+            ILifestyleService lifestyleService,
+            IAllergenService allergenService)
         {
             this.userManager = userManager;
             this.userRepository = userRepository;
-            this.allergenRepository = allergenRepository;
-            this.userAllergenRepository = userAllergenRepository;
-            this.lifestyleRepository = lifestyleRepository;
+            this.lifestyleService = lifestyleService;
+            this.allergenService = allergenService;
         }
 
         public async Task<bool> UpdateUserAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel)
@@ -37,18 +33,14 @@
 
             user.Biography = additionalInfoServiceModel.Biography;
             user.ProfilePhoto = additionalInfoServiceModel.ProfilePhoto;
-            user.Lifestyle = await this.lifestyleRepository.All().SingleOrDefaultAsync(x => x.Type == additionalInfoServiceModel.LifestyleType);
+
+            await this.lifestyleService.SetLifestyleToUser(additionalInfoServiceModel.LifestyleType, user);
 
             foreach (var allergenName in additionalInfoServiceModel.Allergies)
             {
-                await this.userAllergenRepository.AddAsync(new UserAllergen
-                {
-                    User = user,
-                    Allergen = await this.allergenRepository.All().SingleOrDefaultAsync(x => x.Name == allergenName),
-                });
+                await this.allergenService.SetAllergenToUser(allergenName, user);
             }
 
-            await this.userAllergenRepository.SaveChangesAsync();
             var result = await this.userManager.UpdateAsync(user);
 
             return result.Succeeded;

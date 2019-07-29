@@ -5,6 +5,8 @@
 
     public class NutritionalValueServiceModel : IMapTo<NutritionalValue>
     {
+        public string Id { get; set; }
+
         public double? Calories { get; set; }
 
         public double? Fats { get; set; }

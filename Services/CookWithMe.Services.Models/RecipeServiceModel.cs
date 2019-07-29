@@ -13,9 +13,13 @@
             this.AllergenNames = new HashSet<string>();
         }
 
+        public string Id { get; set; }
+
         public string Title { get; set; }
 
         public string Photo { get; set; }
+
+        public int CategoryId { get; set; }
 
         public string CategoryTitle { get; set; }
 
@@ -23,9 +27,13 @@
 
         public string Directions { get; set; }
 
+        public string ShoppingListId { get; set; }
+
         public ShoppingListServiceModel ShoppingList { get; set; }
 
         public IEnumerable<string> AllergenNames { get; set; }
+
+        public int LifestyleId { get; set; }
 
         public string LifestyleType { get; set; }
 

@@ -5,6 +5,8 @@
 
     public class ShoppingListServiceModel : IMapTo<ShoppingList>
     {
+        public string Id { get; set; }
+
         public string Ingredients { get; set; }
     }
 }

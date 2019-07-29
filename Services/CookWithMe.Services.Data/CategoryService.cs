@@ -6,6 +6,7 @@
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class CategoryService : ICategoryService
     {
@@ -49,6 +50,12 @@
             return this.categoryRepository
                 .AllAsNoTracking()
                 .Select(x => x.Title);
+        }
+
+        public async Task SetCategoryToRecipe(string categoryTitle, Recipe recipe)
+        {
+            recipe.Category = await this.categoryRepository.All()
+                .SingleOrDefaultAsync(x => x.Title == categoryTitle);
         }
     }
 }

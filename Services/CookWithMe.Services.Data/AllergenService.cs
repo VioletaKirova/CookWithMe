@@ -6,6 +6,8 @@
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class AllergenService : IAllergenService
     {
         private readonly IRepository<Allergen> allergenRepository;
@@ -37,6 +39,24 @@
             return this.allergenRepository
                 .AllAsNoTracking()
                 .Select(x => x.Name);
+        }
+
+        public async Task SetAllergenToRecipe(string allergenName, Recipe recipe)
+        {
+            recipe.Allergens.Add(new RecipeAllergen
+            {
+                Allergen = await this.allergenRepository.All()
+                    .SingleOrDefaultAsync(x => x.Name == allergenName),
+            });
+        }
+
+        public async Task SetAllergenToUser(string allergenName, ApplicationUser user)
+        {
+            user.Allergies.Add(new UserAllergen
+            {
+                Allergen = await this.allergenRepository.All()
+                    .SingleOrDefaultAsync(x => x.Name == allergenName),
+            });
         }
     }
 }
