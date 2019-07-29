@@ -1,0 +1,75 @@
+﻿@model CookWithMe.Web.InputModels.Administrators.AdministratorRegisterInputModel;
+@{
+    ViewData["Title"] = "Register Administrator";
+}
+
+<!-- Titlebar
+================================================== -->
+<section id="titlebar">
+    <!-- Container -->
+    <div class="container">
+
+        <div class="eight columns">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+
+    </div>
+    <!-- Container / End -->
+</section>
+
+<!-- Content
+================================================== -->
+<div class="container">
+    <div class="sixteen columns">
+        <form asp-action="Create" class="register-user-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Username -->
+            <h4>Username</h4>
+            <nav class="input-val form-group">
+                <input type="text" asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </nav>
+            <div class="clearfix"></div>
+
+            <div class="margin-top-25"></div>
+
+            <!-- Full Name -->
+            <h4>Full Name</h4>
+            <nav class="input-val form-group">
+                <input type="text" asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </nav>
+            <div class="clearfix"></div>
+
+            <div class="margin-top-25"></div>
+
+            <!-- Email -->
+            <h4>Email</h4>
+            <nav class="input-val form-group">
+                <input type="email" asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </nav>
+            <div class="clearfix"></div>
+
+            <div class="margin-top-25"></div>
+
+            <!-- Password -->
+            <h4>Password</h4>
+            <nav class="input-val form-group">
+                <input type="password" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </nav>
+            <div class="clearfix"></div>
+
+
+            <div class="margin-top-30"></div>
+
+            <button type="submit" class="button color big">Register</button>
+
+        </form>
+    </div>
+</div>
+<!-- Container / End -->
+
+<div class="margin-top-50"></div>

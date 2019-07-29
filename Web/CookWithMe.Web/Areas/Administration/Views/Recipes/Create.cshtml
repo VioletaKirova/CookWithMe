@@ -74,8 +74,11 @@
                 <label asp-for="Photo" class="upload-btn">
                     <i class="fa fa-upload"></i> Upload
                     <input asp-for="Photo" type="file" class="form-control" />
-                    <span asp-validation-for="Photo" class="text-danger"></span>
                 </label>
+
+                <div class="margin-top-0"></div>
+
+                <span asp-validation-for="Photo" class="text-danger"></span>
 
                 <div class="margin-top-0"></div>
 
@@ -196,7 +199,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Yield</label></td>
                         <td>
-                            <input asp-for="Yield" type="number" class="form-control"  />
+                            <input asp-for="Yield" class="form-control"  />
                             <span asp-validation-for="Yield" class="text-danger"></span>
                         </td>
                     </tr>
@@ -217,7 +220,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Calories</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Calories" type="number" class="form-control" />
+                            <input asp-for="NutritionalValue.Calories" class="form-control" />
                             <span asp-validation-for="NutritionalValue.Calories" class="text-danger"></span>
                         </td>
                     </tr>
@@ -225,7 +228,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Fats</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Fats" type="number" class="form-control" />
+                            <input asp-for="NutritionalValue.Fats" class="form-control" />
                             <span asp-validation-for="NutritionalValue.Fats" class="text-danger"></span>
                         </td>
                     </tr>
@@ -233,7 +236,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Saturated Fats</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.SaturatedFats" type="number" class="form-control" />
+                            <input asp-for="NutritionalValue.SaturatedFats" class="form-control" />
                             <span asp-validation-for="NutritionalValue.SaturatedFats" class="text-danger"></span>
                         </td>
                     </tr>
@@ -241,7 +244,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Carbohydrates</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Carbohydrates" type="number" class="form-control" />
+                            <input asp-for="NutritionalValue.Carbohydrates" class="form-control" />
                             <span asp-validation-for="NutritionalValue.Carbohydrates" class="text-danger"></span>
                         </td>
                     </tr>
@@ -249,7 +252,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Sugar</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Sugar" type="number" class="form-control" />
+                            <input asp-for="NutritionalValue.Sugar" class="form-control" />
                             <span asp-validation-for="NutritionalValue.Sugar" class="text-danger"></span>
                         </td>
                     </tr>
@@ -257,7 +260,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Protein</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Protein" type="number" class="form-control" />
+                            <input asp-for="NutritionalValue.Protein" class="form-control" />
                             <span asp-validation-for="NutritionalValue.Protein" class="text-danger"></span>
                         </td>
                     </tr>
@@ -265,7 +268,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Fiber</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Fiber" type="number" class="form-control" />
+                            <input asp-for="NutritionalValue.Fiber" class="form-control" />
                             <span asp-validation-for="NutritionalValue.Fiber" class="text-danger"></span>
                         </td>
                     </tr>
@@ -273,7 +276,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Salt</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Salt" type="number" class="form-control" />
+                            <input asp-for="NutritionalValue.Salt" class="form-control" />
                             <span asp-validation-for="NutritionalValue.Salt" class="text-danger"></span>
                         </td>
                     </tr>

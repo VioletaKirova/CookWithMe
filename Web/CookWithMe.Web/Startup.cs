@@ -120,6 +120,7 @@
             services.AddTransient<IRecipeService, RecipeService>();
             services.AddTransient<IShoppingListService, ShoppingListService>();
             services.AddTransient<INutritionalValueService, NutritionalValueService>();
+            services.AddTransient<IAdministratorService, AdministratorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

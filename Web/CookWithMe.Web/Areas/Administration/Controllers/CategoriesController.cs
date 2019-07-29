@@ -26,6 +26,11 @@
         [HttpPost]
         public async Task<IActionResult> Create(CategoryCreateInputModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
             var serviceModel = AutoMapper.Mapper.Map<CategoryCreateInputModel, CategoryServiceModel>(model);
 
             await this.categoryService.CreateAsync(serviceModel);
