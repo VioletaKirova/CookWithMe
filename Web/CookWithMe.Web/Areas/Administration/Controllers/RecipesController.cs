@@ -95,6 +95,14 @@
                 GlobalConstants.CloudFolderForRecipePhotos);
             recipeServiceModel.Photo = photoUrl;
 
+            foreach (var allergenName in model.AllergenNames)
+            {
+                recipeServiceModel.Allergens.Add(new RecipeAllergenServiceModel
+                {
+                    Allergen = new AllergenServiceModel { Name = allergenName },
+                });
+            }
+
             await this.recipeService.CreateAsync(recipeServiceModel);
 
             return this.Redirect("/");

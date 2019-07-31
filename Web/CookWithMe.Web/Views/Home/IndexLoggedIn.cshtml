@@ -1,0 +1,83 @@
+﻿@model IEnumerable<CookWithMe.Web.ViewModels.Home.Index.RecipeHomeViewModel>
+
+@{
+    ViewData["Title"] = "IndexLoggedIn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+
+<div class="container">
+
+    <!-- Masonry -->
+    <div class="twelve columns">
+
+        <!-- Headline -->
+        <h3 class="headline">Latest Recipes</h3>
+        <span class="line rb margin-bottom-35"></span>
+        <div class="clearfix"></div>
+
+        <!-- Isotope -->
+        <div class="isotope">
+
+            @foreach (var recipe in Model)
+            {
+                <!-- Recipe #1 -->
+                <div class="four recipe-box columns">
+
+                    <!-- Thumbnail -->
+                    <div class="thumbnail-holder">
+                        <a href="recipe-page-1.html">
+                            <img src="@recipe.Photo" alt="" />
+                            <div class="hover-cover"></div>
+                            <div class="hover-icon">View Recipe</div>
+                        </a>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="recipe-box-content">
+                        <h3><a href="recipe-page-1.html">@recipe.Title</a></h3>
+
+                        <div class="recipe-meta"><i class="fa fa-clock-o"></i>@recipe.DisplayTime()</div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            }
+
+
+            <!-- Sidebar
+            ================================================== -->
+            <div class="four columns">
+
+                <!-- Search Form -->
+                <div class="widget search-form">
+                    <nav class="search">
+                        <form action="#" method="get">
+                            <button><i class="fa fa-search"></i></button>
+                            <input class="search-field" type="text" placeholder="Search for recipes" value="" />
+                        </form>
+                    </nav>
+                    <div class="clearfix"></div>
+                </div>
+
+                <!-- Categories -->
+                <div class="widget">
+                    <h4 class="headline">Categories</h4>
+                    <span class="line margin-bottom-20"></span>
+                    <div class="clearfix"></div>
+
+                    <ul class="categories">
+                        <li><a href="#">All <span>(2)</span></a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+
+            <div class="margin-top-5"></div>
+
+
+        </div>
+    </div>
+</div>

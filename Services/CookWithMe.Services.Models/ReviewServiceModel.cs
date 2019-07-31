@@ -5,7 +5,7 @@
 
     public class ReviewServiceModel : IMapTo<Review>, IMapFrom<Review>
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Comment { get; set; }
 

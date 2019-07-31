@@ -35,10 +35,10 @@
         public RecipeCreateShoppingListInputModel ShoppingList { get; set; }
 
         [Required]
-        public string PreparationTime { get; set; }
+        public int PreparationTime { get; set; }
 
         [Required]
-        public string CookingTime { get; set; }
+        public int CookingTime { get; set; }
 
         [Required]
         public string NeededTime { get; set; }

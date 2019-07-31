@@ -45,6 +45,8 @@
             await this.categoryService.SetCategoryToRecipe(model.Category.Title, recipe);
             await this.lifestyleService.SetLifestyleToRecipe(model.Lifestyle.Type, recipe);
 
+            recipe.Allergens = new HashSet<RecipeAllergen>();
+
             await this.recipeRepository.AddAsync(recipe);
             await this.recipeRepository.SaveChangesAsync();
 
@@ -53,9 +55,9 @@
             recipe.ShoppingListId = await this.shoppingListService.GetIdByRecipeId(recipe.Id);
             recipe.NutritionalValueId = await this.nutritionalValueService.GetIdByRecipeId(recipe.Id);
 
-            foreach (var allergenName in model.AllergenNames)
+            foreach (var recipeAllergen in model.Allergens)
             {
-                await this.allergenService.SetAllergenToRecipe(allergenName, recipe);
+                await this.allergenService.SetAllergenToRecipe(recipeAllergen.Allergen.Name, recipe);
             }
 
             this.recipeRepository.Update(recipe);
@@ -68,22 +70,22 @@
         {
             var user = await this.userService.GetById(userId);
 
-            var userLifestyle = user.Lifestyle;
+            var userLifestyleId = user.LifestyleId;
             var userAllergyNames = user.Allergies.Select(x => x.Allergen.Name);
 
             var recipesFilteredByLifestyle = await this.recipeRepository
                 .AllAsNoTracking()
                 .To<RecipeServiceModel>()
-                .Where(x => x.Lifestyle == userLifestyle)
+                .Where(x => x.LifestyleId == userLifestyleId)
                 .ToListAsync();
 
-            List<RecipeServiceModel> recipesFilteredByLifestyleAndAllergies = null;
+            List<RecipeServiceModel> recipesFilteredByLifestyleAndAllergies = new List<RecipeServiceModel>();
 
             var userAllergyNamesJoined = string.Join(" ", userAllergyNames);
 
             foreach (var recipe in recipesFilteredByLifestyle)
             {
-                if (recipe.AllergenNames.Any(x => userAllergyNamesJoined.Contains(x)))
+                if (recipe.Allergens.Select(x => x.Allergen.Name).Any(x => userAllergyNamesJoined.Contains(x)))
                 {
                     continue;
                 }
@@ -91,7 +93,7 @@
                 recipesFilteredByLifestyleAndAllergies.Add(recipe);
             }
 
-            return recipesFilteredByLifestyleAndAllergies;
+            return recipesFilteredByLifestyleAndAllergies?.OrderByDescending(x => x.CreatedOn);
         }
     }
 }

@@ -1,10 +1,13 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
-    using CookWithMe.Data.Models;
-    using CookWithMe.Services.Data;
-    using Microsoft.AspNetCore.Mvc;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
+    using CookWithMe.Services.Data;
+    using CookWithMe.Services.Mapping;
+    using CookWithMe.Web.ViewModels.Home.Index;
+
+    using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
@@ -15,6 +18,7 @@
             this.recipeService = recipeService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             if (this.User.Identity.IsAuthenticated)
@@ -28,11 +32,10 @@
         public async Task<IActionResult> IndexLoggedIn()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var recipes = await this.recipeService.GetAllFiltered(userId);
+            var recipes = (await this.recipeService.GetAllFiltered(userId))
+                .To<RecipeHomeViewModel>();
 
-            // TODO: Map recipes to IEnumerable<RecipeHomeViewModel>
-
-            return this.View();
+            return this.View(recipes);
         }
 
         public IActionResult Privacy()

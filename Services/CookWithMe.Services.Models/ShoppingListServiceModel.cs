@@ -3,7 +3,7 @@
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Mapping;
 
-    public class ShoppingListServiceModel : IMapTo<ShoppingList>
+    public class ShoppingListServiceModel : IMapTo<ShoppingList>, IMapFrom<ShoppingList>
     {
         public string Id { get; set; }
 
