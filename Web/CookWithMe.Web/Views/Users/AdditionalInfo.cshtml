@@ -60,13 +60,13 @@
             <!-- Allergies -->
             <div class="select form-group">
                 <h4>Allergies</h4>
-                <select asp-for="Allergies" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple>
-                    @foreach (var allergyName in ((UserAdditionalInfoViewModel)ViewData["Types"]).Allergies)
+                <select asp-for="AllergenNames" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple>
+                    @foreach (var allergenName in ((UserAdditionalInfoViewModel)ViewData["Types"]).Allergies)
                     {
-                        <option value="@allergyName">@allergyName</option>
+                        <option value="@allergenName">@allergenName</option>
                     }
                 </select>
-                <span asp-validation-for="Allergies" class="text-danger"></span>
+                <span asp-validation-for="AllergenNames" class="text-danger"></span>
             </div>
 
             <div class="clearfxix"></div>

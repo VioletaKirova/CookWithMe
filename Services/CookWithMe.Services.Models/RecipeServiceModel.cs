@@ -12,6 +12,7 @@
         public RecipeServiceModel()
         {
             this.Allergens = new HashSet<RecipeAllergenServiceModel>();
+            this.Lifestyles = new HashSet<RecipeLifestyleServiceModel>();
         }
 
         public string Id { get; set; }
@@ -36,9 +37,7 @@
 
         public ICollection<RecipeAllergenServiceModel> Allergens { get; set; }
 
-        public int LifestyleId { get; set; }
-
-        public LifestyleServiceModel Lifestyle { get; set; }
+        public ICollection<RecipeLifestyleServiceModel> Lifestyles { get; set; }
 
         public Level SkillLevel { get; set; }
 

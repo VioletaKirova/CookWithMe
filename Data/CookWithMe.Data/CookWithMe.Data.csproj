@@ -13,6 +13,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190721154111_InitialDatabaseDesign.cs" />
     <Compile Remove="Migrations\20190721154111_InitialDatabaseDesign.Designer.cs" />
+    <Compile Remove="Migrations\20190731213230_MakingManyToManyUnidirectionalRelationshipBetweenRecipesAndLifestyles.cs" />
+    <Compile Remove="Migrations\20190731213230_MakingManyToManyUnidirectionalRelationshipBetweenRecipesAndLifestyles.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

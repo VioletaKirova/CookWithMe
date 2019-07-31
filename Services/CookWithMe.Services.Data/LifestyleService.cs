@@ -43,8 +43,11 @@
 
         public async Task SetLifestyleToRecipe(string lifestyleType, Recipe recipe)
         {
-            recipe.Lifestyle = await this.lifestyleRepository.All()
-                .SingleOrDefaultAsync(x => x.Type == lifestyleType);
+            recipe.Lifestyles.Add(new RecipeLifestyle
+            {
+                Lifestyle = await this.lifestyleRepository.All()
+                    .SingleOrDefaultAsync(x => x.Type == lifestyleType),
+            });
         }
 
         public async Task SetLifestyleToUser(string lifestyleType, ApplicationUser user)

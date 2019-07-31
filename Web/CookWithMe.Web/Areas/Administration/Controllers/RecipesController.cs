@@ -1,6 +1,7 @@
 ﻿namespace CookWithMe.Web.Areas.Administration.Controllers
 {
     using System;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -95,11 +96,22 @@
                 GlobalConstants.CloudFolderForRecipePhotos);
             recipeServiceModel.Photo = photoUrl;
 
-            foreach (var allergenName in model.AllergenNames)
+            if (model.AllergenNames != null)
             {
-                recipeServiceModel.Allergens.Add(new RecipeAllergenServiceModel
+                foreach (var allergenName in model.AllergenNames)
                 {
-                    Allergen = new AllergenServiceModel { Name = allergenName },
+                    recipeServiceModel.Allergens.Add(new RecipeAllergenServiceModel
+                    {
+                        Allergen = new AllergenServiceModel { Name = allergenName },
+                    });
+                }
+            }
+
+            foreach (var lifestyleType in model.LifestyleTypes)
+            {
+                recipeServiceModel.Lifestyles.Add(new RecipeLifestyleServiceModel
+                {
+                    Lifestyle = new LifestyleServiceModel { Type = lifestyleType },
                 });
             }
 

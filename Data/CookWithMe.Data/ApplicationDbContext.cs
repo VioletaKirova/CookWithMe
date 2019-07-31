@@ -40,6 +40,8 @@
 
         public DbSet<RecipeAllergen> RecipeAllergens { get; set; }
 
+        public DbSet<RecipeLifestyle> RecipeLifestyles { get; set; }
+
         public DbSet<Review> Reviews { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
@@ -207,6 +209,20 @@
                 .WithMany()
                 .HasForeignKey(ra => ra.AllergenId);
 
+            // Many-to-many unidirectional relationship between Recipes and Lifestyles
+            builder.Entity<RecipeLifestyle>()
+                .HasKey(rl => new { rl.RecipeId, rl.LifestyleId });
+
+            builder.Entity<RecipeLifestyle>()
+                .HasOne(rl => rl.Recipe)
+                .WithMany(r => r.Lifestyles)
+                .HasForeignKey(rl => rl.RecipeId);
+
+            builder.Entity<RecipeLifestyle>()
+                .HasOne(rl => rl.Lifestyle)
+                .WithMany()
+                .HasForeignKey(rl => rl.LifestyleId);
+
             // Many-to-one relationship between Recipes and Meals
             builder.Entity<MealRecipe>()
                 .HasKey(mr => new { mr.MealId, mr.RecipeId });
@@ -250,12 +266,6 @@
                 .HasMany(l => l.Users)
                 .WithOne(u => u.Lifestyle)
                 .HasForeignKey(u => u.LifestyleId);
-
-            // Many-to-one relationship between Lifestyles and Recipes
-            builder.Entity<Lifestyle>()
-                .HasMany(l => l.Recipes)
-                .WithOne(r => r.Lifestyle)
-                .HasForeignKey(r => r.LifestyleId);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

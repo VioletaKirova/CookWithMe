@@ -160,13 +160,13 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Lifestyle</label></td>
                         <td>
-                            <select asp-for="LifestyleType" data-placeholder="Lifestyle" class="chosen-select-no-single form-control">
+                            <select asp-for="LifestyleTypes" data-placeholder="Multiple selection possible" class="chosen-select-no-single form-control" multiple>
                                 @foreach (var lifestyleType in ((RecipeCreateViewModel)ViewData["Types"]).LifestyleTypes)
                                 {
                                     <option value="@lifestyleType">@lifestyleType</option>
                                 }
                             </select>
-                            <span asp-validation-for="LifestyleType" class="text-danger"></span>
+                            <span asp-validation-for="LifestyleTypes" class="text-danger"></span>
                         </td>
                     </tr>
 

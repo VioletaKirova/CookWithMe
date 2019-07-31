@@ -8,6 +8,7 @@
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
+
     using Microsoft.EntityFrameworkCore;
 
     public class RecipeService : IRecipeService
@@ -43,9 +44,9 @@
             var recipe = AutoMapper.Mapper.Map<RecipeServiceModel, Recipe>(model);
 
             await this.categoryService.SetCategoryToRecipe(model.Category.Title, recipe);
-            await this.lifestyleService.SetLifestyleToRecipe(model.Lifestyle.Type, recipe);
 
             recipe.Allergens = new HashSet<RecipeAllergen>();
+            recipe.Lifestyles = new HashSet<RecipeLifestyle>();
 
             await this.recipeRepository.AddAsync(recipe);
             await this.recipeRepository.SaveChangesAsync();
@@ -60,6 +61,11 @@
                 await this.allergenService.SetAllergenToRecipe(recipeAllergen.Allergen.Name, recipe);
             }
 
+            foreach (var recipeLifestyle in model.Lifestyles)
+            {
+                await this.lifestyleService.SetLifestyleToRecipe(recipeLifestyle.Lifestyle.Type, recipe);
+            }
+
             this.recipeRepository.Update(recipe);
             var result = await this.recipeRepository.SaveChangesAsync();
 
@@ -70,30 +76,49 @@
         {
             var user = await this.userService.GetById(userId);
 
-            var userLifestyleId = user.LifestyleId;
-            var userAllergyNames = user.Allergies.Select(x => x.Allergen.Name);
+            var recipesFilteredByLifestyle = new List<RecipeServiceModel>();
 
-            var recipesFilteredByLifestyle = await this.recipeRepository
-                .AllAsNoTracking()
-                .To<RecipeServiceModel>()
-                .Where(x => x.LifestyleId == userLifestyleId)
-                .ToListAsync();
-
-            List<RecipeServiceModel> recipesFilteredByLifestyleAndAllergies = new List<RecipeServiceModel>();
-
-            var userAllergyNamesJoined = string.Join(" ", userAllergyNames);
-
-            foreach (var recipe in recipesFilteredByLifestyle)
+            if (user.LifestyleId != null)
             {
-                if (recipe.Allergens.Select(x => x.Allergen.Name).Any(x => userAllergyNamesJoined.Contains(x)))
-                {
-                    continue;
-                }
+                var userLifestyleId = user.LifestyleId;
 
-                recipesFilteredByLifestyleAndAllergies.Add(recipe);
+                recipesFilteredByLifestyle = await this.recipeRepository
+                    .AllAsNoTracking()
+                    .Where(x => x.Lifestyles.Select(r => r.Lifestyle.Id).Contains(userLifestyleId.Value))
+                    .To<RecipeServiceModel>()
+                    .ToListAsync();
+            }
+            else
+            {
+                recipesFilteredByLifestyle = await this.recipeRepository
+                    .AllAsNoTracking()
+                    .To<RecipeServiceModel>()
+                    .ToListAsync();
             }
 
-            return recipesFilteredByLifestyleAndAllergies?.OrderByDescending(x => x.CreatedOn);
+            var recipesFilteredByLifestyleAndAllergies = new List<RecipeServiceModel>();
+
+            if (user.Allergies != null)
+            {
+                var userAllergyNames = user.Allergies.Select(x => x.Allergen.Name);
+
+                var userAllergyNamesJoined = string.Join(" ", userAllergyNames);
+
+                foreach (var recipe in recipesFilteredByLifestyle)
+                {
+                    if (recipe.Allergens.Select(x => x.Allergen.Name)
+                            .Any(x => userAllergyNamesJoined.Contains(x)))
+                    {
+                        continue;
+                    }
+
+                    recipesFilteredByLifestyleAndAllergies.Add(recipe);
+                }
+            }
+
+            return recipesFilteredByLifestyleAndAllergies.Count() == 0 ?
+                recipesFilteredByLifestyle.OrderByDescending(x => x.CreatedOn) :
+                recipesFilteredByLifestyleAndAllergies.OrderByDescending(x => x.CreatedOn);
         }
     }
 }

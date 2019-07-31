@@ -6,15 +6,15 @@
     {
         public UserAdditionalInfoServiceModel()
         {
-            this.Allergies = new HashSet<string>();
+            this.Allergies = new HashSet<UserAllergenServiceModel>();
         }
 
         public string Biography { get; set; }
 
         public string ProfilePhoto { get; set; }
 
-        public string LifestyleType { get; set; }
+        public LifestyleServiceModel Lifestyle { get; set; }
 
-        public IEnumerable<string> Allergies { get; set; }
+        public ICollection<UserAllergenServiceModel> Allergies { get; set; }
     }
 }

@@ -47,11 +47,17 @@
             user.Biography = additionalInfoServiceModel.Biography;
             user.ProfilePhoto = additionalInfoServiceModel.ProfilePhoto;
 
-            await this.lifestyleService.SetLifestyleToUser(additionalInfoServiceModel.LifestyleType, user);
-
-            foreach (var allergenName in additionalInfoServiceModel.Allergies)
+            if (additionalInfoServiceModel.Lifestyle != null)
             {
-                await this.allergenService.SetAllergenToUser(allergenName, user);
+                await this.lifestyleService.SetLifestyleToUser(additionalInfoServiceModel.Lifestyle.Type, user);
+            }
+
+            if (additionalInfoServiceModel.Allergies != null)
+            {
+                foreach (var userAllergen in additionalInfoServiceModel.Allergies)
+                {
+                    await this.allergenService.SetAllergenToUser(userAllergen.Allergen.Name, user);
+                }
             }
 
             var result = await this.userManager.UpdateAsync(user);

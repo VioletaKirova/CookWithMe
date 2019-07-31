@@ -7,6 +7,8 @@
 
 <br />
 
+<!-- Content
+================================================== -->
 <div class="container">
 
     <!-- Masonry -->
@@ -36,7 +38,7 @@
 
                     <!-- Content -->
                     <div class="recipe-box-content">
-                        <h3><a href="recipe-page-1.html">@recipe.Title</a></h3>
+                        <h3><a href="recipe-page-1.html" class="text-wrap">@recipe.Title</a></h3>
 
                         <div class="recipe-meta"><i class="fa fa-clock-o"></i>@recipe.DisplayTime()</div>
 
@@ -45,39 +47,42 @@
                 </div>
             }
 
-
-            <!-- Sidebar
-            ================================================== -->
-            <div class="four columns">
-
-                <!-- Search Form -->
-                <div class="widget search-form">
-                    <nav class="search">
-                        <form action="#" method="get">
-                            <button><i class="fa fa-search"></i></button>
-                            <input class="search-field" type="text" placeholder="Search for recipes" value="" />
-                        </form>
-                    </nav>
-                    <div class="clearfix"></div>
-                </div>
-
-                <!-- Categories -->
-                <div class="widget">
-                    <h4 class="headline">Categories</h4>
-                    <span class="line margin-bottom-20"></span>
-                    <div class="clearfix"></div>
-
-                    <ul class="categories">
-                        <li><a href="#">All <span>(2)</span></a></li>
-                    </ul>
-                </div>
-
-            </div>
-
-
-            <div class="margin-top-5"></div>
-
-
         </div>
+        <div class="clearfix"></div>
+
     </div>
+
+
+    <!-- Sidebar
+    ================================================== -->
+    <div class="four columns">
+
+        <!-- Search Form -->
+        <div class="widget search-form">
+            <nav class="search">
+                <form action="#" method="get">
+                    <button><i class="fa fa-search"></i></button>
+                    <input class="search-field" type="text" placeholder="Search for recipes" value="" />
+                </form>
+            </nav>
+            <div class="clearfix"></div>
+        </div>
+
+        <!-- Categories -->
+        <div class="widget">
+            <h4 class="headline">Categories</h4>
+            <span class="line margin-bottom-20"></span>
+            <div class="clearfix"></div>
+
+            <ul class="categories">
+                <li><a href="#">All <span>(2)</span></a></li>
+            </ul>
+        </div>
+
+    </div>
+
+
 </div>
+<!-- Container / End -->
+
+<div class="margin-top-5"></div>

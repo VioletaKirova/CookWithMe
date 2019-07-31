@@ -71,12 +71,25 @@
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            string photoUrl = await this.cloudinaryService.UploadPhotoAsync(
+            if (model.ProfilePhoto != null)
+            {
+                string photoUrl = await this.cloudinaryService.UploadPhotoAsync(
                 model.ProfilePhoto,
                 userId,
                 GlobalConstants.CloudFolderForUserProfilePhotos);
-            userAdditionalInfoServiceModel.ProfilePhoto = photoUrl;
+                userAdditionalInfoServiceModel.ProfilePhoto = photoUrl;
+            }
 
+            if (model.AllergenNames != null)
+            {
+                foreach (var allergenName in model.AllergenNames)
+                {
+                    userAdditionalInfoServiceModel.Allergies.Add(new UserAllergenServiceModel
+                    {
+                        Allergen = new AllergenServiceModel { Name = allergenName },
+                    });
+                }
+            }
 
             await this.userService.UpdateUserAdditionalInfoAsync(userId, userAdditionalInfoServiceModel);
 

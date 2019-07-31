@@ -12,7 +12,6 @@
         {
             this.CreatedOn = DateTime.UtcNow;
             this.Users = new HashSet<ApplicationUser>();
-            this.Recipes = new HashSet<Recipe>();
         }
 
         [Required]
@@ -20,7 +19,5 @@
         public string Type { get; set; }
 
         public ICollection<ApplicationUser> Users { get; set; }
-
-        public ICollection<Recipe> Recipes { get; set; }
     }
 }

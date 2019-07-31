@@ -46,10 +46,10 @@
         [Required]
         public string SkillLevel { get; set; }
 
-        [Required]
-        public string LifestyleType { get; set; }
-
         public IEnumerable<string> AllergenNames { get; set; }
+
+        [Required]
+        public IEnumerable<string> LifestyleTypes { get; set; }
 
         [Required]
         public string Serving { get; set; }
@@ -63,10 +63,7 @@
             configuration.CreateMap<RecipeCreateInputModel, RecipeServiceModel>()
                 .ForMember(
                     destination => destination.Category,
-                    opts => opts.MapFrom(origin => new CategoryServiceModel { Title = origin.CategoryTitle }))
-                .ForMember(
-                    destination => destination.Lifestyle,
-                    opts => opts.MapFrom(origin => new LifestyleServiceModel { Type = origin.LifestyleType }));
+                    opts => opts.MapFrom(origin => new CategoryServiceModel { Title = origin.CategoryTitle }));
         }
     }
 }

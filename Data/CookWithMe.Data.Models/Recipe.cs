@@ -14,6 +14,7 @@
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
             this.Allergens = new HashSet<RecipeAllergen>();
+            this.Lifestyles = new HashSet<RecipeLifestyle>();
             this.FavoritedBy = new HashSet<UserFavoriteRecipe>();
             this.CookedBy = new HashSet<UserCookedRecipe>();
             this.Reviews = new HashSet<Review>();
@@ -44,9 +45,7 @@
 
         public ICollection<RecipeAllergen> Allergens { get; set; }
 
-        public int LifestyleId { get; set; }
-
-        public Lifestyle Lifestyle { get; set; }
+        public ICollection<RecipeLifestyle> Lifestyles { get; set; }
 
         public Level SkillLevel { get; set; }
 
