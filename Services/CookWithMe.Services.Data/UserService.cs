@@ -27,6 +27,19 @@
             this.allergenService = allergenService;
         }
 
+        public async Task<ApplicationUserServiceModel> GetById(string userId)
+        {
+            var userFromDb = await this.userRepository.GetByIdWithDeletedAsync(userId);
+            var userServiceModel = AutoMapper.Mapper.Map<ApplicationUserServiceModel>(userFromDb);
+
+            return userServiceModel;
+        }
+
+        public async Task SetUserToRecipe(string userId, Recipe recipe)
+        {
+            recipe.User = await this.userRepository.GetByIdWithDeletedAsync(userId);
+        }
+
         public async Task<bool> UpdateUserAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);

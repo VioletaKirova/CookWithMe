@@ -2,10 +2,15 @@
 {
     using System.Threading.Tasks;
 
+    using CookWithMe.Data.Models;
     using CookWithMe.Services.Models;
 
     public interface IUserService
     {
         Task<bool> UpdateUserAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel);
+
+        Task SetUserToRecipe(string userId, Recipe recipe);
+
+        Task<ApplicationUserServiceModel> GetById(string userId);
     }
 }

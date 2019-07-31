@@ -6,7 +6,7 @@
     using CookWithMe.Data.Models.Enums;
     using CookWithMe.Services.Mapping;
 
-    public class RecipeServiceModel : IMapTo<Recipe>
+    public class RecipeServiceModel : IMapTo<Recipe>, IMapFrom<Recipe>
     {
         public RecipeServiceModel()
         {
@@ -21,7 +21,7 @@
 
         public int CategoryId { get; set; }
 
-        public string CategoryTitle { get; set; }
+        public CategoryServiceModel Category { get; set; }
 
         public string Summary { get; set; }
 
@@ -35,7 +35,7 @@
 
         public int LifestyleId { get; set; }
 
-        public string LifestyleType { get; set; }
+        public LifestyleServiceModel Lifestyle { get; set; }
 
         public Level SkillLevel { get; set; }
 

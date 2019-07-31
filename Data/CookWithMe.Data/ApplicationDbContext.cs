@@ -189,7 +189,7 @@
 
             // Many-to-one relationship between Users and Recipes
             builder.Entity<ApplicationUser>()
-                .HasMany(u => u.MyRecipes)
+                .HasMany(u => u.Recipes)
                 .WithOne(r => r.User)
                 .HasForeignKey(r => r.UserId);
 

@@ -3,7 +3,7 @@
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Mapping;
 
-    public class NutritionalValueServiceModel : IMapTo<NutritionalValue>
+    public class NutritionalValueServiceModel : IMapTo<NutritionalValue>, IMapFrom<NutritionalValue>
     {
         public string Id { get; set; }
 

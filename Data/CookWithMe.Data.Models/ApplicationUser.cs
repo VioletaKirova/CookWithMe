@@ -20,7 +20,7 @@
             this.Logins = new HashSet<IdentityUserLogin<string>>();
 
             this.Allergies = new HashSet<UserAllergen>();
-            this.MyRecipes = new HashSet<Recipe>();
+            this.Recipes = new HashSet<Recipe>();
             this.FavoriteRecipes = new HashSet<UserFavoriteRecipe>();
             this.CookedRecipes = new HashSet<UserCookedRecipe>();
             this.CookLaterRecipes = new HashSet<UserCookLaterRecipe>();
@@ -59,7 +59,7 @@
 
         public ICollection<UserAllergen> Allergies { get; set; }
 
-        public ICollection<Recipe> MyRecipes { get; set; }
+        public ICollection<Recipe> Recipes { get; set; }
 
         public ICollection<UserFavoriteRecipe> FavoriteRecipes { get; set; }
 

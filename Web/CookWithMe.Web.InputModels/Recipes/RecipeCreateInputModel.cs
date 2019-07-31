@@ -3,12 +3,14 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using AutoMapper;
+
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
 
     using Microsoft.AspNetCore.Http;
 
-    public class RecipeCreateInputModel : IMapTo<RecipeServiceModel>
+    public class RecipeCreateInputModel : IMapTo<RecipeServiceModel>, IHaveCustomMappings
     {
         [Required]
         [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
@@ -55,5 +57,16 @@
         public decimal? Yield { get; set; }
 
         public RecipeCreateNutritionalValueInputModel NutritionalValue { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<RecipeCreateInputModel, RecipeServiceModel>()
+                .ForMember(
+                    destination => destination.Category,
+                    opts => opts.MapFrom(origin => new CategoryServiceModel { Title = origin.CategoryTitle }))
+                .ForMember(
+                    destination => destination.Lifestyle,
+                    opts => opts.MapFrom(origin => new LifestyleServiceModel { Type = origin.LifestyleType }));
+        }
     }
 }

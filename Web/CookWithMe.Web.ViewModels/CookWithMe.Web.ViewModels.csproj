@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\CookWithMe.Data.Models\CookWithMe.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\CookWithMe.Services.Mapping\CookWithMe.Services.Mapping.csproj" />
+    <ProjectReference Include="..\..\Services\CookWithMe.Services.Models\CookWithMe.Services.Models.csproj" />
   </ItemGroup>
 
 </Project>

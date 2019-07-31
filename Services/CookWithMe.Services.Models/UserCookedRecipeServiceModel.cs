@@ -3,14 +3,14 @@
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Mapping;
 
-    public class UserAllergenServiceModel : IMapTo<UserAllergen>, IMapFrom<UserAllergen>
+    public class UserCookedRecipeServiceModel : IMapTo<UserCookedRecipe>, IMapFrom<UserCookedRecipe>
     {
         public string UserId { get; set; }
 
         public ApplicationUserServiceModel User { get; set; }
 
-        public int AllergenId { get; set; }
+        public string RecipeId { get; set; }
 
-        public AllergenServiceModel Allergen { get; set; }
+        public RecipeServiceModel Recipe { get; set; }
     }
 }
