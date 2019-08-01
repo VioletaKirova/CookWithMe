@@ -12,6 +12,11 @@
 
     public class UserAdditionalInfoInputModel : IMapTo<UserAdditionalInfoServiceModel>, IHaveCustomMappings
     {
+        public UserAdditionalInfoInputModel()
+        {
+            this.AllergenNames = new HashSet<string>();
+        }
+
         [MaxLength(200, ErrorMessage = "The {0} can be at max {1} characters long.")]
         public string Biography { get; set; }
 

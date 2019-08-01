@@ -4,6 +4,8 @@
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
+    using CookWithMe.Services.Mapping;
+    using CookWithMe.Services.Models;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -16,9 +18,18 @@
             this.nutritionalValueRepository = nutritionalValueRepository;
         }
 
+        public async Task<NutritionalValueServiceModel> GetById(string id)
+        {
+            var nutritionalValue = await this.nutritionalValueRepository
+                .GetByIdWithDeletedAsync(id);
+
+            return nutritionalValue.To<NutritionalValueServiceModel>();
+        }
+
         public async Task<string> GetIdByRecipeId(string recipeId)
         {
-            var nutritionalValue = await this.nutritionalValueRepository.AllAsNoTracking()
+            var nutritionalValue = await this.nutritionalValueRepository
+                .AllAsNoTracking()
                 .SingleOrDefaultAsync(x => x.RecipeId == recipeId);
 
             return nutritionalValue.Id;

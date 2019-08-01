@@ -12,6 +12,12 @@
 
     public class RecipeCreateInputModel : IMapTo<RecipeServiceModel>, IHaveCustomMappings
     {
+        public RecipeCreateInputModel()
+        {
+            this.AllergenNames = new HashSet<string>();
+            this.LifestyleTypes = new HashSet<string>();
+        }
+
         [Required]
         [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
         public string Title { get; set; }

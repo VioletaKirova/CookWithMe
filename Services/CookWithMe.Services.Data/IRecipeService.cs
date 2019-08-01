@@ -1,7 +1,6 @@
 ﻿namespace CookWithMe.Services.Data
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Services.Models;
@@ -11,5 +10,7 @@
         Task<bool> CreateAsync(RecipeServiceModel model);
 
         Task<IEnumerable<RecipeServiceModel>> GetAllFiltered(string userId);
+
+        Task<RecipeServiceModel> GetById(string id);
     }
 }

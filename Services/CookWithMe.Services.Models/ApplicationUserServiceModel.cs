@@ -9,6 +9,16 @@
 
     public class ApplicationUserServiceModel : IdentityUser, IMapFrom<ApplicationUser>
     {
+        public ApplicationUserServiceModel()
+        {
+            this.Allergies = new HashSet<UserAllergenServiceModel>();
+            this.Recipes = new HashSet<RecipeServiceModel>();
+            this.FavoriteRecipes = new HashSet<UserFavoriteRecipeServiceModel>();
+            this.CookedRecipes = new HashSet<UserCookedRecipeServiceModel>();
+            this.CookLaterRecipes = new HashSet<UserCookLaterRecipeServiceModel>();
+            this.Reviews = new HashSet<ReviewServiceModel>();
+        }
+
         public string Id { get; set; }
 
         public string FullName { get; set; }

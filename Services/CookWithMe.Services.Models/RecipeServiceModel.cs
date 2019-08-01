@@ -13,6 +13,10 @@
         {
             this.Allergens = new HashSet<RecipeAllergenServiceModel>();
             this.Lifestyles = new HashSet<RecipeLifestyleServiceModel>();
+            this.FavoritedBy = new HashSet<UserFavoriteRecipeServiceModel>();
+            this.CookedBy = new HashSet<UserCookedRecipeServiceModel>();
+            this.Reviews = new HashSet<ReviewServiceModel>();
+            this.Meals = new HashSet<MealRecipeServiceModel>();
         }
 
         public string Id { get; set; }

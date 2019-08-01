@@ -80,15 +80,12 @@
                 userAdditionalInfoServiceModel.ProfilePhoto = photoUrl;
             }
 
-            if (model.AllergenNames != null)
+            foreach (var allergenName in model.AllergenNames)
             {
-                foreach (var allergenName in model.AllergenNames)
+                userAdditionalInfoServiceModel.Allergies.Add(new UserAllergenServiceModel
                 {
-                    userAdditionalInfoServiceModel.Allergies.Add(new UserAllergenServiceModel
-                    {
-                        Allergen = new AllergenServiceModel { Name = allergenName },
-                    });
-                }
+                    Allergen = new AllergenServiceModel { Name = allergenName },
+                });
             }
 
             await this.userService.UpdateUserAdditionalInfoAsync(userId, userAdditionalInfoServiceModel);

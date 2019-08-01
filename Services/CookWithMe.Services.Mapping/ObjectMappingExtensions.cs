@@ -1,4 +1,4 @@
-﻿namespace Stopify.Services.Mapping
+﻿namespace CookWithMe.Services.Mapping
 {
     using System;
 

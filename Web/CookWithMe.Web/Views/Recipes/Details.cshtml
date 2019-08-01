@@ -1,0 +1,198 @@
+﻿@model CookWithMe.Web.ViewModels.Recipes.RecipeDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Recipe Background -->
+<div class="recipeBackground">
+    <img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1564058151/index/index_recipe_gcxfbu.jpg" alt="" />
+</div>
+
+<!-- Content
+================================================== -->
+<div class="container" itemscope itemtype="http://schema.org/Recipe">
+
+    <!-- Recipe -->
+    <div class="twelve columns">
+        <div class="alignment">
+
+            <!-- Header -->
+            <section class="recipe-header">
+                <div class="title-alignment">
+                    <h2>@Model.Title</h2>
+                    <a href="#" class="button medium" style="float: right">Cooked</a>
+                    <a href="#" class="button medium color" style="float: right; margin: 0 5px 0 0;">Cook Later</a>
+                    <a href="#" class="button medium color" style="float: right; margin: 0 5px 0 0;">&#10084</a>
+                    <div class="rating five-stars">
+                        <div class="star-rating"></div>
+                        <div class="star-bg"></div>
+                    </div>
+                    <span><a href="#reviews">(@Model.Reviews.Count() review/s)</a></span>
+                </div>
+            </section>
+
+            <!-- Slider -->
+            <div class="recipeSlider rsDefault">
+                <img itemprop="image" class="rsImg" src="@Model.Photo" alt="" />
+            </div>
+
+            <!-- Details -->
+            <section class="recipe-details" itemprop="nutrition" style="height: 34px">
+                <ul>
+                    <li>Serves: <strong itemprop="recipeYield">@Model.Serving</strong></li>
+                    <li>Prep Time: <strong itemprop="prepTime">@Model.DisplayTime(Model.PreparationTime)</strong></li>
+                    <li>Cooking: <strong itemprop="cookTime">@Model.DisplayTime(Model.CookingTime)</strong></li>
+                </ul>
+                <div class="menu nav-collapse" style="margin: -19px 0 0 0; float: right;">
+                    <ul>
+                        <li>
+                            <a href="#" style="color: #8dc63f">Nutritional Info</a>
+                            <ul>
+                                <li><a>Calories: @Model.NutritionalValue.Calories</a></li>
+                                <li><a>Fats: @Model.NutritionalValue.Fats</a></li>
+                                <li><a>Of which saturated: @Model.NutritionalValue.SaturatedFats</a></li>
+                                <li><a>Carbohydrates: @Model.NutritionalValue.Carbohydrates</a></li>
+                                <li><a>Of which sugars: @Model.NutritionalValue.Sugar</a></li>
+                                <li><a>Protein: @Model.NutritionalValue.Protein</a></li>
+                                <li><a>Fiber: @Model.NutritionalValue.Fiber</a></li>
+                                <li><a>Salt: @Model.NutritionalValue.Salt</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </section>
+
+
+            <!-- Text -->
+            <p itemprop="description">This is a very basic beef stew. It’s easy, delicious and inexpensive to make. While there are hundreds of variations of this traditional recipe, it’s hard to improve on this version’s savory and comforting goodness.</p>
+
+            <div class="margin-bottom-5"></div>
+
+            <!-- Ingredients -->
+            <h3>Ingredients</h3>
+            <div class="margin-top-10"></div>
+            <ul>
+                <li>
+                    <label itemprop="ingredients" for="check-1">2 pounds cubed beef stew meat</label>
+                </li>
+
+                <li>
+                    <label itemprop="ingredients" for="check-2">3 tablespoons vegetable oil</label>
+                </li>
+
+                <li>
+                    <label itemprop="ingredients" for="check-3">4 cubes beef bouillon, crumbled</label>
+                </li>
+
+                <li>
+                    <label itemprop="ingredients" for="check-4">1 large onion, chopped</label>
+                </li>
+
+                <li>
+                    <label itemprop="ingredients" for="check-5">1 teaspoon dried rosemary</label>
+                </li>
+
+                <li>
+                    <label itemprop="ingredients" for="check-6">1/2 teaspoon ground black pepper</label>
+                </li>
+
+                <li>
+                    <label itemprop="ingredients" for="check-7">3 large potatoes, peeled and cubed </label>
+                </li>
+
+                <li>
+                    <label itemprop="ingredients" for="check-8">4 carrots, cut into 1 inch pieces</label>
+                </li>
+
+                <li>
+                    <label itemprop="ingredients" for="check-9">4 stalks celery, cut into 1 inch pieces</label>
+                </li>
+            </ul>
+
+            <div class="margin-top-20"></div>
+
+            <a href="#" class="button medium color">Get Shopping List</a>
+
+            <div class="margin-top-20"></div>
+
+            <!-- Directions -->
+            <h3>Directions</h3>
+            <ol class="directions" itemprop="recipeInstructions">
+                <li>In a Dutch oven, heat oil over medium heat until hot, but not smoking. Pat the meat dry with paper towels and brown in batches, transferring the meat with a slotted spoon to a bowl as they are done.</li>
+                <li>In the fat remaining in the pot, cook the onions until softened, about 5 minutes. </li>
+                <li>Return meat to the pot with any juices in the bowl and add the tomatoes with juice, chiles, beer, beef broth, oregano, cumin, and Worcestershire sauce. Season with salt and pepper to taste.</li>
+                <li>Bring to a boil and reduce heat. Simmer, partially covered, for 2 1/2 hours or until meat is tender.</li>
+            </ol>
+
+            <div class="clearfix"></div>
+
+            <div class="margin-bottom-20"></div>
+
+            <!-- Comments
+            ================================================== -->
+            <h3 class="headline">Reviews <span class="comments-amount">(@Model.Reviews.Count())</span></h3><span class="line"></span><div class="clearfix"></div>
+
+            <!-- Reviews -->
+            <section class="comments" id="reviews">
+
+                <ul>
+                    <li>
+                        <div class="avatar"><img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" /></div>
+                        <div class="comment-content">
+                            <div class="arrow-comment"></div>
+                            <div class="comment-by">
+                                <strong>John Doe</strong><span class="date">7th, October 2014</span>
+                            </div>
+                            <p>Maecenas dignissim euismod nunc, in commodo est luctus eget. Proin in nunc laoreet justo volutpat blandit enim. Sem felis, ullamcorper vel aliquam non, varius eget just.</p>
+                            <div class="rating five-stars">
+                                <div class="star-rating"></div>
+                                <div class="star-bg"></div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            <div class="clearfix"></div>
+
+            <!-- Add Comment
+            ================================================== -->
+            <!-- Add Comment Form -->
+            <a href="#" class="button medium color">Add Review</a>
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+
+    <!-- Sidebar
+    ================================================== -->
+    <div class="four columns">
+
+        <!-- Search Form -->
+        <div class="widget search-form">
+            <nav class="search">
+                <form action="#" method="get">
+                    <button><i class="fa fa-search"></i></button>
+                    <input class="search-field" type="text" placeholder="Search for recipes" value="" />
+                </form>
+            </nav>
+            <div class="clearfix"></div>
+        </div>
+
+        <!-- Author Box -->
+        <div class="widget">
+            <div class="author-box">
+                <span class="title">Author</span>
+                <span class="name">@Model.User.FullName</span>
+                <img src="@Model.User.ProfilePhoto" alt="">
+                <p>@Model.User.Biography</p>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+<!-- Container / End -->

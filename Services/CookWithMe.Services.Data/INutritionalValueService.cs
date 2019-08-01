@@ -2,8 +2,12 @@
 {
     using System.Threading.Tasks;
 
+    using CookWithMe.Services.Models;
+
     public interface INutritionalValueService
     {
         Task<string> GetIdByRecipeId(string recipeId);
+
+        Task<NutritionalValueServiceModel> GetById(string id);
     }
 }

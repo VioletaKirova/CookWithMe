@@ -100,14 +100,13 @@
 
             if (user.Allergies != null)
             {
-                var userAllergyNames = user.Allergies.Select(x => x.Allergen.Name);
-
-                var userAllergyNamesJoined = string.Join(" ", userAllergyNames);
+                var userAllergens = user.Allergies.Select(x => x.Allergen);
 
                 foreach (var recipe in recipesFilteredByLifestyle)
                 {
-                    if (recipe.Allergens.Select(x => x.Allergen.Name)
-                            .Any(x => userAllergyNamesJoined.Contains(x)))
+                    var recipeAllergens = recipe.Allergens.Select(x => x.Allergen);
+
+                    if (recipeAllergens.Any(x => userAllergens.Contains(x)))
                     {
                         continue;
                     }
@@ -119,6 +118,18 @@
             return recipesFilteredByLifestyleAndAllergies.Count() == 0 ?
                 recipesFilteredByLifestyle.OrderByDescending(x => x.CreatedOn) :
                 recipesFilteredByLifestyleAndAllergies.OrderByDescending(x => x.CreatedOn);
+        }
+
+        public async Task<RecipeServiceModel> GetById(string id)
+        {
+            var recipe = await this.recipeRepository.All().SingleOrDefaultAsync(x => x.Id == id);
+            var recipeServiceModel = recipe.To<RecipeServiceModel>();
+
+            recipeServiceModel.User = await this.userService.GetById(recipe.UserId);
+            recipeServiceModel.ShoppingList = await this.shoppingListService.GetById(recipe.ShoppingListId);
+            recipeServiceModel.NutritionalValue = await this.nutritionalValueService.GetById(recipe.NutritionalValueId);
+
+            return recipeServiceModel;
         }
     }
 }

@@ -24,4 +24,8 @@
     <ProjectReference Include="..\..\Services\CookWithMe.Services.Models\CookWithMe.Services.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ShoppingLists\" />
+  </ItemGroup>
+
 </Project>
