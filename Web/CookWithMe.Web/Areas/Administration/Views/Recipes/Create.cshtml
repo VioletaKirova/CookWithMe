@@ -93,7 +93,7 @@
             <!-- Ingredients -->
             <h4>Ingredients</h4>
             <nav class="input-val form-group">
-                <textarea asp-for="ShoppingList.Ingredients" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and white space: e.g. &quot;milk - 150 ml; vegetable oil - 125 ml; chocolate - 100 g; sugar - 150 g; flour - 300 g; baking powder - 2 tsp&quot;"></textarea>
+                <textarea asp-for="ShoppingList.Ingredients" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Milk - 150ml; Vegetable oil - 125ml; Chocolate - 100g; Sugar - 150g; Flour - 300g; Baking powder - 2tsp;&quot;"></textarea>
                 <span asp-validation-for="ShoppingList.Ingredients" class="text-danger"></span>
             </nav>
 
@@ -103,7 +103,7 @@
             <!-- Directions -->
             <h4>Directions</h4>
             <nav class="input-val form-group">
-                <textarea asp-for="Directions" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and white space: e.g. &quot;mix the dry and liquid ingredients separately; start adding the dry mixture to the liquid one...&quot;"></textarea>
+                <textarea asp-for="Directions" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Mix the dry and liquid ingredients separately; Start adding the dry mixture to the liquid one;&quot;"></textarea>
                 <span asp-validation-for="Directions" class="text-danger"></span>
             </nav>
 
@@ -119,14 +119,14 @@
                     
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Preparation Time</label></td>
-                        <td><input asp-for="PreparationTime" class="form-control" placeholder="e.g. &quot;30 min&quot;" />
+                        <td><input asp-for="PreparationTime" type="text" class="form-control" placeholder="In minutes" />
                             <span asp-validation-for="PreparationTime" class="text-danger"></span></td>
                     </tr>
 
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Cooking Time</label></td>
                         <td>
-                            <input asp-for="CookingTime" class="form-control" placeholder="e.g. &quot;30 min&quot;" />
+                            <input asp-for="CookingTime" type="text" class="form-control" placeholder="In minutes" />
                             <span asp-validation-for="CookingTime" class="text-danger"></span>
                         </td>
                     </tr>

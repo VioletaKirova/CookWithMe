@@ -1,10 +1,12 @@
 ﻿namespace CookWithMe.Services.Data
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Models;
+
 
     using Microsoft.AspNetCore.Identity;
 
@@ -12,19 +14,35 @@
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
+        private readonly IRepository<UserShoppingList> userShoppingListRepository;
         private readonly ILifestyleService lifestyleService;
         private readonly IAllergenService allergenService;
+        private readonly IShoppingListService shoppingListService;
 
         public UserService(
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<ApplicationUser> userRepository,
+            IRepository<UserShoppingList> userShoppingListRepository,
             ILifestyleService lifestyleService,
-            IAllergenService allergenService)
+            IAllergenService allergenService,
+            IShoppingListService shoppingListService)
         {
             this.userManager = userManager;
             this.userRepository = userRepository;
+            this.userShoppingListRepository = userShoppingListRepository;
             this.lifestyleService = lifestyleService;
             this.allergenService = allergenService;
+            this.shoppingListService = shoppingListService;
+        }
+
+        public async Task<bool> GetShoppingList(string userId, ShoppingListServiceModel shoppingListServiceModel)
+        {
+            var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
+            await this.shoppingListService.SetShoppingListToUser(shoppingListServiceModel.Id, user);
+
+            var result = await this.userManager.UpdateAsync(user);
+
+            return result.Succeeded;
         }
 
         public async Task<ApplicationUserServiceModel> GetById(string userId)
@@ -63,6 +81,15 @@
             var result = await this.userManager.UpdateAsync(user);
 
             return result.Succeeded;
+        }
+
+        public bool CheckIfUserHasShoppingList(string userId, string shoppingListId)
+        {
+            return this.userShoppingListRepository
+                .AllAsNoTracking()
+                .Where(x => x.UserId == userId)
+                .Select(x => x.ShoppingListId)
+                .Contains(shoppingListId);
         }
     }
 }

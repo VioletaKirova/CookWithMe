@@ -11,6 +11,8 @@
     {
         public RecipeDetailsViewModel()
         {
+            this.DirectionsList = new List<string>();
+            this.ShoppingListIngredients = new List<string>();
             this.Reviews = new HashSet<RecipeDetailsReviewViewModel>();
         }
 
@@ -22,11 +24,11 @@
 
         public string Summary { get; set; }
 
-        public string Directions { get; set; }
+        public ICollection<string> DirectionsList { get; set; }
 
         public string ShoppingListId { get; set; }
 
-        public RecipeDetailsShoppingListViewModel ShoppingList { get; set; }
+        public ICollection<string> ShoppingListIngredients { get; set; }
 
         public Level SkillLevel { get; set; }
 
@@ -50,12 +52,9 @@
 
         public ICollection<RecipeDetailsReviewViewModel> Reviews { get; set; }
 
-        public int Rate()
-        {
-            return this.Reviews != null ?
+        public int Rate => this.Reviews != null && this.Reviews.Count() > 0 ?
                 this.Reviews.Sum(x => x.Rating) / this.Reviews.Count() :
                 -1;
-        }
 
         public string DisplayTime(int time)
         {

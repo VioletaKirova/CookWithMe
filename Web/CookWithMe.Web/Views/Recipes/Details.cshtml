@@ -25,10 +25,50 @@
                     <a href="#" class="button medium" style="float: right">Cooked</a>
                     <a href="#" class="button medium color" style="float: right; margin: 0 5px 0 0;">Cook Later</a>
                     <a href="#" class="button medium color" style="float: right; margin: 0 5px 0 0;">&#10084</a>
-                    <div class="rating five-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
+
+                    <!-- TODO: Refactor this -->
+
+                    @if (Model.Rate == -1)
+                    {
+                        <div class="rating zero-stars">
+                            <div class="star-bg"></div>
+                        </div>
+                    }
+                    else if (Model.Rate == 1)
+                    {
+                        <div class="rating one-stars">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
+                    }
+                    else if (Model.Rate == 2)
+                    {
+                        <div class="rating two-stars">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
+                    }
+                    else if (Model.Rate == 3)
+                    {
+                        <div class="rating three-stars">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
+                    }
+                    else if (Model.Rate == 4)
+                    {
+                        <div class="rating four-stars">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="rating five-stars">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
+                    }
                     <span><a href="#reviews">(@Model.Reviews.Count() review/s)</a></span>
                 </div>
             </section>
@@ -67,7 +107,7 @@
 
 
             <!-- Text -->
-            <p itemprop="description">This is a very basic beef stew. It’s easy, delicious and inexpensive to make. While there are hundreds of variations of this traditional recipe, it’s hard to improve on this version’s savory and comforting goodness.</p>
+            <p itemprop="description">@Model.Summary</p>
 
             <div class="margin-bottom-5"></div>
 
@@ -75,56 +115,27 @@
             <h3>Ingredients</h3>
             <div class="margin-top-10"></div>
             <ul>
-                <li>
-                    <label itemprop="ingredients" for="check-1">2 pounds cubed beef stew meat</label>
-                </li>
-
-                <li>
-                    <label itemprop="ingredients" for="check-2">3 tablespoons vegetable oil</label>
-                </li>
-
-                <li>
-                    <label itemprop="ingredients" for="check-3">4 cubes beef bouillon, crumbled</label>
-                </li>
-
-                <li>
-                    <label itemprop="ingredients" for="check-4">1 large onion, chopped</label>
-                </li>
-
-                <li>
-                    <label itemprop="ingredients" for="check-5">1 teaspoon dried rosemary</label>
-                </li>
-
-                <li>
-                    <label itemprop="ingredients" for="check-6">1/2 teaspoon ground black pepper</label>
-                </li>
-
-                <li>
-                    <label itemprop="ingredients" for="check-7">3 large potatoes, peeled and cubed </label>
-                </li>
-
-                <li>
-                    <label itemprop="ingredients" for="check-8">4 carrots, cut into 1 inch pieces</label>
-                </li>
-
-                <li>
-                    <label itemprop="ingredients" for="check-9">4 stalks celery, cut into 1 inch pieces</label>
-                </li>
+                @foreach (var ingredient in Model.ShoppingListIngredients)
+                {
+                    <li>
+                        <label itemprop="ingredients" for="check-1">@ingredient</label>
+                    </li>
+                }
             </ul>
 
             <div class="margin-top-20"></div>
 
-            <a href="#" class="button medium color">Get Shopping List</a>
+            <a href="/ShoppingLists/Details/@Model.ShoppingListId" class="button medium color">Get Shopping List</a>
 
             <div class="margin-top-20"></div>
 
             <!-- Directions -->
             <h3>Directions</h3>
             <ol class="directions" itemprop="recipeInstructions">
-                <li>In a Dutch oven, heat oil over medium heat until hot, but not smoking. Pat the meat dry with paper towels and brown in batches, transferring the meat with a slotted spoon to a bowl as they are done.</li>
-                <li>In the fat remaining in the pot, cook the onions until softened, about 5 minutes. </li>
-                <li>Return meat to the pot with any juices in the bowl and add the tomatoes with juice, chiles, beer, beef broth, oregano, cumin, and Worcestershire sauce. Season with salt and pepper to taste.</li>
-                <li>Bring to a boil and reduce heat. Simmer, partially covered, for 2 1/2 hours or until meat is tender.</li>
+                @foreach (var direction in Model.DirectionsList)
+                {
+                    <li>@direction</li>
+                }
             </ol>
 
             <div class="clearfix"></div>
@@ -157,9 +168,9 @@
             </section>
             <div class="clearfix"></div>
 
-            <!-- Add Comment
+            <!-- Add Review
             ================================================== -->
-            <!-- Add Comment Form -->
+            <!-- Add Review Form -->
             <a href="#" class="button medium color">Add Review</a>
             <div class="clearfix"></div>
 
@@ -169,17 +180,6 @@
     <!-- Sidebar
     ================================================== -->
     <div class="four columns">
-
-        <!-- Search Form -->
-        <div class="widget search-form">
-            <nav class="search">
-                <form action="#" method="get">
-                    <button><i class="fa fa-search"></i></button>
-                    <input class="search-field" type="text" placeholder="Search for recipes" value="" />
-                </form>
-            </nav>
-            <div class="clearfix"></div>
-        </div>
 
         <!-- Author Box -->
         <div class="widget">

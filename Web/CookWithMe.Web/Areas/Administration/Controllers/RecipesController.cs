@@ -1,6 +1,7 @@
 ﻿namespace CookWithMe.Web.Areas.Administration.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -22,14 +23,22 @@
         private readonly ILifestyleService lifestyleService;
         private readonly ICloudinaryService cloudinaryService;
         private readonly IRecipeService recipeService;
+        private readonly IStringFormatService stringFormatService;
 
-        public RecipesController(ICategoryService categoryService, IAllergenService allergenService, ILifestyleService lifestyleService, ICloudinaryService cloudinaryService, IRecipeService recipeService)
+        public RecipesController(
+            ICategoryService categoryService,
+            IAllergenService allergenService,
+            ILifestyleService lifestyleService,
+            ICloudinaryService cloudinaryService,
+            IRecipeService recipeService,
+            IStringFormatService stringFormatService)
         {
             this.categoryService = categoryService;
             this.allergenService = allergenService;
             this.lifestyleService = lifestyleService;
             this.cloudinaryService = cloudinaryService;
             this.recipeService = recipeService;
+            this.stringFormatService = stringFormatService;
         }
 
         [HttpGet]
@@ -42,12 +51,20 @@
             var levelValues = Enum.GetNames(typeof(Level));
             var sizeValues = Enum.GetNames(typeof(Size));
 
+            var periodValuesFormated = new HashSet<string>();
+
+            foreach (var periodValue in periodValues)
+            {
+                periodValuesFormated
+                    .Add(this.stringFormatService.SplitByUppercaseLetter(periodValue));
+            }
+
             var recipeCreateViewModel = new RecipeCreateViewModel
             {
                 CategoryTitles = categoryTitles,
                 AllergenNames = allergenNames,
                 LifestyleTypes = lifestyleTypes,
-                PeriodValues = periodValues,
+                PeriodValues = periodValuesFormated,
                 LevelValues = levelValues,
                 SizeValues = sizeValues,
             };

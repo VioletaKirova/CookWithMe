@@ -2,9 +2,10 @@
 {
     public enum Period
     {
-        All = 0,
-        HalfAnHour = 1,
-        OneHour = 2,
-        OverOneHour = 3,
+        All = 1,
+        ALaMinute = 2,
+        HalfAnHour = 3,
+        OneHour = 4,
+        OverOneHour = 5,
     }
 }

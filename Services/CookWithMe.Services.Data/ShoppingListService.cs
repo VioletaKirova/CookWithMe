@@ -34,5 +34,13 @@
 
             return shoppingList.Id;
         }
+
+        public async Task SetShoppingListToUser(string id, ApplicationUser user)
+        {
+            user.ShoppingLists.Add(new UserShoppingList
+            {
+                ShoppingList = await this.shoppingListRepository.GetByIdWithDeletedAsync(id),
+            });
+        }
     }
 }

@@ -1,0 +1,55 @@
+﻿@model CookWithMe.Web.ViewModels.ShoppingLists.ShoppingListDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Titlebar
+================================================== -->
+<section id="titlebar">
+    <!-- Container -->
+    <div class="container">
+
+        <div class="eight columns">
+            <h2 style="margin: 18px 0 0 0;">@Model.RecipeTitle</h2>
+            <p>Ingredients</p>
+        </div>
+
+    </div>
+    <!-- Container / End -->
+</section>
+
+
+<!-- Content
+================================================== -->
+<div class="container">
+
+    <!-- Recipe -->
+    <div class="twelve columns">
+        <div class="alignment">
+
+            <div class="margin-top-50"></div>
+
+            <!-- Ingredients -->
+            <ul class="ingredients">
+
+                @foreach (var ingredient in Model.IngredientsList)
+                {
+                    <li>
+                        <input id="check" type="checkbox" name="check" value="check-1">
+                        <label itemprop="ingredients" for="check">@ingredient</label>
+                    </li>
+                }
+
+            </ul>
+
+            <a href="#" class="button medium color">Bought All</a>
+
+
+        </div>
+    </div>
+
+
+</div>
+<!-- Container / End -->

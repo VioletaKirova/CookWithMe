@@ -56,6 +56,8 @@
 
         public DbSet<UserFavoriteRecipe> UserFavoriteRecipes { get; set; }
 
+        public DbSet<UserShoppingList> UserShoppingLists { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -182,6 +184,20 @@
                 .HasOne(uclr => uclr.Recipe)
                 .WithMany()
                 .HasForeignKey(uclr => uclr.RecipeId);
+
+            // Many-to-many unidirectional relationship between Users and ShoppingLists
+            builder.Entity<UserShoppingList>()
+                .HasKey(usl => new { usl.UserId, usl.ShoppingListId });
+
+            builder.Entity<UserShoppingList>()
+                .HasOne(usl => usl.User)
+                .WithMany(u => u.ShoppingLists)
+                .HasForeignKey(usl => usl.UserId);
+
+            builder.Entity<UserShoppingList>()
+                .HasOne(usl => usl.ShoppingList)
+                .WithMany()
+                .HasForeignKey(usl => usl.ShoppingListId);
 
             // Many-to-one relationship between Users and Reviews
             builder.Entity<ApplicationUser>()

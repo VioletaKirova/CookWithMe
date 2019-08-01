@@ -12,5 +12,9 @@
         Task SetUserToRecipe(string userId, Recipe recipe);
 
         Task<ApplicationUserServiceModel> GetById(string userId);
+
+        Task<bool> GetShoppingList(string userId, ShoppingListServiceModel shoppingListServiceModel);
+
+        bool CheckIfUserHasShoppingList(string userId, string shoppingListId);
     }
 }

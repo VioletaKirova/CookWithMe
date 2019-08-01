@@ -24,6 +24,7 @@
             this.FavoriteRecipes = new HashSet<UserFavoriteRecipe>();
             this.CookedRecipes = new HashSet<UserCookedRecipe>();
             this.CookLaterRecipes = new HashSet<UserCookLaterRecipe>();
+            this.ShoppingLists = new HashSet<UserShoppingList>();
             this.Reviews = new HashSet<Review>();
         }
 
@@ -66,6 +67,8 @@
         public ICollection<UserCookedRecipe> CookedRecipes { get; set; }
 
         public ICollection<UserCookLaterRecipe> CookLaterRecipes { get; set; }
+
+        public ICollection<UserShoppingList> ShoppingLists { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
     }
