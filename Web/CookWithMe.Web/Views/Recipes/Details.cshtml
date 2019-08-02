@@ -27,47 +27,46 @@
                     <a href="#" class="button medium color" style="float: right; margin: 0 5px 0 0;">&#10084</a>
 
                     <!-- TODO: Refactor this -->
-
                     @if (Model.Rate == -1)
                     {
-                        <div class="rating zero-stars">
-                            <div class="star-bg"></div>
-                        </div>
+                    <div class="rating zero-stars">
+                        <div class="star-bg"></div>
+                    </div>
                     }
                     else if (Model.Rate == 1)
                     {
-                        <div class="rating one-stars">
-                            <div class="star-rating"></div>
-                            <div class="star-bg"></div>
-                        </div>
+                    <div class="rating one-stars">
+                        <div class="star-rating"></div>
+                        <div class="star-bg"></div>
+                    </div>
                     }
                     else if (Model.Rate == 2)
                     {
-                        <div class="rating two-stars">
-                            <div class="star-rating"></div>
-                            <div class="star-bg"></div>
-                        </div>
+                    <div class="rating two-stars">
+                        <div class="star-rating"></div>
+                        <div class="star-bg"></div>
+                    </div>
                     }
                     else if (Model.Rate == 3)
                     {
-                        <div class="rating three-stars">
-                            <div class="star-rating"></div>
-                            <div class="star-bg"></div>
-                        </div>
+                    <div class="rating three-stars">
+                        <div class="star-rating"></div>
+                        <div class="star-bg"></div>
+                    </div>
                     }
                     else if (Model.Rate == 4)
                     {
-                        <div class="rating four-stars">
-                            <div class="star-rating"></div>
-                            <div class="star-bg"></div>
-                        </div>
+                    <div class="rating four-stars">
+                        <div class="star-rating"></div>
+                        <div class="star-bg"></div>
+                    </div>
                     }
                     else
                     {
-                        <div class="rating five-stars">
-                            <div class="star-rating"></div>
-                            <div class="star-bg"></div>
-                        </div>
+                    <div class="rating five-stars">
+                        <div class="star-rating"></div>
+                        <div class="star-bg"></div>
+                    </div>
                     }
                     <span><a href="#reviews">(@Model.Reviews.Count() review/s)</a></span>
                 </div>
@@ -117,9 +116,9 @@
             <ul>
                 @foreach (var ingredient in Model.ShoppingListIngredients)
                 {
-                    <li>
-                        <label itemprop="ingredients" for="check-1">@ingredient</label>
-                    </li>
+                <li>
+                    <label itemprop="ingredients" for="check-1">@ingredient</label>
+                </li>
                 }
             </ul>
 
@@ -134,7 +133,7 @@
             <ol class="directions" itemprop="recipeInstructions">
                 @foreach (var direction in Model.DirectionsList)
                 {
-                    <li>@direction</li>
+                <li>@direction</li>
                 }
             </ol>
 
@@ -150,20 +149,55 @@
             <section class="comments" id="reviews">
 
                 <ul>
-                    <li>
-                        <div class="avatar"><img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" /></div>
-                        <div class="comment-content">
-                            <div class="arrow-comment"></div>
-                            <div class="comment-by">
-                                <strong>John Doe</strong><span class="date">7th, October 2014</span>
+
+                    @foreach (var review in Model.Reviews)
+                    {
+                        <li>
+                            <div class="comment-content">
+                                <div class="arrow-comment"></div>
+                                <div class="comment-by">
+                                    <strong>@review.ReviewerFullName</strong><span class="date">@review.CreatedOn.ToString("dd/MM/yyyy")</span>
+                                </div>
+                                <p>@review.Comment</p>
+                                <!-- TODO: Refactor this -->
+                                @if (review.Rating == 1)
+                                {
+                                    <div class="rating one-stars">
+                                        <div class="star-rating"></div>
+                                        <div class="star-bg"></div>
+                                    </div>
+                                }
+                                else if (review.Rating == 2)
+                                {
+                                    <div class="rating two-stars">
+                                        <div class="star-rating"></div>
+                                        <div class="star-bg"></div>
+                                    </div>
+                                }
+                                else if (review.Rating == 3)
+                                {
+                                    <div class="rating three-stars">
+                                        <div class="star-rating"></div>
+                                        <div class="star-bg"></div>
+                                    </div>
+                                }
+                                else if (review.Rating == 4)
+                                {
+                                    <div class="rating four-stars">
+                                        <div class="star-rating"></div>
+                                        <div class="star-bg"></div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="rating five-stars">
+                                        <div class="star-rating"></div>
+                                        <div class="star-bg"></div>
+                                    </div>
+                                }
                             </div>
-                            <p>Maecenas dignissim euismod nunc, in commodo est luctus eget. Proin in nunc laoreet justo volutpat blandit enim. Sem felis, ullamcorper vel aliquam non, varius eget just.</p>
-                            <div class="rating five-stars">
-                                <div class="star-rating"></div>
-                                <div class="star-bg"></div>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
+                    }
                 </ul>
             </section>
             <div class="clearfix"></div>

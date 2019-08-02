@@ -14,11 +14,13 @@
     public class RecipesController : BaseController
     {
         private readonly IRecipeService recipeService;
+        private readonly IReviewService reviewService;
         private readonly IStringFormatService stringFormatService;
 
-        public RecipesController(IRecipeService recipeService, IStringFormatService stringFormatService)
+        public RecipesController(IRecipeService recipeService, IReviewService reviewService, IStringFormatService stringFormatService)
         {
             this.recipeService = recipeService;
+            this.reviewService = reviewService;
             this.stringFormatService = stringFormatService;
         }
 
@@ -26,6 +28,8 @@
         public async Task<IActionResult> Details(string id)
         {
             var recipeServiceModel = await this.recipeService.GetById(id);
+            recipeServiceModel.Reviews = await this.reviewService.GetAllByRecipeId(id);
+
             var recipeViewModel = recipeServiceModel.To<RecipeDetailsViewModel>();
 
             recipeViewModel.DirectionsList = this.stringFormatService
