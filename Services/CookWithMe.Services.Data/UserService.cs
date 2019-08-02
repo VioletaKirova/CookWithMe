@@ -53,11 +53,6 @@
             return userServiceModel;
         }
 
-        public async Task SetUserToRecipe(string userId, Recipe recipe)
-        {
-            recipe.User = await this.userRepository.GetByIdWithDeletedAsync(userId);
-        }
-
         public async Task<bool> UpdateUserAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
@@ -90,6 +85,22 @@
                 .Where(x => x.UserId == userId)
                 .Select(x => x.ShoppingListId)
                 .Contains(shoppingListId);
+        }
+
+        public async Task SetUserToReview(string userId, Review review)
+        {
+            var user = await this.userRepository
+                .GetByIdWithDeletedAsync(userId);
+
+            review.Reviewer = user;
+        }
+
+        public async Task SetUserToRecipe(string userId, Recipe recipe)
+        {
+            var user = await this.userRepository
+                .GetByIdWithDeletedAsync(userId);
+
+            recipe.User = user;
         }
     }
 }

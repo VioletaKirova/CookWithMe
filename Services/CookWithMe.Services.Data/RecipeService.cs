@@ -131,5 +131,13 @@
 
             return recipeServiceModel;
         }
+
+        public async Task SetRecipeToReview(string recipeId, Review review)
+        {
+            var recipe = await this.recipeRepository
+                .GetByIdWithDeletedAsync(recipeId);
+
+            review.Recipe = recipe;
+        }
     }
 }

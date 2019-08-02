@@ -31,6 +31,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <fieldset>
 
+                <input asp-for="RecipeId" type="hidden" name="recipeId" value="@ViewData["RecipeId"]">
+                <input asp-for="RecipeTitle" type="hidden" name="recipeTitle" value="@ViewData["RecipeTitle"]">
+
                 <div class="form-group">
                     <label>Rating:</label>
                     <input asp-for="Rating" class="form-control" />

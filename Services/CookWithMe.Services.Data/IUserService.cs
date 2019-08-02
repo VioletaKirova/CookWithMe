@@ -16,5 +16,7 @@
         Task<bool> GetShoppingList(string userId, ShoppingListServiceModel shoppingListServiceModel);
 
         bool CheckIfUserHasShoppingList(string userId, string shoppingListId);
+
+        Task SetUserToReview(string userId, Review review);
     }
 }
