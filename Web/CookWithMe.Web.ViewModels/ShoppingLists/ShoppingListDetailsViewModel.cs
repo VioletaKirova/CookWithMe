@@ -9,7 +9,7 @@
     {
         public string Id { get; set; }
 
-        public ICollection<string> IngredientsList { get; set; }
+        public IList<string> IngredientsList { get; set; }
 
         public string RecipeId { get; set; }
 

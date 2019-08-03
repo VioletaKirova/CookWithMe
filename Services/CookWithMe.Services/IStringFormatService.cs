@@ -4,8 +4,8 @@
 
     public interface IStringFormatService
     {
-        string SplitByUppercaseLetter(string text);
+        IList<string> SplitBySemicollonAndWhitespace(string text);
 
-        ICollection<string> SplitBySemicollonAndWhitespace(string text);
+        string RemoveWhiteSpaces(string text);
     }
 }

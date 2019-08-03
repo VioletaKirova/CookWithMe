@@ -23,17 +23,17 @@
             this.recipeService = recipeService;
         }
 
-        public async Task<bool> CreateAsync(ReviewServiceModel model)
+        public async Task<bool> CreateAsync(ReviewServiceModel reviewServiceModel)
         {
-            var review = model.To<Review>();
+            var review = reviewServiceModel.To<Review>();
 
             review.Id = Guid.NewGuid().ToString();
 
             await this.reviewRepository.AddAsync(review);
             await this.reviewRepository.SaveChangesAsync();
 
-            await this.userService.SetUserToReview(model.ReviewerId, review);
-            await this.recipeService.SetRecipeToReview(model.RecipeId, review);
+            await this.userService.SetUserToReview(reviewServiceModel.ReviewerId, review);
+            await this.recipeService.SetRecipeToReview(reviewServiceModel.RecipeId, review);
 
             this.reviewRepository.Update(review);
             var result = await this.reviewRepository.SaveChangesAsync();

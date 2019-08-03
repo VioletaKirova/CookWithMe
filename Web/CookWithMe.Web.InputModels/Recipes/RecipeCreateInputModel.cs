@@ -69,7 +69,10 @@
             configuration.CreateMap<RecipeCreateInputModel, RecipeServiceModel>()
                 .ForMember(
                     destination => destination.Category,
-                    opts => opts.MapFrom(origin => new CategoryServiceModel { Title = origin.CategoryTitle }));
+                    opts => opts.MapFrom(origin => new CategoryServiceModel { Title = origin.CategoryTitle }))
+                .ForMember(
+                    destination => destination.NeededTime,
+                    opts => opts.Ignore());
         }
     }
 }

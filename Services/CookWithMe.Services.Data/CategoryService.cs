@@ -5,6 +5,7 @@
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
+    using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
     using Microsoft.EntityFrameworkCore;
 
@@ -17,13 +18,13 @@
             this.categoryRepository = categoryRepository;
         }
 
-        public async Task<bool> CreateAllAsync(string[] titles)
+        public async Task<bool> CreateAllAsync(string[] categoryTitles)
         {
-            foreach (var title in titles)
+            foreach (var categoryTitle in categoryTitles)
             {
                 var category = new Category
                 {
-                    Title = title,
+                    Title = categoryTitle,
                 };
 
                 await this.categoryRepository.AddAsync(category);
@@ -34,9 +35,9 @@
             return result > 0;
         }
 
-        public async Task<bool> CreateAsync(CategoryServiceModel model)
+        public async Task<bool> CreateAsync(CategoryServiceModel categoryServiceModel)
         {
-            var category = AutoMapper.Mapper.Map<CategoryServiceModel, Category>(model);
+            var category = categoryServiceModel.To<Category>();
 
             await this.categoryRepository.AddAsync(category);
 

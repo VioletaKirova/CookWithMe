@@ -17,13 +17,13 @@
             this.allergenRepository = allergenRepository;
         }
 
-        public async Task<bool> CreateAllAsync(string[] names)
+        public async Task<bool> CreateAllAsync(string[] allergenNames)
         {
-            foreach (var name in names)
+            foreach (var allergenName in allergenNames)
             {
                 var allergen = new Allergen
                 {
-                    Name = name,
+                    Name = allergenName,
                 };
 
                 await this.allergenRepository.AddAsync(allergen);

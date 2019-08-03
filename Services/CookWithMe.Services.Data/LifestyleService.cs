@@ -17,13 +17,13 @@
             this.lifestyleRepository = lifestyleRepository;
         }
 
-        public async Task<bool> CreateAllAsync(string[] types)
+        public async Task<bool> CreateAllAsync(string[] lifestyleTypes)
         {
-            foreach (var type in types)
+            foreach (var lifestyleType in lifestyleTypes)
             {
                 var lifestyle = new Lifestyle
                 {
-                    Type = type,
+                    Type = lifestyleType,
                 };
 
                 await this.lifestyleRepository.AddAsync(lifestyle);

@@ -39,11 +39,11 @@
             this.allergenService = allergenService;
         }
 
-        public async Task<bool> CreateAsync(RecipeServiceModel model)
+        public async Task<bool> CreateAsync(RecipeServiceModel recipeServiceModel)
         {
-            var recipe = AutoMapper.Mapper.Map<RecipeServiceModel, Recipe>(model);
+            var recipe = recipeServiceModel.To<Recipe>();
 
-            await this.categoryService.SetCategoryToRecipe(model.Category.Title, recipe);
+            await this.categoryService.SetCategoryToRecipe(recipeServiceModel.Category.Title, recipe);
 
             recipe.Allergens = new HashSet<RecipeAllergen>();
             recipe.Lifestyles = new HashSet<RecipeLifestyle>();
@@ -51,17 +51,17 @@
             await this.recipeRepository.AddAsync(recipe);
             await this.recipeRepository.SaveChangesAsync();
 
-            await this.userService.SetUserToRecipe(model.UserId, recipe);
+            await this.userService.SetUserToRecipe(recipeServiceModel.UserId, recipe);
 
             recipe.ShoppingListId = await this.shoppingListService.GetIdByRecipeId(recipe.Id);
             recipe.NutritionalValueId = await this.nutritionalValueService.GetIdByRecipeId(recipe.Id);
 
-            foreach (var recipeAllergen in model.Allergens)
+            foreach (var recipeAllergen in recipeServiceModel.Allergens)
             {
                 await this.allergenService.SetAllergenToRecipe(recipeAllergen.Allergen.Name, recipe);
             }
 
-            foreach (var recipeLifestyle in model.Lifestyles)
+            foreach (var recipeLifestyle in recipeServiceModel.Lifestyles)
             {
                 await this.lifestyleService.SetLifestyleToRecipe(recipeLifestyle.Lifestyle.Type, recipe);
             }
@@ -134,8 +134,7 @@
 
         public async Task SetRecipeToReview(string recipeId, Review review)
         {
-            var recipe = await this.recipeRepository
-                .GetByIdWithDeletedAsync(recipeId);
+            var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(recipeId);
 
             review.Recipe = recipe;
         }

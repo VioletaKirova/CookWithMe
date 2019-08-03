@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Reflection;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -47,16 +49,29 @@
             var categoryTitles = await this.categoryService.GetAllTitles().ToListAsync();
             var allergenNames = await this.allergenService.GetAllNames().ToListAsync();
             var lifestyleTypes = await this.lifestyleService.GetAllTypes().ToListAsync();
-            var periodValues = Enum.GetNames(typeof(Period));
-            var levelValues = Enum.GetNames(typeof(Level));
-            var sizeValues = Enum.GetNames(typeof(Size));
+            var periodNames = Enum.GetNames(typeof(Period));
+            var levelNames = Enum.GetNames(typeof(Level));
+            var sizeNames = Enum.GetNames(typeof(Size));
 
-            var periodValuesFormated = new HashSet<string>();
+            var periodDescriptions = new List<string>();
 
-            foreach (var periodValue in periodValues)
+            Type type = typeof(Period);
+
+            foreach (var periodValue in periodNames)
             {
-                periodValuesFormated
-                    .Add(this.stringFormatService.SplitByUppercaseLetter(periodValue));
+                FieldInfo field = type.GetField(periodValue);
+                if (field != null)
+                {
+                    DescriptionAttribute attr =
+                           Attribute.GetCustomAttribute(
+                               field,
+                               typeof(DescriptionAttribute)) as DescriptionAttribute;
+
+                    if (attr != null)
+                    {
+                        periodDescriptions.Add(attr.Description);
+                    }
+                }
             }
 
             var recipeCreateViewModel = new RecipeCreateViewModel
@@ -64,9 +79,9 @@
                 CategoryTitles = categoryTitles,
                 AllergenNames = allergenNames,
                 LifestyleTypes = lifestyleTypes,
-                PeriodValues = periodValuesFormated,
-                LevelValues = levelValues,
-                SizeValues = sizeValues,
+                PeriodValues = periodDescriptions,
+                LevelValues = levelNames,
+                SizeValues = sizeNames,
             };
 
             this.ViewData["Types"] = recipeCreateViewModel;
@@ -82,18 +97,39 @@
                 var categoryTitles = await this.categoryService.GetAllTitles().ToListAsync();
                 var allergenNames = await this.allergenService.GetAllNames().ToListAsync();
                 var lifestyleTypes = await this.lifestyleService.GetAllTypes().ToListAsync();
-                var periodValues = Enum.GetNames(typeof(Period));
-                var levelValues = Enum.GetNames(typeof(Level));
-                var sizeValues = Enum.GetNames(typeof(Size));
+                var periodNames = Enum.GetNames(typeof(Period));
+                var levelNames = Enum.GetNames(typeof(Level));
+                var sizeNames = Enum.GetNames(typeof(Size));
+
+                var periodDescriptions = new List<string>();
+
+                Type type = typeof(Period);
+
+                foreach (var periodValue in periodNames)
+                {
+                    FieldInfo field = type.GetField(periodValue);
+                    if (field != null)
+                    {
+                        DescriptionAttribute attr =
+                               Attribute.GetCustomAttribute(
+                                   field,
+                                   typeof(DescriptionAttribute)) as DescriptionAttribute;
+
+                        if (attr != null)
+                        {
+                            periodDescriptions.Add(attr.Description);
+                        }
+                    }
+                }
 
                 var recipeCreateViewModel = new RecipeCreateViewModel
                 {
                     CategoryTitles = categoryTitles,
                     AllergenNames = allergenNames,
                     LifestyleTypes = lifestyleTypes,
-                    PeriodValues = periodValues,
-                    LevelValues = levelValues,
-                    SizeValues = sizeValues,
+                    PeriodValues = periodDescriptions,
+                    LevelValues = levelNames,
+                    SizeValues = sizeNames,
                 };
 
                 this.ViewData["Types"] = recipeCreateViewModel;
@@ -127,6 +163,10 @@
                     Lifestyle = new LifestyleServiceModel { Type = lifestyleType },
                 });
             }
+
+            recipeServiceModel.NeededTime = (Period)Enum.Parse(
+                typeof(Period),
+                this.stringFormatService.RemoveWhiteSpaces(model.NeededTime));
 
             await this.recipeService.CreateAsync(recipeServiceModel);
 

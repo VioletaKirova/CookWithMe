@@ -5,16 +5,17 @@
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
+    using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
 
 
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
 
     public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
-        private readonly IRepository<UserShoppingList> userShoppingListRepository;
         private readonly ILifestyleService lifestyleService;
         private readonly IAllergenService allergenService;
         private readonly IShoppingListService shoppingListService;
@@ -22,14 +23,12 @@
         public UserService(
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<ApplicationUser> userRepository,
-            IRepository<UserShoppingList> userShoppingListRepository,
             ILifestyleService lifestyleService,
             IAllergenService allergenService,
             IShoppingListService shoppingListService)
         {
             this.userManager = userManager;
             this.userRepository = userRepository;
-            this.userShoppingListRepository = userShoppingListRepository;
             this.lifestyleService = lifestyleService;
             this.allergenService = allergenService;
             this.shoppingListService = shoppingListService;
@@ -47,8 +46,8 @@
 
         public async Task<ApplicationUserServiceModel> GetById(string userId)
         {
-            var userFromDb = await this.userRepository.GetByIdWithDeletedAsync(userId);
-            var userServiceModel = AutoMapper.Mapper.Map<ApplicationUserServiceModel>(userFromDb);
+            var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
+            var userServiceModel = user.To<ApplicationUserServiceModel>();
 
             return userServiceModel;
         }
@@ -80,11 +79,13 @@
 
         public bool CheckIfUserHasShoppingList(string userId, string shoppingListId)
         {
-            return this.userShoppingListRepository
+            var shoppingListIds = this.userRepository
                 .AllAsNoTracking()
-                .Where(x => x.UserId == userId)
-                .Select(x => x.ShoppingListId)
-                .Contains(shoppingListId);
+                .Where(x => x.Id == userId)
+                .SelectMany(x => x.ShoppingLists.Select(sl => sl.ShoppingListId))
+                .ToList();
+
+            return shoppingListIds.Contains(shoppingListId);
         }
 
         public async Task SetUserToReview(string userId, Review review)

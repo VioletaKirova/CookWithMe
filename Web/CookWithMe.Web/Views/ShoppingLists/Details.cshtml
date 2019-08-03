@@ -34,11 +34,11 @@
             <!-- Ingredients -->
             <ul class="ingredients">
 
-                @foreach (var ingredient in Model.IngredientsList)
+                @for (int i = 0; i < Model.IngredientsList.Count; i++)
                 {
                     <li>
-                        <input id="check" type="checkbox" name="check" value="check-1">
-                        <label itemprop="ingredients" for="check">@ingredient</label>
+                        <input id="check-@i" type="checkbox" name="check" value="check-@i">
+                        <label itemprop="ingredients" for="check-@i">@Model.IngredientsList[i]</label>
                     </li>
                 }
 

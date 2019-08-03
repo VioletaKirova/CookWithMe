@@ -4,6 +4,7 @@
 
     using CookWithMe.Common;
     using CookWithMe.Data.Models;
+    using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -17,11 +18,11 @@
             this.userManager = userManager;
         }
 
-        public async Task<bool> RegisterAsync(AdministratorServiceModel model)
+        public async Task<bool> RegisterAsync(AdministratorServiceModel administratorServiceModel)
         {
-            var user = AutoMapper.Mapper.Map<AdministratorServiceModel, ApplicationUser>(model);
+            var user = administratorServiceModel.To<ApplicationUser>();
 
-            var result = await this.userManager.CreateAsync(user, model.Password);
+            var result = await this.userManager.CreateAsync(user, administratorServiceModel.Password);
 
             if (result.Succeeded)
             {
