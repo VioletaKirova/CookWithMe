@@ -32,9 +32,9 @@
 
         public Level SkillLevel { get; set; }
 
-        public int PreparationTime { get; set; }
+        public string FormatedPreparationTime { get; set; }
 
-        public int CookingTime { get; set; }
+        public string FormatedCookingTime { get; set; }
 
         public Period NeededTime { get; set; }
 
@@ -50,21 +50,14 @@
 
         public RecipeDetailsApplicationUserViewModel User { get; set; }
 
+        public bool UserFavoritedCurrentRecipe { get; set; }
+
+        public bool UserCookedCurrentRecipe { get; set; }
+
         public ICollection<RecipeDetailsReviewViewModel> Reviews { get; set; }
 
         public int Rate => this.Reviews != null && this.Reviews.Count() > 0 ?
                 this.Reviews.Sum(x => x.Rating) / this.Reviews.Count() :
                 -1;
-
-        public string DisplayTime(int time)
-        {
-            int hours = time / 60;
-            int minutes = time % 60;
-
-            return hours == 0 ?
-                $" {minutes} min" : minutes == 0 ?
-                $" {hours} h" :
-                $" {hours} h {minutes} min";
-        }
     }
 }

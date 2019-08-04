@@ -10,7 +10,6 @@
 
 
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
 
     public class UserService : IUserService
     {
@@ -34,7 +33,7 @@
             this.shoppingListService = shoppingListService;
         }
 
-        public async Task<bool> GetShoppingList(string userId, ShoppingListServiceModel shoppingListServiceModel)
+        public async Task<bool> SetShoppingList(string userId, ShoppingListServiceModel shoppingListServiceModel)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
             await this.shoppingListService.SetShoppingListToUser(shoppingListServiceModel.Id, user);
@@ -77,31 +76,46 @@
             return result.Succeeded;
         }
 
-        public bool CheckIfUserHasShoppingList(string userId, string shoppingListId)
-        {
-            var shoppingListIds = this.userRepository
-                .AllAsNoTracking()
-                .Where(x => x.Id == userId)
-                .SelectMany(x => x.ShoppingLists.Select(sl => sl.ShoppingListId))
-                .ToList();
-
-            return shoppingListIds.Contains(shoppingListId);
-        }
-
         public async Task SetUserToReview(string userId, Review review)
         {
-            var user = await this.userRepository
-                .GetByIdWithDeletedAsync(userId);
+            var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
             review.Reviewer = user;
         }
 
         public async Task SetUserToRecipe(string userId, Recipe recipe)
         {
-            var user = await this.userRepository
-                .GetByIdWithDeletedAsync(userId);
+            var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
             recipe.User = user;
+        }
+
+        public async Task<bool> SetFavoriteRecipe(string userId, Recipe recipe)
+        {
+            var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
+
+            user.FavoriteRecipes.Add(new UserFavoriteRecipe
+            {
+                Recipe = recipe,
+            });
+
+            var result = await this.userManager.UpdateAsync(user);
+
+            return result.Succeeded;
+        }
+
+        public async Task<bool> SetCookedRecipe(string userId, Recipe recipe)
+        {
+            var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
+
+            user.CookedRecipes.Add(new UserCookedRecipe
+            {
+                Recipe = recipe,
+            });
+
+            var result = await this.userManager.UpdateAsync(user);
+
+            return result.Succeeded;
         }
     }
 }

@@ -52,8 +52,6 @@
 
         public DbSet<UserCookedRecipe> UserCookedRecipes { get; set; }
 
-        public DbSet<UserCookLaterRecipe> UserCookLaterRecipes { get; set; }
-
         public DbSet<UserFavoriteRecipe> UserFavoriteRecipes { get; set; }
 
         public DbSet<UserShoppingList> UserShoppingLists { get; set; }
@@ -170,20 +168,6 @@
                 .HasOne(ucr => ucr.Recipe)
                 .WithMany(r => r.CookedBy)
                 .HasForeignKey(ucr => ucr.RecipeId);
-
-            // Many-to-many unidirectional relationship between Users and Recipes
-            builder.Entity<UserCookLaterRecipe>()
-                .HasKey(uclr => new { uclr.UserId, uclr.RecipeId });
-
-            builder.Entity<UserCookLaterRecipe>()
-                .HasOne(uclr => uclr.User)
-                .WithMany(u => u.CookLaterRecipes)
-                .HasForeignKey(uclr => uclr.UserId);
-
-            builder.Entity<UserCookLaterRecipe>()
-                .HasOne(uclr => uclr.Recipe)
-                .WithMany()
-                .HasForeignKey(uclr => uclr.RecipeId);
 
             // Many-to-many unidirectional relationship between Users and ShoppingLists
             builder.Entity<UserShoppingList>()

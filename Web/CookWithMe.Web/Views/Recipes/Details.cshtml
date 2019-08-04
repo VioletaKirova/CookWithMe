@@ -1,4 +1,5 @@
-﻿@model CookWithMe.Web.ViewModels.Recipes.RecipeDetailsViewModel
+﻿@using CookWithMe.Common;
+@model CookWithMe.Web.ViewModels.Recipes.RecipeDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -22,51 +23,74 @@
             <section class="recipe-header">
                 <div class="title-alignment">
                     <h2>@Model.Title</h2>
-                    <a href="#" class="button medium" style="float: right">Cooked</a>
-                    <a href="#" class="button medium color" style="float: right; margin: 0 5px 0 0;">Cook Later</a>
-                    <a href="#" class="button medium color" style="float: right; margin: 0 5px 0 0;">&#10084</a>
+
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <a href="#" class="button medium" style="float: right">Delete</a>
+                        <a href="#" class="button medium color" style="float: right; margin: 0 5px 0 0;">Edit</a>
+                    }
+                    else if (this.User.IsInRole(GlobalConstants.UserRoleName))
+                    {
+                        if (!Model.UserCookedCurrentRecipe)
+                        {
+                            <a href="/Recipes/AddToCooked/@Model.Id" class="button medium color" style="float: right">Cooked</a>
+                        }
+                        else
+                        {
+                            <a href="/Recipes/RemoveFromCooked/@Model.Id" class="button mediu" style="float: right">Didn't Cook</a>
+                        }
+
+                        if (!Model.UserFavoritedCurrentRecipe)
+                        {
+                            <a href="/Recipes/AddToFavorites/@Model.Id" class="button medium color" style="float: right; margin: 0 5px 0 0;">&#10084</a>
+                        }
+                        else
+                        {
+                            <a href="/Recipes/RemoveFromFavorites/@Model.Id" class="button medium" style="float: right; margin: 0 5px 0 0;">&#10084</a>
+                        }
+                    }
 
                     <!-- TODO: Refactor this -->
                     @if (Model.Rate == -1)
                     {
-                    <div class="rating zero-stars">
-                        <div class="star-bg"></div>
-                    </div>
+                        <div class="rating zero-stars">
+                            <div class="star-bg"></div>
+                        </div>
                     }
                     else if (Model.Rate == 1)
                     {
-                    <div class="rating one-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
+                        <div class="rating one-stars">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
                     }
                     else if (Model.Rate == 2)
                     {
-                    <div class="rating two-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
+                        <div class="rating two-stars">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
                     }
                     else if (Model.Rate == 3)
                     {
-                    <div class="rating three-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
+                        <div class="rating three-stars">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
                     }
                     else if (Model.Rate == 4)
                     {
-                    <div class="rating four-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
+                        <div class="rating four-stars">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
                     }
                     else
                     {
-                    <div class="rating five-stars">
-                        <div class="star-rating"></div>
-                        <div class="star-bg"></div>
-                    </div>
+                        <div class="rating five-stars">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
                     }
                     <span><a href="#reviews">(@Model.Reviews.Count() review/s)</a></span>
                 </div>
@@ -81,8 +105,8 @@
             <section class="recipe-details" itemprop="nutrition" style="height: 34px">
                 <ul>
                     <li>Serves: <strong itemprop="recipeYield">@Model.Serving</strong></li>
-                    <li>Prep Time: <strong itemprop="prepTime">@Model.DisplayTime(Model.PreparationTime)</strong></li>
-                    <li>Cooking: <strong itemprop="cookTime">@Model.DisplayTime(Model.CookingTime)</strong></li>
+                    <li>Prep Time: <strong itemprop="prepTime">@Model.FormatedPreparationTime</strong></li>
+                    <li>Cooking: <strong itemprop="cookTime">@Model.FormatedCookingTime</strong></li>
                 </ul>
                 <div class="menu nav-collapse" style="margin: -19px 0 0 0; float: right;">
                     <ul>
@@ -116,9 +140,9 @@
             <ul>
                 @foreach (var ingredient in Model.ShoppingListIngredients)
                 {
-                <li>
-                    <label itemprop="ingredients" for="check-1">@ingredient</label>
-                </li>
+                    <li>
+                        <label itemprop="ingredients" for="check-1">@ingredient</label>
+                    </li>
                 }
             </ul>
 
@@ -133,7 +157,7 @@
             <ol class="directions" itemprop="recipeInstructions">
                 @foreach (var direction in Model.DirectionsList)
                 {
-                <li>@direction</li>
+                    <li>@direction</li>
                 }
             </ol>
 

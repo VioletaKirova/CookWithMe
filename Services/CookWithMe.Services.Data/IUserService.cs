@@ -13,10 +13,12 @@
 
         Task<ApplicationUserServiceModel> GetById(string userId);
 
-        Task<bool> GetShoppingList(string userId, ShoppingListServiceModel shoppingListServiceModel);
-
-        bool CheckIfUserHasShoppingList(string userId, string shoppingListId);
+        Task<bool> SetShoppingList(string userId, ShoppingListServiceModel shoppingListServiceModel);
 
         Task SetUserToReview(string userId, Review review);
+
+        Task<bool> SetFavoriteRecipe(string userId, Recipe recipe);
+
+        Task<bool> SetCookedRecipe(string userId, Recipe recipe);
     }
 }

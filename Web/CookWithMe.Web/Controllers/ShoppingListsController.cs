@@ -6,7 +6,6 @@
     using CookWithMe.Services;
     using CookWithMe.Services.Data;
     using CookWithMe.Services.Mapping;
-    using CookWithMe.Services.Models;
     using CookWithMe.Web.ViewModels.ShoppingLists;
 
     using Microsoft.AspNetCore.Authorization;
@@ -18,17 +17,20 @@
         private readonly IShoppingListService shoppingListService;
         private readonly IRecipeService recipeService;
         private readonly IUserService userService;
+        private readonly IUserShoppingListService userShoppingListService;
         private readonly IStringFormatService stringFormatService;
 
         public ShoppingListsController(
             IShoppingListService shoppingListService,
             IRecipeService recipeService,
             IUserService userService,
+            IUserShoppingListService userShoppingListService,
             IStringFormatService stringFormatService)
         {
             this.shoppingListService = shoppingListService;
             this.recipeService = recipeService;
             this.userService = userService;
+            this.userShoppingListService = userShoppingListService;
             this.stringFormatService = stringFormatService;
         }
 
@@ -38,12 +40,14 @@
             var shoppingListServiceModel = await this.shoppingListService.GetById(id);
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var checkIfUserHasShoppingList = this.userService.CheckIfUserHasShoppingList(userId, shoppingListServiceModel.Id);
+
+            var checkIfUserHasShoppingList = await this.userShoppingListService
+                .ContainsByUserIdAndShoppingListId(userId, shoppingListServiceModel.Id);
 
             if (!checkIfUserHasShoppingList)
             {
                 await this.userService
-                    .GetShoppingList(userId, shoppingListServiceModel);
+                    .SetShoppingList(userId, shoppingListServiceModel);
             }
 
             var shoppingListViewModel = shoppingListServiceModel.To<ShoppingListDetailsViewModel>();
@@ -53,6 +57,16 @@
                 .SplitBySemicollonAndWhitespace(shoppingListServiceModel.Ingredients);
 
             return this.View(shoppingListViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Remove(string id)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            await this.userShoppingListService.Remove(userId, id);
+
+            return this.Redirect("/");
         }
     }
 }

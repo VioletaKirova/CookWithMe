@@ -15,17 +15,6 @@
 
         public int CookingTime { get; set; }
 
-        public string DisplayTime()
-        {
-            int neededTime = this.PreparationTime + this.CookingTime;
-
-            int hours = neededTime / 60;
-            int minutes = neededTime % 60;
-
-            return hours == 0 ?
-                $" {minutes} min" : minutes == 0 ?
-                $" {hours} h" :
-                $" {hours} h {minutes} min";
-        }
+        public string FormatedPreparationAndCookingTime { get; set; }
     }
 }

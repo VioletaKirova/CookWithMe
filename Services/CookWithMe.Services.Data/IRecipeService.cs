@@ -15,5 +15,9 @@
         Task<RecipeServiceModel> GetById(string id);
 
         Task SetRecipeToReview(string recipeId, Review review);
+
+        Task<bool> SetRecipeToUserFavoriteRecipes(string userId, string recipeId);
+
+        Task<bool> SetRecipeToUserCookedRecipes(string userId, string recipeId);
     }
 }

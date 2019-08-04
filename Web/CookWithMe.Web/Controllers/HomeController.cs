@@ -1,8 +1,10 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using CookWithMe.Services;
     using CookWithMe.Services.Data;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Web.ViewModels.Home.Index;
@@ -12,10 +14,12 @@
     public class HomeController : BaseController
     {
         private readonly IRecipeService recipeService;
+        private readonly IStringFormatService stringFormatService;
 
-        public HomeController(IRecipeService recipeService)
+        public HomeController(IRecipeService recipeService, IStringFormatService stringFormatService)
         {
             this.recipeService = recipeService;
+            this.stringFormatService = stringFormatService;
         }
 
         [HttpGet]
@@ -32,10 +36,17 @@
         public async Task<IActionResult> IndexLoggedIn()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var recipes = (await this.recipeService.GetAllFiltered(userId))
-                .To<RecipeHomeViewModel>();
+            var filteredRecipes = (await this.recipeService.GetAllFiltered(userId))
+                .To<RecipeHomeViewModel>()
+                .ToList();
 
-            return this.View(recipes);
+            foreach (var recipe in filteredRecipes)
+            {
+                recipe.FormatedPreparationAndCookingTime = this.stringFormatService
+                    .DisplayTime(recipe.PreparationTime + recipe.CookingTime);
+            }
+
+            return this.View(filteredRecipes);
         }
 
         public IActionResult Privacy()

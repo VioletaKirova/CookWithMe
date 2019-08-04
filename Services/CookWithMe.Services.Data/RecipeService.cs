@@ -138,5 +138,23 @@
 
             review.Recipe = recipe;
         }
+
+        public async Task<bool> SetRecipeToUserFavoriteRecipes(string userId, string recipeId)
+        {
+            var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(recipeId);
+
+            var result = await this.userService.SetFavoriteRecipe(userId, recipe);
+
+            return result;
+        }
+
+        public async Task<bool> SetRecipeToUserCookedRecipes(string userId, string recipeId)
+        {
+            var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(recipeId);
+
+            var result = await this.userService.SetCookedRecipe(userId, recipe);
+
+            return result;
+        }
     }
 }

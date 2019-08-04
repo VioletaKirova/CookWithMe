@@ -123,6 +123,9 @@
             services.AddTransient<IAdministratorService, AdministratorService>();
             services.AddTransient<IStringFormatService, StringFormatService>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<IUserShoppingListService, UserShoppingListService>();
+            services.AddTransient<IUserFavoriteRecipeService, UserFavoriteRecipeService>();
+            services.AddTransient<IUserCookedRecipeService, UserCookedRecipeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
