@@ -12,6 +12,8 @@
 
         IQueryable<string> GetAllTitles();
 
+        Task<CategoryServiceModel> GetById(int id);
+
         Task<bool> CreateAsync(CategoryServiceModel model);
 
         Task SetCategoryToRecipe(string categoryTitle, Recipe recipe);

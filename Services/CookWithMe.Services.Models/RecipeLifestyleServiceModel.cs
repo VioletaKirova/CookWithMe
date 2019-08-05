@@ -9,7 +9,7 @@
 
         public RecipeServiceModel Recipe { get; set; }
 
-        public int AllergenId { get; set; }
+        public int LifestyleId { get; set; }
 
         public LifestyleServiceModel Lifestyle { get; set; }
     }

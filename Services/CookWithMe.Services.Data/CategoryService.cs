@@ -53,6 +53,14 @@
                 .Select(x => x.Title);
         }
 
+        public async Task<CategoryServiceModel> GetById(int id)
+        {
+            var category = await this.categoryRepository
+                .GetByIdWithDeletedAsync(id);
+
+            return category.To<CategoryServiceModel>();
+        }
+
         public async Task SetCategoryToRecipe(string categoryTitle, Recipe recipe)
         {
             recipe.Category = await this.categoryRepository.All()

@@ -27,7 +27,7 @@
                     @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
                         <a href="#" class="button medium" style="float: right">Delete</a>
-                        <a href="#" class="button medium color" style="float: right; margin: 0 5px 0 0;">Edit</a>
+                        <a href="/Administration/Recipes/Edit/@Model.Id" class="button medium color" style="float: right; margin: 0 5px 0 0;">Edit</a>
                     }
                     else if (this.User.IsInRole(GlobalConstants.UserRoleName))
                     {

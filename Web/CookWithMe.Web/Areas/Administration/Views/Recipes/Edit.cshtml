@@ -1,0 +1,303 @@
+﻿@using CookWithMe.Web.ViewModels.Recipes;
+@model CookWithMe.Web.InputModels.Recipes.RecipeEditInputModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Titlebar
+================================================== -->
+<section id="titlebar">
+    <!-- Container -->
+    <div class="container">
+
+        <div class="eight columns">
+            <h2>Edit Recipe</h2>
+        </div>
+
+    </div>
+    <!-- Container / End -->
+</section>
+
+
+
+<!-- Content
+================================================== -->
+<div class="container">
+    <div class="sixteen columns">
+        <form asp-action="Edit" class="submit-recipe-form" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Title -->
+            <h4>Title</h4>
+            <nav class="title form-group">
+                <input asp-for="Title" class="form-control" type="text" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </nav>
+            <div class="clearfix"></div>
+
+
+            <div class="margin-top-25"></div>
+
+
+            <!-- Category -->
+            <div class="select form-group">
+                <h4>Category</h4>
+                <select asp-for="CategoryTitle" data-placeholder="Choose Category" class="chosen-select-no-single form-control">
+                    @foreach (var categoryTitle in ((RecipeEditViewModel)ViewData["Types"]).CategoryTitles)
+                    {
+                        <option value="@categoryTitle">@categoryTitle</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryTitle" class="text-danger"></span>
+            </div>
+
+
+            <div class="margin-top-25"></div>
+
+            <!-- Short Summary -->
+            <h4>Short Summary</h4>
+            <nav class="input-val form-group">
+                <textarea asp-for="Summary" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true"></textarea>
+                <span asp-validation-for="Summary" class="text-danger"></span>
+            </nav>
+
+
+            <div class="margin-top-25"></div>
+
+
+            <!-- Upload Photo -->
+            <h4>Photo</h4>
+            <div class="form-group">
+
+                <label asp-for="Photo" class="upload-btn">
+                    <i class="fa fa-upload"></i> Upload
+                    <input asp-for="Photo" type="file" class="form-control" />
+                </label>
+
+                <div class="margin-top-0"></div>
+
+                <span asp-validation-for="Photo" class="text-danger"></span>
+
+                <div class="margin-top-0"></div>
+
+                <span id="file-selected"></span>
+
+            </div>
+
+            <div class="clearfxix"></div>
+            <div class="margin-top-15"></div>
+
+
+            <!-- Ingredients -->
+            <h4>Ingredients</h4>
+            <nav class="input-val form-group">
+                <textarea asp-for="ShoppingList.Ingredients" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Milk - 150ml; Vegetable oil - 125ml; Chocolate - 100g; Sugar - 150g; Flour - 300g; Baking powder - 2tsp;&quot;"></textarea>
+                <span asp-validation-for="ShoppingList.Ingredients" class="text-danger"></span>
+            </nav>
+
+            <div class="margin-top-25"></div>
+
+
+            <!-- Directions -->
+            <h4>Directions</h4>
+            <nav class="input-val form-group">
+                <textarea asp-for="Directions" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Mix the dry and liquid ingredients separately; Start adding the dry mixture to the liquid one;&quot;"></textarea>
+                <span asp-validation-for="Directions" class="text-danger"></span>
+            </nav>
+
+            <div class="margin-top-25 clearfix"></div>
+
+
+            <!-- Additional Information -->
+            <h4>Additional Information</h4>
+
+            <fieldset class="additional-info">
+                <table>
+
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Preparation Time</label></td>
+                        <td>
+                            <input asp-for="PreparationTime" type="text" class="form-control" placeholder="In minutes" />
+                            <span asp-validation-for="PreparationTime" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Cooking Time</label></td>
+                        <td>
+                            <input asp-for="CookingTime" type="text" class="form-control" placeholder="In minutes" />
+                            <span asp-validation-for="CookingTime" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Needed Time</label></td>
+                        <td>
+                            <select asp-for="NeededTime" data-placeholder="Needed Time" class="chosen-select-no-single form-control">
+                                @foreach (var periodValue in ((RecipeEditViewModel)ViewData["Types"]).PeriodValues)
+                                {
+                                    <option value="@periodValue">@periodValue</option>
+                                }
+                            </select>
+                            <span asp-validation-for="NeededTime" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Skill Level</label></td>
+                        <td>
+                            <select asp-for="SkillLevel" data-placeholder="Skill Level" class="chosen-select-no-single form-control">
+                                @foreach (var levelValue in ((RecipeEditViewModel)ViewData["Types"]).LevelValues)
+                                {
+                                    <option value="@levelValue">@levelValue</option>
+                                }
+                            </select>
+                            <span asp-validation-for="SkillLevel" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Lifestyle</label></td>
+                        <td>
+                            <select asp-for="LifestyleTypes" data-placeholder="Multiple selection possible" class="chosen-select-no-single form-control" multiple>
+                                @foreach (var lifestyleType in ((RecipeEditViewModel)ViewData["Types"]).LifestyleTypes)
+                                {
+                                    <option value="@lifestyleType">@lifestyleType</option>
+                                }
+                            </select>
+                            <span asp-validation-for="LifestyleTypes" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Allergens</label></td>
+                        <td>
+                            <select asp-for="AllergenNames" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple>
+                                @foreach (var allergenName in ((RecipeEditViewModel)ViewData["Types"]).AllergenNames)
+                                {
+                                    <option value="@allergenName">@allergenName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="AllergenNames" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Serving</label></td>
+                        <td>
+                            <select asp-for="Serving" data-placeholder="Serving" class="chosen-select-no-single form-control">
+                                @foreach (var sizeValue in ((RecipeEditViewModel)ViewData["Types"]).SizeValues)
+                                {
+                                    <option value="@sizeValue">@sizeValue</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Serving" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Yield</label></td>
+                        <td>
+                            <input asp-for="Yield" class="form-control" />
+                            <span asp-validation-for="Yield" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                </table>
+            </fieldset>
+
+
+            <div class="margin-top-25"></div>
+
+
+            <!-- Nutritional Value -->
+            <h4>Nutritional Value</h4>
+
+            <fieldset class="additional-info">
+                <table>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Calories</label></td>
+                        <td>
+                            <input asp-for="NutritionalValue.Calories" class="form-control" />
+                            <span asp-validation-for="NutritionalValue.Calories" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Fats</label></td>
+                        <td>
+                            <input asp-for="NutritionalValue.Fats" class="form-control" />
+                            <span asp-validation-for="NutritionalValue.Fats" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Saturated Fats</label></td>
+                        <td>
+                            <input asp-for="NutritionalValue.SaturatedFats" class="form-control" />
+                            <span asp-validation-for="NutritionalValue.SaturatedFats" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Carbohydrates</label></td>
+                        <td>
+                            <input asp-for="NutritionalValue.Carbohydrates" class="form-control" />
+                            <span asp-validation-for="NutritionalValue.Carbohydrates" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Sugar</label></td>
+                        <td>
+                            <input asp-for="NutritionalValue.Sugar" class="form-control" />
+                            <span asp-validation-for="NutritionalValue.Sugar" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Protein</label></td>
+                        <td>
+                            <input asp-for="NutritionalValue.Protein" class="form-control" />
+                            <span asp-validation-for="NutritionalValue.Protein" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Fiber</label></td>
+                        <td>
+                            <input asp-for="NutritionalValue.Fiber" class="form-control" />
+                            <span asp-validation-for="NutritionalValue.Fiber" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="ingredients-cont form-group">
+                        <td class="label"><label>Salt</label></td>
+                        <td>
+                            <input asp-for="NutritionalValue.Salt" class="form-control" />
+                            <span asp-validation-for="NutritionalValue.Salt" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                </table>
+            </fieldset>
+
+            <div class="margin-top-30"></div>
+
+            <button type="submit" class="button color big">Edit</button>
+
+        </form>
+    </div>
+</div>
+<!-- Container / End -->
+
+<div class="margin-top-50"></div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

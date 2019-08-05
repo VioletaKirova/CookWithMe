@@ -1,6 +1,7 @@
 ﻿namespace CookWithMe.Services.Data
 {
     using System.Threading.Tasks;
+
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Models;
 
@@ -11,5 +12,7 @@
         Task<ShoppingListServiceModel> GetById(string id);
 
         Task SetShoppingListToUser(string id, ApplicationUser user);
+
+        Task Edit(string id, ShoppingListServiceModel model);
     }
 }

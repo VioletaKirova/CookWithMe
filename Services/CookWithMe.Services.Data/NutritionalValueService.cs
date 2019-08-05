@@ -18,6 +18,22 @@
             this.nutritionalValueRepository = nutritionalValueRepository;
         }
 
+        public async Task Edit(string id, NutritionalValueServiceModel model)
+        {
+            var nutritionalValueFromDb = await this.nutritionalValueRepository.GetByIdWithDeletedAsync(id);
+
+            nutritionalValueFromDb.Calories = model.Calories;
+            nutritionalValueFromDb.Fats = model.Fats;
+            nutritionalValueFromDb.SaturatedFats = model.SaturatedFats;
+            nutritionalValueFromDb.Carbohydrates = model.Carbohydrates;
+            nutritionalValueFromDb.Sugar = model.Sugar;
+            nutritionalValueFromDb.Protein = model.Protein;
+            nutritionalValueFromDb.Fiber = model.Fiber;
+            nutritionalValueFromDb.Salt = model.Salt;
+
+            this.nutritionalValueRepository.Update(nutritionalValueFromDb);
+        }
+
         public async Task<NutritionalValueServiceModel> GetById(string id)
         {
             var nutritionalValue = await this.nutritionalValueRepository

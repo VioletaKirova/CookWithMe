@@ -16,27 +16,33 @@
         private readonly IDeletableEntityRepository<Recipe> recipeRepository;
         private readonly ICategoryService categoryService;
         private readonly ILifestyleService lifestyleService;
+        private readonly IRecipeLifestyleService recipeLifestyleService;
         private readonly IUserService userService;
         private readonly IShoppingListService shoppingListService;
         private readonly INutritionalValueService nutritionalValueService;
         private readonly IAllergenService allergenService;
+        private readonly IRecipeAllergenService recipeAllergenService;
 
         public RecipeService(
             IDeletableEntityRepository<Recipe> recipeRepository,
             ICategoryService categoryService,
             ILifestyleService lifestyleService,
+            IRecipeLifestyleService recipeLifestyleService,
             IUserService userService,
             IShoppingListService shoppingListService,
             INutritionalValueService nutritionalValueService,
-            IAllergenService allergenService)
+            IAllergenService allergenService,
+            IRecipeAllergenService recipeAllergenService)
         {
             this.recipeRepository = recipeRepository;
             this.categoryService = categoryService;
             this.lifestyleService = lifestyleService;
+            this.recipeLifestyleService = recipeLifestyleService;
             this.userService = userService;
             this.shoppingListService = shoppingListService;
             this.nutritionalValueService = nutritionalValueService;
             this.allergenService = allergenService;
+            this.recipeAllergenService = recipeAllergenService;
         }
 
         public async Task<bool> CreateAsync(RecipeServiceModel recipeServiceModel)
@@ -126,8 +132,11 @@
             var recipeServiceModel = recipe.To<RecipeServiceModel>();
 
             recipeServiceModel.User = await this.userService.GetById(recipe.UserId);
+            recipeServiceModel.Category = await this.categoryService.GetById(recipe.CategoryId);
             recipeServiceModel.ShoppingList = await this.shoppingListService.GetById(recipe.ShoppingListId);
             recipeServiceModel.NutritionalValue = await this.nutritionalValueService.GetById(recipe.NutritionalValueId);
+            recipeServiceModel.Allergens = await this.recipeAllergenService.GetByRecipeId(recipe.Id);
+            recipeServiceModel.Lifestyles = await this.recipeLifestyleService.GetByRecipeId(recipe.Id);
 
             return recipeServiceModel;
         }
@@ -155,6 +164,44 @@
             var result = await this.userService.SetCookedRecipe(userId, recipe);
 
             return result;
+        }
+
+        public async Task<bool> Edit(string id, RecipeServiceModel model)
+        {
+            var recipeFromDb = await this.recipeRepository.GetByIdWithDeletedAsync(id);
+
+            recipeFromDb.Title = model.Title;
+            recipeFromDb.Summary = model.Summary;
+            recipeFromDb.Directions = model.Directions;
+            recipeFromDb.PreparationTime = model.PreparationTime;
+            recipeFromDb.CookingTime = model.CookingTime;
+            recipeFromDb.NeededTime = model.NeededTime;
+            recipeFromDb.SkillLevel = model.SkillLevel;
+            recipeFromDb.Serving = model.Serving;
+            recipeFromDb.Yield = model.Yield;
+
+            await this.categoryService.SetCategoryToRecipe(model.Category.Title, recipeFromDb);
+
+            await this.shoppingListService.Edit(recipeFromDb.ShoppingListId, model.ShoppingList);
+            await this.nutritionalValueService.Edit(recipeFromDb.NutritionalValueId, model.NutritionalValue);
+
+            this.recipeAllergenService.DeletePreviousAllergensByRecipeId(recipeFromDb.Id);
+            this.recipeLifestyleService.DeletePreviousLifestylesByRecipeId(recipeFromDb.Id);
+
+            foreach (var recipeAllergen in model.Allergens)
+            {
+                await this.allergenService.SetAllergenToRecipe(recipeAllergen.Allergen.Name, recipeFromDb);
+            }
+
+            foreach (var recipeLifestyle in model.Lifestyles)
+            {
+                await this.lifestyleService.SetLifestyleToRecipe(recipeLifestyle.Lifestyle.Type, recipeFromDb);
+            }
+
+            this.recipeRepository.Update(recipeFromDb);
+            var result = await this.recipeRepository.SaveChangesAsync();
+
+            return result > 0;
         }
     }
 }

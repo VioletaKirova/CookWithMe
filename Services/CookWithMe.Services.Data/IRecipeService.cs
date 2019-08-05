@@ -10,6 +10,8 @@
     {
         Task<bool> CreateAsync(RecipeServiceModel model);
 
+        Task<bool> Edit(string id, RecipeServiceModel model);
+
         Task<IEnumerable<RecipeServiceModel>> GetAllFiltered(string userId);
 
         Task<RecipeServiceModel> GetById(string id);
