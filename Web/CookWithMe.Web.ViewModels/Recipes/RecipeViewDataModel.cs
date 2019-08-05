@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class RecipeCreateViewModel
+    public class RecipeViewDataModel
     {
         public IEnumerable<string> CategoryTitles { get; set; }
 

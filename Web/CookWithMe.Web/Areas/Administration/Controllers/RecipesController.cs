@@ -47,45 +47,7 @@
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var categoryTitles = await this.categoryService.GetAllTitles().ToListAsync();
-            var allergenNames = await this.allergenService.GetAllNames().ToListAsync();
-            var lifestyleTypes = await this.lifestyleService.GetAllTypes().ToListAsync();
-            var periodNames = Enum.GetNames(typeof(Period));
-            var levelNames = Enum.GetNames(typeof(Level));
-            var sizeNames = Enum.GetNames(typeof(Size));
-
-            var periodDescriptions = new List<string>();
-
-            Type type = typeof(Period);
-
-            foreach (var periodValue in periodNames)
-            {
-                FieldInfo field = type.GetField(periodValue);
-                if (field != null)
-                {
-                    DescriptionAttribute attr =
-                           Attribute.GetCustomAttribute(
-                               field,
-                               typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-                    if (attr != null)
-                    {
-                        periodDescriptions.Add(attr.Description);
-                    }
-                }
-            }
-
-            var recipeCreateViewModel = new RecipeCreateViewModel
-            {
-                CategoryTitles = categoryTitles,
-                AllergenNames = allergenNames,
-                LifestyleTypes = lifestyleTypes,
-                PeriodValues = periodDescriptions,
-                LevelValues = levelNames,
-                SizeValues = sizeNames,
-            };
-
-            this.ViewData["Types"] = recipeCreateViewModel;
+            this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
             return this.View();
         }
@@ -95,45 +57,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var categoryTitles = await this.categoryService.GetAllTitles().ToListAsync();
-                var allergenNames = await this.allergenService.GetAllNames().ToListAsync();
-                var lifestyleTypes = await this.lifestyleService.GetAllTypes().ToListAsync();
-                var periodNames = Enum.GetNames(typeof(Period));
-                var levelNames = Enum.GetNames(typeof(Level));
-                var sizeNames = Enum.GetNames(typeof(Size));
-
-                var periodDescriptions = new List<string>();
-
-                Type type = typeof(Period);
-
-                foreach (var periodValue in periodNames)
-                {
-                    FieldInfo field = type.GetField(periodValue);
-                    if (field != null)
-                    {
-                        DescriptionAttribute attr =
-                               Attribute.GetCustomAttribute(
-                                   field,
-                                   typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-                        if (attr != null)
-                        {
-                            periodDescriptions.Add(attr.Description);
-                        }
-                    }
-                }
-
-                var recipeCreateViewModel = new RecipeCreateViewModel
-                {
-                    CategoryTitles = categoryTitles,
-                    AllergenNames = allergenNames,
-                    LifestyleTypes = lifestyleTypes,
-                    PeriodValues = periodDescriptions,
-                    LevelValues = levelNames,
-                    SizeValues = sizeNames,
-                };
-
-                this.ViewData["Types"] = recipeCreateViewModel;
+                this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
                 return this.View();
             }
@@ -165,9 +89,7 @@
                 });
             }
 
-            recipeServiceModel.NeededTime = (Period)Enum.Parse(
-                typeof(Period),
-                this.stringFormatService.RemoveWhiteSpaces(model.NeededTime));
+            recipeServiceModel.NeededTime = this.GetEnum(model.NeededTime, typeof(Period));
 
             await this.recipeService.CreateAsync(recipeServiceModel);
 
@@ -180,59 +102,9 @@
             var recipe = await this.recipeService.GetById(id);
             var recipeViewModel = recipe.To<RecipeEditInputModel>();
 
-            var categoryTitles = await this.categoryService.GetAllTitles().ToListAsync();
-            var allergenNames = await this.allergenService.GetAllNames().ToListAsync();
-            var lifestyleTypes = await this.lifestyleService.GetAllTypes().ToListAsync();
-            var periodNames = Enum.GetNames(typeof(Period));
-            var levelNames = Enum.GetNames(typeof(Level));
-            var sizeNames = Enum.GetNames(typeof(Size));
+            this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
-            var periodDescriptions = new List<string>();
-
-            Type type = typeof(Period);
-
-            foreach (var periodValue in periodNames)
-            {
-                FieldInfo field = type.GetField(periodValue);
-                if (field != null)
-                {
-                    DescriptionAttribute attr =
-                           Attribute.GetCustomAttribute(
-                               field,
-                               typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-                    if (attr != null)
-                    {
-                        periodDescriptions.Add(attr.Description);
-                    }
-                }
-            }
-
-            var recipeEditViewModel = new RecipeEditViewModel
-            {
-                CategoryTitles = categoryTitles,
-                AllergenNames = allergenNames,
-                LifestyleTypes = lifestyleTypes,
-                PeriodValues = periodDescriptions,
-                LevelValues = levelNames,
-                SizeValues = sizeNames,
-            };
-
-            this.ViewData["Types"] = recipeEditViewModel;
-
-            FieldInfo specificField = type.GetField(recipeViewModel.NeededTime);
-            if (specificField != null)
-            {
-                DescriptionAttribute attr =
-                       Attribute.GetCustomAttribute(
-                           specificField,
-                           typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-                if (attr != null)
-                {
-                    recipeViewModel.NeededTime = attr.Description;
-                }
-            }
+            recipeViewModel.NeededTime = this.GetEnumDescription(recipeViewModel.NeededTime, typeof(Period));
 
             var allergenNamesViewModel = new List<string>();
             foreach (var recipeAllergen in recipe.Allergens)
@@ -258,59 +130,9 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var categoryTitles = await this.categoryService.GetAllTitles().ToListAsync();
-                var allergenNames = await this.allergenService.GetAllNames().ToListAsync();
-                var lifestyleTypes = await this.lifestyleService.GetAllTypes().ToListAsync();
-                var periodNames = Enum.GetNames(typeof(Period));
-                var levelNames = Enum.GetNames(typeof(Level));
-                var sizeNames = Enum.GetNames(typeof(Size));
+                this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
-                var periodDescriptions = new List<string>();
-
-                Type type = typeof(Period);
-
-                foreach (var periodValue in periodNames)
-                {
-                    FieldInfo field = type.GetField(periodValue);
-                    if (field != null)
-                    {
-                        DescriptionAttribute attr =
-                               Attribute.GetCustomAttribute(
-                                   field,
-                                   typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-                        if (attr != null)
-                        {
-                            periodDescriptions.Add(attr.Description);
-                        }
-                    }
-                }
-
-                var recipeEditViewModel = new RecipeEditViewModel
-                {
-                    CategoryTitles = categoryTitles,
-                    AllergenNames = allergenNames,
-                    LifestyleTypes = lifestyleTypes,
-                    PeriodValues = periodDescriptions,
-                    LevelValues = levelNames,
-                    SizeValues = sizeNames,
-                };
-
-                this.ViewData["Types"] = recipeEditViewModel;
-
-                FieldInfo specificField = type.GetField(recipeViewModel.NeededTime);
-                if (specificField != null)
-                {
-                    DescriptionAttribute attr =
-                           Attribute.GetCustomAttribute(
-                               specificField,
-                               typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-                    if (attr != null)
-                    {
-                        recipeViewModel.NeededTime = attr.Description;
-                    }
-                }
+                recipeViewModel.NeededTime = this.GetEnumDescription(recipeViewModel.NeededTime, typeof(Period));
 
                 return this.View(recipeViewModel);
             }
@@ -342,13 +164,66 @@
                 });
             }
 
-            recipeServiceModel.NeededTime = (Period)Enum.Parse(
-                typeof(Period),
-                this.stringFormatService.RemoveWhiteSpaces(recipeViewModel.NeededTime));
+            recipeServiceModel.NeededTime = this.GetEnum(recipeViewModel.NeededTime, typeof(Period));
 
             await this.recipeService.Edit(id, recipeServiceModel);
 
             return this.Redirect("/");
+        }
+
+        private Period GetEnum(string description, Type typeOfEnum)
+        {
+            return (Period)Enum.Parse(
+                            typeOfEnum,
+                            this.stringFormatService.RemoveWhiteSpaces(description));
+        }
+
+        private string GetEnumDescription(string name, Type typeOfEnum)
+        {
+            FieldInfo specificField = typeOfEnum.GetField(name);
+
+            if (specificField != null)
+            {
+                DescriptionAttribute attr =
+                       Attribute.GetCustomAttribute(
+                           specificField,
+                           typeof(DescriptionAttribute)) as DescriptionAttribute;
+
+                if (attr != null)
+                {
+                    return attr.Description;
+                }
+            }
+
+            return null;
+        }
+
+        private async Task<RecipeViewDataModel> GetRecipeViewDataModel()
+        {
+            var categoryTitles = await this.categoryService.GetAllTitles().ToListAsync();
+            var allergenNames = await this.allergenService.GetAllNames().ToListAsync();
+            var lifestyleTypes = await this.lifestyleService.GetAllTypes().ToListAsync();
+            var periodNames = Enum.GetNames(typeof(Period));
+            var levelNames = Enum.GetNames(typeof(Level));
+            var sizeNames = Enum.GetNames(typeof(Size));
+
+            var periodDescriptions = new List<string>();
+            foreach (var periodName in periodNames)
+            {
+                periodDescriptions.Add(this.GetEnumDescription(periodName, typeof(Period)));
+            }
+
+            var recipeViewDataModel = new RecipeViewDataModel
+            {
+                CategoryTitles = categoryTitles,
+                AllergenNames = allergenNames,
+                LifestyleTypes = lifestyleTypes,
+                PeriodValues = periodDescriptions,
+                LevelValues = levelNames,
+                SizeValues = sizeNames,
+            };
+
+            return recipeViewDataModel;
         }
     }
 }
