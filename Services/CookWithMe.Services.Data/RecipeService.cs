@@ -203,5 +203,18 @@
 
             return result > 0;
         }
+
+        public async Task<bool> Delete(string id)
+        {
+            await this.shoppingListService.DeleteByRecipeId(id);
+            await this.nutritionalValueService.DeleteByRecipeId(id);
+
+            var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(id);
+
+            this.recipeRepository.Delete(recipe);
+            var result = await this.recipeRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
     }
 }

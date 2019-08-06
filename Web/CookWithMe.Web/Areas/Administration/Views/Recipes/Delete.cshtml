@@ -1,8 +1,8 @@
 ﻿@using CookWithMe.Web.ViewModels.Recipes;
-@model CookWithMe.Web.InputModels.Recipes.RecipeCreateInputModel
+@model CookWithMe.Web.InputModels.Recipes.RecipeDeleteViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -26,13 +26,13 @@
 ================================================== -->
 <div class="container">
     <div class="sixteen columns">
-        <form asp-action="Create" class="submit-recipe-form" enctype="multipart/form-data">
+        <form asp-action="Delete" class="submit-recipe-form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <!-- Title -->
             <h4>Title</h4>
             <nav class="title form-group">
-                <input asp-for="Title" class="form-control" type="text" />
+                <input asp-for="Title" class="form-control" type="text" disabled />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </nav>
             <div class="clearfix"></div>
@@ -44,7 +44,7 @@
             <!-- Category -->
             <div class="select form-group">
                 <h4>Category</h4>
-                <select asp-for="CategoryTitle" data-placeholder="Choose Category" class="chosen-select-no-single form-control">
+                <select asp-for="CategoryTitle" data-placeholder="Choose Category" class="chosen-select-no-single form-control" disabled>
                     @foreach (var categoryTitle in ((RecipeViewDataModel)ViewData["Model"]).CategoryTitles)
                     {
                         <option value="@categoryTitle">@categoryTitle</option>
@@ -59,7 +59,7 @@
             <!-- Short Summary -->
             <h4>Short Summary</h4>
             <nav class="input-val form-group">
-                <textarea asp-for="Summary" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true"></textarea>
+                <textarea asp-for="Summary" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" disabled></textarea>
                 <span asp-validation-for="Summary" class="text-danger"></span>
             </nav>
 
@@ -73,7 +73,7 @@
 
                 <label asp-for="Photo" class="upload-btn">
                     <i class="fa fa-upload"></i> Upload
-                    <input asp-for="Photo" type="file" class="form-control" />
+                    <input asp-for="Photo" type="file" class="form-control" disabled />
                 </label>
 
                 <div class="margin-top-0"></div>
@@ -93,7 +93,7 @@
             <!-- Ingredients -->
             <h4>Ingredients</h4>
             <nav class="input-val form-group">
-                <textarea asp-for="ShoppingList.Ingredients" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Milk - 150ml; Vegetable oil - 125ml; Chocolate - 100g; Sugar - 150g; Flour - 300g; Baking powder - 2tsp;&quot;"></textarea>
+                <textarea asp-for="ShoppingList.Ingredients" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Milk - 150ml; Vegetable oil - 125ml; Chocolate - 100g; Sugar - 150g; Flour - 300g; Baking powder - 2tsp;&quot;" disabled ></textarea>
                 <span asp-validation-for="ShoppingList.Ingredients" class="text-danger"></span>
             </nav>
 
@@ -103,7 +103,7 @@
             <!-- Directions -->
             <h4>Directions</h4>
             <nav class="input-val form-group">
-                <textarea asp-for="Directions" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Mix the dry and liquid ingredients separately; Start adding the dry mixture to the liquid one;&quot;"></textarea>
+                <textarea asp-for="Directions" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Mix the dry and liquid ingredients separately; Start adding the dry mixture to the liquid one;&quot;" disabled ></textarea>
                 <span asp-validation-for="Directions" class="text-danger"></span>
             </nav>
 
@@ -116,17 +116,19 @@
             <fieldset class="additional-info">
                 <table>
 
-                    
+
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Preparation Time</label></td>
-                        <td><input asp-for="PreparationTime" type="text" class="form-control" placeholder="In minutes" />
-                            <span asp-validation-for="PreparationTime" class="text-danger"></span></td>
+                        <td>
+                            <input asp-for="PreparationTime" type="text" class="form-control" placeholder="In minutes" disabled />
+                            <span asp-validation-for="PreparationTime" class="text-danger"></span>
+                        </td>
                     </tr>
 
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Cooking Time</label></td>
                         <td>
-                            <input asp-for="CookingTime" type="text" class="form-control" placeholder="In minutes" />
+                            <input asp-for="CookingTime" type="text" class="form-control" placeholder="In minutes" disabled />
                             <span asp-validation-for="CookingTime" class="text-danger"></span>
                         </td>
                     </tr>
@@ -134,7 +136,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Needed Time</label></td>
                         <td>
-                            <select asp-for="NeededTime" data-placeholder="Needed Time" class="chosen-select-no-single form-control">
+                            <select asp-for="NeededTime" data-placeholder="Needed Time" class="chosen-select-no-single form-control" disabled >
                                 @foreach (var periodValue in ((RecipeViewDataModel)ViewData["Model"]).PeriodValues)
                                 {
                                     <option value="@periodValue">@periodValue</option>
@@ -147,7 +149,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Skill Level</label></td>
                         <td>
-                            <select asp-for="SkillLevel" data-placeholder="Skill Level" class="chosen-select-no-single form-control">
+                            <select asp-for="SkillLevel" data-placeholder="Skill Level" class="chosen-select-no-single form-control" disabled >
                                 @foreach (var levelValue in ((RecipeViewDataModel)ViewData["Model"]).LevelValues)
                                 {
                                     <option value="@levelValue">@levelValue</option>
@@ -160,7 +162,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Lifestyle</label></td>
                         <td>
-                            <select asp-for="LifestyleTypes" data-placeholder="Multiple selection possible" class="chosen-select-no-single form-control" multiple>
+                            <select asp-for="LifestyleTypes" data-placeholder="Multiple selection possible" class="chosen-select-no-single form-control" multiple disabled >
                                 @foreach (var lifestyleType in ((RecipeViewDataModel)ViewData["Model"]).LifestyleTypes)
                                 {
                                     <option value="@lifestyleType">@lifestyleType</option>
@@ -173,7 +175,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Allergens</label></td>
                         <td>
-                            <select asp-for="AllergenNames" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple>
+                            <select asp-for="AllergenNames" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple disabled >
                                 @foreach (var allergenName in ((RecipeViewDataModel)ViewData["Model"]).AllergenNames)
                                 {
                                     <option value="@allergenName">@allergenName</option>
@@ -186,7 +188,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Serving</label></td>
                         <td>
-                            <select asp-for="Serving" data-placeholder="Serving" class="chosen-select-no-single form-control">
+                            <select asp-for="Serving" data-placeholder="Serving" class="chosen-select-no-single form-control" disabled >
                                 @foreach (var sizeValue in ((RecipeViewDataModel)ViewData["Model"]).SizeValues)
                                 {
                                     <option value="@sizeValue">@sizeValue</option>
@@ -199,7 +201,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Yield</label></td>
                         <td>
-                            <input asp-for="Yield" class="form-control"  />
+                            <input asp-for="Yield" class="form-control" disabled />
                             <span asp-validation-for="Yield" class="text-danger"></span>
                         </td>
                     </tr>
@@ -220,7 +222,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Calories</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Calories" class="form-control" />
+                            <input asp-for="NutritionalValue.Calories" class="form-control" disabled />
                             <span asp-validation-for="NutritionalValue.Calories" class="text-danger"></span>
                         </td>
                     </tr>
@@ -228,7 +230,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Fats</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Fats" class="form-control" />
+                            <input asp-for="NutritionalValue.Fats" class="form-control" disabled />
                             <span asp-validation-for="NutritionalValue.Fats" class="text-danger"></span>
                         </td>
                     </tr>
@@ -236,7 +238,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Saturated Fats</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.SaturatedFats" class="form-control" />
+                            <input asp-for="NutritionalValue.SaturatedFats" class="form-control" disabled />
                             <span asp-validation-for="NutritionalValue.SaturatedFats" class="text-danger"></span>
                         </td>
                     </tr>
@@ -244,7 +246,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Carbohydrates</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Carbohydrates" class="form-control" />
+                            <input asp-for="NutritionalValue.Carbohydrates" class="form-control" disabled />
                             <span asp-validation-for="NutritionalValue.Carbohydrates" class="text-danger"></span>
                         </td>
                     </tr>
@@ -252,7 +254,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Sugar</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Sugar" class="form-control" />
+                            <input asp-for="NutritionalValue.Sugar" class="form-control" disabled />
                             <span asp-validation-for="NutritionalValue.Sugar" class="text-danger"></span>
                         </td>
                     </tr>
@@ -260,7 +262,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Protein</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Protein" class="form-control" />
+                            <input asp-for="NutritionalValue.Protein" class="form-control" disabled />
                             <span asp-validation-for="NutritionalValue.Protein" class="text-danger"></span>
                         </td>
                     </tr>
@@ -268,7 +270,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Fiber</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Fiber" class="form-control" />
+                            <input asp-for="NutritionalValue.Fiber" class="form-control" disabled />
                             <span asp-validation-for="NutritionalValue.Fiber" class="text-danger"></span>
                         </td>
                     </tr>
@@ -276,7 +278,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Salt</label></td>
                         <td>
-                            <input asp-for="NutritionalValue.Salt" class="form-control" />
+                            <input asp-for="NutritionalValue.Salt" class="form-control" disabled />
                             <span asp-validation-for="NutritionalValue.Salt" class="text-danger"></span>
                         </td>
                     </tr>
@@ -286,7 +288,7 @@
 
             <div class="margin-top-30"></div>
 
-            <button type="submit" class="button color big">Submit</button>
+            <button type="submit" class="button color big">Delete</button>
 
         </form>
     </div>

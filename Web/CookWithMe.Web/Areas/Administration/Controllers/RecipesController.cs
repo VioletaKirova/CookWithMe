@@ -171,6 +171,44 @@
             return this.Redirect("/");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var recipe = await this.recipeService.GetById(id);
+            var recipeViewModel = recipe.To<RecipeDeleteViewModel>();
+
+            this.ViewData["Model"] = await this.GetRecipeViewDataModel();
+
+            recipeViewModel.NeededTime = this.GetEnumDescription(recipeViewModel.NeededTime, typeof(Period));
+
+            var allergenNamesViewModel = new List<string>();
+            foreach (var recipeAllergen in recipe.Allergens)
+            {
+                allergenNamesViewModel.Add(recipeAllergen.Allergen.Name);
+            }
+
+            recipeViewModel.AllergenNames = allergenNamesViewModel;
+
+            var lifestyleTypesViewModel = new List<string>();
+            foreach (var recipeLifestyle in recipe.Lifestyles)
+            {
+                lifestyleTypesViewModel.Add(recipeLifestyle.Lifestyle.Type);
+            }
+
+            recipeViewModel.LifestyleTypes = lifestyleTypesViewModel;
+
+            return this.View(recipeViewModel);
+        }
+
+        [HttpPost]
+        [Route("/Administration/Recipes/Delete/{id}")]
+        public async Task<IActionResult> DeleteConfirm(string id)
+        {
+            await this.recipeService.Delete(id);
+
+            return this.Redirect("/");
+        }
+
         private Period GetEnum(string description, Type typeOfEnum)
         {
             return (Period)Enum.Parse(

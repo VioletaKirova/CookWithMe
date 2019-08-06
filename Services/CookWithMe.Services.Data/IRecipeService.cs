@@ -21,5 +21,7 @@
         Task<bool> SetRecipeToUserFavoriteRecipes(string userId, string recipeId);
 
         Task<bool> SetRecipeToUserCookedRecipes(string userId, string recipeId);
+
+        Task<bool> Delete(string id);
     }
 }

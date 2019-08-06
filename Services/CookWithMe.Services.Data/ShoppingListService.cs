@@ -18,6 +18,18 @@
             this.shoppingListRepository = shoppingListRepository;
         }
 
+        public async Task<bool> DeleteByRecipeId(string recipeId)
+        {
+            var shoppingList = await this.shoppingListRepository
+                .All()
+                .SingleOrDefaultAsync(x => x.RecipeId == recipeId);
+
+            this.shoppingListRepository.Delete(shoppingList);
+            var result = await this.shoppingListRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
         public async Task Edit(string id, ShoppingListServiceModel model)
         {
             var shoppingListFromDb = await this.shoppingListRepository.GetByIdWithDeletedAsync(id);

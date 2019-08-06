@@ -11,5 +11,7 @@
         Task<NutritionalValueServiceModel> GetById(string id);
 
         Task Edit(string id, NutritionalValueServiceModel model);
+
+        Task<bool> DeleteByRecipeId(string recipeId);
     }
 }

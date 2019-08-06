@@ -14,5 +14,7 @@
         Task SetShoppingListToUser(string id, ApplicationUser user);
 
         Task Edit(string id, ShoppingListServiceModel model);
+
+        Task<bool> DeleteByRecipeId(string recipeId);
     }
 }
