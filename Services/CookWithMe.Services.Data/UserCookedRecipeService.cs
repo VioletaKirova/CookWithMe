@@ -59,5 +59,13 @@
 
             return result > 0;
         }
+
+        public IQueryable<string> GetRecipeIdsByUserId(string userId)
+        {
+            return this.userCookedRecipeRepository
+                .AllAsNoTracking()
+                .Where(x => x.UserId == userId)
+                .Select(x => x.RecipeId);
+        }
     }
 }

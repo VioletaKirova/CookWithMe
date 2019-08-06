@@ -10,6 +10,7 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     public class RecipesController : BaseController
     {
@@ -108,6 +109,42 @@
             await this.userCookedRecipeService.DeleteByUserIdAndRecipeId(userId, id);
 
             return this.Redirect($"/Recipes/Details/{id}");
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Favorite()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var favoriteRecipesIds = await this.userFavoriteRecipeService
+                .GetRecipeIdsByUserId(userId)
+                .ToListAsync();
+
+            var recipeFavoriteViewModel = await this.recipeService
+                .GetByIds(favoriteRecipesIds)
+                .To<RecipeFavoriteViewModel>()
+                .ToListAsync();
+
+            return this.View(recipeFavoriteViewModel);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Cooked()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var cookedRecipesIds = await this.userCookedRecipeService
+                .GetRecipeIdsByUserId(userId)
+                .ToListAsync();
+
+            var recipeCookedViewModel = await this.recipeService
+                .GetByIds(cookedRecipesIds)
+                .To<RecipeCookedViewModel>()
+                .ToListAsync();
+
+            return this.View(recipeCookedViewModel);
         }
     }
 }

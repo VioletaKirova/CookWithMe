@@ -235,5 +235,12 @@
                 .Where(x => x.CategoryId == categoryId)
                 .To<RecipeServiceModel>();
         }
+
+        public IQueryable<RecipeServiceModel> GetByIds(IEnumerable<string> recipeIds)
+        {
+            return this.recipeRepository.AllAsNoTracking()
+                .Where(x => recipeIds.Contains(x.Id))
+                .To<RecipeServiceModel>();
+        }
     }
 }

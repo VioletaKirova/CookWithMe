@@ -26,5 +26,7 @@
         Task<bool> Delete(string id);
 
         IQueryable<RecipeServiceModel> GetAllByCategoryId(int categoryId);
+
+        IQueryable<RecipeServiceModel> GetByIds(IEnumerable<string> recipeIds);
     }
 }
