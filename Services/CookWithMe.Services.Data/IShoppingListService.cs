@@ -15,6 +15,6 @@
 
         Task Edit(string id, ShoppingListServiceModel model);
 
-        Task<bool> DeleteByRecipeId(string recipeId);
+        Task<bool> Delete(string id);
     }
 }

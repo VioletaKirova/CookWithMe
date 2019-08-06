@@ -6,6 +6,8 @@
     {
         Task<bool> ContainsByUserIdAndRecipeId(string userId, string recipeId);
 
-        Task<bool> Remove(string userId, string recipeId);
+        Task<bool> DeleteByUserIdAndRecipeId(string userId, string recipeId);
+
+        Task<bool> DeleteByRecipeId(string recipeId);
     }
 }

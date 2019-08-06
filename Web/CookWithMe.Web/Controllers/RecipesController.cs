@@ -82,7 +82,7 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.userFavoriteRecipeService.Remove(userId, id);
+            await this.userFavoriteRecipeService.DeleteByUserIdAndRecipeId(userId, id);
 
             return this.Redirect($"/Recipes/Details/{id}");
         }
@@ -102,7 +102,7 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.userCookedRecipeService.Remove(userId, id);
+            await this.userCookedRecipeService.DeleteByUserIdAndRecipeId(userId, id);
 
             return this.Redirect($"/Recipes/Details/{id}");
         }

@@ -18,11 +18,9 @@
             this.nutritionalValueRepository = nutritionalValueRepository;
         }
 
-        public async Task<bool> DeleteByRecipeId(string recipeId)
+        public async Task<bool> Delete(string id)
         {
-            var nutritionalValue = await this.nutritionalValueRepository
-                .All()
-                .SingleOrDefaultAsync(x => x.RecipeId == recipeId);
+            var nutritionalValue = await this.nutritionalValueRepository.GetByIdWithDeletedAsync(id);
 
             this.nutritionalValueRepository.Delete(nutritionalValue);
             var result = await this.nutritionalValueRepository.SaveChangesAsync();

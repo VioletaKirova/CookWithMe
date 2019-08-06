@@ -1,0 +1,38 @@
+﻿@model IEnumerable<CookWithMe.Web.ViewModels.ShoppingLists.ShoppingListAllViewModel>
+
+@{
+    ViewData["Title"] = "All";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Titlebar
+================================================== -->
+<section id="titlebar">
+    <!-- Container -->
+    <div class="container">
+
+        <div class="eight columns">
+            <h2>My Shopping Lists</h2>
+        </div>
+
+    </div>
+    <!-- Container / End -->
+</section>
+
+
+
+<!-- Content
+================================================== -->
+<div class="container">
+    <div class="sixteen columns">
+        <ol class="directions" itemprop="recipeInstructions">
+            @foreach (var shoppingList in Model)
+            {
+                <li>
+                    <h4><a href="/ShoppingLists/Details/@shoppingList.Id">@shoppingList.RecipeTitle</a></h4>
+                </li>
+            }
+        </ol>
+    </div>
+</div>
+

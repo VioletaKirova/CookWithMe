@@ -19,9 +19,12 @@
         private readonly IRecipeLifestyleService recipeLifestyleService;
         private readonly IUserService userService;
         private readonly IShoppingListService shoppingListService;
+        private readonly IUserShoppingListService userShoppingListService;
         private readonly INutritionalValueService nutritionalValueService;
         private readonly IAllergenService allergenService;
         private readonly IRecipeAllergenService recipeAllergenService;
+        private readonly IUserFavoriteRecipeService userFavoriteRecipeService;
+        private readonly IUserCookedRecipeService userCookedRecipeService;
 
         public RecipeService(
             IDeletableEntityRepository<Recipe> recipeRepository,
@@ -30,9 +33,12 @@
             IRecipeLifestyleService recipeLifestyleService,
             IUserService userService,
             IShoppingListService shoppingListService,
+            IUserShoppingListService userShoppingListService,
             INutritionalValueService nutritionalValueService,
             IAllergenService allergenService,
-            IRecipeAllergenService recipeAllergenService)
+            IRecipeAllergenService recipeAllergenService,
+            IUserFavoriteRecipeService userFavoriteRecipeService,
+            IUserCookedRecipeService userCookedRecipeService)
         {
             this.recipeRepository = recipeRepository;
             this.categoryService = categoryService;
@@ -40,9 +46,12 @@
             this.recipeLifestyleService = recipeLifestyleService;
             this.userService = userService;
             this.shoppingListService = shoppingListService;
+            this.userShoppingListService = userShoppingListService;
             this.nutritionalValueService = nutritionalValueService;
             this.allergenService = allergenService;
             this.recipeAllergenService = recipeAllergenService;
+            this.userFavoriteRecipeService = userFavoriteRecipeService;
+            this.userCookedRecipeService = userCookedRecipeService;
         }
 
         public async Task<bool> CreateAsync(RecipeServiceModel recipeServiceModel)
@@ -206,10 +215,14 @@
 
         public async Task<bool> Delete(string id)
         {
-            await this.shoppingListService.DeleteByRecipeId(id);
-            await this.nutritionalValueService.DeleteByRecipeId(id);
-
             var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(id);
+
+            await this.userShoppingListService.DeleteByShoppingListId(recipe.ShoppingListId);
+            await this.userFavoriteRecipeService.DeleteByRecipeId(id);
+            await this.userCookedRecipeService.DeleteByRecipeId(id);
+
+            await this.shoppingListService.Delete(recipe.ShoppingListId);
+            await this.nutritionalValueService.Delete(recipe.NutritionalValueId);
 
             this.recipeRepository.Delete(recipe);
             var result = await this.recipeRepository.SaveChangesAsync();

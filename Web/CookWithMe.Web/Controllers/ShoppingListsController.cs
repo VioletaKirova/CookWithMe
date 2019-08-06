@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -60,13 +61,33 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Remove(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             await this.userShoppingListService.Remove(userId, id);
 
-            return this.Redirect("/");
+            return this.RedirectToAction("All");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> All()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var shoppingListIds = await this.userShoppingListService.GetUserShoppingListIds(userId);
+            var shoppingLists = new List<ShoppingListAllViewModel>();
+
+            foreach (var id in shoppingListIds)
+            {
+                shoppingLists.Add((await this.shoppingListService.GetById(id)).To<ShoppingListAllViewModel>());
+            }
+
+            foreach (var shoppingList in shoppingLists)
+            {
+                shoppingList.RecipeTitle = (await this.recipeService.GetById(shoppingList.RecipeId)).Title;
+            }
+
+            return this.View(shoppingLists);
         }
     }
 }

@@ -28,7 +28,26 @@
             return userCookedRecipesIds.Contains(recipeId);
         }
 
-        public async Task<bool> Remove(string userId, string recipeId)
+        public async Task<bool> DeleteByRecipeId(string recipeId)
+        {
+            var userCookedRecipes = this.userCookedRecipeRepository
+                .All()
+                .Where(x => x.RecipeId == recipeId);
+
+            if (userCookedRecipes.Any())
+            {
+                foreach (var userCookedRecipe in userCookedRecipes)
+                {
+                    this.userCookedRecipeRepository.Delete(userCookedRecipe);
+                }
+            }
+
+            var result = await this.userCookedRecipeRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public async Task<bool> DeleteByUserIdAndRecipeId(string userId, string recipeId)
         {
             var userCookedRecipe = await this.userCookedRecipeRepository
                 .All()

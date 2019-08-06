@@ -146,9 +146,12 @@
                 }
             </ul>
 
-            <div class="margin-top-20"></div>
+            @if (this.User.IsInRole(GlobalConstants.UserRoleName))
+            {
+                <div class="margin-top-20"></div>
 
-            <a href="/ShoppingLists/Details/@Model.ShoppingListId" class="button medium color">Get Shopping List</a>
+                <a href="/ShoppingLists/Details/@Model.ShoppingListId" class="button medium color">Get Shopping List</a>
+            }
 
             <div class="margin-top-20"></div>
 
@@ -166,7 +169,7 @@
             <div class="margin-bottom-20"></div>
 
             <!-- Comments
-            ================================================== -->
+    ================================================== -->
             <h3 class="headline">Reviews <span class="comments-amount">(@Model.Reviews.Count())</span></h3><span class="line"></span><div class="clearfix"></div>
 
             <!-- Reviews -->
@@ -227,7 +230,7 @@
             <div class="clearfix"></div>
 
             <!-- Add Review
-            ================================================== -->
+    ================================================== -->
             <!-- Add Review Form -->
             <a href="/Reviews/Create/@Model.Id" class="button medium color">Add Review</a>
             <div class="clearfix"></div>

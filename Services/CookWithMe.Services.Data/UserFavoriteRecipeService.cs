@@ -28,7 +28,26 @@
             return userFavoriteRecipesIds.Contains(recipeId);
         }
 
-        public async Task<bool> Remove(string userId, string recipeId)
+        public async Task<bool> DeleteByRecipeId(string recipeId)
+        {
+            var userFavoriteRecipes = this.userFavoriteRecipeRepository
+                .All()
+                .Where(x => x.RecipeId == recipeId);
+
+            if (userFavoriteRecipes.Any())
+            {
+                foreach (var userFavoriteRecipe in userFavoriteRecipes)
+                {
+                    this.userFavoriteRecipeRepository.Delete(userFavoriteRecipe);
+                }
+            }
+
+            var result = await this.userFavoriteRecipeRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public async Task<bool> DeleteByUserIdAndRecipeId(string userId, string recipeId)
         {
             var userFavoriteRecipe = await this.userFavoriteRecipeRepository
                 .All()
