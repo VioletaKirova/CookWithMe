@@ -9,8 +9,6 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
 
-    using Microsoft.EntityFrameworkCore;
-
     public class RecipeService : IRecipeService
     {
         private readonly IDeletableEntityRepository<Recipe> recipeRepository;
@@ -87,47 +85,48 @@
             return result > 0;
         }
 
-        public async Task<IEnumerable<RecipeServiceModel>> GetAllFiltered(string userId)
+        public async Task<IQueryable<RecipeServiceModel>> GetAllFiltered(string userId)
         {
             var user = await this.userService.GetById(userId);
 
-            var recipesFilteredByLifestyle = new List<RecipeServiceModel>();
+            IQueryable<RecipeServiceModel> recipesFilteredByLifestyle = null;
 
             if (user.LifestyleId != null)
             {
                 var userLifestyleId = user.LifestyleId;
 
-                recipesFilteredByLifestyle = await this.recipeRepository
+                recipesFilteredByLifestyle = this.recipeRepository
                     .AllAsNoTracking()
                     .Where(x => x.Lifestyles.Select(r => r.Lifestyle.Id).Contains(userLifestyleId.Value))
-                    .To<RecipeServiceModel>()
-                    .ToListAsync();
+                    .To<RecipeServiceModel>();
             }
             else
             {
-                recipesFilteredByLifestyle = await this.recipeRepository
+                recipesFilteredByLifestyle = this.recipeRepository
                     .AllAsNoTracking()
-                    .To<RecipeServiceModel>()
-                    .ToListAsync();
+                    .To<RecipeServiceModel>();
             }
 
-            var recipesFilteredByLifestyleAndAllergies = new List<RecipeServiceModel>();
+            IQueryable<RecipeServiceModel> recipesFilteredByLifestyleAndAllergies = null;
 
             if (user.Allergies != null)
             {
                 var userAllergens = user.Allergies.Select(x => x.Allergen);
 
-                foreach (var recipe in recipesFilteredByLifestyle)
-                {
-                    var recipeAllergens = recipe.Allergens.Select(x => x.Allergen);
+                recipesFilteredByLifestyleAndAllergies = recipesFilteredByLifestyle
+                    .Where(r => r.Allergens.Select(ra => ra.Allergen).Any(a => userAllergens.Contains(a)));
 
-                    if (recipeAllergens.Any(x => userAllergens.Contains(x)))
-                    {
-                        continue;
-                    }
+                //foreach (var recipe in recipesFilteredByLifestyle)
+                //{
+                //    var recipeAllergens = recipe.Allergens.Select(x => x.Allergen);
 
-                    recipesFilteredByLifestyleAndAllergies.Add(recipe);
-                }
+                //    if (recipeAllergens.Any(x => userAllergens.Contains(x)))
+                //    {
+                //        continue;
+                //    }
+
+                //    recipesFilteredByLifestyleAndAllergies.Add(recipe);
+                //}
             }
 
             return recipesFilteredByLifestyleAndAllergies.Count() == 0 ?
@@ -137,15 +136,15 @@
 
         public async Task<RecipeServiceModel> GetById(string id)
         {
-            var recipe = await this.recipeRepository.All().SingleOrDefaultAsync(x => x.Id == id);
+            var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(id);
             var recipeServiceModel = recipe.To<RecipeServiceModel>();
 
             recipeServiceModel.User = await this.userService.GetById(recipe.UserId);
             recipeServiceModel.Category = await this.categoryService.GetById(recipe.CategoryId);
             recipeServiceModel.ShoppingList = await this.shoppingListService.GetById(recipe.ShoppingListId);
             recipeServiceModel.NutritionalValue = await this.nutritionalValueService.GetById(recipe.NutritionalValueId);
-            recipeServiceModel.Allergens = await this.recipeAllergenService.GetByRecipeId(recipe.Id);
-            recipeServiceModel.Lifestyles = await this.recipeLifestyleService.GetByRecipeId(recipe.Id);
+            recipeServiceModel.Allergens = await this.recipeAllergenService.GetByRecipeId(id);
+            recipeServiceModel.Lifestyles = await this.recipeLifestyleService.GetByRecipeId(id);
 
             return recipeServiceModel;
         }
@@ -228,6 +227,13 @@
             var result = await this.recipeRepository.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        public IQueryable<RecipeServiceModel> GetAllByCategoryId(int categoryId)
+        {
+            return this.recipeRepository.AllAsNoTracking()
+                .Where(x => x.CategoryId == categoryId)
+                .To<RecipeServiceModel>();
         }
     }
 }

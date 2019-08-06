@@ -5,7 +5,7 @@
 
     public class CategoryServiceModel : IMapTo<Category>, IMapFrom<Category>
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string Title { get; set; }
     }

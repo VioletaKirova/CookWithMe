@@ -5,7 +5,8 @@
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
-
+    using CookWithMe.Services.Mapping;
+    using CookWithMe.Services.Models;
     using Microsoft.EntityFrameworkCore;
 
     public class LifestyleService : ILifestyleService
@@ -39,6 +40,14 @@
             return this.lifestyleRepository
                 .AllAsNoTracking()
                 .Select(x => x.Type);
+        }
+
+        public async Task<LifestyleServiceModel> GetById(int id)
+        {
+            return (await this.lifestyleRepository
+                .AllAsNoTracking()
+                .SingleOrDefaultAsync(x => x.Id == id))
+                .To<LifestyleServiceModel>();
         }
 
         public async Task SetLifestyleToRecipe(string lifestyleType, Recipe recipe)

@@ -17,5 +17,7 @@
         Task<bool> CreateAsync(CategoryServiceModel model);
 
         Task SetCategoryToRecipe(string categoryTitle, Recipe recipe);
+
+        IQueryable<CategoryServiceModel> GetAll();
     }
 }

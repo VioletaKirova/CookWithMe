@@ -11,7 +11,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize]
     public class RecipesController : BaseController
     {
         private readonly IRecipeService recipeService;
@@ -67,6 +66,7 @@
             return this.View(recipeViewModel);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> AddToFavorites(string id)
         {
@@ -77,6 +77,7 @@
             return this.Redirect($"/Recipes/Details/{id}");
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> RemoveFromFavorites(string id)
         {
@@ -87,6 +88,7 @@
             return this.Redirect($"/Recipes/Details/{id}");
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> AddToCooked(string id)
         {
@@ -97,6 +99,7 @@
             return this.Redirect($"/Recipes/Details/{id}");
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> RemoveFromCooked(string id)
         {

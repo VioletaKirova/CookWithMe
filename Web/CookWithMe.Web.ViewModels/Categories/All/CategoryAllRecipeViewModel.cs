@@ -1,9 +1,9 @@
-﻿namespace CookWithMe.Web.ViewModels.Home.Index
+﻿namespace CookWithMe.Web.ViewModels.Categories.All
 {
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
 
-    public class RecipeHomeViewModel : IMapFrom<RecipeServiceModel>
+    public class CategoryAllRecipeViewModel : IMapFrom<RecipeServiceModel>
     {
         public string Id { get; set; }
 

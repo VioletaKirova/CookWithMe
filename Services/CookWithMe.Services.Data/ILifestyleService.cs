@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using CookWithMe.Data.Models;
+    using CookWithMe.Services.Models;
 
     public interface ILifestyleService
     {
@@ -14,5 +15,7 @@
         Task SetLifestyleToRecipe(string lifestyleType, Recipe recipe);
 
         Task SetLifestyleToUser(string lifestyleType, ApplicationUser user);
+
+        Task<LifestyleServiceModel> GetById(int id);
     }
 }

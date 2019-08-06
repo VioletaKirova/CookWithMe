@@ -10,15 +10,24 @@
     using CookWithMe.Web.ViewModels.Home.Index;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     public class HomeController : BaseController
     {
         private readonly IRecipeService recipeService;
+        private readonly IUserService userService;
+        private readonly ILifestyleService lifestyleService;
         private readonly IStringFormatService stringFormatService;
 
-        public HomeController(IRecipeService recipeService, IStringFormatService stringFormatService)
+        public HomeController(
+            IRecipeService recipeService,
+            IUserService userService,
+            ILifestyleService lifestyleService,
+            IStringFormatService stringFormatService)
         {
             this.recipeService = recipeService;
+            this.userService = userService;
+            this.lifestyleService = lifestyleService;
             this.stringFormatService = stringFormatService;
         }
 
@@ -36,15 +45,13 @@
         public async Task<IActionResult> IndexLoggedIn()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var filteredRecipes = (await this.recipeService.GetAllFiltered(userId))
-                .To<RecipeHomeViewModel>()
-                .ToList();
 
-            foreach (var recipe in filteredRecipes)
-            {
-                recipe.FormatedPreparationAndCookingTime = this.stringFormatService
-                    .DisplayTime(recipe.PreparationTime + recipe.CookingTime);
-            }
+            var userLifestyleId = (await this.userService.GetById(userId)).LifestyleId;
+            this.ViewData["Lifestyle"] = (await this.lifestyleService.GetById(userLifestyleId.Value))?.Type;
+
+            var filteredRecipes = await (await this.recipeService.GetAllFiltered(userId))
+                .To<RecipeHomeViewModel>()
+                .ToListAsync();
 
             return this.View(filteredRecipes);
         }

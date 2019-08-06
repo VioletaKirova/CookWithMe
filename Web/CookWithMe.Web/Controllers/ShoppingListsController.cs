@@ -11,6 +11,7 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     [Authorize]
     public class ShoppingListsController : BaseController
@@ -42,6 +43,7 @@
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            // TODO: Make this a separate action
             var checkIfUserHasShoppingList = await this.userShoppingListService
                 .ContainsByUserIdAndShoppingListId(userId, shoppingListServiceModel.Id);
 
@@ -75,17 +77,10 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var shoppingListIds = await this.userShoppingListService.GetUserShoppingListIds(userId);
-            var shoppingLists = new List<ShoppingListAllViewModel>();
-
-            foreach (var id in shoppingListIds)
-            {
-                shoppingLists.Add((await this.shoppingListService.GetById(id)).To<ShoppingListAllViewModel>());
-            }
-
-            foreach (var shoppingList in shoppingLists)
-            {
-                shoppingList.RecipeTitle = (await this.recipeService.GetById(shoppingList.RecipeId)).Title;
-            }
+            var shoppingLists = await this.shoppingListService
+                .GetAllByIds(shoppingListIds)
+                .To<ShoppingListAllViewModel>()
+                .ToListAsync();
 
             return this.View(shoppingLists);
         }

@@ -1,5 +1,7 @@
 ﻿namespace CookWithMe.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Data.Common.Repositories;
@@ -43,6 +45,13 @@
                 .GetByIdWithDeletedAsync(id);
 
             return shoppingList.To<ShoppingListServiceModel>();
+        }
+
+        public IQueryable<ShoppingListServiceModel> GetAllByIds(IEnumerable<string> ids)
+        {
+            return this.shoppingListRepository.All()
+                .Where(x => ids.Contains(x.Id))
+                .To<ShoppingListServiceModel>();
         }
 
         public async Task<string> GetIdByRecipeId(string recipeId)

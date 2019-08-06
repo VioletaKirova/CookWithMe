@@ -46,6 +46,13 @@
             return result > 0;
         }
 
+        public IQueryable<CategoryServiceModel> GetAll()
+        {
+            return this.categoryRepository
+                .AllAsNoTracking()
+                .To<CategoryServiceModel>();
+        }
+
         public IQueryable<string> GetAllTitles()
         {
             return this.categoryRepository

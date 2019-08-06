@@ -1,7 +1,7 @@
-﻿@model IEnumerable<CookWithMe.Web.ViewModels.Home.Index.RecipeHomeViewModel>
+﻿@model CookWithMe.Web.ViewModels.Categories.All.CategoryAllViewModel
 
 @{
-    ViewData["Title"] = "IndexLoggedIn";
+    ViewData["Title"] = "All";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,41 +15,34 @@
     <div class="twelve columns">
 
         <!-- Headline -->
-        @if (ViewData["Lifestyle"] != null)
-        {
-            <h3 class="headline">Latest Recipes for @ViewData["Lifestyle"] Lifestyle</h3>
-        }
-        else
-        {
-            <h3 class="headline">Latest Recipes</h3>
-        }
+        <h3 class="headline">@Model.Title</h3>
         <span class="line rb margin-bottom-35"></span>
         <div class="clearfix"></div>
 
         <!-- Isotope -->
         <div class="isotope">
 
-            @foreach (var recipe in Model)
+            @foreach (var recipe in Model.Recipes)
             {
                 <!-- Recipe #1 -->
-                <div class="four recipe-box columns">
+            <div class="four recipe-box columns">
 
-                    <!-- Thumbnail -->
-                    <div class="thumbnail-holder">
-                        <a href="/Recipes/Details/@recipe.Id">
-                            <img src="@recipe.Photo" alt="" />
-                            <div class="hover-cover"></div>
-                            <div class="hover-icon">View Recipe</div>
-                        </a>
-                    </div>
-
-                    <!-- Content -->
-                    <div class="recipe-box-content">
-                        <h3><a href="/Recipes/Details/@recipe.Id" class="text-wrap">@recipe.Title</a></h3>
-
-                        <div class="clearfix"></div>
-                    </div>
+                <!-- Thumbnail -->
+                <div class="thumbnail-holder">
+                    <a href="/Recipes/Details/@recipe.Id">
+                        <img src="@recipe.Photo" alt="" />
+                        <div class="hover-cover"></div>
+                        <div class="hover-icon">View Recipe</div>
+                    </a>
                 </div>
+
+                <!-- Content -->
+                <div class="recipe-box-content">
+                    <h3><a href="/Recipes/Details/@recipe.Id" class="text-wrap">@recipe.Title</a></h3>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
             }
 
         </div>

@@ -15,6 +15,7 @@
     using CookWithMe.Services.Messaging;
     using CookWithMe.Services.Models;
     using CookWithMe.Web.InputModels.Categories;
+    using CookWithMe.Web.ViewComponents.Models;
     using CookWithMe.Web.ViewModels;
 
     using Microsoft.AspNetCore.Builder;
@@ -136,7 +137,8 @@
             AutoMapperConfig.RegisterMappings(
                 typeof(ErrorViewModel).GetTypeInfo().Assembly,
                 typeof(CategoryCreateInputModel).GetTypeInfo().Assembly,
-                typeof(CategoryServiceModel).GetTypeInfo().Assembly);
+                typeof(CategoryServiceModel).GetTypeInfo().Assembly,
+                typeof(CategorySidebarViewComponentViewModel).GetTypeInfo().Assembly);
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())
