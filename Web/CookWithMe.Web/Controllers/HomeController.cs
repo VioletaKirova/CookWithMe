@@ -47,7 +47,11 @@
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var userLifestyleId = (await this.userService.GetById(userId)).LifestyleId;
-            this.ViewData["Lifestyle"] = (await this.lifestyleService.GetById(userLifestyleId.Value))?.Type;
+
+            if (userLifestyleId != null)
+            {
+                this.ViewData["Lifestyle"] = (await this.lifestyleService.GetById(userLifestyleId.Value)).Type;
+            }
 
             var filteredRecipes = await (await this.recipeService.GetAllFiltered(userId))
                 .To<RecipeHomeViewModel>()

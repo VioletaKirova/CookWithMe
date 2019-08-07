@@ -35,12 +35,23 @@
             return result > 0;
         }
 
-        public async Task<bool> CreateAsync(CategoryServiceModel categoryServiceModel)
+        public async Task<bool> CreateAsync(CategoryServiceModel serviceModel)
         {
-            var category = categoryServiceModel.To<Category>();
+            var category = serviceModel.To<Category>();
 
             await this.categoryRepository.AddAsync(category);
+            var result = await this.categoryRepository.SaveChangesAsync();
 
+            return result > 0;
+        }
+
+        public async Task<bool> EditAsync(CategoryServiceModel serviceModel)
+        {
+            var category = await this.categoryRepository.GetByIdWithDeletedAsync(serviceModel.Id);
+
+            category.Title = serviceModel.Title;
+
+            this.categoryRepository.Update(category);
             var result = await this.categoryRepository.SaveChangesAsync();
 
             return result > 0;

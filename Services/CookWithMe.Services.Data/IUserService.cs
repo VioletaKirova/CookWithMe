@@ -7,7 +7,9 @@
 
     public interface IUserService
     {
-        Task<bool> UpdateUserAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel);
+        Task<bool> AddAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel);
+
+        Task<bool> EditAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel);
 
         Task SetUserToRecipe(string userId, Recipe recipe);
 
@@ -20,5 +22,7 @@
         Task<bool> SetFavoriteRecipe(string userId, Recipe recipe);
 
         Task<bool> SetCookedRecipe(string userId, Recipe recipe);
+
+        Task<UserAdditionalInfoServiceModel> GetAdditionalInfo(string userId);
     }
 }

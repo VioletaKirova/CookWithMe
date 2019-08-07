@@ -14,7 +14,9 @@
 
         Task<CategoryServiceModel> GetById(int id);
 
-        Task<bool> CreateAsync(CategoryServiceModel model);
+        Task<bool> CreateAsync(CategoryServiceModel serviceModel);
+
+        Task<bool> EditAsync(CategoryServiceModel serviceModel);
 
         Task SetCategoryToRecipe(string categoryTitle, Recipe recipe);
 

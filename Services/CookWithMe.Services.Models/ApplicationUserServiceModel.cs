@@ -29,6 +29,8 @@
 
         public LifestyleServiceModel Lifestyle { get; set; }
 
+        public bool HasAdditionalInfo { get; set; }
+
         public ICollection<UserAllergenServiceModel> Allergies { get; set; }
 
         public ICollection<RecipeServiceModel> Recipes { get; set; }

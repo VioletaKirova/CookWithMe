@@ -10,9 +10,9 @@
 
     using Microsoft.AspNetCore.Http;
 
-    public class UserAdditionalInfoInputModel : IMapTo<UserAdditionalInfoServiceModel>, IHaveCustomMappings
+    public class UserAddAdditionalInfoInputModel : IMapTo<UserAdditionalInfoServiceModel>, IHaveCustomMappings
     {
-        public UserAdditionalInfoInputModel()
+        public UserAddAdditionalInfoInputModel()
         {
             this.AllergenNames = new HashSet<string>();
         }
@@ -28,7 +28,7 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<UserAdditionalInfoInputModel, UserAdditionalInfoServiceModel>()
+            configuration.CreateMap<UserAddAdditionalInfoInputModel, UserAdditionalInfoServiceModel>()
                 .ForMember(
                     destination => destination.Lifestyle,
                     opts => opts.MapFrom(origin => new LifestyleServiceModel { Type = origin.LifestyleType }));

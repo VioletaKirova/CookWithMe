@@ -2,7 +2,10 @@
 {
     using System.Collections.Generic;
 
-    public class UserAdditionalInfoServiceModel
+    using CookWithMe.Data.Models;
+    using CookWithMe.Services.Mapping;
+
+    public class UserAdditionalInfoServiceModel : IMapFrom<ApplicationUser>
     {
         public UserAdditionalInfoServiceModel()
         {
@@ -12,6 +15,8 @@
         public string Biography { get; set; }
 
         public string ProfilePhoto { get; set; }
+
+        public int? LifestyleId { get; set; }
 
         public LifestyleServiceModel Lifestyle { get; set; }
 

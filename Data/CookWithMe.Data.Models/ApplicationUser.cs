@@ -57,6 +57,8 @@
 
         public Lifestyle Lifestyle { get; set; }
 
+        public bool HasAdditionalInfo { get; set; }
+
         public ICollection<UserAllergen> Allergies { get; set; }
 
         public ICollection<Recipe> Recipes { get; set; }

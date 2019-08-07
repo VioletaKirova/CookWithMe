@@ -17,6 +17,7 @@
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
         private readonly ILifestyleService lifestyleService;
         private readonly IAllergenService allergenService;
+        private readonly IUserAllergenService userAllergenService;
         private readonly IShoppingListService shoppingListService;
 
         public UserService(
@@ -24,12 +25,14 @@
             IDeletableEntityRepository<ApplicationUser> userRepository,
             ILifestyleService lifestyleService,
             IAllergenService allergenService,
+            IUserAllergenService userAllergenService,
             IShoppingListService shoppingListService)
         {
             this.userManager = userManager;
             this.userRepository = userRepository;
             this.lifestyleService = lifestyleService;
             this.allergenService = allergenService;
+            this.userAllergenService = userAllergenService;
             this.shoppingListService = shoppingListService;
         }
 
@@ -51,7 +54,33 @@
             return userServiceModel;
         }
 
-        public async Task<bool> UpdateUserAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel)
+        public async Task<bool> AddAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel)
+        {
+            var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
+
+            user.HasAdditionalInfo = true;
+            user.Biography = additionalInfoServiceModel.Biography;
+            user.ProfilePhoto = additionalInfoServiceModel.ProfilePhoto;
+
+            if (additionalInfoServiceModel.Lifestyle != null)
+            {
+                await this.lifestyleService.SetLifestyleToUser(additionalInfoServiceModel.Lifestyle.Type, user);
+            }
+
+            if (additionalInfoServiceModel.Allergies != null)
+            {
+                foreach (var userAllergen in additionalInfoServiceModel.Allergies)
+                {
+                    await this.allergenService.SetAllergenToUser(userAllergen.Allergen.Name, user);
+                }
+            }
+
+            var result = await this.userManager.UpdateAsync(user);
+
+            return result.Succeeded;
+        }
+
+        public async Task<bool> EditAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
@@ -62,6 +91,8 @@
             {
                 await this.lifestyleService.SetLifestyleToUser(additionalInfoServiceModel.Lifestyle.Type, user);
             }
+
+            this.userAllergenService.DeletePreviousAllergensByUserId(userId);
 
             if (additionalInfoServiceModel.Allergies != null)
             {
@@ -116,6 +147,21 @@
             var result = await this.userManager.UpdateAsync(user);
 
             return result.Succeeded;
+        }
+
+        public async Task<UserAdditionalInfoServiceModel> GetAdditionalInfo(string userId)
+        {
+            var additionalInfoServiceModel = (await this.userRepository.GetByIdWithDeletedAsync(userId))
+                .To<UserAdditionalInfoServiceModel>();
+
+            if (additionalInfoServiceModel.LifestyleId != null)
+            {
+                additionalInfoServiceModel.Lifestyle = await this.lifestyleService.GetById(additionalInfoServiceModel.LifestyleId.Value);
+            }
+
+            additionalInfoServiceModel.Allergies = await this.userAllergenService.GetByUserId(userId);
+
+            return additionalInfoServiceModel;
         }
     }
 }

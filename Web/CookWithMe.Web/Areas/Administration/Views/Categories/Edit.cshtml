@@ -1,9 +1,10 @@
-﻿@model CookWithMe.Web.InputModels.Categories.CategoryCreateInputModel
+﻿@model CookWithMe.Web.InputModels.Categories.CategoryEditInputModel
 
 @{
-    ViewData["Title"] = "Create Category";
+    ViewData["Title"] = "Edit Category";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <!-- Titlebar
 ================================================== -->
@@ -29,7 +30,7 @@
             <!-- Title -->
             <h4>Title</h4>
             <nav class="title form-group">
-                <form asp-action="Create">
+                <form asp-action="Edit">
 
                     <input asp-for="Title" class="search-field form-control" type="text" />
                     <span asp-validation-for="Title" class="text-danger"></span>
@@ -53,7 +54,7 @@
 
 @for (int i = 0; i < 5; i++)
 {
-    <br/>
+    <br />
 }
 
 @section Scripts {

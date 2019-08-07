@@ -1,4 +1,5 @@
-﻿@model CookWithMe.Web.ViewModels.Categories.All.CategoryAllViewModel
+﻿@using CookWithMe.Common;
+@model CookWithMe.Web.ViewModels.Categories.All.CategoryAllViewModel
 
 @{
     ViewData["Title"] = "All";
@@ -16,33 +17,40 @@
 
         <!-- Headline -->
         <h3 class="headline">@Model.Title</h3>
-        <span class="line rb margin-bottom-35"></span>
+
+        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+        {
+            <a href="/Administration/Categories/Edit/@Model.Id" class="button medium color" margin: 0 5px 0 0;">Edit</a>
+        }
+
         <div class="clearfix"></div>
 
         <!-- Isotope -->
         <div class="isotope">
 
+            <div class="margin-top-20"></div>
+
             @foreach (var recipe in Model.Recipes)
             {
                 <!-- Recipe #1 -->
-            <div class="four recipe-box columns">
+                <div class="four recipe-box columns">
 
-                <!-- Thumbnail -->
-                <div class="thumbnail-holder">
-                    <a href="/Recipes/Details/@recipe.Id">
-                        <img src="@recipe.Photo" alt="" />
-                        <div class="hover-cover"></div>
-                        <div class="hover-icon">View Recipe</div>
-                    </a>
+                    <!-- Thumbnail -->
+                    <div class="thumbnail-holder">
+                        <a href="/Recipes/Details/@recipe.Id">
+                            <img src="@recipe.Photo" alt="" />
+                            <div class="hover-cover"></div>
+                            <div class="hover-icon">View Recipe</div>
+                        </a>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="recipe-box-content">
+                        <h3><a href="/Recipes/Details/@recipe.Id" class="text-wrap">@recipe.Title</a></h3>
+
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
-
-                <!-- Content -->
-                <div class="recipe-box-content">
-                    <h3><a href="/Recipes/Details/@recipe.Id" class="text-wrap">@recipe.Title</a></h3>
-
-                    <div class="clearfix"></div>
-                </div>
-            </div>
             }
 
         </div>

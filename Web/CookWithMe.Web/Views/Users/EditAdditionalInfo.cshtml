@@ -1,5 +1,5 @@
 ﻿@using CookWithMe.Web.ViewModels.Users;
-@model CookWithMe.Web.InputModels.Users.UserAdditionalInfoInputModel;
+@model CookWithMe.Web.InputModels.Users.UserEditAdditionalInfoInputModel
 
 @{
     ViewData["Title"] = "Additional Info";
@@ -24,7 +24,7 @@
 ================================================== -->
 <div class="container">
     <div class="sixteen columns">
-        <form asp-action="AdditionalInfo" method="post" class="register-user-form" enctype="multipart/form-data">
+        <form asp-action="EditAdditionalInfo" method="post" class="register-user-form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <!-- Short Bio -->
             <h4>Short Bio</h4>
@@ -61,7 +61,7 @@
             <div class="select form-group">
                 <h4>Allergies</h4>
                 <select asp-for="AllergenNames" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple>
-                    @foreach (var allergenName in ((UserAdditionalInfoViewModel)ViewData["Types"]).Allergies)
+                    @foreach (var allergenName in ((UserAdditionalInfoViewModel)ViewData["Model"]).Allergies)
                     {
                         <option value="@allergenName">@allergenName</option>
                     }
@@ -77,7 +77,7 @@
             <div class="select form-group">
                 <h4>Lifestyle</h4>
                 <select asp-for="LifestyleType" data-placeholder="Choose Lifestyle" class="chosen-select-no-single form-control">
-                    @foreach (var lifestyleType in ((UserAdditionalInfoViewModel)ViewData["Types"]).Lifestyles)
+                    @foreach (var lifestyleType in ((UserAdditionalInfoViewModel)ViewData["Model"]).Lifestyles)
                     {
                         <option value="@lifestyleType">@lifestyleType</option>
                     }
