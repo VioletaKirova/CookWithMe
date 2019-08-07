@@ -1,7 +1,7 @@
-﻿@model CookWithMe.Web.InputModels.Categories.CategoryEditInputModel
+﻿@model CookWithMe.Web.ViewModels.Categories.Delete.CategoryDeleteViewModel
 
 @{
-    ViewData["Title"] = "Edit Category";
+    ViewData["Title"] = "Delete Category";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -29,16 +29,16 @@
             <!-- Title -->
             <h4>Title</h4>
             <nav class="title form-group">
-                <form asp-action="Edit">
+                <form asp-action="Delete">
 
-                    <input asp-for="Title" class="search-field form-control" type="text" />
+                    <input asp-for="Title" class="search-field form-control" type="text" disabled />
                     <span asp-validation-for="Title" class="text-danger"></span>
 
                     <div class="clearfix"></div>
 
                     <div class="margin-top-30"></div>
 
-                    <button type="submit" class="button color big">Submit</button>
+                    <button type="submit" class="button color big">Delete</button>
 
                 </form>
             </nav>
@@ -53,7 +53,7 @@
 
 @for (int i = 0; i < 5; i++)
 {
-    <br />
+<br />
 }
 
 @section Scripts {

@@ -7,6 +7,7 @@
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
+
     using Microsoft.EntityFrameworkCore;
 
     public class CategoryService : ICategoryService
@@ -40,6 +41,16 @@
             var category = serviceModel.To<Category>();
 
             await this.categoryRepository.AddAsync(category);
+            var result = await this.categoryRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var category = await this.categoryRepository.GetByIdWithDeletedAsync(id);
+
+            this.categoryRepository.Delete(category);
             var result = await this.categoryRepository.SaveChangesAsync();
 
             return result > 0;

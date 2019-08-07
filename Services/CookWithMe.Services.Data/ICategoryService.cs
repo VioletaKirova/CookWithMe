@@ -18,6 +18,8 @@
 
         Task<bool> EditAsync(CategoryServiceModel serviceModel);
 
+        Task<bool> DeleteAsync(int id);
+
         Task SetCategoryToRecipe(string categoryTitle, Recipe recipe);
 
         IQueryable<CategoryServiceModel> GetAll();

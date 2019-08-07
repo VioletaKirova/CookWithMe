@@ -21,6 +21,7 @@
         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <a href="/Administration/Categories/Edit/@Model.Id" class="button medium color" margin: 0 5px 0 0;">Edit</a>
+            <a href="/Administration/Categories/Delete/@Model.Id" class="button medium" margin: 0 5px 0 0;">Delete</a>
         }
 
         <div class="clearfix"></div>
