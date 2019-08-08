@@ -8,6 +8,8 @@
 
         IList<string> SplitBySemicollonAndWhitespace(string text);
 
+        IList<string> SplitByCommaAndWhitespace(string text);
+
         string RemoveWhiteSpaces(string text);
     }
 }

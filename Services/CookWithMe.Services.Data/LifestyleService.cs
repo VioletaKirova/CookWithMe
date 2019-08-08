@@ -50,6 +50,14 @@
                 .To<LifestyleServiceModel>();
         }
 
+        public async Task<int> GetId(string lifestyleType)
+        {
+            return (await this.lifestyleRepository
+                .AllAsNoTracking()
+                .SingleOrDefaultAsync(x => x.Type == lifestyleType))
+                .Id;
+        }
+
         public async Task SetLifestyleToRecipe(string lifestyleType, Recipe recipe)
         {
             recipe.Lifestyles.Add(new RecipeLifestyle

@@ -17,5 +17,7 @@
         Task SetLifestyleToUser(string lifestyleType, ApplicationUser user);
 
         Task<LifestyleServiceModel> GetById(int id);
+
+        Task<int> GetId(string lifestyleType);
     }
 }

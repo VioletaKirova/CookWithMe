@@ -6,6 +6,7 @@
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
+
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
 
@@ -23,6 +24,7 @@
         private readonly IRecipeAllergenService recipeAllergenService;
         private readonly IUserFavoriteRecipeService userFavoriteRecipeService;
         private readonly IUserCookedRecipeService userCookedRecipeService;
+        private readonly IStringFormatService stringFormatService;
 
         public RecipeService(
             IDeletableEntityRepository<Recipe> recipeRepository,
@@ -36,7 +38,8 @@
             IAllergenService allergenService,
             IRecipeAllergenService recipeAllergenService,
             IUserFavoriteRecipeService userFavoriteRecipeService,
-            IUserCookedRecipeService userCookedRecipeService)
+            IUserCookedRecipeService userCookedRecipeService,
+            IStringFormatService stringFormatService)
         {
             this.recipeRepository = recipeRepository;
             this.categoryService = categoryService;
@@ -50,6 +53,7 @@
             this.recipeAllergenService = recipeAllergenService;
             this.userFavoriteRecipeService = userFavoriteRecipeService;
             this.userCookedRecipeService = userCookedRecipeService;
+            this.stringFormatService = stringFormatService;
         }
 
         public async Task<bool> CreateAsync(RecipeServiceModel recipeServiceModel)
@@ -114,19 +118,7 @@
                 var userAllergens = user.Allergies.Select(x => x.Allergen);
 
                 recipesFilteredByLifestyleAndAllergies = recipesFilteredByLifestyle
-                    .Where(r => r.Allergens.Select(ra => ra.Allergen).Any(a => userAllergens.Contains(a)));
-
-                //foreach (var recipe in recipesFilteredByLifestyle)
-                //{
-                //    var recipeAllergens = recipe.Allergens.Select(x => x.Allergen);
-
-                //    if (recipeAllergens.Any(x => userAllergens.Contains(x)))
-                //    {
-                //        continue;
-                //    }
-
-                //    recipesFilteredByLifestyleAndAllergies.Add(recipe);
-                //}
+                    .Where(r => r.Allergens.Select(ra => ra.Allergen).Any(a => !userAllergens.Contains(a)));
             }
 
             return recipesFilteredByLifestyleAndAllergies.Count() == 0 ?
@@ -250,6 +242,104 @@
                 .Where(x => x.UserId == userId)
                 .OrderByDescending(x => x.CreatedOn)
                 .To<RecipeServiceModel>();
+        }
+
+        public async Task<IQueryable<RecipeServiceModel>> GetAllBySearch(RecipeSearchServiceModel serviceModel)
+        {
+            var filteredRecipes = this.recipeRepository.AllAsNoTracking();
+
+            if (serviceModel.KeyWords != null)
+            {
+                var keyWords = this.stringFormatService.SplitByCommaAndWhitespace(serviceModel.KeyWords.ToLower());
+
+                filteredRecipes = filteredRecipes.Where(x =>
+                    keyWords.Any(kw => x.Title.ToLower().Contains(kw)));
+            }
+
+            if (serviceModel.Category.Title != null)
+            {
+                var categoryId = await this.categoryService.GetId(serviceModel.Category.Title);
+                filteredRecipes = filteredRecipes.Where(x => x.CategoryId == categoryId);
+            }
+
+            if (serviceModel.Lifestyle.Type != null)
+            {
+                var lifestyleId = await this.lifestyleService.GetId(serviceModel.Lifestyle.Type);
+                var recipeLifestyleIds = await this.recipeLifestyleService.GetAllRecipeIdsByLifestyleId(lifestyleId);
+                filteredRecipes = filteredRecipes.Where(x => recipeLifestyleIds.Contains(x.Id));
+            }
+
+            if (serviceModel.Allergens.Any())
+            {
+                var allergenIds = await this.allergenService.GetAllIds(serviceModel.Allergens.Select(x => x.Allergen.Name));
+                var recipeAllergenIds = await this.recipeAllergenService.GetAllRecipeIdsByAllergenIds(allergenIds);
+                filteredRecipes = filteredRecipes.Where(x => !recipeAllergenIds.Contains(x.Id));
+            }
+
+            if (serviceModel.SkillLevel != null)
+            {
+                filteredRecipes = filteredRecipes.Where(x => x.SkillLevel == serviceModel.SkillLevel);
+            }
+
+            if (serviceModel.Serving != null)
+            {
+                filteredRecipes = filteredRecipes.Where(x => x.Serving == serviceModel.Serving);
+            }
+
+            if (serviceModel.NeededTime != null)
+            {
+                filteredRecipes = filteredRecipes.Where(x => x.NeededTime == serviceModel.NeededTime);
+            }
+
+            if (serviceModel.NutritionalValue != null)
+            {
+                if (serviceModel.NutritionalValue.Calories != null)
+                {
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Calories == serviceModel.NutritionalValue.Calories);
+                }
+
+                if (serviceModel.NutritionalValue.Fats != null)
+                {
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Fats == serviceModel.NutritionalValue.Fats);
+                }
+
+                if (serviceModel.NutritionalValue.SaturatedFats != null)
+                {
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.SaturatedFats == serviceModel.NutritionalValue.SaturatedFats);
+                }
+
+                if (serviceModel.NutritionalValue.Carbohydrates != null)
+                {
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Carbohydrates == serviceModel.NutritionalValue.Carbohydrates);
+                }
+
+                if (serviceModel.NutritionalValue.Sugar != null)
+                {
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Sugar == serviceModel.NutritionalValue.Sugar);
+                }
+
+                if (serviceModel.NutritionalValue.Protein != null)
+                {
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Protein == serviceModel.NutritionalValue.Protein);
+                }
+
+                if (serviceModel.NutritionalValue.Fiber != null)
+                {
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Fiber == serviceModel.NutritionalValue.Fiber);
+                }
+
+                if (serviceModel.NutritionalValue.Salt != null)
+                {
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Salt == serviceModel.NutritionalValue.Salt);
+                }
+            }
+
+            if (serviceModel.Yield != null)
+            {
+                filteredRecipes = filteredRecipes.Where(x => x.Yield == serviceModel.Yield);
+            }
+
+            return filteredRecipes.To<RecipeServiceModel>();
         }
     }
 }

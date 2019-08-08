@@ -10,5 +10,7 @@
         Task<List<RecipeAllergenServiceModel>> GetByRecipeId(string recipeId);
 
         void DeletePreviousAllergensByRecipeId(string recipeId);
+
+        Task<ICollection<string>> GetAllRecipeIdsByAllergenIds(IEnumerable<int> allergenIds);
     }
 }

@@ -21,6 +21,11 @@
             return text.Replace(" ", string.Empty);
         }
 
+        public IList<string> SplitByCommaAndWhitespace(string text)
+        {
+            return text.Split(new string[] { ",", " ", ", " }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
         public IList<string> SplitBySemicollonAndWhitespace(string text)
         {
             return text.Split(new string[] { ";", "; " }, StringSplitOptions.RemoveEmptyEntries);

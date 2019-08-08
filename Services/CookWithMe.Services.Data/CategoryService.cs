@@ -90,6 +90,14 @@
             return category.To<CategoryServiceModel>();
         }
 
+        public async Task<int> GetId(string categoryTitle)
+        {
+            return (await this.categoryRepository
+                .AllAsNoTracking()
+                .SingleOrDefaultAsync(x => x.Title == categoryTitle))
+                .Id;
+        }
+
         public async Task SetCategoryToRecipe(string categoryTitle, Recipe recipe)
         {
             recipe.Category = await this.categoryRepository.All()

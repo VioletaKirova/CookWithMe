@@ -23,5 +23,7 @@
         Task SetCategoryToRecipe(string categoryTitle, Recipe recipe);
 
         IQueryable<CategoryServiceModel> GetAll();
+
+        Task<int> GetId(string categoryTitle);
     }
 }

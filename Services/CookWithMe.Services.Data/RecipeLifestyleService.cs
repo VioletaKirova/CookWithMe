@@ -30,6 +30,15 @@
             }
         }
 
+        public async Task<ICollection<string>> GetAllRecipeIdsByLifestyleId(int lifestyleId)
+        {
+            return await this.recipeLifestyleRepository
+                .AllAsNoTracking()
+                .Where(x => x.LifestyleId == lifestyleId)
+                .Select(x => x.RecipeId)
+                .ToListAsync();
+        }
+
         public async Task<List<RecipeLifestyleServiceModel>> GetByRecipeId(string recipeId)
         {
             return await this.recipeLifestyleRepository

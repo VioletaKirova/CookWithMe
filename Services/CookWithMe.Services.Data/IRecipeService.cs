@@ -30,5 +30,7 @@
         IQueryable<RecipeServiceModel> GetAllByUserId(string userId);
 
         IQueryable<RecipeServiceModel> GetByIds(IEnumerable<string> recipeIds);
+
+        Task<IQueryable<RecipeServiceModel>> GetAllBySearch(RecipeSearchServiceModel serviceModel);
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -14,5 +15,7 @@
         Task SetAllergenToRecipe(string allergenName, Recipe recipe);
 
         Task SetAllergenToUser(string allergenName, ApplicationUser user);
+
+        Task<IEnumerable<int>> GetAllIds(IEnumerable<string> allergenNames);
     }
 }

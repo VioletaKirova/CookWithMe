@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -32,6 +33,15 @@
             int result = await this.allergenRepository.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        public async Task<IEnumerable<int>> GetAllIds(IEnumerable<string> allergenNames)
+        {
+            return await this.allergenRepository
+                .AllAsNoTracking()
+                .Where(x => allergenNames.Contains(x.Name))
+                .Select(x => x.Id)
+                .ToListAsync();
         }
 
         public IQueryable<string> GetAllNames()

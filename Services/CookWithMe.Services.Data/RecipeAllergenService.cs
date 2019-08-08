@@ -30,6 +30,15 @@
             }
         }
 
+        public async Task<ICollection<string>> GetAllRecipeIdsByAllergenIds(IEnumerable<int> allergenIds)
+        {
+            return await this.recipeAllergenRepository
+                .AllAsNoTracking()
+                .Where(x => allergenIds.Contains(x.AllergenId))
+                .Select(x => x.RecipeId)
+                .ToListAsync();
+        }
+
         public async Task<List<RecipeAllergenServiceModel>> GetByRecipeId(string recipeId)
         {
             return await this.recipeAllergenRepository

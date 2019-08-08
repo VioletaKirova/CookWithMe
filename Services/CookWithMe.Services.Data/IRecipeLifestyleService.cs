@@ -10,5 +10,7 @@
         Task<List<RecipeLifestyleServiceModel>> GetByRecipeId(string recipeId);
 
         void DeletePreviousLifestylesByRecipeId(string recipeId);
+
+        Task<ICollection<string>> GetAllRecipeIdsByLifestyleId(int lifestyleId);
     }
 }
