@@ -41,7 +41,7 @@
         public async Task<IActionResult> Details(string id)
         {
             var recipeServiceModel = await this.recipeService.GetById(id);
-            recipeServiceModel.Reviews = await this.reviewService.GetAllByRecipeId(id);
+            recipeServiceModel.Reviews = await this.reviewService.GetAllByRecipeId(id).ToListAsync();
 
             var recipeViewModel = recipeServiceModel.To<RecipeDetailsViewModel>();
 
@@ -117,12 +117,12 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var favoriteRecipesIds = await this.userFavoriteRecipeService
+            var favoriteRecipeIds = await this.userFavoriteRecipeService
                 .GetRecipeIdsByUserId(userId)
                 .ToListAsync();
 
             var recipeFavoriteViewModel = await this.recipeService
-                .GetByIds(favoriteRecipesIds)
+                .GetByIds(favoriteRecipeIds)
                 .To<RecipeFavoriteViewModel>()
                 .ToListAsync();
 
@@ -135,12 +135,12 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var cookedRecipesIds = await this.userCookedRecipeService
+            var cookedRecipeIds = await this.userCookedRecipeService
                 .GetRecipeIdsByUserId(userId)
                 .ToListAsync();
 
             var recipeCookedViewModel = await this.recipeService
-                .GetByIds(cookedRecipesIds)
+                .GetByIds(cookedRecipeIds)
                 .To<RecipeCookedViewModel>()
                 .ToListAsync();
 

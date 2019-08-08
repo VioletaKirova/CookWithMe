@@ -7,21 +7,20 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
     using CookWithMe.Web.InputModels.Reviews;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
     public class ReviewsController : BaseController
     {
-        private readonly IRecipeService recipeService;
-        private readonly IUserService userService;
         private readonly IReviewService reviewService;
+        private readonly IRecipeService recipeService;
 
-        public ReviewsController(IRecipeService recipeService, IUserService userService, IReviewService reviewService)
-        { 
-            this.recipeService = recipeService;
-            this.userService = userService;
+        public ReviewsController(IReviewService reviewService, IRecipeService recipeService)
+        {
             this.reviewService = reviewService;
+            this.recipeService = recipeService;
         }
 
         [HttpGet]
@@ -29,24 +28,24 @@
         {
             var recipeServiceModel = await this.recipeService.GetById(id);
 
-            this.ViewData["RecipeId"] = id;
-            this.ViewData["RecipeTitle"] = recipeServiceModel.Title;
+            var viewModel = new ReviewCreateInputModel
+            {
+                RecipeId = id,
+                RecipeTitle = recipeServiceModel.Title,
+            };
 
-            return this.View();
+            return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ReviewCreateInputModel model)
+        public async Task<IActionResult> Create(ReviewCreateInputModel inputModel)
         {
             if (!this.ModelState.IsValid)
             {
-                this.ViewData["RecipeId"] = model.RecipeId;
-                this.ViewData["RecipeTitle"] = model.RecipeTitle;
-
-                return this.View();
+                return this.View(inputModel);
             }
 
-            var reviewServiceModel = model.To<ReviewServiceModel>();
+            var reviewServiceModel = inputModel.To<ReviewServiceModel>();
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             reviewServiceModel.ReviewerId = userId;
@@ -54,6 +53,16 @@
             await this.reviewService.CreateAsync(reviewServiceModel);
 
             return this.Redirect($"/Recipes/Details/{reviewServiceModel.RecipeId}");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await this.reviewService.DeleteAsync(id);
+
+            var recipeId = (await this.reviewService.GetByIdAsync(id)).RecipeId;
+
+            return this.Redirect($"/Recipes/Details/{recipeId}");
         }
     }
 }

@@ -209,6 +209,19 @@
             return this.Redirect("/");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> All()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var recipes = await this.recipeService.
+                GetAllByUserId(userId)
+                .To<RecipeAllViewModel>()
+                .ToListAsync();
+
+            return this.View(recipes);
+        }
+
         private Period GetEnum(string description, Type typeOfEnum)
         {
             return (Period)Enum.Parse(

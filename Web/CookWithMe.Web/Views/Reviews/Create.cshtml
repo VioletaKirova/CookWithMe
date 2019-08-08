@@ -13,7 +13,7 @@
 
         <div class="eight columns">
             <h2 style="margin: 18px 0 0 0;">Submit Review</h2>
-            <p>@this.ViewData["RecipeTitle"]</p>
+            <p>@Model.RecipeTitle</p>
         </div>
 
     </div>
@@ -31,8 +31,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <fieldset>
 
-                <input asp-for="RecipeId" type="hidden" name="recipeId" value="@ViewData["RecipeId"]">
-                <input asp-for="RecipeTitle" type="hidden" name="recipeTitle" value="@ViewData["RecipeTitle"]">
+                <input asp-for="RecipeId" type="hidden" name="recipeId" value="@Model.RecipeId">
+                <input asp-for="RecipeTitle" type="hidden" name="recipeTitle" value="@Model.RecipeTitle">
 
                 <div class="form-group">
                     <label>Rating:</label>

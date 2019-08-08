@@ -1,14 +1,18 @@
 ﻿namespace CookWithMe.Services.Data
 {
-    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Services.Models;
 
     public interface IReviewService
     {
-        Task<bool> CreateAsync(ReviewServiceModel model);
+        Task<bool> CreateAsync(ReviewServiceModel serviceModel);
 
-        Task<ICollection<ReviewServiceModel>> GetAllByRecipeId(string recipeId);
+        Task<bool> DeleteAsync(string id);
+
+        Task<ReviewServiceModel> GetByIdAsync(string id);
+
+        IQueryable<ReviewServiceModel> GetAllByRecipeId(string recipeId);
     }
 }

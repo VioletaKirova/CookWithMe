@@ -1,8 +1,7 @@
-﻿@using CookWithMe.Common;
-@model CookWithMe.Web.ViewModels.Categories.All.CategoryAllViewModel
+﻿@model IEnumerable<CookWithMe.Web.ViewModels.Recipes.RecipeAllViewModel>
 
 @{
-    ViewData["Title"] = "All";
+    ViewData["Title"] = "My Recipes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,29 +15,14 @@
     <div class="twelve columns">
 
         <!-- Headline -->
-        <h3 class="headline">@Model.Title</h3>
-
-        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <a href="/Administration/Categories/Edit/@Model.Id" class="button medium color" margin: 0 5px 0 0;">Edit</a>
-            <a href="/Administration/Categories/Delete/@Model.Id" class="button medium" margin: 0 5px 0 0;">Delete</a>
-        }
-        else
-        {
-            <span class="line rb margin-bottom-35"></span>
-        }
-
+        <h3 class="headline">@ViewData["Title"]</h3>
+        <span class="line rb margin-bottom-35"></span>
         <div class="clearfix"></div>
 
         <!-- Isotope -->
         <div class="isotope">
 
-            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-            {
-                <div class="margin-top-20"></div>
-            }
-
-            @foreach (var recipe in Model.Recipes)
+            @foreach (var recipe in Model)
             {
                 <!-- Recipe #1 -->
                 <div class="four recipe-box columns">

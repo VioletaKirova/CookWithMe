@@ -1,9 +1,10 @@
-﻿@using CookWithMe.Common;
+﻿@using System.Security.Claims;
+@using CookWithMe.Common;
 @model CookWithMe.Web.ViewModels.Recipes.RecipeDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+ Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!-- Recipe Background -->
@@ -169,7 +170,7 @@
             <div class="margin-bottom-20"></div>
 
             <!-- Comments
-    ================================================== -->
+            ================================================== -->
             <h3 class="headline">Reviews <span class="comments-amount">(@Model.Reviews.Count())</span></h3><span class="line"></span><div class="clearfix"></div>
 
             <!-- Reviews -->
@@ -183,7 +184,13 @@
                             <div class="comment-content">
                                 <div class="arrow-comment"></div>
                                 <div class="comment-by">
+                                    @if (review.ReviewerId == this.User.FindFirstValue(ClaimTypes.NameIdentifier) ||
+                                        this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                    {
+                                        <a href="/Reviews/Delete/@review.Id" class="button small" style="float: right">Delete</a>
+                                    }
                                     <strong>@review.ReviewerFullName</strong><span class="date">@review.CreatedOn.ToString("dd/MM/yyyy")</span>
+
                                 </div>
                                 <p>@review.Comment</p>
                                 <!-- TODO: Refactor this -->
@@ -230,7 +237,7 @@
             <div class="clearfix"></div>
 
             <!-- Add Review
-    ================================================== -->
+            ================================================== -->
             <!-- Add Review Form -->
             <a href="/Reviews/Create/@Model.Id" class="button medium color">Add Review</a>
             <div class="clearfix"></div>

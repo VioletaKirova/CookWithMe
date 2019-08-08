@@ -27,6 +27,8 @@
 
         IQueryable<RecipeServiceModel> GetAllByCategoryId(int categoryId);
 
+        IQueryable<RecipeServiceModel> GetAllByUserId(string userId);
+
         IQueryable<RecipeServiceModel> GetByIds(IEnumerable<string> recipeIds);
     }
 }

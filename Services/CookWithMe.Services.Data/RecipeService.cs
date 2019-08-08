@@ -233,6 +233,7 @@
         {
             return this.recipeRepository.AllAsNoTracking()
                 .Where(x => x.CategoryId == categoryId)
+                .OrderByDescending(x => x.CreatedOn)
                 .To<RecipeServiceModel>();
         }
 
@@ -240,6 +241,14 @@
         {
             return this.recipeRepository.AllAsNoTracking()
                 .Where(x => recipeIds.Contains(x.Id))
+                .To<RecipeServiceModel>();
+        }
+
+        public IQueryable<RecipeServiceModel> GetAllByUserId(string userId)
+        {
+            return this.recipeRepository.AllAsNoTracking()
+                .Where(x => x.UserId == userId)
+                .OrderByDescending(x => x.CreatedOn)
                 .To<RecipeServiceModel>();
         }
     }
