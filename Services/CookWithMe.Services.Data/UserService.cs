@@ -92,7 +92,7 @@
                 await this.lifestyleService.SetLifestyleToUser(additionalInfoServiceModel.Lifestyle.Type, user);
             }
 
-            this.userAllergenService.DeletePreviousAllergensByUserId(userId);
+            this.userAllergenService.DeletePreviousUserAllergensByUserId(userId);
 
             if (additionalInfoServiceModel.Allergies != null)
             {

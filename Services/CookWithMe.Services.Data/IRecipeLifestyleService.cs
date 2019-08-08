@@ -7,9 +7,9 @@
 
     public interface IRecipeLifestyleService
     {
-        Task<List<RecipeLifestyleServiceModel>> GetByRecipeId(string recipeId);
+        Task<ICollection<RecipeLifestyleServiceModel>> GetByRecipeId(string recipeId);
 
-        void DeletePreviousLifestylesByRecipeId(string recipeId);
+        void DeletePreviousRecipeLifestylesByRecipeId(string recipeId);
 
         Task<ICollection<string>> GetAllRecipeIdsByLifestyleId(int lifestyleId);
     }

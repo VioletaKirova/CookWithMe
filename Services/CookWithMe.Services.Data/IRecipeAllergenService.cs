@@ -7,9 +7,9 @@
 
     public interface IRecipeAllergenService
     {
-        Task<List<RecipeAllergenServiceModel>> GetByRecipeId(string recipeId);
+        Task<ICollection<RecipeAllergenServiceModel>> GetByRecipeId(string recipeId);
 
-        void DeletePreviousAllergensByRecipeId(string recipeId);
+        void DeletePreviousRecipeAllergensByRecipeId(string recipeId);
 
         Task<ICollection<string>> GetAllRecipeIdsByAllergenIds(IEnumerable<int> allergenIds);
     }

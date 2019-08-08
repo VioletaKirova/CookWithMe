@@ -3,8 +3,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using CookWithMe.Services.Models;
-
     public interface IUserShoppingListService
     {
         Task<bool> ContainsByUserIdAndShoppingListId(string userId, string shoppingListId);

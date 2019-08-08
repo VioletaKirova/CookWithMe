@@ -20,7 +20,7 @@
             this.userAllergenRepository = userAllergenRepository;
         }
 
-        public void DeletePreviousAllergensByUserId(string userId)
+        public void DeletePreviousUserAllergensByUserId(string userId)
         {
             var userAllergens = this.userAllergenRepository.All().Where(x => x.UserId == userId);
 
@@ -30,7 +30,7 @@
             }
         }
 
-        public async Task<List<UserAllergenServiceModel>> GetByUserId(string userId)
+        public async Task<ICollection<UserAllergenServiceModel>> GetByUserId(string userId)
         {
             return await this.userAllergenRepository
                 .AllAsNoTracking()

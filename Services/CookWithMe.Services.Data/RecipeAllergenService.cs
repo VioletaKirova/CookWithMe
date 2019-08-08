@@ -20,7 +20,7 @@
             this.recipeAllergenRepository = recipeAllergenRepository;
         }
 
-        public void DeletePreviousAllergensByRecipeId(string recipeId)
+        public void DeletePreviousRecipeAllergensByRecipeId(string recipeId)
         {
             var recipeAllergens = this.recipeAllergenRepository.All().Where(x => x.RecipeId == recipeId);
 
@@ -39,7 +39,7 @@
                 .ToListAsync();
         }
 
-        public async Task<List<RecipeAllergenServiceModel>> GetByRecipeId(string recipeId)
+        public async Task<ICollection<RecipeAllergenServiceModel>> GetByRecipeId(string recipeId)
         {
             return await this.recipeAllergenRepository
                 .AllAsNoTracking()

@@ -20,7 +20,7 @@
             this.recipeLifestyleRepository = recipeLifestyleRepository;
         }
 
-        public void DeletePreviousLifestylesByRecipeId(string recipeId)
+        public void DeletePreviousRecipeLifestylesByRecipeId(string recipeId)
         {
             var recipeLifestyles = this.recipeLifestyleRepository.All().Where(x => x.RecipeId == recipeId);
 
@@ -39,7 +39,7 @@
                 .ToListAsync();
         }
 
-        public async Task<List<RecipeLifestyleServiceModel>> GetByRecipeId(string recipeId)
+        public async Task<ICollection<RecipeLifestyleServiceModel>> GetByRecipeId(string recipeId)
         {
             return await this.recipeLifestyleRepository
                 .AllAsNoTracking()
