@@ -1,5 +1,6 @@
 ﻿@using CookWithMe.Common;
-@model CookWithMe.Web.ViewModels.Categories.All.CategoryAllViewModel
+@using  CookWithMe.Web.Infrastructure;
+@model PaginatedList<CookWithMe.Web.ViewModels.Categories.Recipes.CategoryRecipesRecipeViewModel>
 
 @{
     ViewData["Title"] = "All";
@@ -16,12 +17,12 @@
     <div class="twelve columns">
 
         <!-- Headline -->
-        <h3 class="headline">@Model.Title</h3>
+        <h3 class="headline">@ViewData["CategoryTitle"]</h3>
 
         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
-            <a href="/Administration/Categories/Edit/@Model.Id" class="button medium color" margin: 0 5px 0 0;">Edit</a>
-            <a href="/Administration/Categories/Delete/@Model.Id" class="button medium" margin: 0 5px 0 0;">Delete</a>
+            <a href="/Administration/Categories/Edit/@ViewData["CategoryId"]" class="button medium color" margin: 0 5px 0 0;">Edit</a>
+            <a href="/Administration/Categories/Delete//@ViewData["CategoryId"]" class="button medium" margin: 0 5px 0 0;">Delete</a>
         }
         else
         {
@@ -38,7 +39,7 @@
                 <div class="margin-top-20"></div>
             }
 
-            @foreach (var recipe in Model.Recipes)
+            @foreach (var recipe in Model)
             {
                 <!-- Recipe #1 -->
                 <div class="four recipe-box columns">
@@ -63,6 +64,22 @@
 
         </div>
         <div class="clearfix"></div>
+
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+
+        <a asp-action="Recipes"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           class="button big @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="Recipes"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           class="button color big @nextDisabled">
+            Next
+        </a>
 
     </div>
 

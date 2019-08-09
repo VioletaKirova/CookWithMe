@@ -9,5 +9,7 @@
         public const string CloudFolderForUserProfilePhotos = "user_photos";
 
         public const string CloudFolderForRecipePhotos = "recipe_photos";
+
+        public const int PageSize = 1;
     }
 }

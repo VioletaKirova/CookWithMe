@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CookWithMe.Web.ViewModels.Home.Index.RecipeHomeViewModel>
+﻿@using  CookWithMe.Web.Infrastructure;
+@model PaginatedList<CookWithMe.Web.ViewModels.Home.Index.RecipeHomeViewModel>
 
 @{
     ViewData["Title"] = "IndexLoggedIn";
@@ -55,8 +56,23 @@
         </div>
         <div class="clearfix"></div>
 
-    </div>
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
 
+        <a asp-action="IndexLoggedIn"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           class="button big @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="IndexLoggedIn"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           class="button color big @nextDisabled">
+            Next
+        </a>
+
+    </div>
 
     <!-- Sidebar
     ================================================== -->

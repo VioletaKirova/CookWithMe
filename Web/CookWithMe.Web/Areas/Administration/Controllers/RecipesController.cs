@@ -13,6 +13,7 @@
     using CookWithMe.Services.Data;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
+    using CookWithMe.Web.Infrastructure;
     using CookWithMe.Web.InputModels.Recipes;
     using CookWithMe.Web.ViewModels.Recipes;
 
@@ -213,16 +214,16 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(int? pageNumber)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var recipes = await this.recipeService.
+            var allRecipesByAdmin = this.recipeService.
                 GetAllByUserId(userId)
-                .To<RecipeAllViewModel>()
-                .ToListAsync();
+                .To<RecipeAllViewModel>();
 
-            return this.View(recipes);
+            int pageSize = GlobalConstants.PageSize;
+            return this.View(await PaginatedList<RecipeAllViewModel>.CreateAsync(allRecipesByAdmin, pageNumber ?? 1, pageSize));
         }
 
         private async Task<RecipeViewDataModel> GetRecipeViewDataModel()

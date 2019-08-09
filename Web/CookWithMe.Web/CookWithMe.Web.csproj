@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\Services\CookWithMe.Services.Mapping\CookWithMe.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\CookWithMe.Services.Messaging\CookWithMe.Services.Messaging.csproj" />
     <ProjectReference Include="..\..\Services\CookWithMe.Services\CookWithMe.Services.csproj" />
+    <ProjectReference Include="..\CookWithMe.Web.Infrastructure\CookWithMe.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\CookWithMe.Web.InputModels\CookWithMe.Web.InputModels.csproj" />
     <ProjectReference Include="..\CookWithMe.Web.ViewModels\CookWithMe.Web.ViewModels.csproj" />
   </ItemGroup>

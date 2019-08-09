@@ -2,9 +2,11 @@
 {
     using System.Threading.Tasks;
 
+    using CookWithMe.Common;
     using CookWithMe.Services.Data;
     using CookWithMe.Services.Mapping;
-    using CookWithMe.Web.ViewModels.Categories.All;
+    using CookWithMe.Web.Infrastructure;
+    using CookWithMe.Web.ViewModels.Categories.Recipes;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -20,14 +22,16 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> All(int id)
+        public async Task<IActionResult> Recipes(int id, int? pageNumber)
         {
-            var categoryViewModel = (await this.categoryService.GetById(id))
-                .To<CategoryAllViewModel>();
-            categoryViewModel.Recipes = this.recipeService.GetAllByCategoryId(id)
-                .To<CategoryAllRecipeViewModel>();
+            this.ViewData["CategoryId"] = id;
+            this.ViewData["CategoryTitle"] = (await this.categoryService.GetById(id)).Title;
 
-            return this.View(categoryViewModel);
+            var recipesFromCategory = this.recipeService.GetAllByCategoryId(id)
+                .To<CategoryRecipesRecipeViewModel>();
+
+            int pageSize = GlobalConstants.PageSize;
+            return this.View(await PaginatedList<CategoryRecipesRecipeViewModel>.CreateAsync(recipesFromCategory, pageNumber ?? 1, pageSize));
         }
     }
 }

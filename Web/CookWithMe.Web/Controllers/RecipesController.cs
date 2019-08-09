@@ -7,11 +7,13 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using CookWithMe.Common;
     using CookWithMe.Data.Models.Enums;
     using CookWithMe.Services;
     using CookWithMe.Services.Data;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
+    using CookWithMe.Web.Infrastructure;
     using CookWithMe.Web.InputModels.Recipes;
     using CookWithMe.Web.ViewModels.Recipes;
 
@@ -129,7 +131,7 @@
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Favorite()
+        public async Task<IActionResult> Favorite(int? pageNumber)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -137,17 +139,17 @@
                 .GetRecipeIdsByUserId(userId)
                 .ToListAsync();
 
-            var recipeFavoriteViewModel = await this.recipeService
+            var favoriteRecipes = this.recipeService
                 .GetByIds(favoriteRecipeIds)
-                .To<RecipeFavoriteViewModel>()
-                .ToListAsync();
+                .To<RecipeFavoriteViewModel>();
 
-            return this.View(recipeFavoriteViewModel);
+            int pageSize = GlobalConstants.PageSize;
+            return this.View(await PaginatedList<RecipeFavoriteViewModel>.CreateAsync(favoriteRecipes, pageNumber ?? 1, pageSize));
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Cooked()
+        public async Task<IActionResult> Cooked(int? pageNumber)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -155,17 +157,17 @@
                 .GetRecipeIdsByUserId(userId)
                 .ToListAsync();
 
-            var recipeCookedViewModel = await this.recipeService
+            var cookedRecipes = this.recipeService
                 .GetByIds(cookedRecipeIds)
-                .To<RecipeCookedViewModel>()
-                .ToListAsync();
+                .To<RecipeCookedViewModel>();
 
-            return this.View(recipeCookedViewModel);
+            int pageSize = GlobalConstants.PageSize;
+            return this.View(await PaginatedList<RecipeCookedViewModel>.CreateAsync(cookedRecipes, pageNumber ?? 1, pageSize));
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Search()
+        public async Task<IActionResult> Browse()
         {
             this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
@@ -174,7 +176,7 @@
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Filtered(RecipeSearchInputModel inputModel)
+        public async Task<IActionResult> Filtered(RecipeSearchInputModel inputModel, int? pageNumber)
         {
             if (!this.ModelState.IsValid)
             {
@@ -198,12 +200,12 @@
                 });
             }
 
-            var searchedRecipesViewModel = await (await this.recipeService
+            var filteredRecipes = (await this.recipeService
                 .GetAllBySearch(serviceModel))
-                .To<RecipeSearchViewModel>()
-                .ToListAsync();
+                .To<RecipeSearchViewModel>();
 
-            return this.View(searchedRecipesViewModel);
+            int pageSize = GlobalConstants.PageSize;
+            return this.View(await PaginatedList<RecipeSearchViewModel>.CreateAsync(filteredRecipes, pageNumber ?? 1, pageSize));
         }
 
         private Period GetEnum(string description, Type typeOfEnum)

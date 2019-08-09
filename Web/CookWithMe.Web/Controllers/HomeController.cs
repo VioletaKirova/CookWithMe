@@ -1,16 +1,16 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
-    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using CookWithMe.Common;
     using CookWithMe.Services;
     using CookWithMe.Services.Data;
     using CookWithMe.Services.Mapping;
+    using CookWithMe.Web.Infrastructure;
     using CookWithMe.Web.ViewModels.Home.Index;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     public class HomeController : BaseController
     {
@@ -42,7 +42,7 @@
             return this.View();
         }
 
-        public async Task<IActionResult> IndexLoggedIn()
+        public async Task<IActionResult> IndexLoggedIn(int? pageNumber)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -53,11 +53,11 @@
                 this.ViewData["Lifestyle"] = (await this.lifestyleService.GetById(userLifestyleId.Value)).Type;
             }
 
-            var filteredRecipes = await (await this.recipeService.GetAllFiltered(userId))
-                .To<RecipeHomeViewModel>()
-                .ToListAsync();
+            var filteredRecipes = (await this.recipeService.GetAllFiltered(userId))
+                .To<RecipeHomeViewModel>();
 
-            return this.View(filteredRecipes);
+            int pageSize = GlobalConstants.PageSize;
+            return this.View(await PaginatedList<RecipeHomeViewModel>.CreateAsync(filteredRecipes, pageNumber ?? 1, pageSize));
         }
 
         public IActionResult Privacy()
