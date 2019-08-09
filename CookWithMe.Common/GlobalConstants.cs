@@ -10,6 +10,6 @@
 
         public const string CloudFolderForRecipePhotos = "recipe_photos";
 
-        public const int PageSize = 1;
+        public const int PageSize = 4;
     }
 }
