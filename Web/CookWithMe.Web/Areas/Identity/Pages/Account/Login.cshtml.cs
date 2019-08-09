@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using CookWithMe.Common;
     using CookWithMe.Data.Models;
 
     using Microsoft.AspNetCore.Authentication;
@@ -82,10 +83,10 @@
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
             public string Username { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
         }

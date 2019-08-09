@@ -15,6 +15,8 @@
     <Compile Remove="Migrations\20190721154111_InitialDatabaseDesign.Designer.cs" />
     <Compile Remove="Migrations\20190731213230_MakingManyToManyUnidirectionalRelationshipBetweenRecipesAndLifestyles.cs" />
     <Compile Remove="Migrations\20190731213230_MakingManyToManyUnidirectionalRelationshipBetweenRecipesAndLifestyles.Designer.cs" />
+    <Compile Remove="Migrations\20190809113532_AddingRangeAttributesInRecipe.cs" />
+    <Compile Remove="Migrations\20190809113532_AddingRangeAttributesInRecipe.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

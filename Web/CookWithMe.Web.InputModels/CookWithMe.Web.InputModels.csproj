@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CookWithMe.Common\CookWithMe.Common.csproj" />
     <ProjectReference Include="..\..\Services\CookWithMe.Services.Mapping\CookWithMe.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\CookWithMe.Services.Models\CookWithMe.Services.Models.csproj" />
   </ItemGroup>
