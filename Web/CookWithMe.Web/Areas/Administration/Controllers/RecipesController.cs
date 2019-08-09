@@ -27,6 +27,7 @@
         private readonly ICloudinaryService cloudinaryService;
         private readonly IRecipeService recipeService;
         private readonly IStringFormatService stringFormatService;
+        private readonly IEnumParseService enumParserService;
 
         public RecipesController(
             ICategoryService categoryService,
@@ -34,7 +35,8 @@
             ILifestyleService lifestyleService,
             ICloudinaryService cloudinaryService,
             IRecipeService recipeService,
-            IStringFormatService stringFormatService)
+            IStringFormatService stringFormatService,
+            IEnumParseService enumParserService)
         {
             this.categoryService = categoryService;
             this.allergenService = allergenService;
@@ -42,6 +44,7 @@
             this.cloudinaryService = cloudinaryService;
             this.recipeService = recipeService;
             this.stringFormatService = stringFormatService;
+            this.enumParserService = enumParserService;
         }
 
         [HttpGet]
@@ -89,7 +92,7 @@
                 });
             }
 
-            recipeServiceModel.NeededTime = this.GetEnum(model.NeededTime, typeof(Period));
+            recipeServiceModel.NeededTime = this.enumParserService.Parse<Period>(model.NeededTime, typeof(Period));
 
             await this.recipeService.CreateAsync(recipeServiceModel);
 
@@ -104,7 +107,7 @@
 
             this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
-            recipeViewModel.NeededTime = this.GetEnumDescription(recipeViewModel.NeededTime, typeof(Period));
+            recipeViewModel.NeededTime = this.enumParserService.GetEnumDescription(recipeViewModel.NeededTime, typeof(Period));
 
             var allergenNamesViewModel = new List<string>();
             foreach (var recipeAllergen in recipe.Allergens)
@@ -132,7 +135,7 @@
             {
                 this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
-                recipeViewModel.NeededTime = this.GetEnumDescription(recipeViewModel.NeededTime, typeof(Period));
+                recipeViewModel.NeededTime = this.enumParserService.GetEnumDescription(recipeViewModel.NeededTime, typeof(Period));
 
                 return this.View(recipeViewModel);
             }
@@ -164,7 +167,7 @@
                 });
             }
 
-            recipeServiceModel.NeededTime = this.GetEnum(recipeViewModel.NeededTime, typeof(Period));
+            recipeServiceModel.NeededTime = this.enumParserService.Parse<Period>(recipeViewModel.NeededTime, typeof(Period));
 
             await this.recipeService.Edit(id, recipeServiceModel);
 
@@ -179,7 +182,7 @@
 
             this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
-            recipeViewModel.NeededTime = this.GetEnumDescription(recipeViewModel.NeededTime, typeof(Period));
+            recipeViewModel.NeededTime = this.enumParserService.GetEnumDescription(recipeViewModel.NeededTime, typeof(Period));
 
             var allergenNamesViewModel = new List<string>();
             foreach (var recipeAllergen in recipe.Allergens)
@@ -222,33 +225,6 @@
             return this.View(recipes);
         }
 
-        private Period GetEnum(string description, Type typeOfEnum)
-        {
-            return (Period)Enum.Parse(
-                            typeOfEnum,
-                            this.stringFormatService.RemoveWhiteSpaces(description));
-        }
-
-        private string GetEnumDescription(string name, Type typeOfEnum)
-        {
-            FieldInfo specificField = typeOfEnum.GetField(name);
-
-            if (specificField != null)
-            {
-                DescriptionAttribute attr =
-                       Attribute.GetCustomAttribute(
-                           specificField,
-                           typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-                if (attr != null)
-                {
-                    return attr.Description;
-                }
-            }
-
-            return null;
-        }
-
         private async Task<RecipeViewDataModel> GetRecipeViewDataModel()
         {
             var categoryTitles = await this.categoryService.GetAllTitles().ToListAsync();
@@ -261,7 +237,7 @@
             var periodDescriptions = new List<string>();
             foreach (var periodName in periodNames)
             {
-                periodDescriptions.Add(this.GetEnumDescription(periodName, typeof(Period)));
+                periodDescriptions.Add(this.enumParserService.GetEnumDescription(periodName, typeof(Period)));
             }
 
             var recipeViewDataModel = new RecipeViewDataModel

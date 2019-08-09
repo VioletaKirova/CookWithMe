@@ -130,6 +130,7 @@
             services.AddTransient<IRecipeAllergenService, RecipeAllergenService>();
             services.AddTransient<IRecipeLifestyleService, RecipeLifestyleService>();
             services.AddTransient<IUserAllergenService, UserAllergenService>();
+            services.AddTransient<IEnumParseService, EnumParseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
