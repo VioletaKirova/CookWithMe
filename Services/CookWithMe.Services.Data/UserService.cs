@@ -84,6 +84,7 @@
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
+            user.FullName = additionalInfoServiceModel.FullName;
             user.Biography = additionalInfoServiceModel.Biography;
             user.ProfilePhoto = additionalInfoServiceModel.ProfilePhoto;
 

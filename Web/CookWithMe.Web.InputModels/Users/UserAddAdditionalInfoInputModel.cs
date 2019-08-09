@@ -17,6 +17,10 @@
             this.AllergenNames = new HashSet<string>();
         }
 
+        [Required]
+        [MaxLength(50)]
+        public string FullName { get; set; }
+
         [MaxLength(200, ErrorMessage = "The {0} can be at max {1} characters long.")]
         public string Biography { get; set; }
 

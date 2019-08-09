@@ -26,6 +26,17 @@
     <div class="sixteen columns">
         <form asp-action="AddAdditionalInfo" method="post" class="register-user-form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Full Name -->
+            <h4>Full Name</h4>
+            <nav class="input-val form-group">
+                <input type="text" asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </nav>
+            <div class="clearfix"></div>
+
+            <div class="margin-top-25"></div>
+
             <!-- Short Bio -->
             <h4>Short Bio</h4>
             <nav class="input-val form-group">

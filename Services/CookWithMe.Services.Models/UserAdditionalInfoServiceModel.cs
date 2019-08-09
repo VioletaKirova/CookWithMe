@@ -12,6 +12,8 @@
             this.Allergies = new HashSet<UserAllergenServiceModel>();
         }
 
+        public string FullName { get; set; }
+
         public string Biography { get; set; }
 
         public string ProfilePhoto { get; set; }

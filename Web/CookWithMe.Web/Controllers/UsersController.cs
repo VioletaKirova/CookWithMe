@@ -37,7 +37,15 @@
         {
             this.ViewData["Model"] = await this.GetUserAdditionalInfoViewDataModel();
 
-            return this.View();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userFullName = (await this.userService.GetById(userId)).FullName;
+
+            var viewModel = new UserAddAdditionalInfoInputModel
+            {
+                FullName = userFullName,
+            };
+
+            return this.View(viewModel);
         }
 
         [HttpPost]
@@ -79,7 +87,8 @@
         [HttpGet]
         public async Task<IActionResult> EditAdditionalInfo()
         {
-            var user = await this.userService.GetById(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await this.userService.GetById(userId);
 
             if (!user.HasAdditionalInfo)
             {

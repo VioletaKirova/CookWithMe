@@ -36,13 +36,12 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Get(string id)
         {
             var shoppingListServiceModel = await this.shoppingListService.GetById(id);
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // TODO: Make this a separate action
             var checkIfUserHasShoppingList = await this.userShoppingListService
                 .ContainsByUserIdAndShoppingListId(userId, shoppingListServiceModel.Id);
 
@@ -51,6 +50,14 @@
                 await this.userService
                     .SetShoppingList(userId, shoppingListServiceModel);
             }
+
+            return this.RedirectToAction("All");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            var shoppingListServiceModel = await this.shoppingListService.GetById(id);
 
             var shoppingListViewModel = shoppingListServiceModel.To<ShoppingListDetailsViewModel>();
 
