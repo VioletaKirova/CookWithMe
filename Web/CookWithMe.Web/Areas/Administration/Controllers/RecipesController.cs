@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Reflection;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -18,66 +16,64 @@
     using CookWithMe.Web.ViewModels.Recipes;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     public class RecipesController : AdministrationController
     {
         private readonly ICategoryService categoryService;
         private readonly IAllergenService allergenService;
         private readonly ILifestyleService lifestyleService;
-        private readonly ICloudinaryService cloudinaryService;
         private readonly IRecipeService recipeService;
-        private readonly IStringFormatService stringFormatService;
-        private readonly IEnumParseService enumParserService;
+        private readonly ICloudinaryService cloudinaryService;
+        private readonly IEnumParseService enumParseService;
 
         public RecipesController(
             ICategoryService categoryService,
             IAllergenService allergenService,
             ILifestyleService lifestyleService,
-            ICloudinaryService cloudinaryService,
             IRecipeService recipeService,
-            IStringFormatService stringFormatService,
-            IEnumParseService enumParserService)
+            ICloudinaryService cloudinaryService,
+            IEnumParseService enumParseService)
         {
             this.categoryService = categoryService;
             this.allergenService = allergenService;
             this.lifestyleService = lifestyleService;
-            this.cloudinaryService = cloudinaryService;
             this.recipeService = recipeService;
-            this.stringFormatService = stringFormatService;
-            this.enumParserService = enumParserService;
+            this.cloudinaryService = cloudinaryService;
+            this.enumParseService = enumParseService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            // TODO: Refactor this
             this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
             return this.View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(RecipeCreateInputModel model)
+        public async Task<IActionResult> Create(RecipeCreateInputModel recipeCreateInputModel)
         {
             if (!this.ModelState.IsValid)
             {
+                // TODO: Refactor this
                 this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
                 return this.View();
             }
 
-            var recipeServiceModel = model.To<RecipeServiceModel>();
+            var recipeServiceModel = recipeCreateInputModel.To<RecipeServiceModel>();
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             recipeServiceModel.UserId = userId;
 
             var photoUrl = await this.cloudinaryService.UploadPhotoAsync(
-                model.Photo,
-                $"{userId}-{model.Title}",
+                recipeCreateInputModel.Photo,
+                $"{userId}-{recipeCreateInputModel.Title}",
                 GlobalConstants.CloudFolderForRecipePhotos);
             recipeServiceModel.Photo = photoUrl;
 
-            foreach (var allergenName in model.AllergenNames)
+            foreach (var allergenName in recipeCreateInputModel.AllergenNames)
             {
                 recipeServiceModel.Allergens.Add(new RecipeAllergenServiceModel
                 {
@@ -85,7 +81,7 @@
                 });
             }
 
-            foreach (var lifestyleType in model.LifestyleTypes)
+            foreach (var lifestyleType in recipeCreateInputModel.LifestyleTypes)
             {
                 recipeServiceModel.Lifestyles.Add(new RecipeLifestyleServiceModel
                 {
@@ -93,7 +89,8 @@
                 });
             }
 
-            recipeServiceModel.NeededTime = this.enumParserService.Parse<Period>(model.NeededTime, typeof(Period));
+            recipeServiceModel.NeededTime = this.enumParseService
+                .Parse<Period>(recipeCreateInputModel.NeededTime);
 
             await this.recipeService.CreateAsync(recipeServiceModel);
 
@@ -103,56 +100,59 @@
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var recipe = await this.recipeService.GetByIdAsync(id);
-            var recipeViewModel = recipe.To<RecipeEditInputModel>();
+            var recipeServiceModel = await this.recipeService.GetByIdAsync(id);
+            var recipeEditInputModel = recipeServiceModel.To<RecipeEditInputModel>();
 
+            // TODO: Refactor this
             this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
-            recipeViewModel.NeededTime = this.enumParserService.GetEnumDescription(recipeViewModel.NeededTime, typeof(Period));
+            recipeEditInputModel.NeededTime = this.enumParseService
+                .GetEnumDescription(recipeEditInputModel.NeededTime, typeof(Period));
 
             var allergenNamesViewModel = new List<string>();
-            foreach (var recipeAllergen in recipe.Allergens)
+            foreach (var recipeAllergen in recipeServiceModel.Allergens)
             {
                 allergenNamesViewModel.Add(recipeAllergen.Allergen.Name);
             }
 
-            recipeViewModel.AllergenNames = allergenNamesViewModel;
+            recipeEditInputModel.AllergenNames = allergenNamesViewModel;
 
             var lifestyleTypesViewModel = new List<string>();
-            foreach (var recipeLifestyle in recipe.Lifestyles)
+            foreach (var recipeLifestyle in recipeServiceModel.Lifestyles)
             {
                 lifestyleTypesViewModel.Add(recipeLifestyle.Lifestyle.Type);
             }
 
-            recipeViewModel.LifestyleTypes = lifestyleTypesViewModel;
+            recipeEditInputModel.LifestyleTypes = lifestyleTypesViewModel;
 
-            return this.View(recipeViewModel);
+            return this.View(recipeEditInputModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, RecipeEditInputModel recipeViewModel)
+        public async Task<IActionResult> Edit(string id, RecipeEditInputModel recipeEditInputModel)
         {
             if (!this.ModelState.IsValid)
             {
+                // TODO: Refactor this
                 this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
-                recipeViewModel.NeededTime = this.enumParserService.GetEnumDescription(recipeViewModel.NeededTime, typeof(Period));
+                recipeEditInputModel.NeededTime = this.enumParseService.GetEnumDescription(recipeEditInputModel.NeededTime, typeof(Period));
 
-                return this.View(recipeViewModel);
+                return this.View(recipeEditInputModel);
             }
 
-            var recipeServiceModel = recipeViewModel.To<RecipeServiceModel>();
+            var recipeServiceModel = recipeEditInputModel.To<RecipeServiceModel>();
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             recipeServiceModel.UserId = userId;
 
             var photoUrl = await this.cloudinaryService.UploadPhotoAsync(
-                recipeViewModel.Photo,
-                $"{userId}-{recipeViewModel.Title}",
+                recipeEditInputModel.Photo,
+                $"{userId}-{recipeEditInputModel.Title}",
                 GlobalConstants.CloudFolderForRecipePhotos);
             recipeServiceModel.Photo = photoUrl;
 
-            foreach (var allergenName in recipeViewModel.AllergenNames)
+            foreach (var allergenName in recipeEditInputModel.AllergenNames)
             {
                 recipeServiceModel.Allergens.Add(new RecipeAllergenServiceModel
                 {
@@ -160,7 +160,7 @@
                 });
             }
 
-            foreach (var lifestyleType in recipeViewModel.LifestyleTypes)
+            foreach (var lifestyleType in recipeEditInputModel.LifestyleTypes)
             {
                 recipeServiceModel.Lifestyles.Add(new RecipeLifestyleServiceModel
                 {
@@ -168,40 +168,43 @@
                 });
             }
 
-            recipeServiceModel.NeededTime = this.enumParserService.Parse<Period>(recipeViewModel.NeededTime, typeof(Period));
+            recipeServiceModel.NeededTime = this.enumParseService
+                .Parse<Period>(recipeEditInputModel.NeededTime);
 
             await this.recipeService.EditAsync(id, recipeServiceModel);
 
-            return this.Redirect("/");
+            return this.Redirect($"/Recipes/Details/{id}");
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            var recipe = await this.recipeService.GetByIdAsync(id);
-            var recipeViewModel = recipe.To<RecipeDeleteViewModel>();
+            var recipeServiceModel = await this.recipeService.GetByIdAsync(id);
+            var recipeDeleteViewModel = recipeServiceModel.To<RecipeDeleteViewModel>();
 
+            // TODO: Refactor this
             this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
-            recipeViewModel.NeededTime = this.enumParserService.GetEnumDescription(recipeViewModel.NeededTime, typeof(Period));
+            recipeDeleteViewModel.NeededTime = this.enumParseService
+                .GetEnumDescription(recipeDeleteViewModel.NeededTime, typeof(Period));
 
-            var allergenNamesViewModel = new List<string>();
-            foreach (var recipeAllergen in recipe.Allergens)
+            var allergenNames = new List<string>();
+            foreach (var recipeAllergen in recipeServiceModel.Allergens)
             {
-                allergenNamesViewModel.Add(recipeAllergen.Allergen.Name);
+                allergenNames.Add(recipeAllergen.Allergen.Name);
             }
 
-            recipeViewModel.AllergenNames = allergenNamesViewModel;
+            recipeDeleteViewModel.AllergenNames = allergenNames;
 
-            var lifestyleTypesViewModel = new List<string>();
-            foreach (var recipeLifestyle in recipe.Lifestyles)
+            var lifestyleTypes = new List<string>();
+            foreach (var recipeLifestyle in recipeServiceModel.Lifestyles)
             {
-                lifestyleTypesViewModel.Add(recipeLifestyle.Lifestyle.Type);
+                lifestyleTypes.Add(recipeLifestyle.Lifestyle.Type);
             }
 
-            recipeViewModel.LifestyleTypes = lifestyleTypesViewModel;
+            recipeDeleteViewModel.LifestyleTypes = lifestyleTypes;
 
-            return this.View(recipeViewModel);
+            return this.View(recipeDeleteViewModel);
         }
 
         [HttpPost]
@@ -222,8 +225,8 @@
                 GetByUserId(userId)
                 .To<RecipeAllViewModel>();
 
-            int pageSize = GlobalConstants.PageSize;
-            return this.View(await PaginatedList<RecipeAllViewModel>.CreateAsync(allRecipesByAdmin, pageNumber ?? 1, pageSize));
+            return this.View(await PaginatedList<RecipeAllViewModel>
+                .CreateAsync(allRecipesByAdmin, pageNumber ?? 1, GlobalConstants.PageSize));
         }
 
         private async Task<RecipeViewDataModel> GetRecipeViewDataModel()
@@ -238,7 +241,7 @@
             var periodDescriptions = new List<string>();
             foreach (var periodName in periodNames)
             {
-                periodDescriptions.Add(this.enumParserService.GetEnumDescription(periodName, typeof(Period)));
+                periodDescriptions.Add(this.enumParseService.GetEnumDescription(periodName, typeof(Period)));
             }
 
             var recipeViewDataModel = new RecipeViewDataModel

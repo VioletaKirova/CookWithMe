@@ -15,7 +15,9 @@
         private readonly ICategoryService categoryService;
         private readonly IRecipeService recipeService;
 
-        public CategoriesController(ICategoryService categoryService, IRecipeService recipeService)
+        public CategoriesController(
+            ICategoryService categoryService,
+            IRecipeService recipeService)
         {
             this.categoryService = categoryService;
             this.recipeService = recipeService;
@@ -30,8 +32,8 @@
             var recipesFromCategory = this.recipeService.GetByCategoryId(id)
                 .To<CategoryRecipesRecipeViewModel>();
 
-            int pageSize = GlobalConstants.PageSize;
-            return this.View(await PaginatedList<CategoryRecipesRecipeViewModel>.CreateAsync(recipesFromCategory, pageNumber ?? 1, pageSize));
+            return this.View(await PaginatedList<CategoryRecipesRecipeViewModel>
+                .CreateAsync(recipesFromCategory, pageNumber ?? 1, GlobalConstants.PageSize));
         }
     }
 }

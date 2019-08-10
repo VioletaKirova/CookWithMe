@@ -33,10 +33,10 @@
             return null;
         }
 
-        public TEnum Parse<TEnum>(string description, Type typeOfEnum)
+        public TEnum Parse<TEnum>(string description)
         {
             return (TEnum)Enum.Parse(
-                            typeOfEnum,
+                            typeof(TEnum),
                             this.stringFormatService.RemoveWhitespaces(description));
         }
     }

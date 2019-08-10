@@ -1,4 +1,5 @@
-﻿@using CookWithMe.Common;
+﻿@using System.Security.Claims;
+@using CookWithMe.Common;
 
 <!DOCTYPE html>
 <html>
@@ -23,45 +24,57 @@
             <!-- Container -->
             <div class="container">
 
+                <!-- Logo / Mobile Menu -->
+                <div class="three columns">
+                    <div id="logo">
+                        <h1><a href="/Home/Index"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1564057890/common/logo_u08lwu.png" alt="Cook With Me" /></a></h1>
+                    </div>
+                </div>
+
+                <!-- Navigation
+                ================================================== -->
+                @*// TODO: Refactor this*@
                 @if (this.User.Identity.IsAuthenticated && this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
-                    <!-- Logo / Mobile Menu -->
-                    <div class="three columns">
-                        <div id="logo">
-                            <h1><a href="/Home/Index"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1564057890/common/logo_u08lwu.png" alt="Cook With Me" /></a></h1>
-                        </div>
-                    </div>
-
-
-                    <!-- Navigation
-        ================================================== -->
                     <div class="thirteen columns navigation">
 
                         <nav id="navigation" class="menu nav-collapse">
                             <ul>
-                                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                                <li><a href="/Home/Index">Home</a></li>
 
                                 <li>
                                     <a href="#">Recipes</a>
                                     <ul>
+                                        <li><a href="/Administration/Recipes/Create">Add</a></li>
                                         <li><a href="/Recipes/Browse">Browse</a></li>
                                     </ul>
                                 </li>
 
                                 <li>
-                                    <a href="#">Create</a>
+                                    <a href="#">Categories</a>
                                     <ul>
-                                        <li><a asp-area="Administration" asp-controller="Recipes" asp-action="Create">Recipe</a></li>
-                                        <li><a asp-area="Administration" asp-controller="Categories" asp-action="Create">Category</a></li>
-                                        <li><a asp-area="Administration" asp-controller="Administrators" asp-action="Register">Administrator</a></li>
+                                        <li><a href="/Administration/Categories/Create">Add</a></li>
+                                        <li><a href="/Categories/Recipes/@GlobalConstants.FirstCategoryId">Browse</a></li>
                                     </ul>
                                 </li>
+
+                                @if (this.User.FindFirst(ClaimTypes.Name).Value == GlobalConstants.RootUsername)
+                                {
+                                    <li>
+                                        <a href="#">Administrators</a>
+                                        <ul>
+                                            <li><a href="/Administration/Administrators/Register">Register</a></li>
+                                            <li><a href="/Administration/Administrators/All">All</a></li>
+                                        </ul>
+                                    </li>
+                                }
 
                                 <li>
                                     <a href="#">Account</a>
                                     <ul>
-                                        <li><a asp-area="Administration" asp-controller="Recipes" asp-action="All">My Recipes</a></li>
-                                        <li><a asp-area="Identity" asp-page="/Account/Logout">Logout</a></li>
+                                        <li><a href="/Administration/Recipes/All">My Recipes</a></li>
+                                        <li><a href="/Users/EditAdditionalInfo">Additional Info</a></li>
+                                        <li><a href="/Identity/Account/Logout">Logout</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -71,21 +84,11 @@
                 }
                 else if (this.User.Identity.IsAuthenticated && this.User.IsInRole(GlobalConstants.UserRoleName))
                 {
-                    <!-- Logo / Mobile Menu -->
-                    <div class="three columns">
-                        <div id="logo">
-                            <h1><a href="/Home/Index"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1564057890/common/logo_u08lwu.png" alt="Cook With Me" /></a></h1>
-                        </div>
-                    </div>
-
-
-                    <!-- Navigation
-        ================================================== -->
                     <div class="thirteen columns navigation">
 
                         <nav id="navigation" class="menu nav-collapse">
                             <ul>
-                                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                                <li><a href="/Home/Index">Home</a></li>
 
                                 <li>
                                     <a href="#">Recipes</a>
@@ -101,7 +104,7 @@
                                     <ul>
                                         <li><a href="/Users/EditAdditionalInfo">Additional Info</a></li>
                                         <li><a href="/ShoppingLists/All">Shopping Lists</a></li>
-                                        <li><a asp-area="Identity" asp-page="/Account/Logout">Logout</a></li>
+                                        <li><a href="/Identity/Account/Logout">Logout</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -111,23 +114,13 @@
                 }
                 else
                 {
-                    <!-- Logo / Mobile Menu -->
-                    <div class="three columns">
-                        <div id="logo">
-                            <h1><a href="/Home/Index"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1564057890/common/logo_u08lwu.png" alt="Cook With Me" /></a></h1>
-                        </div>
-                    </div>
-
-                    <!-- Navigation
-        ================================================== -->
                     <div class="thirteen columns navigation">
 
                         <nav id="navigation" class="menu nav-collapse">
-                            @*<partial name="_LoginPartial" />*@
                             <ul>
-                                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                                <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
-                                <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+                                <li><a href="/Home/Index">Home</a></li>
+                                <li><a href="/Identity/Account/Register">Register</a></li>
+                                <li><a href="/Identity/Account/Login">Login</a></li>
                             </ul>
                         </nav>
 
@@ -145,11 +138,10 @@
     <!-- Wrapper / End -->
 
     <main role="main">
-        @*<partial name="_CookieConsentPartial" />*@
         @this.RenderBody()
     </main>
 
-    <br/>
+    <br />
 
     <!-- Footer
     ================================================== -->
@@ -207,9 +199,9 @@
     <script src="~/js/scripts/jquery.superfish.js" asp-append-version="true"></script>
     <script src="~/js/scripts/jquery.royalslider.min.js" asp-append-version="true"></script>
     <script src="~/js/scripts/responsive-nav.js" asp-append-version="true"></script>
-   <script src="~/js/scripts/hoverIntent.js" asp-append-version="true"></script>
-   <script src="~/js/scripts/isotope.pkgd.min.js" asp-append-version="true"></script>
-   <script src="~/js/scripts/chosen.jquery.min.js" asp-append-version="true"></script>
+    <script src="~/js/scripts/hoverIntent.js" asp-append-version="true"></script>
+    <script src="~/js/scripts/isotope.pkgd.min.js" asp-append-version="true"></script>
+    <script src="~/js/scripts/chosen.jquery.min.js" asp-append-version="true"></script>
     <script src="~/js/scripts/jquery.tooltips.min.js" asp-append-version="true"></script>
     <script src="~/js/scripts/jquery.magnific-popup.min.js" asp-append-version="true"></script>
     <script src="~/js/scripts/jquery.pricefilter.js" asp-append-version="true"></script>

@@ -3,8 +3,10 @@
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Mapping;
 
-    public class AdministratorServiceModel : IMapTo<ApplicationUser>
+    public class AdministratorServiceModel : IMapTo<ApplicationUser>, IMapFrom<ApplicationUser>
     {
+        public string Id { get; set; }
+
         public string Username { get; set; }
 
         public string FullName { get; set; }

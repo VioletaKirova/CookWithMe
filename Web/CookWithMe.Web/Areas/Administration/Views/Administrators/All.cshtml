@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CookWithMe.Web.ViewModels.Administrators.AdministratorAllViewModel>
+
+@{
+    ViewData["Title"] = "Administrators";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Titlebar
+================================================== -->
+<section id="titlebar">
+    <!-- Container -->
+    <div class="container">
+
+        <div class="eight columns">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+
+    </div>
+    <!-- Container / End -->
+</section>
+
+
+<!-- Content
+================================================== -->
+<div class="container">
+    <div class="six columns">
+        @foreach (var admin in Model)
+        {
+            <div class="widget">
+                <div class="author-box">
+                    <span class="title">Administrator</span>
+                    <br />
+                    <span class="name">@admin.FullName</span>
+                    <p>Full Name</p>
+                    <br />
+                    <span class="name">@admin.Username</span>
+                    <p>Username</p>
+                    <br />
+                    <a href="/Administration/Administrators/RemoveFromRole/@admin.Id" class="button medium">Remove From Role</a>
+                </div>             
+            </div>
+        }
+    </div>
+</div>

@@ -52,23 +52,23 @@
             return userServiceModel;
         }
 
-        public async Task<bool> AddAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel)
+        public async Task<bool> AddAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel userAdditionalInfoServiceModel)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
             user.HasAdditionalInfo = true;
-            user.Biography = additionalInfoServiceModel.Biography;
-            user.ProfilePhoto = additionalInfoServiceModel.ProfilePhoto;
+            user.Biography = userAdditionalInfoServiceModel.Biography;
+            user.ProfilePhoto = userAdditionalInfoServiceModel.ProfilePhoto;
 
-            if (additionalInfoServiceModel.Lifestyle != null)
+            if (userAdditionalInfoServiceModel.Lifestyle != null)
             {
                 await this.lifestyleService
-                    .SetLifestyleToUserAsync(additionalInfoServiceModel.Lifestyle.Type, user);
+                    .SetLifestyleToUserAsync(userAdditionalInfoServiceModel.Lifestyle.Type, user);
             }
 
-            if (additionalInfoServiceModel.Allergies != null)
+            if (userAdditionalInfoServiceModel.Allergies != null)
             {
-                foreach (var userAllergen in additionalInfoServiceModel.Allergies)
+                foreach (var userAllergen in userAdditionalInfoServiceModel.Allergies)
                 {
                     await this.allergenService
                         .SetAllergenToUserAsync(userAllergen.Allergen.Name, user);
@@ -80,25 +80,25 @@
             return result.Succeeded;
         }
 
-        public async Task<bool> EditAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel)
+        public async Task<bool> EditAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel userAdditionalInfoServiceModel)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
-            user.FullName = additionalInfoServiceModel.FullName;
-            user.Biography = additionalInfoServiceModel.Biography;
-            user.ProfilePhoto = additionalInfoServiceModel.ProfilePhoto;
+            user.FullName = userAdditionalInfoServiceModel.FullName;
+            user.Biography = userAdditionalInfoServiceModel.Biography;
+            user.ProfilePhoto = userAdditionalInfoServiceModel.ProfilePhoto;
 
-            if (additionalInfoServiceModel.Lifestyle != null)
+            if (userAdditionalInfoServiceModel.Lifestyle != null)
             {
                 await this.lifestyleService
-                    .SetLifestyleToUserAsync(additionalInfoServiceModel.Lifestyle.Type, user);
+                    .SetLifestyleToUserAsync(userAdditionalInfoServiceModel.Lifestyle.Type, user);
             }
 
             this.userAllergenService.DeletePreviousUserAllergensByUserId(userId);
 
-            if (additionalInfoServiceModel.Allergies != null)
+            if (userAdditionalInfoServiceModel.Allergies != null)
             {
-                foreach (var userAllergen in additionalInfoServiceModel.Allergies)
+                foreach (var userAllergen in userAdditionalInfoServiceModel.Allergies)
                 {
                     await this.allergenService
                         .SetAllergenToUserAsync(userAllergen.Allergen.Name, user);

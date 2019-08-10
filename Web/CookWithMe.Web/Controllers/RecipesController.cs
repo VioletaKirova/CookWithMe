@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Reflection;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -24,7 +22,6 @@
     public class RecipesController : BaseController
     {
         private readonly IRecipeService recipeService;
-        private readonly IUserService userService;
         private readonly IUserFavoriteRecipeService userFavoriteRecipeService;
         private readonly IUserCookedRecipeService userCookedRecipeService;
         private readonly IReviewService reviewService;
@@ -32,20 +29,20 @@
         private readonly ICategoryService categoryService;
         private readonly IAllergenService allergenService;
         private readonly ILifestyleService lifestyleService;
+        private readonly IEnumParseService enumParseService;
 
         public RecipesController(
             IRecipeService recipeService,
-            IUserService userService,
             IUserFavoriteRecipeService userFavoriteRecipeService,
             IUserCookedRecipeService userCookedRecipeService,
             IReviewService reviewService,
             IStringFormatService stringFormatService,
             ICategoryService categoryService,
             IAllergenService allergenService,
-            ILifestyleService lifestyleService)
+            ILifestyleService lifestyleService,
+            IEnumParseService enumParseService)
         {
             this.recipeService = recipeService;
-            this.userService = userService;
             this.userFavoriteRecipeService = userFavoriteRecipeService;
             this.userCookedRecipeService = userCookedRecipeService;
             this.reviewService = reviewService;
@@ -53,6 +50,7 @@
             this.categoryService = categoryService;
             this.allergenService = allergenService;
             this.lifestyleService = lifestyleService;
+            this.enumParseService = enumParseService;
         }
 
         [HttpGet]
@@ -61,28 +59,28 @@
             var recipeServiceModel = await this.recipeService.GetByIdAsync(id);
             recipeServiceModel.Reviews = await this.reviewService.GetByRecipeId(id).ToListAsync();
 
-            var recipeViewModel = recipeServiceModel.To<RecipeDetailsViewModel>();
+            var recipeDetailsViewModel = recipeServiceModel.To<RecipeDetailsViewModel>();
 
-            recipeViewModel.DirectionsList = this.stringFormatService
+            recipeDetailsViewModel.DirectionsList = this.stringFormatService
                 .SplitBySemicollonAndWhitespace(recipeServiceModel.Directions);
 
-            recipeViewModel.ShoppingListIngredients = this.stringFormatService
+            recipeDetailsViewModel.ShoppingListIngredients = this.stringFormatService
                 .SplitBySemicollonAndWhitespace(recipeServiceModel.ShoppingList.Ingredients);
 
-            recipeViewModel.FormatedPreparationTime = this.stringFormatService
+            recipeDetailsViewModel.FormatedPreparationTime = this.stringFormatService
                 .FormatTime(recipeServiceModel.PreparationTime);
 
-            recipeViewModel.FormatedCookingTime = this.stringFormatService
+            recipeDetailsViewModel.FormatedCookingTime = this.stringFormatService
                 .FormatTime(recipeServiceModel.CookingTime);
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            recipeViewModel.UserFavoritedCurrentRecipe = await this.userFavoriteRecipeService
+            recipeDetailsViewModel.UserFavoritedCurrentRecipe = await this.userFavoriteRecipeService
                 .ContainsByUserIdAndRecipeIdAsync(userId, id);
-            recipeViewModel.UserCookedCurrentRecipe = await this.userCookedRecipeService
+            recipeDetailsViewModel.UserCookedCurrentRecipe = await this.userCookedRecipeService
                 .ContainsByUserIdAndRecipeIdAsync(userId, id);
 
-            return this.View(recipeViewModel);
+            return this.View(recipeDetailsViewModel);
         }
 
         [Authorize]
@@ -143,8 +141,8 @@
                 .GetByIds(favoriteRecipeIds)
                 .To<RecipeFavoriteViewModel>();
 
-            int pageSize = GlobalConstants.PageSize;
-            return this.View(await PaginatedList<RecipeFavoriteViewModel>.CreateAsync(favoriteRecipes, pageNumber ?? 1, pageSize));
+            return this.View(await PaginatedList<RecipeFavoriteViewModel>
+                .CreateAsync(favoriteRecipes, pageNumber ?? 1, GlobalConstants.PageSize));
         }
 
         [Authorize]
@@ -161,14 +159,15 @@
                 .GetByIds(cookedRecipeIds)
                 .To<RecipeCookedViewModel>();
 
-            int pageSize = GlobalConstants.PageSize;
-            return this.View(await PaginatedList<RecipeCookedViewModel>.CreateAsync(cookedRecipes, pageNumber ?? 1, pageSize));
+            return this.View(await PaginatedList<RecipeCookedViewModel>
+                .CreateAsync(cookedRecipes, pageNumber ?? 1, GlobalConstants.PageSize));
         }
 
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Browse()
         {
+            // TODO: Refactor this
             this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
             return this.View();
@@ -176,63 +175,38 @@
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Filtered(RecipeSearchInputModel inputModel, int? pageNumber)
+        public async Task<IActionResult> Filtered(RecipeSearchInputModel recipeSearchInputModel, int? pageNumber)
         {
             if (!this.ModelState.IsValid)
             {
+                // TODO: Refactor this
                 this.ViewData["Model"] = await this.GetRecipeViewDataModel();
 
                 return this.View();
             }
 
-            var serviceModel = inputModel.To<RecipeSearchServiceModel>();
+            var recipeSearchServiceModel = recipeSearchInputModel.To<RecipeSearchServiceModel>();
 
-            if (inputModel.NeededTime != null)
+            if (recipeSearchInputModel.NeededTime != null)
             {
-                serviceModel.NeededTime = this.GetEnum(inputModel.NeededTime, typeof(Period));
+                recipeSearchServiceModel.NeededTime = this.enumParseService
+                    .Parse<Period>(recipeSearchInputModel.NeededTime);
             }
 
-            foreach (var allergenName in inputModel.AllergenNames)
+            foreach (var allergenName in recipeSearchInputModel.AllergenNames)
             {
-                serviceModel.Allergens.Add(new RecipeAllergenServiceModel
+                recipeSearchServiceModel.Allergens.Add(new RecipeAllergenServiceModel
                 {
                     Allergen = new AllergenServiceModel { Name = allergenName },
                 });
             }
 
             var filteredRecipes = (await this.recipeService
-                .GetBySearchValuesAsync(serviceModel))
+                .GetBySearchValuesAsync(recipeSearchServiceModel))
                 .To<RecipeSearchViewModel>();
 
             int pageSize = GlobalConstants.PageSize;
             return this.View(await PaginatedList<RecipeSearchViewModel>.CreateAsync(filteredRecipes, pageNumber ?? 1, pageSize));
-        }
-
-        private Period GetEnum(string description, Type typeOfEnum)
-        {
-            return (Period)Enum.Parse(
-                            typeOfEnum,
-                            this.stringFormatService.RemoveWhitespaces(description));
-        }
-
-        private string GetEnumDescription(string name, Type typeOfEnum)
-        {
-            FieldInfo specificField = typeOfEnum.GetField(name);
-
-            if (specificField != null)
-            {
-                DescriptionAttribute attr =
-                       Attribute.GetCustomAttribute(
-                           specificField,
-                           typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-                if (attr != null)
-                {
-                    return attr.Description;
-                }
-            }
-
-            return null;
         }
 
         private async Task<RecipeViewDataModel> GetRecipeViewDataModel()
@@ -247,7 +221,8 @@
             var periodDescriptions = new List<string>();
             foreach (var periodName in periodNames)
             {
-                periodDescriptions.Add(this.GetEnumDescription(periodName, typeof(Period)));
+                periodDescriptions.Add(this.enumParseService
+                    .GetEnumDescription(periodName, typeof(Period)));
             }
 
             var recipeViewDataModel = new RecipeViewDataModel

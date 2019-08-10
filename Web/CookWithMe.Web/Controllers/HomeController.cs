@@ -56,8 +56,8 @@
             var filteredRecipes = (await this.recipeService.GetAllFilteredAsync(userId))
                 .To<RecipeHomeViewModel>();
 
-            int pageSize = GlobalConstants.PageSize;
-            return this.View(await PaginatedList<RecipeHomeViewModel>.CreateAsync(filteredRecipes, pageNumber ?? 1, pageSize));
+            return this.View(await PaginatedList<RecipeHomeViewModel>
+                .CreateAsync(filteredRecipes, pageNumber ?? 1, GlobalConstants.PageSize));
         }
 
         public IActionResult Privacy()

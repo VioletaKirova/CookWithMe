@@ -59,13 +59,14 @@
         {
             var shoppingListServiceModel = await this.shoppingListService.GetByIdAsync(id);
 
-            var shoppingListViewModel = shoppingListServiceModel.To<ShoppingListDetailsViewModel>();
+            var shoppingListDetailsViewModel = shoppingListServiceModel.To<ShoppingListDetailsViewModel>();
 
-            shoppingListViewModel.RecipeTitle = (await this.recipeService.GetByIdAsync(shoppingListServiceModel.RecipeId)).Title;
-            shoppingListViewModel.IngredientsList = this.stringFormatService
+            shoppingListDetailsViewModel.RecipeTitle = (await this.recipeService
+                .GetByIdAsync(shoppingListServiceModel.RecipeId)).Title;
+            shoppingListDetailsViewModel.IngredientsList = this.stringFormatService
                 .SplitBySemicollonAndWhitespace(shoppingListServiceModel.Ingredients);
 
-            return this.View(shoppingListViewModel);
+            return this.View(shoppingListDetailsViewModel);
         }
 
         [HttpGet]

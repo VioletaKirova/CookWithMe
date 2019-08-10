@@ -3,6 +3,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using CookWithMe.Common;
     using CookWithMe.Services.Data;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
@@ -17,7 +18,9 @@
         private readonly ICategoryService categoryService;
         private readonly IRecipeService recipeService;
 
-        public CategoriesController(ICategoryService categoryService, IRecipeService recipeService)
+        public CategoriesController(
+            ICategoryService categoryService,
+            IRecipeService recipeService)
         {
             this.categoryService = categoryService;
             this.recipeService = recipeService;
@@ -30,51 +33,53 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CategoryCreateInputModel inputModel)
+        public async Task<IActionResult> Create(CategoryCreateInputModel categoryCreateInputModel)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.View();
             }
 
-            var serviceModel = inputModel.To<CategoryServiceModel>();
+            var categoryServiceModel = categoryCreateInputModel.To<CategoryServiceModel>();
 
-            await this.categoryService.CreateAsync(serviceModel);
+            await this.categoryService.CreateAsync(categoryServiceModel);
 
-            return this.Redirect("/");
+            var categoryId = await this.categoryService.GetIdByTitleAsync(categoryServiceModel.Title);
+
+            return this.Redirect($"/Categories/Recipes/{categoryId}");
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var viewModel = (await this.categoryService.GetByIdAsync(id))
+            var categoryEditInputModel = (await this.categoryService.GetByIdAsync(id))
                 .To<CategoryEditInputModel>();
 
-            return this.View(viewModel);
+            return this.View(categoryEditInputModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CategoryEditInputModel inputModel)
+        public async Task<IActionResult> Edit(CategoryEditInputModel categoryEditInputModel)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(inputModel);
+                return this.View(categoryEditInputModel);
             }
 
-            var serviceModel = inputModel.To<CategoryServiceModel>();
+            var categoryServiceModel = categoryEditInputModel.To<CategoryServiceModel>();
 
-            await this.categoryService.EditAsync(serviceModel);
+            await this.categoryService.EditAsync(categoryServiceModel);
 
-            return this.Redirect($"/Categories/Recipes/{serviceModel.Id}");
+            return this.Redirect($"/Categories/Recipes/{categoryServiceModel.Id}");
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var viewModel = (await this.categoryService.GetByIdAsync(id))
+            var categoryDeleteViewModel = (await this.categoryService.GetByIdAsync(id))
                 .To<CategoryDeleteViewModel>();
 
-            return this.View(viewModel);
+            return this.View(categoryDeleteViewModel);
         }
 
         [HttpPost]
@@ -92,7 +97,7 @@
 
             await this.categoryService.DeleteByIdAsync(id);
 
-            return this.Redirect("/");
+            return this.Redirect($"/Categories/Recipes/{GlobalConstants.FirstCategoryId}");
         }
     }
 }

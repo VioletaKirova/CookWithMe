@@ -6,6 +6,6 @@
     {
         string GetEnumDescription(string name, Type typeOfEnum);
 
-        TEnum Parse<TEnum>(string description, Type typeOfEnum);
+        TEnum Parse<TEnum>(string description);
     }
 }

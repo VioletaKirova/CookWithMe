@@ -24,7 +24,11 @@
         private readonly ILifestyleService lifestyleService;
         private readonly ICloudinaryService cloudinaryService;
 
-        public UsersController(IUserService userService, IAllergenService allergenService, ILifestyleService lifestyleService, ICloudinaryService cloudinaryService)
+        public UsersController(
+            IUserService userService,
+            IAllergenService allergenService,
+            ILifestyleService lifestyleService,
+            ICloudinaryService cloudinaryService)
         {
             this.userService = userService;
             this.allergenService = allergenService;
@@ -35,43 +39,46 @@
         [HttpGet]
         public async Task<IActionResult> AddAdditionalInfo()
         {
+            // TODO: Refactor this
             this.ViewData["Model"] = await this.GetUserAdditionalInfoViewDataModel();
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userFullName = (await this.userService.GetByIdAsync(userId)).FullName;
 
-            var viewModel = new UserAddAdditionalInfoInputModel
+            var userAddAdditionalInfoInputModel = new UserAddAdditionalInfoInputModel
             {
                 FullName = userFullName,
             };
 
-            return this.View(viewModel);
+            return this.View(userAddAdditionalInfoInputModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAdditionalInfo(UserAddAdditionalInfoInputModel model)
+        public async Task<IActionResult> AddAdditionalInfo(UserAddAdditionalInfoInputModel userAddAdditionalInfoInputModel)
         {
             if (!this.ModelState.IsValid)
             {
+                // TODO: Refactor this
                 this.ViewData["Model"] = await this.GetUserAdditionalInfoViewDataModel();
 
                 return this.View();
             }
 
-            var userAdditionalInfoServiceModel = model.To<UserAdditionalInfoServiceModel>();
+            var userAdditionalInfoServiceModel = userAddAdditionalInfoInputModel
+                .To<UserAdditionalInfoServiceModel>();
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (model.ProfilePhoto != null)
+            if (userAddAdditionalInfoInputModel.ProfilePhoto != null)
             {
                 string photoUrl = await this.cloudinaryService.UploadPhotoAsync(
-                model.ProfilePhoto,
+                userAddAdditionalInfoInputModel.ProfilePhoto,
                 userId,
                 GlobalConstants.CloudFolderForUserProfilePhotos);
                 userAdditionalInfoServiceModel.ProfilePhoto = photoUrl;
             }
 
-            foreach (var allergenName in model.AllergenNames)
+            foreach (var allergenName in userAddAdditionalInfoInputModel.AllergenNames)
             {
                 userAdditionalInfoServiceModel.Allergies.Add(new UserAllergenServiceModel
                 {
@@ -88,16 +95,18 @@
         public async Task<IActionResult> EditAdditionalInfo()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await this.userService.GetByIdAsync(userId);
+            var userServiceModel = await this.userService.GetByIdAsync(userId);
 
-            if (!user.HasAdditionalInfo)
+            if (!userServiceModel.HasAdditionalInfo)
             {
                 return this.RedirectToAction("AddAdditionalInfo");
             }
 
+            // TODO: Refactor this
             this.ViewData["Model"] = await this.GetUserAdditionalInfoViewDataModel();
 
-            var userAdditionalInfoServiceModel = await this.userService.GetAdditionalInfoByUserIdAsync(user.Id);
+            var userAdditionalInfoServiceModel = await this.userService
+                .GetAdditionalInfoByUserIdAsync(userServiceModel.Id);
             var userEditAdditionalInfoInputModel = userAdditionalInfoServiceModel
                 .To<UserEditAdditionalInfoInputModel>();
 
@@ -113,29 +122,31 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditAdditionalInfo(UserEditAdditionalInfoInputModel model)
+        public async Task<IActionResult> EditAdditionalInfo(UserEditAdditionalInfoInputModel userEditAdditionalInfoInputModel)
         {
             if (!this.ModelState.IsValid)
             {
+                // TODO: Refactor this
                 this.ViewData["Model"] = await this.GetUserAdditionalInfoViewDataModel();
 
-                return this.View(model);
+                return this.View();
             }
 
-            var userAdditionalInfoServiceModel = model.To<UserAdditionalInfoServiceModel>();
+            var userAdditionalInfoServiceModel = userEditAdditionalInfoInputModel
+                .To<UserAdditionalInfoServiceModel>();
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (model.ProfilePhoto != null)
+            if (userEditAdditionalInfoInputModel.ProfilePhoto != null)
             {
                 string photoUrl = await this.cloudinaryService.UploadPhotoAsync(
-                model.ProfilePhoto,
+                userEditAdditionalInfoInputModel.ProfilePhoto,
                 userId,
                 GlobalConstants.CloudFolderForUserProfilePhotos);
                 userAdditionalInfoServiceModel.ProfilePhoto = photoUrl;
             }
 
-            foreach (var allergenName in model.AllergenNames)
+            foreach (var allergenName in userEditAdditionalInfoInputModel.AllergenNames)
             {
                 userAdditionalInfoServiceModel.Allergies.Add(new UserAllergenServiceModel
                 {

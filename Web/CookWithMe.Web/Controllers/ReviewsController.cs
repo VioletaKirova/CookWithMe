@@ -17,7 +17,9 @@
         private readonly IReviewService reviewService;
         private readonly IRecipeService recipeService;
 
-        public ReviewsController(IReviewService reviewService, IRecipeService recipeService)
+        public ReviewsController(
+            IReviewService reviewService,
+            IRecipeService recipeService)
         {
             this.reviewService = reviewService;
             this.recipeService = recipeService;
@@ -28,24 +30,24 @@
         {
             var recipeServiceModel = await this.recipeService.GetByIdAsync(id);
 
-            var viewModel = new ReviewCreateInputModel
+            var reviewCreateInputModel = new ReviewCreateInputModel
             {
                 RecipeId = id,
                 RecipeTitle = recipeServiceModel.Title,
             };
 
-            return this.View(viewModel);
+            return this.View(reviewCreateInputModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ReviewCreateInputModel inputModel)
+        public async Task<IActionResult> Create(ReviewCreateInputModel reviewCreateInputModel)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(inputModel);
+                return this.View(reviewCreateInputModel);
             }
 
-            var reviewServiceModel = inputModel.To<ReviewServiceModel>();
+            var reviewServiceModel = reviewCreateInputModel.To<ReviewServiceModel>();
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             reviewServiceModel.ReviewerId = userId;

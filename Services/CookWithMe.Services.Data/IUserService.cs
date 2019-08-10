@@ -7,9 +7,9 @@
 
     public interface IUserService
     {
-        Task<bool> AddAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel);
+        Task<bool> AddAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel userAdditionalInfoServiceModel);
 
-        Task<bool> EditAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel);
+        Task<bool> EditAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel userAdditionalInfoServiceModel);
 
         Task SetUserToRecipeAsync(string userId, Recipe recipe);
 
