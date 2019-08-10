@@ -22,7 +22,7 @@
         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <a href="/Administration/Categories/Edit/@ViewData["CategoryId"]" class="button medium color" margin: 0 5px 0 0;">Edit</a>
-            <a href="/Administration/Categories/Delete//@ViewData["CategoryId"]" class="button medium" margin: 0 5px 0 0;">Delete</a>
+            <a href="/Administration/Categories/Delete/@ViewData["CategoryId"]" class="button medium" margin: 0 5px 0 0;">Delete</a>
         }
         else
         {

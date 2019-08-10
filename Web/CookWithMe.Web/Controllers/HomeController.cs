@@ -46,14 +46,14 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var userLifestyleId = (await this.userService.GetById(userId)).LifestyleId;
+            var userLifestyleId = (await this.userService.GetByIdAsync(userId)).LifestyleId;
 
             if (userLifestyleId != null)
             {
-                this.ViewData["Lifestyle"] = (await this.lifestyleService.GetById(userLifestyleId.Value)).Type;
+                this.ViewData["Lifestyle"] = (await this.lifestyleService.GetByIdAsync(userLifestyleId.Value)).Type;
             }
 
-            var filteredRecipes = (await this.recipeService.GetAllFiltered(userId))
+            var filteredRecipes = (await this.recipeService.GetAllFilteredAsync(userId))
                 .To<RecipeHomeViewModel>();
 
             int pageSize = GlobalConstants.PageSize;

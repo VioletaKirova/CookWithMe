@@ -25,9 +25,9 @@
         public async Task<IActionResult> Recipes(int id, int? pageNumber)
         {
             this.ViewData["CategoryId"] = id;
-            this.ViewData["CategoryTitle"] = (await this.categoryService.GetById(id)).Title;
+            this.ViewData["CategoryTitle"] = (await this.categoryService.GetByIdAsync(id)).Title;
 
-            var recipesFromCategory = this.recipeService.GetAllByCategoryId(id)
+            var recipesFromCategory = this.recipeService.GetByCategoryId(id)
                 .To<CategoryRecipesRecipeViewModel>();
 
             int pageSize = GlobalConstants.PageSize;

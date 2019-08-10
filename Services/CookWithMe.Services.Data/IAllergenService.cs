@@ -1,21 +1,20 @@
 ﻿namespace CookWithMe.Services.Data
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Data.Models;
 
     public interface IAllergenService
     {
-        Task<bool> CreateAllAsync(string[] names);
+        Task<bool> CreateAllAsync(string[] allergenNames);
 
-        IQueryable<string> GetAllNames();
+        Task<IEnumerable<string>> GetAllNamesAsync();
 
-        Task SetAllergenToRecipe(string allergenName, Recipe recipe);
+        Task SetAllergenToRecipeAsync(string allergenName, Recipe recipe);
 
-        Task SetAllergenToUser(string allergenName, ApplicationUser user);
+        Task SetAllergenToUserAsync(string allergenName, ApplicationUser user);
 
-        Task<IEnumerable<int>> GetAllIds(IEnumerable<string> allergenNames);
+        Task<IEnumerable<int>> GetIdsByNamesAsync(IEnumerable<string> allergenNames);
     }
 }

@@ -47,7 +47,7 @@
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var viewModel = (await this.categoryService.GetById(id))
+            var viewModel = (await this.categoryService.GetByIdAsync(id))
                 .To<CategoryEditInputModel>();
 
             return this.View(viewModel);
@@ -65,13 +65,13 @@
 
             await this.categoryService.EditAsync(serviceModel);
 
-            return this.Redirect($"/Categories/All/{serviceModel.Id}");
+            return this.Redirect($"/Categories/Recipes/{serviceModel.Id}");
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var viewModel = (await this.categoryService.GetById(id))
+            var viewModel = (await this.categoryService.GetByIdAsync(id))
                 .To<CategoryDeleteViewModel>();
 
             return this.View(viewModel);
@@ -81,16 +81,16 @@
         [Route("/Administration/Categories/Delete/{id}")]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
-            var recipeIds = await this.recipeService.GetAllByCategoryId(id)
+            var recipeIds = await this.recipeService.GetByCategoryId(id)
                 .Select(x => x.Id)
                 .ToListAsync();
 
             foreach (var recipeId in recipeIds)
             {
-                await this.recipeService.Delete(recipeId);
+                await this.recipeService.DeleteByIdAsync(recipeId);
             }
 
-            await this.categoryService.DeleteAsync(id);
+            await this.categoryService.DeleteByIdAsync(id);
 
             return this.Redirect("/");
         }

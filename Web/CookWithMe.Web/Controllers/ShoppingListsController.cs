@@ -38,17 +38,17 @@
         [HttpGet]
         public async Task<IActionResult> Get(string id)
         {
-            var shoppingListServiceModel = await this.shoppingListService.GetById(id);
+            var shoppingListServiceModel = await this.shoppingListService.GetByIdAsync(id);
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var checkIfUserHasShoppingList = await this.userShoppingListService
-                .ContainsByUserIdAndShoppingListId(userId, shoppingListServiceModel.Id);
+                .ContainsByUserIdAndShoppingListIdAsync(userId, shoppingListServiceModel.Id);
 
             if (!checkIfUserHasShoppingList)
             {
                 await this.userService
-                    .SetShoppingList(userId, shoppingListServiceModel);
+                    .SetShoppingListAsync(userId, shoppingListServiceModel);
             }
 
             return this.RedirectToAction("All");
@@ -57,11 +57,11 @@
         [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
-            var shoppingListServiceModel = await this.shoppingListService.GetById(id);
+            var shoppingListServiceModel = await this.shoppingListService.GetByIdAsync(id);
 
             var shoppingListViewModel = shoppingListServiceModel.To<ShoppingListDetailsViewModel>();
 
-            shoppingListViewModel.RecipeTitle = (await this.recipeService.GetById(shoppingListServiceModel.RecipeId)).Title;
+            shoppingListViewModel.RecipeTitle = (await this.recipeService.GetByIdAsync(shoppingListServiceModel.RecipeId)).Title;
             shoppingListViewModel.IngredientsList = this.stringFormatService
                 .SplitBySemicollonAndWhitespace(shoppingListServiceModel.Ingredients);
 
@@ -73,7 +73,7 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.userShoppingListService.Remove(userId, id);
+            await this.userShoppingListService.DeleteByUserIdAndShoppingListIdAsync(userId, id);
 
             return this.RedirectToAction("All");
         }
@@ -82,9 +82,9 @@
         public async Task<IActionResult> All()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var shoppingListIds = await this.userShoppingListService.GetUserShoppingListIds(userId);
+            var shoppingListIds = await this.userShoppingListService.GetShoppingListIdsByUserIdAsync(userId);
             var shoppingLists = await this.shoppingListService
-                .GetAllByIds(shoppingListIds)
+                .GetByIdsAsync(shoppingListIds)
                 .To<ShoppingListAllViewModel>()
                 .ToListAsync();
 

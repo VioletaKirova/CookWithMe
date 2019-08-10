@@ -5,11 +5,11 @@
 
     public interface IUserFavoriteRecipeService
     {
-        Task<bool> ContainsByUserIdAndRecipeId(string userId, string recipeId);
+        Task<bool> ContainsByUserIdAndRecipeIdAsync(string userId, string recipeId);
 
-        Task<bool> DeleteByUserIdAndRecipeId(string userId, string recipeId);
+        Task<bool> DeleteByUserIdAndRecipeIdAsync(string userId, string recipeId);
 
-        Task<bool> DeleteByRecipeId(string recipeId);
+        Task<bool> DeleteByRecipeIdAsync(string recipeId);
 
         IQueryable<string> GetRecipeIdsByUserId(string userId);
     }

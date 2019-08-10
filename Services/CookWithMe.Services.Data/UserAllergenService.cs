@@ -30,7 +30,7 @@
             }
         }
 
-        public async Task<ICollection<UserAllergenServiceModel>> GetByUserId(string userId)
+        public async Task<ICollection<UserAllergenServiceModel>> GetByUserIdAsync(string userId)
         {
             return await this.userAllergenRepository
                 .AllAsNoTracking()

@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -36,9 +37,9 @@
             return result > 0;
         }
 
-        public async Task<bool> CreateAsync(CategoryServiceModel serviceModel)
+        public async Task<bool> CreateAsync(CategoryServiceModel categoryServiceModel)
         {
-            var category = serviceModel.To<Category>();
+            var category = categoryServiceModel.To<Category>();
 
             await this.categoryRepository.AddAsync(category);
             var result = await this.categoryRepository.SaveChangesAsync();
@@ -46,23 +47,23 @@
             return result > 0;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteByIdAsync(int id)
         {
-            var category = await this.categoryRepository.GetByIdWithDeletedAsync(id);
+            var categoryFromDb = await this.categoryRepository.GetByIdWithDeletedAsync(id);
 
-            this.categoryRepository.Delete(category);
+            this.categoryRepository.Delete(categoryFromDb);
             var result = await this.categoryRepository.SaveChangesAsync();
 
             return result > 0;
         }
 
-        public async Task<bool> EditAsync(CategoryServiceModel serviceModel)
+        public async Task<bool> EditAsync(CategoryServiceModel categoryServiceModel)
         {
-            var category = await this.categoryRepository.GetByIdWithDeletedAsync(serviceModel.Id);
+            var categoryFromDb = await this.categoryRepository.GetByIdWithDeletedAsync(categoryServiceModel.Id);
 
-            category.Title = serviceModel.Title;
+            categoryFromDb.Title = categoryServiceModel.Title;
 
-            this.categoryRepository.Update(category);
+            this.categoryRepository.Update(categoryFromDb);
             var result = await this.categoryRepository.SaveChangesAsync();
 
             return result > 0;
@@ -75,14 +76,15 @@
                 .To<CategoryServiceModel>();
         }
 
-        public IQueryable<string> GetAllTitles()
+        public async Task<IEnumerable<string>> GetAllTitlesAsync()
         {
-            return this.categoryRepository
+            return await this.categoryRepository
                 .AllAsNoTracking()
-                .Select(x => x.Title);
+                .Select(x => x.Title)
+                .ToListAsync();
         }
 
-        public async Task<CategoryServiceModel> GetById(int id)
+        public async Task<CategoryServiceModel> GetByIdAsync(int id)
         {
             var category = await this.categoryRepository
                 .GetByIdWithDeletedAsync(id);
@@ -90,7 +92,7 @@
             return category.To<CategoryServiceModel>();
         }
 
-        public async Task<int> GetId(string categoryTitle)
+        public async Task<int> GetIdByTitleAsync(string categoryTitle)
         {
             return (await this.categoryRepository
                 .AllAsNoTracking()
@@ -98,7 +100,7 @@
                 .Id;
         }
 
-        public async Task SetCategoryToRecipe(string categoryTitle, Recipe recipe)
+        public async Task SetCategoryToRecipeAsync(string categoryTitle, Recipe recipe)
         {
             recipe.Category = await this.categoryRepository.All()
                 .SingleOrDefaultAsync(x => x.Title == categoryTitle);

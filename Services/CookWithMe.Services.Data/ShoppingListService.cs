@@ -20,26 +20,28 @@
             this.shoppingListRepository = shoppingListRepository;
         }
 
-        public async Task<bool> Delete(string id)
+        public async Task<bool> DeleteByIdAsync(string id)
         {
-            var shoppingList = await this.shoppingListRepository.GetByIdWithDeletedAsync(id);
+            var shoppingListFromDb = await this.shoppingListRepository
+                .GetByIdWithDeletedAsync(id);
 
-            this.shoppingListRepository.Delete(shoppingList);
+            this.shoppingListRepository.Delete(shoppingListFromDb);
             var result = await this.shoppingListRepository.SaveChangesAsync();
 
             return result > 0;
         }
 
-        public async Task Edit(string id, ShoppingListServiceModel model)
+        public async Task EditAsync(string id, ShoppingListServiceModel shoppingListServiceModel)
         {
-            var shoppingListFromDb = await this.shoppingListRepository.GetByIdWithDeletedAsync(id);
+            var shoppingListFromDb = await this.shoppingListRepository
+                .GetByIdWithDeletedAsync(id);
 
-            shoppingListFromDb.Ingredients = model.Ingredients;
+            shoppingListFromDb.Ingredients = shoppingListServiceModel.Ingredients;
 
             this.shoppingListRepository.Update(shoppingListFromDb);
         }
 
-        public async Task<ShoppingListServiceModel> GetById(string id)
+        public async Task<ShoppingListServiceModel> GetByIdAsync(string id)
         {
             var shoppingList = await this.shoppingListRepository
                 .GetByIdWithDeletedAsync(id);
@@ -47,14 +49,14 @@
             return shoppingList.To<ShoppingListServiceModel>();
         }
 
-        public IQueryable<ShoppingListServiceModel> GetAllByIds(IEnumerable<string> ids)
+        public IQueryable<ShoppingListServiceModel> GetByIdsAsync(IEnumerable<string> ids)
         {
             return this.shoppingListRepository.All()
                 .Where(x => ids.Contains(x.Id))
                 .To<ShoppingListServiceModel>();
         }
 
-        public async Task<string> GetIdByRecipeId(string recipeId)
+        public async Task<string> GetIdByRecipeIdAsync(string recipeId)
         {
             var shoppingList = await this.shoppingListRepository
                 .AllAsNoTracking()
@@ -63,11 +65,12 @@
             return shoppingList.Id;
         }
 
-        public async Task SetShoppingListToUser(string id, ApplicationUser user)
+        public async Task SetShoppingListToUserAsync(string id, ApplicationUser user)
         {
             user.ShoppingLists.Add(new UserShoppingList
             {
-                ShoppingList = await this.shoppingListRepository.GetByIdWithDeletedAsync(id),
+                ShoppingList = await this.shoppingListRepository
+                    .GetByIdWithDeletedAsync(id),
             });
         }
     }

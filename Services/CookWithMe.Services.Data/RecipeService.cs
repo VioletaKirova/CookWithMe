@@ -59,11 +59,11 @@
             this.stringFormatService = stringFormatService;
         }
 
-        public async Task<bool> CreateAsync(RecipeServiceModel serviceModel)
+        public async Task<bool> CreateAsync(RecipeServiceModel recipeServiceModel)
         {
-            var recipe = serviceModel.To<Recipe>();
+            var recipe = recipeServiceModel.To<Recipe>();
 
-            await this.categoryService.SetCategoryToRecipe(serviceModel.Category.Title, recipe);
+            await this.categoryService.SetCategoryToRecipeAsync(recipeServiceModel.Category.Title, recipe);
 
             recipe.Allergens = new HashSet<RecipeAllergen>();
             recipe.Lifestyles = new HashSet<RecipeLifestyle>();
@@ -71,19 +71,19 @@
             await this.recipeRepository.AddAsync(recipe);
             await this.recipeRepository.SaveChangesAsync();
 
-            await this.userService.SetUserToRecipe(serviceModel.UserId, recipe);
+            await this.userService.SetUserToRecipeAsync(recipeServiceModel.UserId, recipe);
 
-            recipe.ShoppingListId = await this.shoppingListService.GetIdByRecipeId(recipe.Id);
-            recipe.NutritionalValueId = await this.nutritionalValueService.GetIdByRecipeId(recipe.Id);
+            recipe.ShoppingListId = await this.shoppingListService.GetIdByRecipeIdAsync(recipe.Id);
+            recipe.NutritionalValueId = await this.nutritionalValueService.GetIdByRecipeIdAsync(recipe.Id);
 
-            foreach (var recipeAllergen in serviceModel.Allergens)
+            foreach (var recipeAllergen in recipeServiceModel.Allergens)
             {
-                await this.allergenService.SetAllergenToRecipe(recipeAllergen.Allergen.Name, recipe);
+                await this.allergenService.SetAllergenToRecipeAsync(recipeAllergen.Allergen.Name, recipe);
             }
 
-            foreach (var recipeLifestyle in serviceModel.Lifestyles)
+            foreach (var recipeLifestyle in recipeServiceModel.Lifestyles)
             {
-                await this.lifestyleService.SetLifestyleToRecipe(recipeLifestyle.Lifestyle.Type, recipe);
+                await this.lifestyleService.SetLifestyleToRecipeAsync(recipeLifestyle.Lifestyle.Type, recipe);
             }
 
             this.recipeRepository.Update(recipe);
@@ -92,9 +92,9 @@
             return result > 0;
         }
 
-        public async Task<IQueryable<RecipeServiceModel>> GetAllFiltered(string userId)
+        public async Task<IQueryable<RecipeServiceModel>> GetAllFilteredAsync(string userId)
         {
-            var user = await this.userService.GetById(userId);
+            var user = await this.userService.GetByIdAsync(userId);
 
             IQueryable<RecipeServiceModel> recipesFilteredByLifestyle = null;
 
@@ -116,10 +116,10 @@
 
             IQueryable<RecipeServiceModel> recipesFilteredByLifestyleAndAllergens = null;
 
-            var userAllergenIds = (await this.userAllergenService.GetByUserId(userId))
+            var userAllergenIds = (await this.userAllergenService.GetByUserIdAsync(userId))
                 .Select(x => x.AllergenId);
             var recipeAllergenIds = await this.recipeAllergenService
-                .GetAllRecipeIdsByAllergenIds(userAllergenIds);
+                .GetRecipeIdsByAllergenIdsAsync(userAllergenIds);
 
             if (userAllergenIds.Count() > 0)
             {
@@ -132,102 +132,102 @@
                 recipesFilteredByLifestyleAndAllergens.OrderByDescending(x => x.CreatedOn);
         }
 
-        public async Task<RecipeServiceModel> GetById(string id)
+        public async Task<RecipeServiceModel> GetByIdAsync(string id)
         {
             var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(id);
             var recipeServiceModel = recipe.To<RecipeServiceModel>();
 
-            recipeServiceModel.User = await this.userService.GetById(recipe.UserId);
-            recipeServiceModel.Category = await this.categoryService.GetById(recipe.CategoryId);
-            recipeServiceModel.ShoppingList = await this.shoppingListService.GetById(recipe.ShoppingListId);
-            recipeServiceModel.NutritionalValue = await this.nutritionalValueService.GetById(recipe.NutritionalValueId);
-            recipeServiceModel.Allergens = await this.recipeAllergenService.GetByRecipeId(id);
-            recipeServiceModel.Lifestyles = await this.recipeLifestyleService.GetByRecipeId(id);
+            recipeServiceModel.User = await this.userService.GetByIdAsync(recipe.UserId);
+            recipeServiceModel.Category = await this.categoryService.GetByIdAsync(recipe.CategoryId);
+            recipeServiceModel.ShoppingList = await this.shoppingListService.GetByIdAsync(recipe.ShoppingListId);
+            recipeServiceModel.NutritionalValue = await this.nutritionalValueService.GetByIdAsync(recipe.NutritionalValueId);
+            recipeServiceModel.Allergens = await this.recipeAllergenService.GetByRecipeIdAsync(id);
+            recipeServiceModel.Lifestyles = await this.recipeLifestyleService.GetByRecipeIdAsync(id);
 
             return recipeServiceModel;
         }
 
-        public async Task SetRecipeToReview(string recipeId, Review review)
+        public async Task SetRecipeToReviewAsync(string recipeId, Review review)
         {
             var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(recipeId);
 
             review.Recipe = recipe;
         }
 
-        public async Task<bool> SetRecipeToUserFavoriteRecipes(string userId, string recipeId)
+        public async Task<bool> SetRecipeToUserFavoriteRecipesAsync(string userId, string recipeId)
         {
             var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(recipeId);
 
-            var result = await this.userService.SetFavoriteRecipe(userId, recipe);
+            var result = await this.userService.SetFavoriteRecipeAsync(userId, recipe);
 
             return result;
         }
 
-        public async Task<bool> SetRecipeToUserCookedRecipes(string userId, string recipeId)
+        public async Task<bool> SetRecipeToUserCookedRecipesAsync(string userId, string recipeId)
         {
             var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(recipeId);
 
-            var result = await this.userService.SetCookedRecipe(userId, recipe);
+            var result = await this.userService.SetCookedRecipeAsync(userId, recipe);
 
             return result;
         }
 
-        public async Task<bool> Edit(string id, RecipeServiceModel serviceModel)
+        public async Task<bool> EditAsync(string id, RecipeServiceModel recipeServiceModel)
         {
-            var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(id);
+            var recipeFromDb = await this.recipeRepository.GetByIdWithDeletedAsync(id);
 
-            recipe.Title = serviceModel.Title;
-            recipe.Summary = serviceModel.Summary;
-            recipe.Directions = serviceModel.Directions;
-            recipe.PreparationTime = serviceModel.PreparationTime;
-            recipe.CookingTime = serviceModel.CookingTime;
-            recipe.NeededTime = serviceModel.NeededTime;
-            recipe.SkillLevel = serviceModel.SkillLevel;
-            recipe.Serving = serviceModel.Serving;
-            recipe.Yield = serviceModel.Yield;
+            recipeFromDb.Title = recipeServiceModel.Title;
+            recipeFromDb.Summary = recipeServiceModel.Summary;
+            recipeFromDb.Directions = recipeServiceModel.Directions;
+            recipeFromDb.PreparationTime = recipeServiceModel.PreparationTime;
+            recipeFromDb.CookingTime = recipeServiceModel.CookingTime;
+            recipeFromDb.NeededTime = recipeServiceModel.NeededTime;
+            recipeFromDb.SkillLevel = recipeServiceModel.SkillLevel;
+            recipeFromDb.Serving = recipeServiceModel.Serving;
+            recipeFromDb.Yield = recipeServiceModel.Yield;
 
-            await this.categoryService.SetCategoryToRecipe(serviceModel.Category.Title, recipe);
+            await this.categoryService.SetCategoryToRecipeAsync(recipeServiceModel.Category.Title, recipeFromDb);
 
-            await this.shoppingListService.Edit(recipe.ShoppingListId, serviceModel.ShoppingList);
-            await this.nutritionalValueService.Edit(recipe.NutritionalValueId, serviceModel.NutritionalValue);
+            await this.shoppingListService.EditAsync(recipeFromDb.ShoppingListId, recipeServiceModel.ShoppingList);
+            await this.nutritionalValueService.EditAsync(recipeFromDb.NutritionalValueId, recipeServiceModel.NutritionalValue);
 
-            this.recipeAllergenService.DeletePreviousRecipeAllergensByRecipeId(recipe.Id);
-            this.recipeLifestyleService.DeletePreviousRecipeLifestylesByRecipeId(recipe.Id);
+            this.recipeAllergenService.DeletePreviousRecipeAllergensByRecipeId(recipeFromDb.Id);
+            this.recipeLifestyleService.DeletePreviousRecipeLifestylesByRecipeId(recipeFromDb.Id);
 
-            foreach (var recipeAllergen in serviceModel.Allergens)
+            foreach (var recipeAllergen in recipeServiceModel.Allergens)
             {
-                await this.allergenService.SetAllergenToRecipe(recipeAllergen.Allergen.Name, recipe);
+                await this.allergenService.SetAllergenToRecipeAsync(recipeAllergen.Allergen.Name, recipeFromDb);
             }
 
-            foreach (var recipeLifestyle in serviceModel.Lifestyles)
+            foreach (var recipeLifestyle in recipeServiceModel.Lifestyles)
             {
-                await this.lifestyleService.SetLifestyleToRecipe(recipeLifestyle.Lifestyle.Type, recipe);
+                await this.lifestyleService.SetLifestyleToRecipeAsync(recipeLifestyle.Lifestyle.Type, recipeFromDb);
             }
 
-            this.recipeRepository.Update(recipe);
+            this.recipeRepository.Update(recipeFromDb);
             var result = await this.recipeRepository.SaveChangesAsync();
 
             return result > 0;
         }
 
-        public async Task<bool> Delete(string id)
+        public async Task<bool> DeleteByIdAsync(string id)
         {
-            var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(id);
+            var recipeFromDb = await this.recipeRepository.GetByIdWithDeletedAsync(id);
 
-            await this.userShoppingListService.DeleteByShoppingListId(recipe.ShoppingListId);
-            await this.userFavoriteRecipeService.DeleteByRecipeId(id);
-            await this.userCookedRecipeService.DeleteByRecipeId(id);
+            await this.userShoppingListService.DeleteByShoppingListIdAsync(recipeFromDb.ShoppingListId);
+            await this.userFavoriteRecipeService.DeleteByRecipeIdAsync(id);
+            await this.userCookedRecipeService.DeleteByRecipeIdAsync(id);
 
-            await this.shoppingListService.Delete(recipe.ShoppingListId);
-            await this.nutritionalValueService.Delete(recipe.NutritionalValueId);
+            await this.shoppingListService.DeleteByIdAsync(recipeFromDb.ShoppingListId);
+            await this.nutritionalValueService.DeleteByIdAsync(recipeFromDb.NutritionalValueId);
 
-            this.recipeRepository.Delete(recipe);
+            this.recipeRepository.Delete(recipeFromDb);
             var result = await this.recipeRepository.SaveChangesAsync();
 
             return result > 0;
         }
 
-        public IQueryable<RecipeServiceModel> GetAllByCategoryId(int categoryId)
+        public IQueryable<RecipeServiceModel> GetByCategoryId(int categoryId)
         {
             return this.recipeRepository
                 .AllAsNoTracking()
@@ -244,7 +244,7 @@
                 .To<RecipeServiceModel>();
         }
 
-        public IQueryable<RecipeServiceModel> GetAllByUserId(string userId)
+        public IQueryable<RecipeServiceModel> GetByUserId(string userId)
         {
             return this.recipeRepository
                 .AllAsNoTracking()
@@ -253,100 +253,100 @@
                 .To<RecipeServiceModel>();
         }
 
-        public async Task<IQueryable<RecipeServiceModel>> GetAllBySearch(RecipeSearchServiceModel serviceModel)
+        public async Task<IQueryable<RecipeServiceModel>> GetBySearchValuesAsync(RecipeSearchServiceModel recipeSearchServiceModel)
         {
             var filteredRecipes = this.recipeRepository.AllAsNoTracking();
 
-            if (serviceModel.KeyWords != null)
+            if (recipeSearchServiceModel.KeyWords != null)
             {
                 var keyWords = this.stringFormatService
-                    .SplitByCommaAndWhitespace(serviceModel.KeyWords.ToLower());
+                    .SplitByCommaAndWhitespace(recipeSearchServiceModel.KeyWords.ToLower());
 
                 filteredRecipes = filteredRecipes.Where(x =>
                     keyWords.Any(kw => x.Title.ToLower().Contains(kw)));
             }
 
-            if (serviceModel.Category.Title != null)
+            if (recipeSearchServiceModel.Category.Title != null)
             {
-                var categoryId = await this.categoryService.GetId(serviceModel.Category.Title);
+                var categoryId = await this.categoryService.GetIdByTitleAsync(recipeSearchServiceModel.Category.Title);
                 filteredRecipes = filteredRecipes.Where(x => x.CategoryId == categoryId);
             }
 
-            if (serviceModel.Lifestyle.Type != null)
+            if (recipeSearchServiceModel.Lifestyle.Type != null)
             {
-                var lifestyleId = await this.lifestyleService.GetId(serviceModel.Lifestyle.Type);
-                var recipeLifestyleIds = await this.recipeLifestyleService.GetAllRecipeIdsByLifestyleId(lifestyleId);
+                var lifestyleId = await this.lifestyleService.GetIdByTypeAsync(recipeSearchServiceModel.Lifestyle.Type);
+                var recipeLifestyleIds = await this.recipeLifestyleService.GetRecipeIdsByLifestyleIdAsync(lifestyleId);
                 filteredRecipes = filteredRecipes.Where(x => recipeLifestyleIds.Contains(x.Id));
             }
 
-            if (serviceModel.Allergens.Any())
+            if (recipeSearchServiceModel.Allergens.Any())
             {
-                var allergenIds = await this.allergenService.GetAllIds(serviceModel.Allergens.Select(x => x.Allergen.Name));
-                var recipeAllergenIds = await this.recipeAllergenService.GetAllRecipeIdsByAllergenIds(allergenIds);
+                var allergenIds = await this.allergenService.GetIdsByNamesAsync(recipeSearchServiceModel.Allergens.Select(x => x.Allergen.Name));
+                var recipeAllergenIds = await this.recipeAllergenService.GetRecipeIdsByAllergenIdsAsync(allergenIds);
                 filteredRecipes = filteredRecipes.Where(x => !recipeAllergenIds.Contains(x.Id));
             }
 
-            if (serviceModel.SkillLevel != null)
+            if (recipeSearchServiceModel.SkillLevel != null)
             {
-                filteredRecipes = filteredRecipes.Where(x => x.SkillLevel == serviceModel.SkillLevel);
+                filteredRecipes = filteredRecipes.Where(x => x.SkillLevel == recipeSearchServiceModel.SkillLevel);
             }
 
-            if (serviceModel.Serving != null)
+            if (recipeSearchServiceModel.Serving != null)
             {
-                filteredRecipes = filteredRecipes.Where(x => x.Serving == serviceModel.Serving);
+                filteredRecipes = filteredRecipes.Where(x => x.Serving == recipeSearchServiceModel.Serving);
             }
 
-            if (serviceModel.NeededTime != null)
+            if (recipeSearchServiceModel.NeededTime != null)
             {
-                filteredRecipes = filteredRecipes.Where(x => x.NeededTime == serviceModel.NeededTime);
+                filteredRecipes = filteredRecipes.Where(x => x.NeededTime == recipeSearchServiceModel.NeededTime);
             }
 
-            if (serviceModel.NutritionalValue != null)
+            if (recipeSearchServiceModel.NutritionalValue != null)
             {
-                if (serviceModel.NutritionalValue.Calories != null)
+                if (recipeSearchServiceModel.NutritionalValue.Calories != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Calories == serviceModel.NutritionalValue.Calories);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Calories == recipeSearchServiceModel.NutritionalValue.Calories);
                 }
 
-                if (serviceModel.NutritionalValue.Fats != null)
+                if (recipeSearchServiceModel.NutritionalValue.Fats != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Fats == serviceModel.NutritionalValue.Fats);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Fats == recipeSearchServiceModel.NutritionalValue.Fats);
                 }
 
-                if (serviceModel.NutritionalValue.SaturatedFats != null)
+                if (recipeSearchServiceModel.NutritionalValue.SaturatedFats != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.SaturatedFats == serviceModel.NutritionalValue.SaturatedFats);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.SaturatedFats == recipeSearchServiceModel.NutritionalValue.SaturatedFats);
                 }
 
-                if (serviceModel.NutritionalValue.Carbohydrates != null)
+                if (recipeSearchServiceModel.NutritionalValue.Carbohydrates != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Carbohydrates == serviceModel.NutritionalValue.Carbohydrates);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Carbohydrates == recipeSearchServiceModel.NutritionalValue.Carbohydrates);
                 }
 
-                if (serviceModel.NutritionalValue.Sugar != null)
+                if (recipeSearchServiceModel.NutritionalValue.Sugar != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Sugar == serviceModel.NutritionalValue.Sugar);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Sugar == recipeSearchServiceModel.NutritionalValue.Sugar);
                 }
 
-                if (serviceModel.NutritionalValue.Protein != null)
+                if (recipeSearchServiceModel.NutritionalValue.Protein != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Protein == serviceModel.NutritionalValue.Protein);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Protein == recipeSearchServiceModel.NutritionalValue.Protein);
                 }
 
-                if (serviceModel.NutritionalValue.Fiber != null)
+                if (recipeSearchServiceModel.NutritionalValue.Fiber != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Fiber == serviceModel.NutritionalValue.Fiber);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Fiber == recipeSearchServiceModel.NutritionalValue.Fiber);
                 }
 
-                if (serviceModel.NutritionalValue.Salt != null)
+                if (recipeSearchServiceModel.NutritionalValue.Salt != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Salt == serviceModel.NutritionalValue.Salt);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Salt == recipeSearchServiceModel.NutritionalValue.Salt);
                 }
             }
 
-            if (serviceModel.Yield != null)
+            if (recipeSearchServiceModel.Yield != null)
             {
-                filteredRecipes = filteredRecipes.Where(x => x.Yield == serviceModel.Yield);
+                filteredRecipes = filteredRecipes.Where(x => x.Yield == recipeSearchServiceModel.Yield);
             }
 
             return filteredRecipes.To<RecipeServiceModel>();

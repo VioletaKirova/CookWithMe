@@ -22,11 +22,15 @@
         {
             var user = administratorServiceModel.To<ApplicationUser>();
 
-            var result = await this.userManager.CreateAsync(user, administratorServiceModel.Password);
+            var result = await this.userManager.CreateAsync(
+                user,
+                administratorServiceModel.Password);
 
             if (result.Succeeded)
             {
-                result = await this.userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
+                result = await this.userManager.AddToRoleAsync(
+                    user,
+                    GlobalConstants.AdministratorRoleName);
             }
 
             return result.Succeeded;

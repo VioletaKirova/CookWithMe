@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -10,20 +11,20 @@
     {
         Task<bool> CreateAllAsync(string[] titles);
 
-        IQueryable<string> GetAllTitles();
+        Task<IEnumerable<string>> GetAllTitlesAsync();
 
-        Task<CategoryServiceModel> GetById(int id);
+        Task<CategoryServiceModel> GetByIdAsync(int id);
 
-        Task<bool> CreateAsync(CategoryServiceModel serviceModel);
+        Task<bool> CreateAsync(CategoryServiceModel categoryServiceModel);
 
-        Task<bool> EditAsync(CategoryServiceModel serviceModel);
+        Task<bool> EditAsync(CategoryServiceModel categoryServiceModel);
 
-        Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteByIdAsync(int id);
 
-        Task SetCategoryToRecipe(string categoryTitle, Recipe recipe);
+        Task SetCategoryToRecipeAsync(string categoryTitle, Recipe recipe);
 
         IQueryable<CategoryServiceModel> GetAll();
 
-        Task<int> GetId(string categoryTitle);
+        Task<int> GetIdByTitleAsync(string categoryTitle);
     }
 }

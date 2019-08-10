@@ -9,16 +9,16 @@
 
     public interface IShoppingListService
     {
-        Task<string> GetIdByRecipeId(string recipeId);
+        Task<string> GetIdByRecipeIdAsync(string recipeId);
 
-        Task<ShoppingListServiceModel> GetById(string id);
+        Task<ShoppingListServiceModel> GetByIdAsync(string id);
 
-        IQueryable<ShoppingListServiceModel> GetAllByIds(IEnumerable<string> ids);
+        IQueryable<ShoppingListServiceModel> GetByIdsAsync(IEnumerable<string> ids);
 
-        Task SetShoppingListToUser(string id, ApplicationUser user);
+        Task SetShoppingListToUserAsync(string id, ApplicationUser user);
 
-        Task Edit(string id, ShoppingListServiceModel model);
+        Task EditAsync(string id, ShoppingListServiceModel shoppingListServiceModel);
 
-        Task<bool> Delete(string id);
+        Task<bool> DeleteByIdAsync(string id);
     }
 }

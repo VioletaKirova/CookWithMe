@@ -4,12 +4,12 @@
 
     public interface IStringFormatService
     {
-        string DisplayTime(int time);
+        string FormatTime(int time);
 
         IList<string> SplitBySemicollonAndWhitespace(string text);
 
         IList<string> SplitByCommaAndWhitespace(string text);
 
-        string RemoveWhiteSpaces(string text);
+        string RemoveWhitespaces(string text);
     }
 }

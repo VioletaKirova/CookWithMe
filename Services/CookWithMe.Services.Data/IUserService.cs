@@ -11,18 +11,18 @@
 
         Task<bool> EditAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel additionalInfoServiceModel);
 
-        Task SetUserToRecipe(string userId, Recipe recipe);
+        Task SetUserToRecipeAsync(string userId, Recipe recipe);
 
-        Task<ApplicationUserServiceModel> GetById(string userId);
+        Task<ApplicationUserServiceModel> GetByIdAsync(string userId);
 
-        Task<bool> SetShoppingList(string userId, ShoppingListServiceModel shoppingListServiceModel);
+        Task<bool> SetShoppingListAsync(string userId, ShoppingListServiceModel shoppingListServiceModel);
 
-        Task SetUserToReview(string userId, Review review);
+        Task SetUserToReviewAsync(string userId, Review review);
 
-        Task<bool> SetFavoriteRecipe(string userId, Recipe recipe);
+        Task<bool> SetFavoriteRecipeAsync(string userId, Recipe recipe);
 
-        Task<bool> SetCookedRecipe(string userId, Recipe recipe);
+        Task<bool> SetCookedRecipeAsync(string userId, Recipe recipe);
 
-        Task<UserAdditionalInfoServiceModel> GetAdditionalInfo(string userId);
+        Task<UserAdditionalInfoServiceModel> GetAdditionalInfoByUserIdAsync(string userId);
     }
 }

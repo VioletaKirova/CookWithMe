@@ -1,6 +1,6 @@
 ﻿namespace CookWithMe.Services.Data
 {
-    using System.Linq;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using CookWithMe.Data.Models;
@@ -10,14 +10,14 @@
     {
         Task<bool> CreateAllAsync(string[] types);
 
-        IQueryable<string> GetAllTypes();
+        Task<IEnumerable<string>> GetAllTypesAsync();
 
-        Task SetLifestyleToRecipe(string lifestyleType, Recipe recipe);
+        Task SetLifestyleToRecipeAsync(string lifestyleType, Recipe recipe);
 
-        Task SetLifestyleToUser(string lifestyleType, ApplicationUser user);
+        Task SetLifestyleToUserAsync(string lifestyleType, ApplicationUser user);
 
-        Task<LifestyleServiceModel> GetById(int id);
+        Task<LifestyleServiceModel> GetByIdAsync(int id);
 
-        Task<int> GetId(string lifestyleType);
+        Task<int> GetIdByTypeAsync(string lifestyleType);
     }
 }

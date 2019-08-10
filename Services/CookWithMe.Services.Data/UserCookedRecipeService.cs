@@ -17,7 +17,7 @@
             this.userCookedRecipeRepository = userCookedRecipeRepository;
         }
 
-        public async Task<bool> ContainsByUserIdAndRecipeId(string userId, string recipeId)
+        public async Task<bool> ContainsByUserIdAndRecipeIdAsync(string userId, string recipeId)
         {
             var userCookedRecipesIds = await this.userCookedRecipeRepository
                .AllAsNoTracking()
@@ -28,7 +28,7 @@
             return userCookedRecipesIds.Contains(recipeId);
         }
 
-        public async Task<bool> DeleteByRecipeId(string recipeId)
+        public async Task<bool> DeleteByRecipeIdAsync(string recipeId)
         {
             var userCookedRecipes = this.userCookedRecipeRepository
                 .All()
@@ -47,7 +47,7 @@
             return result > 0;
         }
 
-        public async Task<bool> DeleteByUserIdAndRecipeId(string userId, string recipeId)
+        public async Task<bool> DeleteByUserIdAndRecipeIdAsync(string userId, string recipeId)
         {
             var userCookedRecipe = await this.userCookedRecipeRepository
                 .All()

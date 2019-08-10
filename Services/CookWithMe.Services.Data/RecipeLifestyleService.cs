@@ -30,7 +30,7 @@
             }
         }
 
-        public async Task<ICollection<string>> GetAllRecipeIdsByLifestyleId(int lifestyleId)
+        public async Task<ICollection<string>> GetRecipeIdsByLifestyleIdAsync(int lifestyleId)
         {
             return await this.recipeLifestyleRepository
                 .AllAsNoTracking()
@@ -39,7 +39,7 @@
                 .ToListAsync();
         }
 
-        public async Task<ICollection<RecipeLifestyleServiceModel>> GetByRecipeId(string recipeId)
+        public async Task<ICollection<RecipeLifestyleServiceModel>> GetByRecipeIdAsync(string recipeId)
         {
             return await this.recipeLifestyleRepository
                 .AllAsNoTracking()

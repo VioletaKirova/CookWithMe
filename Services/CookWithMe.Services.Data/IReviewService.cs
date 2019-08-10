@@ -7,12 +7,12 @@
 
     public interface IReviewService
     {
-        Task<bool> CreateAsync(ReviewServiceModel serviceModel);
+        Task<bool> CreateAsync(ReviewServiceModel reviewServiceModel);
 
-        Task<bool> DeleteAsync(string id);
+        Task<bool> DeleteByIdAsync(string id);
 
         Task<ReviewServiceModel> GetByIdAsync(string id);
 
-        IQueryable<ReviewServiceModel> GetAllByRecipeId(string recipeId);
+        IQueryable<ReviewServiceModel> GetByRecipeId(string recipeId);
     }
 }

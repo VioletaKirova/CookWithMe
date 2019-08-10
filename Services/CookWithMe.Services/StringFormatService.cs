@@ -5,7 +5,7 @@
 
     public class StringFormatService : IStringFormatService
     {
-        public string DisplayTime(int time)
+        public string FormatTime(int time)
         {
             int hours = time / 60;
             int minutes = time % 60;
@@ -16,20 +16,23 @@
                 $" {hours} h {minutes} min";
         }
 
-        public string RemoveWhiteSpaces(string text)
+        public string RemoveWhitespaces(string text)
         {
             return text.Replace(" ", string.Empty);
         }
 
         public IList<string> SplitByCommaAndWhitespace(string text)
         {
-            return text.Split(new string[] { ",", " ", ", " }, StringSplitOptions.RemoveEmptyEntries);
+            return text.Split(
+                new string[] { ",", " ", ", " },
+                StringSplitOptions.RemoveEmptyEntries);
         }
 
         public IList<string> SplitBySemicollonAndWhitespace(string text)
         {
-            return text.Split(new string[] { ";", "; " }, StringSplitOptions.RemoveEmptyEntries);
+            return text.Split(
+                new string[] { ";", "; " },
+                StringSplitOptions.RemoveEmptyEntries);
         }
-
     }
 }

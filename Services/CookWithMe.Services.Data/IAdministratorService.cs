@@ -6,6 +6,6 @@
 
     public interface IAdministratorService
     {
-        Task<bool> RegisterAsync(AdministratorServiceModel model);
+        Task<bool> RegisterAsync(AdministratorServiceModel administratorServiceModel);
     }
 }

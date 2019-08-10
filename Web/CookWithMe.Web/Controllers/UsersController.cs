@@ -38,7 +38,7 @@
             this.ViewData["Model"] = await this.GetUserAdditionalInfoViewDataModel();
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var userFullName = (await this.userService.GetById(userId)).FullName;
+            var userFullName = (await this.userService.GetByIdAsync(userId)).FullName;
 
             var viewModel = new UserAddAdditionalInfoInputModel
             {
@@ -88,7 +88,7 @@
         public async Task<IActionResult> EditAdditionalInfo()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await this.userService.GetById(userId);
+            var user = await this.userService.GetByIdAsync(userId);
 
             if (!user.HasAdditionalInfo)
             {
@@ -97,7 +97,7 @@
 
             this.ViewData["Model"] = await this.GetUserAdditionalInfoViewDataModel();
 
-            var userAdditionalInfoServiceModel = await this.userService.GetAdditionalInfo(user.Id);
+            var userAdditionalInfoServiceModel = await this.userService.GetAdditionalInfoByUserIdAsync(user.Id);
             var userEditAdditionalInfoInputModel = userAdditionalInfoServiceModel
                 .To<UserEditAdditionalInfoInputModel>();
 
@@ -150,8 +150,8 @@
 
         private async Task<UserAdditionalInfoViewModel> GetUserAdditionalInfoViewDataModel()
         {
-            var allergyNames = await this.allergenService.GetAllNames().ToListAsync();
-            var lifestyleTypes = await this.lifestyleService.GetAllTypes().ToListAsync();
+            var allergyNames = await this.allergenService.GetAllNamesAsync();
+            var lifestyleTypes = await this.lifestyleService.GetAllTypesAsync();
 
             var userAdditionalInfoViewModel = new UserAdditionalInfoViewModel
             {

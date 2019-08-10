@@ -58,8 +58,8 @@
         [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
-            var recipeServiceModel = await this.recipeService.GetById(id);
-            recipeServiceModel.Reviews = await this.reviewService.GetAllByRecipeId(id).ToListAsync();
+            var recipeServiceModel = await this.recipeService.GetByIdAsync(id);
+            recipeServiceModel.Reviews = await this.reviewService.GetByRecipeId(id).ToListAsync();
 
             var recipeViewModel = recipeServiceModel.To<RecipeDetailsViewModel>();
 
@@ -70,17 +70,17 @@
                 .SplitBySemicollonAndWhitespace(recipeServiceModel.ShoppingList.Ingredients);
 
             recipeViewModel.FormatedPreparationTime = this.stringFormatService
-                .DisplayTime(recipeServiceModel.PreparationTime);
+                .FormatTime(recipeServiceModel.PreparationTime);
 
             recipeViewModel.FormatedCookingTime = this.stringFormatService
-                .DisplayTime(recipeServiceModel.CookingTime);
+                .FormatTime(recipeServiceModel.CookingTime);
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             recipeViewModel.UserFavoritedCurrentRecipe = await this.userFavoriteRecipeService
-                .ContainsByUserIdAndRecipeId(userId, id);
+                .ContainsByUserIdAndRecipeIdAsync(userId, id);
             recipeViewModel.UserCookedCurrentRecipe = await this.userCookedRecipeService
-                .ContainsByUserIdAndRecipeId(userId, id);
+                .ContainsByUserIdAndRecipeIdAsync(userId, id);
 
             return this.View(recipeViewModel);
         }
@@ -91,7 +91,7 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.recipeService.SetRecipeToUserFavoriteRecipes(userId, id);
+            await this.recipeService.SetRecipeToUserFavoriteRecipesAsync(userId, id);
 
             return this.Redirect($"/Recipes/Details/{id}");
         }
@@ -102,7 +102,7 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.userFavoriteRecipeService.DeleteByUserIdAndRecipeId(userId, id);
+            await this.userFavoriteRecipeService.DeleteByUserIdAndRecipeIdAsync(userId, id);
 
             return this.Redirect($"/Recipes/Details/{id}");
         }
@@ -113,7 +113,7 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.recipeService.SetRecipeToUserCookedRecipes(userId, id);
+            await this.recipeService.SetRecipeToUserCookedRecipesAsync(userId, id);
 
             return this.Redirect($"/Recipes/Details/{id}");
         }
@@ -124,7 +124,7 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.userCookedRecipeService.DeleteByUserIdAndRecipeId(userId, id);
+            await this.userCookedRecipeService.DeleteByUserIdAndRecipeIdAsync(userId, id);
 
             return this.Redirect($"/Recipes/Details/{id}");
         }
@@ -201,7 +201,7 @@
             }
 
             var filteredRecipes = (await this.recipeService
-                .GetAllBySearch(serviceModel))
+                .GetBySearchValuesAsync(serviceModel))
                 .To<RecipeSearchViewModel>();
 
             int pageSize = GlobalConstants.PageSize;
@@ -212,7 +212,7 @@
         {
             return (Period)Enum.Parse(
                             typeOfEnum,
-                            this.stringFormatService.RemoveWhiteSpaces(description));
+                            this.stringFormatService.RemoveWhitespaces(description));
         }
 
         private string GetEnumDescription(string name, Type typeOfEnum)
@@ -237,9 +237,9 @@
 
         private async Task<RecipeViewDataModel> GetRecipeViewDataModel()
         {
-            var categoryTitles = await this.categoryService.GetAllTitles().ToListAsync();
-            var allergenNames = await this.allergenService.GetAllNames().ToListAsync();
-            var lifestyleTypes = await this.lifestyleService.GetAllTypes().ToListAsync();
+            var categoryTitles = await this.categoryService.GetAllTitlesAsync();
+            var allergenNames = await this.allergenService.GetAllNamesAsync();
+            var lifestyleTypes = await this.lifestyleService.GetAllTypesAsync();
             var periodNames = Enum.GetNames(typeof(Period));
             var levelNames = Enum.GetNames(typeof(Level));
             var sizeNames = Enum.GetNames(typeof(Size));

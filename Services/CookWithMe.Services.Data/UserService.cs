@@ -1,13 +1,11 @@
 ﻿namespace CookWithMe.Services.Data
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
-
 
     using Microsoft.AspNetCore.Identity;
 
@@ -36,17 +34,17 @@
             this.shoppingListService = shoppingListService;
         }
 
-        public async Task<bool> SetShoppingList(string userId, ShoppingListServiceModel shoppingListServiceModel)
+        public async Task<bool> SetShoppingListAsync(string userId, ShoppingListServiceModel shoppingListServiceModel)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
-            await this.shoppingListService.SetShoppingListToUser(shoppingListServiceModel.Id, user);
+            await this.shoppingListService.SetShoppingListToUserAsync(shoppingListServiceModel.Id, user);
 
             var result = await this.userManager.UpdateAsync(user);
 
             return result.Succeeded;
         }
 
-        public async Task<ApplicationUserServiceModel> GetById(string userId)
+        public async Task<ApplicationUserServiceModel> GetByIdAsync(string userId)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
             var userServiceModel = user.To<ApplicationUserServiceModel>();
@@ -64,14 +62,16 @@
 
             if (additionalInfoServiceModel.Lifestyle != null)
             {
-                await this.lifestyleService.SetLifestyleToUser(additionalInfoServiceModel.Lifestyle.Type, user);
+                await this.lifestyleService
+                    .SetLifestyleToUserAsync(additionalInfoServiceModel.Lifestyle.Type, user);
             }
 
             if (additionalInfoServiceModel.Allergies != null)
             {
                 foreach (var userAllergen in additionalInfoServiceModel.Allergies)
                 {
-                    await this.allergenService.SetAllergenToUser(userAllergen.Allergen.Name, user);
+                    await this.allergenService
+                        .SetAllergenToUserAsync(userAllergen.Allergen.Name, user);
                 }
             }
 
@@ -90,7 +90,8 @@
 
             if (additionalInfoServiceModel.Lifestyle != null)
             {
-                await this.lifestyleService.SetLifestyleToUser(additionalInfoServiceModel.Lifestyle.Type, user);
+                await this.lifestyleService
+                    .SetLifestyleToUserAsync(additionalInfoServiceModel.Lifestyle.Type, user);
             }
 
             this.userAllergenService.DeletePreviousUserAllergensByUserId(userId);
@@ -99,7 +100,8 @@
             {
                 foreach (var userAllergen in additionalInfoServiceModel.Allergies)
                 {
-                    await this.allergenService.SetAllergenToUser(userAllergen.Allergen.Name, user);
+                    await this.allergenService
+                        .SetAllergenToUserAsync(userAllergen.Allergen.Name, user);
                 }
             }
 
@@ -108,21 +110,21 @@
             return result.Succeeded;
         }
 
-        public async Task SetUserToReview(string userId, Review review)
+        public async Task SetUserToReviewAsync(string userId, Review review)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
             review.Reviewer = user;
         }
 
-        public async Task SetUserToRecipe(string userId, Recipe recipe)
+        public async Task SetUserToRecipeAsync(string userId, Recipe recipe)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
             recipe.User = user;
         }
 
-        public async Task<bool> SetFavoriteRecipe(string userId, Recipe recipe)
+        public async Task<bool> SetFavoriteRecipeAsync(string userId, Recipe recipe)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
@@ -136,7 +138,7 @@
             return result.Succeeded;
         }
 
-        public async Task<bool> SetCookedRecipe(string userId, Recipe recipe)
+        public async Task<bool> SetCookedRecipeAsync(string userId, Recipe recipe)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
@@ -150,17 +152,20 @@
             return result.Succeeded;
         }
 
-        public async Task<UserAdditionalInfoServiceModel> GetAdditionalInfo(string userId)
+        public async Task<UserAdditionalInfoServiceModel> GetAdditionalInfoByUserIdAsync(string userId)
         {
-            var additionalInfoServiceModel = (await this.userRepository.GetByIdWithDeletedAsync(userId))
+            var additionalInfoServiceModel = (await this.userRepository
+                .GetByIdWithDeletedAsync(userId))
                 .To<UserAdditionalInfoServiceModel>();
 
             if (additionalInfoServiceModel.LifestyleId != null)
             {
-                additionalInfoServiceModel.Lifestyle = await this.lifestyleService.GetById(additionalInfoServiceModel.LifestyleId.Value);
+                additionalInfoServiceModel.Lifestyle = await this.lifestyleService
+                    .GetByIdAsync(additionalInfoServiceModel.LifestyleId.Value);
             }
 
-            additionalInfoServiceModel.Allergies = await this.userAllergenService.GetByUserId(userId);
+            additionalInfoServiceModel.Allergies = await this.userAllergenService
+                .GetByUserIdAsync(userId);
 
             return additionalInfoServiceModel;
         }

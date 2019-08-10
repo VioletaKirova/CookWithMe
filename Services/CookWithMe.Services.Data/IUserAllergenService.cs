@@ -7,7 +7,7 @@
 
     public interface IUserAllergenService
     {
-        Task<ICollection<UserAllergenServiceModel>> GetByUserId(string userId);
+        Task<ICollection<UserAllergenServiceModel>> GetByUserIdAsync(string userId);
 
         void DeletePreviousUserAllergensByUserId(string userId);
     }

@@ -9,28 +9,28 @@
 
     public interface IRecipeService
     {
-        Task<bool> CreateAsync(RecipeServiceModel model);
+        Task<bool> CreateAsync(RecipeServiceModel recipeServiceModel);
 
-        Task<bool> Edit(string id, RecipeServiceModel model);
+        Task<bool> EditAsync(string id, RecipeServiceModel recipeServiceModel);
 
-        Task<IQueryable<RecipeServiceModel>> GetAllFiltered(string userId);
+        Task<IQueryable<RecipeServiceModel>> GetAllFilteredAsync(string userId);
 
-        Task<RecipeServiceModel> GetById(string id);
+        Task<RecipeServiceModel> GetByIdAsync(string id);
 
-        Task SetRecipeToReview(string recipeId, Review review);
+        Task SetRecipeToReviewAsync(string recipeId, Review review);
 
-        Task<bool> SetRecipeToUserFavoriteRecipes(string userId, string recipeId);
+        Task<bool> SetRecipeToUserFavoriteRecipesAsync(string userId, string recipeId);
 
-        Task<bool> SetRecipeToUserCookedRecipes(string userId, string recipeId);
+        Task<bool> SetRecipeToUserCookedRecipesAsync(string userId, string recipeId);
 
-        Task<bool> Delete(string id);
+        Task<bool> DeleteByIdAsync(string id);
 
-        IQueryable<RecipeServiceModel> GetAllByCategoryId(int categoryId);
+        IQueryable<RecipeServiceModel> GetByCategoryId(int categoryId);
 
-        IQueryable<RecipeServiceModel> GetAllByUserId(string userId);
+        IQueryable<RecipeServiceModel> GetByUserId(string userId);
 
         IQueryable<RecipeServiceModel> GetByIds(IEnumerable<string> recipeIds);
 
-        Task<IQueryable<RecipeServiceModel>> GetAllBySearch(RecipeSearchServiceModel serviceModel);
+        Task<IQueryable<RecipeServiceModel>> GetBySearchValuesAsync(RecipeSearchServiceModel recipeSearchServiceModel);
     }
 }

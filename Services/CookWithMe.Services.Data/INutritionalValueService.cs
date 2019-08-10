@@ -6,12 +6,12 @@
 
     public interface INutritionalValueService
     {
-        Task<string> GetIdByRecipeId(string recipeId);
+        Task<string> GetIdByRecipeIdAsync(string recipeId);
 
-        Task<NutritionalValueServiceModel> GetById(string id);
+        Task<NutritionalValueServiceModel> GetByIdAsync(string id);
 
-        Task Edit(string id, NutritionalValueServiceModel model);
+        Task EditAsync(string id, NutritionalValueServiceModel nutritionalValueServiceModel);
 
-        Task<bool> Delete(string id);
+        Task<bool> DeleteByIdAsync(string id);
     }
 }

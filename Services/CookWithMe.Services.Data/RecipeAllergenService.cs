@@ -30,7 +30,7 @@
             }
         }
 
-        public async Task<ICollection<string>> GetAllRecipeIdsByAllergenIds(IEnumerable<int> allergenIds)
+        public async Task<ICollection<string>> GetRecipeIdsByAllergenIdsAsync(IEnumerable<int> allergenIds)
         {
             return await this.recipeAllergenRepository
                 .AllAsNoTracking()
@@ -39,7 +39,7 @@
                 .ToListAsync();
         }
 
-        public async Task<ICollection<RecipeAllergenServiceModel>> GetByRecipeId(string recipeId)
+        public async Task<ICollection<RecipeAllergenServiceModel>> GetByRecipeIdAsync(string recipeId)
         {
             return await this.recipeAllergenRepository
                 .AllAsNoTracking()

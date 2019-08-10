@@ -5,12 +5,12 @@
 
     public interface IUserShoppingListService
     {
-        Task<bool> ContainsByUserIdAndShoppingListId(string userId, string shoppingListId);
+        Task<bool> ContainsByUserIdAndShoppingListIdAsync(string userId, string shoppingListId);
 
-        Task<bool> Remove(string userId, string shoppingListId);
+        Task<bool> DeleteByUserIdAndShoppingListIdAsync(string userId, string shoppingListId);
 
-        Task<IEnumerable<string>> GetUserShoppingListIds(string userId);
+        Task<IEnumerable<string>> GetShoppingListIdsByUserIdAsync(string userId);
 
-        Task<bool> DeleteByShoppingListId(string shoppingListId);
+        Task<bool> DeleteByShoppingListIdAsync(string shoppingListId);
     }
 }

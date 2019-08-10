@@ -26,7 +26,7 @@
         [HttpGet]
         public async Task<IActionResult> Create(string id)
         {
-            var recipeServiceModel = await this.recipeService.GetById(id);
+            var recipeServiceModel = await this.recipeService.GetByIdAsync(id);
 
             var viewModel = new ReviewCreateInputModel
             {
@@ -58,7 +58,7 @@
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.reviewService.DeleteAsync(id);
+            await this.reviewService.DeleteByIdAsync(id);
 
             var recipeId = (await this.reviewService.GetByIdAsync(id)).RecipeId;
 

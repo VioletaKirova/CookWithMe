@@ -15,24 +15,27 @@
         private readonly IUserService userService;
         private readonly IRecipeService recipeService;
 
-        public ReviewService(IDeletableEntityRepository<Review> reviewRepository, IUserService userService, IRecipeService recipeService)
+        public ReviewService(
+            IDeletableEntityRepository<Review> reviewRepository,
+            IUserService userService,
+            IRecipeService recipeService)
         {
             this.reviewRepository = reviewRepository;
             this.userService = userService;
             this.recipeService = recipeService;
         }
 
-        public async Task<bool> CreateAsync(ReviewServiceModel serviceModel)
+        public async Task<bool> CreateAsync(ReviewServiceModel reviewServiceModel)
         {
-            var review = serviceModel.To<Review>();
+            var review = reviewServiceModel.To<Review>();
 
             review.Id = Guid.NewGuid().ToString();
 
             await this.reviewRepository.AddAsync(review);
             await this.reviewRepository.SaveChangesAsync();
 
-            await this.userService.SetUserToReview(serviceModel.ReviewerId, review);
-            await this.recipeService.SetRecipeToReview(serviceModel.RecipeId, review);
+            await this.userService.SetUserToReviewAsync(reviewServiceModel.ReviewerId, review);
+            await this.recipeService.SetRecipeToReviewAsync(reviewServiceModel.RecipeId, review);
 
             this.reviewRepository.Update(review);
             var result = await this.reviewRepository.SaveChangesAsync();
@@ -40,17 +43,17 @@
             return result > 0;
         }
 
-        public async Task<bool> DeleteAsync(string id)
+        public async Task<bool> DeleteByIdAsync(string id)
         {
-            var review = await this.reviewRepository.GetByIdWithDeletedAsync(id);
+            var reviewFromDb = await this.reviewRepository.GetByIdWithDeletedAsync(id);
 
-            this.reviewRepository.Delete(review);
+            this.reviewRepository.Delete(reviewFromDb);
             var result = await this.reviewRepository.SaveChangesAsync();
 
             return result > 0;
         }
 
-        public IQueryable<ReviewServiceModel> GetAllByRecipeId(string recipeId)
+        public IQueryable<ReviewServiceModel> GetByRecipeId(string recipeId)
         {
             return this.reviewRepository
                 .AllAsNoTracking()

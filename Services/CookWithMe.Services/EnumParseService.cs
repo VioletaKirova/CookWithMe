@@ -37,7 +37,7 @@
         {
             return (TEnum)Enum.Parse(
                             typeOfEnum,
-                            this.stringFormatService.RemoveWhiteSpaces(description));
+                            this.stringFormatService.RemoveWhitespaces(description));
         }
     }
 }

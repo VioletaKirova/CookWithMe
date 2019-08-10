@@ -35,7 +35,7 @@
             return result > 0;
         }
 
-        public async Task<IEnumerable<int>> GetAllIds(IEnumerable<string> allergenNames)
+        public async Task<IEnumerable<int>> GetIdsByNamesAsync(IEnumerable<string> allergenNames)
         {
             return await this.allergenRepository
                 .AllAsNoTracking()
@@ -44,14 +44,15 @@
                 .ToListAsync();
         }
 
-        public IQueryable<string> GetAllNames()
+        public async Task<IEnumerable<string>> GetAllNamesAsync()
         {
-            return this.allergenRepository
+            return await this.allergenRepository
                 .AllAsNoTracking()
-                .Select(x => x.Name);
+                .Select(x => x.Name)
+                .ToListAsync();
         }
 
-        public async Task SetAllergenToRecipe(string allergenName, Recipe recipe)
+        public async Task SetAllergenToRecipeAsync(string allergenName, Recipe recipe)
         {
             recipe.Allergens.Add(new RecipeAllergen
             {
@@ -60,7 +61,7 @@
             });
         }
 
-        public async Task SetAllergenToUser(string allergenName, ApplicationUser user)
+        public async Task SetAllergenToUserAsync(string allergenName, ApplicationUser user)
         {
             user.Allergies.Add(new UserAllergen
             {

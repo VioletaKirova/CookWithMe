@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -7,6 +8,7 @@
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models;
+
     using Microsoft.EntityFrameworkCore;
 
     public class LifestyleService : ILifestyleService
@@ -35,14 +37,15 @@
             return result > 0;
         }
 
-        public IQueryable<string> GetAllTypes()
+        public async Task<IEnumerable<string>> GetAllTypesAsync()
         {
-            return this.lifestyleRepository
+            return await this.lifestyleRepository
                 .AllAsNoTracking()
-                .Select(x => x.Type);
+                .Select(x => x.Type)
+                .ToListAsync();
         }
 
-        public async Task<LifestyleServiceModel> GetById(int id)
+        public async Task<LifestyleServiceModel> GetByIdAsync(int id)
         {
             return (await this.lifestyleRepository
                 .AllAsNoTracking()
@@ -50,7 +53,7 @@
                 .To<LifestyleServiceModel>();
         }
 
-        public async Task<int> GetId(string lifestyleType)
+        public async Task<int> GetIdByTypeAsync(string lifestyleType)
         {
             return (await this.lifestyleRepository
                 .AllAsNoTracking()
@@ -58,7 +61,7 @@
                 .Id;
         }
 
-        public async Task SetLifestyleToRecipe(string lifestyleType, Recipe recipe)
+        public async Task SetLifestyleToRecipeAsync(string lifestyleType, Recipe recipe)
         {
             recipe.Lifestyles.Add(new RecipeLifestyle
             {
@@ -67,7 +70,7 @@
             });
         }
 
-        public async Task SetLifestyleToUser(string lifestyleType, ApplicationUser user)
+        public async Task SetLifestyleToUserAsync(string lifestyleType, ApplicationUser user)
         {
             user.Lifestyle = await this.lifestyleRepository.All()
                 .SingleOrDefaultAsync(x => x.Type == lifestyleType);
