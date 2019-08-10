@@ -2,7 +2,7 @@
 {
     using System.Linq;
 
-    using CookWithMe.Services.Data;
+    using CookWithMe.Services.Data.Categories;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Web.ViewComponents.Models;
 

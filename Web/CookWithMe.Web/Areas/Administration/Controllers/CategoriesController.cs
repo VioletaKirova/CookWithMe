@@ -4,10 +4,12 @@
     using System.Threading.Tasks;
 
     using CookWithMe.Common;
-    using CookWithMe.Services.Data;
+    using CookWithMe.Services.Data.Categories;
+    using CookWithMe.Services.Data.Recipes;
     using CookWithMe.Services.Mapping;
-    using CookWithMe.Services.Models;
-    using CookWithMe.Web.InputModels.Categories;
+    using CookWithMe.Services.Models.Categories;
+    using CookWithMe.Web.InputModels.Categories.Create;
+    using CookWithMe.Web.InputModels.Categories.Edit;
     using CookWithMe.Web.ViewModels.Categories.Delete;
 
     using Microsoft.AspNetCore.Mvc;

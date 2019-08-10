@@ -2,11 +2,11 @@
 {
     using System.Threading.Tasks;
 
-    using CookWithMe.Services.Data;
+    using CookWithMe.Services.Data.Administrators;
     using CookWithMe.Services.Mapping;
-    using CookWithMe.Services.Models;
-    using CookWithMe.Web.InputModels.Administrators;
-    using CookWithMe.Web.ViewModels.Administrators;
+    using CookWithMe.Services.Models.Administrators;
+    using CookWithMe.Web.InputModels.Administrators.Register;
+    using CookWithMe.Web.ViewModels.Administrators.All;
 
     using Microsoft.AspNetCore.Mvc;
 

@@ -3,10 +3,11 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using CookWithMe.Services.Data;
+    using CookWithMe.Services.Data.Recipes;
+    using CookWithMe.Services.Data.Reviews;
     using CookWithMe.Services.Mapping;
-    using CookWithMe.Services.Models;
-    using CookWithMe.Web.InputModels.Reviews;
+    using CookWithMe.Services.Models.Reviews;
+    using CookWithMe.Web.InputModels.Reviews.Create;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

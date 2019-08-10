@@ -4,9 +4,12 @@
     using System.Threading.Tasks;
 
     using CookWithMe.Services;
-    using CookWithMe.Services.Data;
+    using CookWithMe.Services.Data.Recipes;
+    using CookWithMe.Services.Data.ShoppingLists;
+    using CookWithMe.Services.Data.Users;
     using CookWithMe.Services.Mapping;
-    using CookWithMe.Web.ViewModels.ShoppingLists;
+    using CookWithMe.Web.ViewModels.ShoppingLists.All;
+    using CookWithMe.Web.ViewModels.ShoppingLists.Details;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

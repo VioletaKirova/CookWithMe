@@ -5,7 +5,9 @@
 
     using CookWithMe.Common;
     using CookWithMe.Services;
-    using CookWithMe.Services.Data;
+    using CookWithMe.Services.Data.Lifestyles;
+    using CookWithMe.Services.Data.Recipes;
+    using CookWithMe.Services.Data.Users;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Web.Infrastructure;
     using CookWithMe.Web.ViewModels.Home.Index;

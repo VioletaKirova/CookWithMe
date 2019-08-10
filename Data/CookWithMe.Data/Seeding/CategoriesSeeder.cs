@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using CookWithMe.Services.Data;
+    using CookWithMe.Services.Data.Categories;
 
     using Microsoft.Extensions.DependencyInjection;
 

@@ -1,7 +1,7 @@
 ﻿namespace CookWithMe.Web.ViewComponents.Models
 {
     using CookWithMe.Services.Mapping;
-    using CookWithMe.Services.Models;
+    using CookWithMe.Services.Models.Categories;
 
     public class FooterLinksViewComponentViewModel : IMapFrom<CategoryServiceModel>
     {

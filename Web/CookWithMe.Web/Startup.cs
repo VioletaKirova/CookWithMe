@@ -3,6 +3,7 @@
     using System.Reflection;
 
     using CloudinaryDotNet;
+
     using CookWithMe.Data;
     using CookWithMe.Data.Common;
     using CookWithMe.Data.Common.Repositories;
@@ -11,10 +12,19 @@
     using CookWithMe.Data.Seeding;
     using CookWithMe.Services;
     using CookWithMe.Services.Data;
+    using CookWithMe.Services.Data.Administrators;
+    using CookWithMe.Services.Data.Allergens;
+    using CookWithMe.Services.Data.Categories;
+    using CookWithMe.Services.Data.Lifestyles;
+    using CookWithMe.Services.Data.NutritionalValues;
+    using CookWithMe.Services.Data.Recipes;
+    using CookWithMe.Services.Data.Reviews;
+    using CookWithMe.Services.Data.ShoppingLists;
+    using CookWithMe.Services.Data.Users;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Messaging;
-    using CookWithMe.Services.Models;
-    using CookWithMe.Web.InputModels.Categories;
+    using CookWithMe.Services.Models.Categories;
+    using CookWithMe.Web.InputModels.Categories.Create;
     using CookWithMe.Web.ViewComponents.Models;
     using CookWithMe.Web.ViewModels;
 

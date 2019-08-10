@@ -6,15 +6,18 @@
 
     using CookWithMe.Common;
     using CookWithMe.Services;
-    using CookWithMe.Services.Data;
+    using CookWithMe.Services.Data.Allergens;
+    using CookWithMe.Services.Data.Lifestyles;
+    using CookWithMe.Services.Data.Users;
     using CookWithMe.Services.Mapping;
-    using CookWithMe.Services.Models;
-    using CookWithMe.Web.InputModels.Users;
-    using CookWithMe.Web.ViewModels.Users;
+    using CookWithMe.Services.Models.Allergens;
+    using CookWithMe.Services.Models.Users;
+    using CookWithMe.Web.InputModels.Users.AddAdditionalInfo;
+    using CookWithMe.Web.InputModels.Users.EditAdditionalInfo;
+    using CookWithMe.Web.ViewModels.Users.AdditionalInfo;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     [Authorize]
     public class UsersController : BaseController

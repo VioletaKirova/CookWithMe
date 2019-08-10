@@ -8,12 +8,22 @@
     using CookWithMe.Common;
     using CookWithMe.Data.Models.Enums;
     using CookWithMe.Services;
-    using CookWithMe.Services.Data;
+    using CookWithMe.Services.Data.Allergens;
+    using CookWithMe.Services.Data.Categories;
+    using CookWithMe.Services.Data.Lifestyles;
+    using CookWithMe.Services.Data.Recipes;
+    using CookWithMe.Services.Data.Reviews;
+    using CookWithMe.Services.Data.Users;
     using CookWithMe.Services.Mapping;
-    using CookWithMe.Services.Models;
+    using CookWithMe.Services.Models.Allergens;
+    using CookWithMe.Services.Models.Recipes;
     using CookWithMe.Web.Infrastructure;
-    using CookWithMe.Web.InputModels.Recipes;
-    using CookWithMe.Web.ViewModels.Recipes;
+    using CookWithMe.Web.InputModels.Recipes.Browse;
+    using CookWithMe.Web.ViewModels.Recipes.Browse;
+    using CookWithMe.Web.ViewModels.Recipes.Cooked;
+    using CookWithMe.Web.ViewModels.Recipes.Details;
+    using CookWithMe.Web.ViewModels.Recipes.Favorite;
+    using CookWithMe.Web.ViewModels.Recipes.ViewData;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -175,7 +185,7 @@
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Filtered(RecipeSearchInputModel recipeSearchInputModel, int? pageNumber)
+        public async Task<IActionResult> Filtered(RecipeBrowseInputModel recipeBrowseInputModel, int? pageNumber)
         {
             if (!this.ModelState.IsValid)
             {
@@ -185,28 +195,28 @@
                 return this.View();
             }
 
-            var recipeSearchServiceModel = recipeSearchInputModel.To<RecipeSearchServiceModel>();
+            var recipeBrowseServiceModel = recipeBrowseInputModel.To<RecipeBrowseServiceModel>();
 
-            if (recipeSearchInputModel.NeededTime != null)
+            if (recipeBrowseInputModel.NeededTime != null)
             {
-                recipeSearchServiceModel.NeededTime = this.enumParseService
-                    .Parse<Period>(recipeSearchInputModel.NeededTime);
+                recipeBrowseServiceModel.NeededTime = this.enumParseService
+                    .Parse<Period>(recipeBrowseInputModel.NeededTime);
             }
 
-            foreach (var allergenName in recipeSearchInputModel.AllergenNames)
+            foreach (var allergenName in recipeBrowseInputModel.AllergenNames)
             {
-                recipeSearchServiceModel.Allergens.Add(new RecipeAllergenServiceModel
+                recipeBrowseServiceModel.Allergens.Add(new RecipeAllergenServiceModel
                 {
                     Allergen = new AllergenServiceModel { Name = allergenName },
                 });
             }
 
             var filteredRecipes = (await this.recipeService
-                .GetBySearchValuesAsync(recipeSearchServiceModel))
-                .To<RecipeSearchViewModel>();
+                .GetBySearchValuesAsync(recipeBrowseServiceModel))
+                .To<RecipeBrowseViewModel>();
 
             int pageSize = GlobalConstants.PageSize;
-            return this.View(await PaginatedList<RecipeSearchViewModel>.CreateAsync(filteredRecipes, pageNumber ?? 1, pageSize));
+            return this.View(await PaginatedList<RecipeBrowseViewModel>.CreateAsync(filteredRecipes, pageNumber ?? 1, pageSize));
         }
 
         private async Task<RecipeViewDataModel> GetRecipeViewDataModel()

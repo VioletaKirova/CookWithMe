@@ -3,7 +3,8 @@
     using System.Threading.Tasks;
 
     using CookWithMe.Common;
-    using CookWithMe.Services.Data;
+    using CookWithMe.Services.Data.Categories;
+    using CookWithMe.Services.Data.Recipes;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Web.Infrastructure;
     using CookWithMe.Web.ViewModels.Categories.Recipes;

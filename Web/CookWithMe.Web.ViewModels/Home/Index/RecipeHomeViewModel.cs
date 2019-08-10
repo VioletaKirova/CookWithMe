@@ -1,7 +1,7 @@
 ﻿namespace CookWithMe.Web.ViewModels.Home.Index
 {
     using CookWithMe.Services.Mapping;
-    using CookWithMe.Services.Models;
+    using CookWithMe.Services.Models.Recipes;
 
     public class RecipeHomeViewModel : IMapFrom<RecipeServiceModel>
     {

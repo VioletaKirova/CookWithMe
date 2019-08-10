@@ -8,12 +8,20 @@
     using CookWithMe.Common;
     using CookWithMe.Data.Models.Enums;
     using CookWithMe.Services;
-    using CookWithMe.Services.Data;
+    using CookWithMe.Services.Data.Allergens;
+    using CookWithMe.Services.Data.Categories;
+    using CookWithMe.Services.Data.Lifestyles;
+    using CookWithMe.Services.Data.Recipes;
     using CookWithMe.Services.Mapping;
-    using CookWithMe.Services.Models;
+    using CookWithMe.Services.Models.Allergens;
+    using CookWithMe.Services.Models.Lifestyles;
+    using CookWithMe.Services.Models.Recipes;
     using CookWithMe.Web.Infrastructure;
-    using CookWithMe.Web.InputModels.Recipes;
-    using CookWithMe.Web.ViewModels.Recipes;
+    using CookWithMe.Web.InputModels.Recipes.Create;
+    using CookWithMe.Web.InputModels.Recipes.Edit;
+    using CookWithMe.Web.ViewModels.Recipes.All;
+    using CookWithMe.Web.ViewModels.Recipes.Delete;
+    using CookWithMe.Web.ViewModels.Recipes.ViewData;
 
     using Microsoft.AspNetCore.Mvc;
 
