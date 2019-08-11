@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
 
+    using CookWithMe.Common;
     using CookWithMe.Services.Data.Administrators;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Administrators;
@@ -42,9 +43,13 @@
                 return this.View();
             }
 
-            var administratorRegisterServiceModel = administratorRegisterInputModel.To<AdministratorServiceModel>();
+            var administratorRegisterServiceModel = administratorRegisterInputModel
+                .To<AdministratorServiceModel>();
 
-            await this.administratorService.RegisterAsync(administratorRegisterServiceModel);
+            if (!await this.administratorService.RegisterAsync(administratorRegisterServiceModel))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.RedirectToAction("All");
         }

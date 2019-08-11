@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.Categories
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -88,6 +89,11 @@
         {
             var category = await this.categoryRepository
                 .GetByIdWithDeletedAsync(id);
+
+            if (category == null)
+            {
+                throw new ArgumentNullException($"Category with ID: {id} doesn't exist.");
+            }
 
             return category.To<CategoryServiceModel>();
         }

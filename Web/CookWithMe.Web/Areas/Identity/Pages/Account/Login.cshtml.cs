@@ -83,10 +83,10 @@
 
         public class InputModel
         {
-            [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
+            [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
             public string Username { get; set; }
 
-            [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
+            [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
         }

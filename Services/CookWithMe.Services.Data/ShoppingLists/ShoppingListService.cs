@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.ShoppingLists
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -45,6 +46,11 @@
         {
             var shoppingList = await this.shoppingListRepository
                 .GetByIdWithDeletedAsync(id);
+
+            if (shoppingList == null)
+            {
+                throw new ArgumentNullException($"ShoppingList with ID: {id} doesn't exist.");
+            }
 
             return shoppingList.To<ShoppingListServiceModel>();
         }

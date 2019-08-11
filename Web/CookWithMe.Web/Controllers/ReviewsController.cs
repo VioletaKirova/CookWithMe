@@ -3,6 +3,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using CookWithMe.Common;
     using CookWithMe.Services.Data.Recipes;
     using CookWithMe.Services.Data.Reviews;
     using CookWithMe.Services.Mapping;
@@ -45,7 +46,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(reviewCreateInputModel);
+                return this.View();
             }
 
             var reviewServiceModel = reviewCreateInputModel.To<ReviewServiceModel>();
@@ -53,7 +54,10 @@
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             reviewServiceModel.ReviewerId = userId;
 
-            await this.reviewService.CreateAsync(reviewServiceModel);
+            if (!await this.reviewService.CreateAsync(reviewServiceModel))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.Redirect($"/Recipes/Details/{reviewServiceModel.RecipeId}");
         }
@@ -61,7 +65,10 @@
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            await this.reviewService.DeleteByIdAsync(id);
+            if (!await this.reviewService.DeleteByIdAsync(id))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             var recipeId = (await this.reviewService.GetByIdAsync(id)).RecipeId;
 

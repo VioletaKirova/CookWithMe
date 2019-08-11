@@ -21,64 +21,64 @@
         }
 
         [Display(Name = "Title")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
-        [StringLength(50, ErrorMessage = ErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [StringLength(50, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
         public string Title { get; set; }
 
         [Display(Name = "Photo")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
         public IFormFile Photo { get; set; }
 
         [Display(Name = "Category Title")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
         public string CategoryTitle { get; set; }
 
         [Display(Name = "Summary")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
-        [StringLength(200, ErrorMessage = ErrorMessages.StringLengthErrorMessage, MinimumLength = 10)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [StringLength(200, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 10)]
         [DataType(DataType.MultilineText)]
         public string Summary { get; set; }
 
         [Display(Name = "Directions")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
         [DataType(DataType.MultilineText)]
         public string Directions { get; set; }
 
         [Display(Name = "Shopping List")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
         public RecipeEditShoppingListInputModel ShoppingList { get; set; }
 
         [Display(Name = "Preparation Time")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
-        [Range(1, 300, ErrorMessage = ErrorMessages.RangeErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [Range(1, 300, ErrorMessage = AttributesErrorMessages.RangeErrorMessage)]
         public int PreparationTime { get; set; }
 
         [Display(Name = "Cooking Time")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
-        [Range(1, 300, ErrorMessage = ErrorMessages.RangeErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [Range(1, 300, ErrorMessage = AttributesErrorMessages.RangeErrorMessage)]
         public int CookingTime { get; set; }
 
         [Display(Name = "Needed Time")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
         public string NeededTime { get; set; }
 
         [Display(Name = "Skill Level")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
         public string SkillLevel { get; set; }
 
         [Display(Name = "Allergens")]
         public IEnumerable<string> AllergenNames { get; set; }
 
         [Display(Name = "Lifestyle Type")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
         public IEnumerable<string> LifestyleTypes { get; set; }
 
         [Display(Name = "Serving")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
         public string Serving { get; set; }
 
         [Display(Name = "Yield")]
-        [Range(0.1, 10000, ErrorMessage = ErrorMessages.RangeErrorMessage)]
+        [Range(0.1, 10000, ErrorMessage = AttributesErrorMessages.RangeErrorMessage)]
         public decimal? Yield { get; set; }
 
         [Display(Name = "Nutritional Value")]

@@ -20,23 +20,23 @@
         }
 
         [Display(Name = "Full Name")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
-        [StringLength(50, ErrorMessage = ErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [StringLength(50, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
         public string FullName { get; set; }
 
         [Display(Name = "Biography")]
-        [MaxLength(200, ErrorMessage = ErrorMessages.MaxLengthErrorMessage)]
+        [MaxLength(200, ErrorMessage = AttributesErrorMessages.MaxLengthErrorMessage)]
         public string Biography { get; set; }
 
         [Display(Name = "Profile Photo")]
         public IFormFile ProfilePhoto { get; set; }
 
         [Display(Name = "Lifestyle Type")]
-        [MaxLength(20, ErrorMessage = ErrorMessages.MaxLengthErrorMessage)]
+        [MaxLength(20, ErrorMessage = AttributesErrorMessages.MaxLengthErrorMessage)]
         public string LifestyleType { get; set; }
 
         [Display(Name = "Allergies")]
-        [MaxLength(200, ErrorMessage = ErrorMessages.MaxLengthErrorMessage)]
+        [MaxLength(200, ErrorMessage = AttributesErrorMessages.MaxLengthErrorMessage)]
         public IEnumerable<string> AllergenNames { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

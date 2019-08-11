@@ -9,7 +9,7 @@
     public class RecipeCreateShoppingListInputModel : IMapTo<ShoppingListServiceModel>
     {
         [Display(Name = "Ingredients")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
         [DataType(DataType.MultilineText)]
         public string Ingredients { get; set; }
     }

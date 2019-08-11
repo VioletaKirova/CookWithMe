@@ -9,24 +9,24 @@
     public class AdministratorRegisterInputModel : IMapTo<AdministratorServiceModel>
     {
         [Display(Name = "Username")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
-        [MaxLength(256, ErrorMessage = ErrorMessages.MaxLengthErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [MaxLength(256, ErrorMessage = AttributesErrorMessages.MaxLengthErrorMessage)]
         public string Username { get; set; }
 
         [Display(Name = "Full Name")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
-        [StringLength(50, ErrorMessage = ErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [StringLength(50, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
         public string FullName { get; set; }
 
         [Display(Name = "Email")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
-        [StringLength(256, ErrorMessage = ErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [StringLength(256, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
         [EmailAddress]
         public string Email { get; set; }
 
         [Display(Name = "Password")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
-        [StringLength(100, ErrorMessage = ErrorMessages.StringLengthErrorMessage, MinimumLength = 6)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [StringLength(100, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

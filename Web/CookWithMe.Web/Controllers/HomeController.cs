@@ -10,6 +10,7 @@
     using CookWithMe.Services.Data.Users;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Web.Infrastructure;
+    using CookWithMe.Web.ViewModels;
     using CookWithMe.Web.ViewModels.Home.Index;
 
     using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                return this.RedirectToAction("IndexLoggedIn");
+                return this.RedirectToAction(nameof(this.IndexLoggedIn));
             }
 
             return this.View();
@@ -59,15 +60,19 @@
                 .To<RecipeHomeViewModel>();
 
             return this.View(await PaginatedList<RecipeHomeViewModel>
-                .CreateAsync(filteredRecipes, pageNumber ?? 1, GlobalConstants.PageSize));
-        }
-
-        public IActionResult Privacy()
-        {
-            return this.View();
+                .CreateAsync(filteredRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => this.View();
+        public IActionResult Error(string id, string statusCode)
+        {
+            var errorViewModel = new ErrorViewModel
+            {
+                StatusCode = statusCode,
+                RequestId = id,
+            };
+
+            return this.View(errorViewModel);
+        }
     }
 }

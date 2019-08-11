@@ -15,13 +15,13 @@
         public string RecipeTitle { get; set; }
 
         [Display(Name = "Comment")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
-        [StringLength(250, ErrorMessage = ErrorMessages.StringLengthErrorMessage, MinimumLength = 1)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [StringLength(250, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 1)]
         public string Comment { get; set; }
 
         [Display(Name = "Rating")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
-        [Range(1, 5,  ErrorMessage = ErrorMessages.RangeErrorMessage)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [Range(1, 5,  ErrorMessage = AttributesErrorMessages.RangeErrorMessage)]
         public int Rating { get; set; }
 
         public string RecipeId { get; set; }

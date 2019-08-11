@@ -100,7 +100,10 @@
             recipeServiceModel.NeededTime = this.enumParseService
                 .Parse<Period>(recipeCreateInputModel.NeededTime);
 
-            await this.recipeService.CreateAsync(recipeServiceModel);
+            if (!await this.recipeService.CreateAsync(recipeServiceModel))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.Redirect("/");
         }
@@ -179,7 +182,10 @@
             recipeServiceModel.NeededTime = this.enumParseService
                 .Parse<Period>(recipeEditInputModel.NeededTime);
 
-            await this.recipeService.EditAsync(id, recipeServiceModel);
+            if (!await this.recipeService.EditAsync(id, recipeServiceModel))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.Redirect($"/Recipes/Details/{id}");
         }
@@ -219,7 +225,10 @@
         [Route("/Administration/Recipes/Delete/{id}")]
         public async Task<IActionResult> DeleteConfirm(string id)
         {
-            await this.recipeService.DeleteByIdAsync(id);
+            if (!await this.recipeService.DeleteByIdAsync(id))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.Redirect("/");
         }
@@ -234,7 +243,7 @@
                 .To<RecipeAllViewModel>();
 
             return this.View(await PaginatedList<RecipeAllViewModel>
-                .CreateAsync(allRecipesByAdmin, pageNumber ?? 1, GlobalConstants.PageSize));
+                .CreateAsync(allRecipesByAdmin, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
 
         private async Task<RecipeViewDataModel> GetRecipeViewDataModel()

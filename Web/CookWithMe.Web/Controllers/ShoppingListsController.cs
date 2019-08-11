@@ -1,13 +1,16 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
+    using System;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using CookWithMe.Common;
     using CookWithMe.Services;
     using CookWithMe.Services.Data.Recipes;
     using CookWithMe.Services.Data.ShoppingLists;
     using CookWithMe.Services.Data.Users;
     using CookWithMe.Services.Mapping;
+    using CookWithMe.Services.Models.ShoppingLists;
     using CookWithMe.Web.ViewModels.ShoppingLists.All;
     using CookWithMe.Web.ViewModels.ShoppingLists.Details;
 
@@ -50,8 +53,10 @@
 
             if (!checkIfUserHasShoppingList)
             {
-                await this.userService
-                    .SetShoppingListAsync(userId, shoppingListServiceModel);
+                if (!await this.userService.SetShoppingListAsync(userId, shoppingListServiceModel))
+                {
+                    return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                }
             }
 
             return this.RedirectToAction("All");
@@ -60,7 +65,17 @@
         [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
-            var shoppingListServiceModel = await this.shoppingListService.GetByIdAsync(id);
+            ShoppingListServiceModel shoppingListServiceModel = null;
+
+            try
+            {
+                shoppingListServiceModel = await this.shoppingListService.GetByIdAsync(id);
+            }
+            catch (ArgumentNullException)
+            {
+
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.NotFound}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             var shoppingListDetailsViewModel = shoppingListServiceModel.To<ShoppingListDetailsViewModel>();
 
@@ -77,7 +92,10 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.userShoppingListService.DeleteByUserIdAndShoppingListIdAsync(userId, id);
+            if (!await this.userShoppingListService.DeleteByUserIdAndShoppingListIdAsync(userId, id))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.RedirectToAction("All");
         }

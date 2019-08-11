@@ -44,7 +44,10 @@
 
             var categoryServiceModel = categoryCreateInputModel.To<CategoryServiceModel>();
 
-            await this.categoryService.CreateAsync(categoryServiceModel);
+            if (!await this.categoryService.CreateAsync(categoryServiceModel))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             var categoryId = await this.categoryService.GetIdByTitleAsync(categoryServiceModel.Title);
 
@@ -70,7 +73,10 @@
 
             var categoryServiceModel = categoryEditInputModel.To<CategoryServiceModel>();
 
-            await this.categoryService.EditAsync(categoryServiceModel);
+            if (!await this.categoryService.EditAsync(categoryServiceModel))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.Redirect($"/Categories/Recipes/{categoryServiceModel.Id}");
         }
@@ -97,7 +103,10 @@
                 await this.recipeService.DeleteByIdAsync(recipeId);
             }
 
-            await this.categoryService.DeleteByIdAsync(id);
+            if (!await this.categoryService.DeleteByIdAsync(id))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.Redirect($"/Categories/Recipes/{GlobalConstants.FirstCategoryId}");
         }

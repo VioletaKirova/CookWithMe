@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using CookWithMe.Common;
@@ -27,14 +28,22 @@
         [HttpGet]
         public async Task<IActionResult> Recipes(int id, int? pageNumber)
         {
+            try
+            {
+                this.ViewData["CategoryTitle"] = (await this.categoryService.GetByIdAsync(id)).Title;
+            }
+            catch (ArgumentNullException)
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.NotFound}&id={this.HttpContext.TraceIdentifier}");
+            }
+
             this.ViewData["CategoryId"] = id;
-            this.ViewData["CategoryTitle"] = (await this.categoryService.GetByIdAsync(id)).Title;
 
             var recipesFromCategory = this.recipeService.GetByCategoryId(id)
                 .To<CategoryRecipesRecipeViewModel>();
 
             return this.View(await PaginatedList<CategoryRecipesRecipeViewModel>
-                .CreateAsync(recipesFromCategory, pageNumber ?? 1, GlobalConstants.PageSize));
+                .CreateAsync(recipesFromCategory, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
     }
 }

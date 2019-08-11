@@ -66,7 +66,17 @@
         [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
-            var recipeServiceModel = await this.recipeService.GetByIdAsync(id);
+            RecipeServiceModel recipeServiceModel = null;
+
+            try
+            {
+                recipeServiceModel = await this.recipeService.GetByIdAsync(id);
+            }
+            catch (ArgumentNullException)
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.NotFound}&id={this.HttpContext.TraceIdentifier}");
+            }
+
             recipeServiceModel.Reviews = await this.reviewService.GetByRecipeId(id).ToListAsync();
 
             var recipeDetailsViewModel = recipeServiceModel.To<RecipeDetailsViewModel>();
@@ -99,7 +109,10 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.recipeService.SetRecipeToUserFavoriteRecipesAsync(userId, id);
+            if (!await this.recipeService.SetRecipeToUserFavoriteRecipesAsync(userId, id))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.Redirect($"/Recipes/Details/{id}");
         }
@@ -110,7 +123,10 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.userFavoriteRecipeService.DeleteByUserIdAndRecipeIdAsync(userId, id);
+            if (!await this.userFavoriteRecipeService.DeleteByUserIdAndRecipeIdAsync(userId, id))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.Redirect($"/Recipes/Details/{id}");
         }
@@ -121,7 +137,10 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.recipeService.SetRecipeToUserCookedRecipesAsync(userId, id);
+            if (!await this.recipeService.SetRecipeToUserCookedRecipesAsync(userId, id))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.Redirect($"/Recipes/Details/{id}");
         }
@@ -132,7 +151,10 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.userCookedRecipeService.DeleteByUserIdAndRecipeIdAsync(userId, id);
+            if (!await this.userCookedRecipeService.DeleteByUserIdAndRecipeIdAsync(userId, id))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.Redirect($"/Recipes/Details/{id}");
         }
@@ -152,7 +174,7 @@
                 .To<RecipeFavoriteViewModel>();
 
             return this.View(await PaginatedList<RecipeFavoriteViewModel>
-                .CreateAsync(favoriteRecipes, pageNumber ?? 1, GlobalConstants.PageSize));
+                .CreateAsync(favoriteRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
 
         [Authorize]
@@ -170,7 +192,7 @@
                 .To<RecipeCookedViewModel>();
 
             return this.View(await PaginatedList<RecipeCookedViewModel>
-                .CreateAsync(cookedRecipes, pageNumber ?? 1, GlobalConstants.PageSize));
+                .CreateAsync(cookedRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
 
         [Authorize]
@@ -215,8 +237,8 @@
                 .GetBySearchValuesAsync(recipeBrowseServiceModel))
                 .To<RecipeBrowseViewModel>();
 
-            int pageSize = GlobalConstants.PageSize;
-            return this.View(await PaginatedList<RecipeBrowseViewModel>.CreateAsync(filteredRecipes, pageNumber ?? 1, pageSize));
+            return this.View(await PaginatedList<RecipeBrowseViewModel>
+                .CreateAsync(filteredRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
 
         private async Task<RecipeViewDataModel> GetRecipeViewDataModel()

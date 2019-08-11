@@ -89,7 +89,10 @@
                 });
             }
 
-            await this.userService.AddAdditionalInfoAsync(userId, userAdditionalInfoServiceModel);
+            if (!await this.userService.AddAdditionalInfoAsync(userId, userAdditionalInfoServiceModel))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.Redirect("/");
         }
@@ -157,7 +160,10 @@
                 });
             }
 
-            await this.userService.EditAdditionalInfoAsync(userId, userAdditionalInfoServiceModel);
+            if (!await this.userService.EditAdditionalInfoAsync(userId, userAdditionalInfoServiceModel))
+            {
+                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+            }
 
             return this.Redirect("/");
         }

@@ -9,8 +9,8 @@
     public class CategoryCreateInputModel : IMapTo<CategoryServiceModel>
     {
         [Display(Name = "Category Title")]
-        [Required(ErrorMessage = ErrorMessages.RequiredErrorMessage)]
-        [StringLength(20, ErrorMessage = ErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
+        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [StringLength(20, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
         public string Title { get; set; }
     }
 }

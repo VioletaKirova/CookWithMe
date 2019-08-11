@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.Recipes
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -140,6 +141,12 @@
         public async Task<RecipeServiceModel> GetByIdAsync(string id)
         {
             var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(id);
+
+            if (recipe == null)
+            {
+                throw new ArgumentNullException($"Recipe with ID: {id} doesn't exist.");
+            }
+
             var recipeServiceModel = recipe.To<RecipeServiceModel>();
 
             recipeServiceModel.User = await this.userService.GetByIdAsync(recipe.UserId);

@@ -1,6 +1,6 @@
 ﻿namespace CookWithMe.Common
 {
-    public class ErrorMessages
+    public class AttributesErrorMessages
     {
         public const string RequiredErrorMessage = "Please fill in \"{0}\".";
 
