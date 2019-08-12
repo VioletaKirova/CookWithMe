@@ -17,5 +17,7 @@
         public const int PageSize = 4;
 
         public const int FirstCategoryId = 1;
+
+        public const int DessertCategoryId = 7;
     }
 }

@@ -27,6 +27,12 @@
 
     public class RecipesController : AdministrationController
     {
+        private const string CreateErrorMessage = "Failed to create the recipe.";
+        private const string EditErrorMessage = "Failed to edit the recipe.";
+        private const string EditSuccessMessage = "You successfully edited the recipe!";
+        private const string DeleteErrorMessage = "Failed to delete the recipe.";
+        private const string DeleteSuccessMessage = "You successfully deleted recipe {0} (ID: {1})!";
+
         private readonly ICategoryService categoryService;
         private readonly IAllergenService allergenService;
         private readonly ILifestyleService lifestyleService;
@@ -102,10 +108,12 @@
 
             if (!await this.recipeService.CreateAsync(recipeServiceModel))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = CreateErrorMessage;
+
+                return this.View();
             }
 
-            return this.Redirect("/");
+            return this.Redirect(nameof(this.All));
         }
 
         [HttpGet]
@@ -184,8 +192,12 @@
 
             if (!await this.recipeService.EditAsync(id, recipeServiceModel))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = EditErrorMessage;
+
+                return this.View();
             }
+
+            this.TempData["Success"] = EditSuccessMessage;
 
             return this.Redirect($"/Recipes/Details/{id}");
         }
@@ -225,10 +237,16 @@
         [Route("/Administration/Recipes/Delete/{id}")]
         public async Task<IActionResult> DeleteConfirm(string id)
         {
+            var recipeTitle = (await this.recipeService.GetByIdAsync(id)).Title;
+
             if (!await this.recipeService.DeleteByIdAsync(id))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = DeleteErrorMessage;
+
+                return this.View();
             }
+
+            this.TempData["Success"] = string.Format(DeleteSuccessMessage, recipeTitle, id);
 
             return this.Redirect("/");
         }

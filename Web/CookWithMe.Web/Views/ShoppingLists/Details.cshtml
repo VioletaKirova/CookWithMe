@@ -27,6 +27,12 @@
 
     <!-- Recipe -->
     <div class="twelve columns">
+
+        @if (this.TempData["Error"] != null)
+        {
+            @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
+        }
+
         <div class="alignment">
 
             <div class="margin-top-50"></div>

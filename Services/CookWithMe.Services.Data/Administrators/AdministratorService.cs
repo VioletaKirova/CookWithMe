@@ -51,18 +51,23 @@
             return result.Succeeded;
         }
 
-        public async Task RemoveFromRoleByIdAsync(string userId)
+        public async Task<bool> RemoveFromRoleByIdAsync(string userId)
         {
             var administrator = await this.userRepository
                 .GetByIdWithDeletedAsync(userId);
 
-            await this.userManager.RemoveFromRoleAsync(
+            var result = await this.userManager.RemoveFromRoleAsync(
                 administrator,
                 GlobalConstants.AdministratorRoleName);
 
-            await this.userManager.AddToRoleAsync(
-                administrator,
-                GlobalConstants.UserRoleName);
+            if (result.Succeeded)
+            {
+                result = await this.userManager.AddToRoleAsync(
+                    administrator,
+                    GlobalConstants.UserRoleName);
+            }
+
+            return result.Succeeded;
         }
     }
 }

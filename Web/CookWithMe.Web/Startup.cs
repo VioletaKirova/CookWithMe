@@ -81,6 +81,8 @@
                 .AddDefaultTokenProviders()
                 .AddDefaultUI(UIFramework.Bootstrap4);
 
+            services.AddSession();
+
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -106,6 +108,13 @@
                     options.CheckConsentNeeded = context => true;
                     options.MinimumSameSitePolicy = SameSiteMode.Lax;
                     options.ConsentCookie.Name = ".AspNetCore.ConsentCookie";
+                });
+
+            // The Tempdata provider cookie is not essential. Make it essential so Tempdata is functional when tracking is disabled.
+            services
+                .Configure<CookieTempDataProviderOptions>(options =>
+                {
+                    options.Cookie.IsEssential = true;
                 });
 
             services.AddSingleton(this.configuration);
@@ -180,6 +189,7 @@
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

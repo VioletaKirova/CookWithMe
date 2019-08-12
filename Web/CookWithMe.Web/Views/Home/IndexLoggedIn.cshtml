@@ -15,6 +15,11 @@
     <!-- Masonry -->
     <div class="twelve columns">
 
+        @if (this.TempData["Success"] != null)
+        {
+            @await Component.InvokeAsync("SuccessAlert", new { message = this.TempData["Success"] });
+        }
+
         <!-- Headline -->
         @if (ViewData["Lifestyle"] != null)
         {

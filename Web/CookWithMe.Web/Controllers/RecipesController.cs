@@ -31,6 +31,11 @@
 
     public class RecipesController : BaseController
     {
+        private const string AddToFavoriteErrorMessage = "Failed to add the recipe to Favorite Recipes.";
+        private const string RemoveFromFavoriteErrorMessage = "Failed to remove the recipe from Favorite Recipes.";
+        private const string AddToCookedErrorMessage = "Failed to add the recipe to Cooked Recipes.";
+        private const string RemoveFromCookedErrorMessage = "Failed to remove the recipe from Cooked Recipes.";
+
         private readonly IRecipeService recipeService;
         private readonly IUserFavoriteRecipeService userFavoriteRecipeService;
         private readonly IUserCookedRecipeService userCookedRecipeService;
@@ -74,7 +79,14 @@
             }
             catch (ArgumentNullException)
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.NotFound}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["ErrorParams"] = new Dictionary<string, string>
+                {
+                    ["StatusCode"] = StatusCodes.NotFound,
+                    ["RequestId"] = this.HttpContext.TraceIdentifier,
+                    ["RequestPath"] = this.HttpContext.Request.Path,
+                };
+
+                return this.Redirect("/Home/Error");
             }
 
             recipeServiceModel.Reviews = await this.reviewService.GetByRecipeId(id).ToListAsync();
@@ -105,13 +117,13 @@
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> AddToFavorites(string id)
+        public async Task<IActionResult> AddToFavorite(string id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (!await this.recipeService.SetRecipeToUserFavoriteRecipesAsync(userId, id))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = AddToFavoriteErrorMessage;
             }
 
             return this.Redirect($"/Recipes/Details/{id}");
@@ -119,13 +131,13 @@
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> RemoveFromFavorites(string id)
+        public async Task<IActionResult> RemoveFromFavorite(string id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (!await this.userFavoriteRecipeService.DeleteByUserIdAndRecipeIdAsync(userId, id))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = RemoveFromFavoriteErrorMessage;
             }
 
             return this.Redirect($"/Recipes/Details/{id}");
@@ -139,7 +151,7 @@
 
             if (!await this.recipeService.SetRecipeToUserCookedRecipesAsync(userId, id))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = AddToCookedErrorMessage;
             }
 
             return this.Redirect($"/Recipes/Details/{id}");
@@ -153,7 +165,7 @@
 
             if (!await this.userCookedRecipeService.DeleteByUserIdAndRecipeIdAsync(userId, id))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = RemoveFromCookedErrorMessage;
             }
 
             return this.Redirect($"/Recipes/Details/{id}");

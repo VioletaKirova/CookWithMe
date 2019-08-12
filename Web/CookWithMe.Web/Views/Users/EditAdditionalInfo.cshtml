@@ -24,6 +24,12 @@
 ================================================== -->
 <div class="container">
     <div class="sixteen columns">
+
+        @if (this.TempData["Error"] != null)
+        {
+            @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
+        }
+
         <form asp-action="EditAdditionalInfo" method="post" class="register-user-form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

@@ -26,6 +26,12 @@
 ================================================== -->
 <div class="container">
     <div class="sixteen columns">
+
+        @if (this.TempData["Error"] != null)
+        {
+            @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
+        }
+
         <form asp-action="Create" class="submit-recipe-form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -116,11 +122,13 @@
             <fieldset class="additional-info">
                 <table>
 
-                    
+
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Preparation Time</label></td>
-                        <td><input asp-for="PreparationTime" type="text" class="form-control" placeholder="In minutes" />
-                            <span asp-validation-for="PreparationTime" class="text-danger"></span></td>
+                        <td>
+                            <input asp-for="PreparationTime" type="text" class="form-control" placeholder="In minutes" />
+                            <span asp-validation-for="PreparationTime" class="text-danger"></span>
+                        </td>
                     </tr>
 
                     <tr class="ingredients-cont form-group">
@@ -199,7 +207,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Yield</label></td>
                         <td>
-                            <input asp-for="Yield" class="form-control"  />
+                            <input asp-for="Yield" class="form-control" />
                             <span asp-validation-for="Yield" class="text-danger"></span>
                         </td>
                     </tr>

@@ -23,8 +23,13 @@
 ================================================== -->
 <div class="container">
     <div class="sixteen columns">
-        <div class="submit-recipe-form">
 
+        @if (this.TempData["Error"] != null)
+        {
+            @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
+        }
+
+        <div class="submit-recipe-form">
 
             <!-- Title -->
             <h4>Title</h4>
@@ -42,7 +47,6 @@
 
                 </form>
             </nav>
-
 
         </div>
     </div>

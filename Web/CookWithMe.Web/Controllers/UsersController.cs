@@ -22,6 +22,9 @@
     [Authorize]
     public class UsersController : BaseController
     {
+        private const string AddAdditionalInfoError = "Failed to add the additional info.";
+        private const string EditAdditionalInfoError = "Failed to edit the additional info.";
+
         private readonly IUserService userService;
         private readonly IAllergenService allergenService;
         private readonly ILifestyleService lifestyleService;
@@ -91,7 +94,9 @@
 
             if (!await this.userService.AddAdditionalInfoAsync(userId, userAdditionalInfoServiceModel))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = AddAdditionalInfoError;
+
+                return this.View();
             }
 
             return this.Redirect("/");
@@ -105,7 +110,7 @@
 
             if (!userServiceModel.HasAdditionalInfo)
             {
-                return this.RedirectToAction("AddAdditionalInfo");
+                return this.RedirectToAction(nameof(this.AddAdditionalInfo));
             }
 
             // TODO: Refactor this
@@ -162,7 +167,9 @@
 
             if (!await this.userService.EditAdditionalInfoAsync(userId, userAdditionalInfoServiceModel))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = EditAdditionalInfoError;
+
+                return this.View();
             }
 
             return this.Redirect("/");

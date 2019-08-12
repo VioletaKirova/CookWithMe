@@ -26,6 +26,12 @@
 ================================================== -->
 <div class="container">
     <div class="sixteen columns">
+
+        @if (this.TempData["Error"] != null)
+        {
+            @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
+        }
+
         <form asp-action="Delete" class="submit-recipe-form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -93,7 +99,7 @@
             <!-- Ingredients -->
             <h4>Ingredients</h4>
             <nav class="input-val form-group">
-                <textarea asp-for="ShoppingList.Ingredients" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Milk - 150ml; Vegetable oil - 125ml; Chocolate - 100g; Sugar - 150g; Flour - 300g; Baking powder - 2tsp;&quot;" disabled ></textarea>
+                <textarea asp-for="ShoppingList.Ingredients" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Milk - 150ml; Vegetable oil - 125ml; Chocolate - 100g; Sugar - 150g; Flour - 300g; Baking powder - 2tsp;&quot;" disabled></textarea>
                 <span asp-validation-for="ShoppingList.Ingredients" class="text-danger"></span>
             </nav>
 
@@ -103,7 +109,7 @@
             <!-- Directions -->
             <h4>Directions</h4>
             <nav class="input-val form-group">
-                <textarea asp-for="Directions" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Mix the dry and liquid ingredients separately; Start adding the dry mixture to the liquid one;&quot;" disabled ></textarea>
+                <textarea asp-for="Directions" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Mix the dry and liquid ingredients separately; Start adding the dry mixture to the liquid one;&quot;" disabled></textarea>
                 <span asp-validation-for="Directions" class="text-danger"></span>
             </nav>
 
@@ -136,7 +142,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Needed Time</label></td>
                         <td>
-                            <select asp-for="NeededTime" data-placeholder="Needed Time" class="chosen-select-no-single form-control" disabled >
+                            <select asp-for="NeededTime" data-placeholder="Needed Time" class="chosen-select-no-single form-control" disabled>
                                 @foreach (var periodValue in ((RecipeViewDataModel)ViewData["Model"]).PeriodValues)
                                 {
                                     <option value="@periodValue">@periodValue</option>
@@ -149,7 +155,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Skill Level</label></td>
                         <td>
-                            <select asp-for="SkillLevel" data-placeholder="Skill Level" class="chosen-select-no-single form-control" disabled >
+                            <select asp-for="SkillLevel" data-placeholder="Skill Level" class="chosen-select-no-single form-control" disabled>
                                 @foreach (var levelValue in ((RecipeViewDataModel)ViewData["Model"]).LevelValues)
                                 {
                                     <option value="@levelValue">@levelValue</option>
@@ -162,7 +168,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Lifestyle</label></td>
                         <td>
-                            <select asp-for="LifestyleTypes" data-placeholder="Multiple selection possible" class="chosen-select-no-single form-control" multiple disabled >
+                            <select asp-for="LifestyleTypes" data-placeholder="Multiple selection possible" class="chosen-select-no-single form-control" multiple disabled>
                                 @foreach (var lifestyleType in ((RecipeViewDataModel)ViewData["Model"]).LifestyleTypes)
                                 {
                                     <option value="@lifestyleType">@lifestyleType</option>
@@ -175,7 +181,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Allergens</label></td>
                         <td>
-                            <select asp-for="AllergenNames" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple disabled >
+                            <select asp-for="AllergenNames" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple disabled>
                                 @foreach (var allergenName in ((RecipeViewDataModel)ViewData["Model"]).AllergenNames)
                                 {
                                     <option value="@allergenName">@allergenName</option>
@@ -188,7 +194,7 @@
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Serving</label></td>
                         <td>
-                            <select asp-for="Serving" data-placeholder="Serving" class="chosen-select-no-single form-control" disabled >
+                            <select asp-for="Serving" data-placeholder="Serving" class="chosen-select-no-single form-control" disabled>
                                 @foreach (var sizeValue in ((RecipeViewDataModel)ViewData["Model"]).SizeValues)
                                 {
                                     <option value="@sizeValue">@sizeValue</option>

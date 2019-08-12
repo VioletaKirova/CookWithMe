@@ -4,8 +4,24 @@
 
 @{
     ViewData["Title"] = "Details";
- Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div class="margin-top-20"></div>
+
+<div class="container">
+    <div class="twelve columns">
+        @if (this.TempData["Success"] != null)
+        {
+            @await Component.InvokeAsync("SuccessAlert", new { message = this.TempData["Success"] });
+        }
+
+        @if (this.TempData["Error"] != null)
+        {
+            @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
+        }
+    </div>
+</div>
 
 <!-- Recipe Background -->
 <div class="recipeBackground">
@@ -18,6 +34,7 @@
 
     <!-- Recipe -->
     <div class="twelve columns">
+
         <div class="alignment">
 
             <!-- Header -->
@@ -43,11 +60,11 @@
 
                         if (!Model.UserFavoritedCurrentRecipe)
                         {
-                            <a href="/Recipes/AddToFavorites/@Model.Id" class="button medium color" style="float: right; margin: 0 5px 0 0;">&#10084</a>
+                            <a href="/Recipes/AddToFavorite/@Model.Id" class="button medium color" style="float: right; margin: 0 5px 0 0;">&#10084</a>
                         }
                         else
                         {
-                            <a href="/Recipes/RemoveFromFavorites/@Model.Id" class="button medium" style="float: right; margin: 0 5px 0 0;">&#10084</a>
+                            <a href="/Recipes/RemoveFromFavorite/@Model.Id" class="button medium" style="float: right; margin: 0 5px 0 0;">&#10084</a>
                         }
                     }
 
@@ -185,7 +202,7 @@
                                 <div class="arrow-comment"></div>
                                 <div class="comment-by">
                                     @if (review.ReviewerId == this.User.FindFirstValue(ClaimTypes.NameIdentifier) ||
-                                        this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                 this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                     {
                                         <a href="/Reviews/Delete/@review.Id" class="button small" style="float: right">Delete</a>
                                     }

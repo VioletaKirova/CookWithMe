@@ -1,6 +1,7 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using CookWithMe.Common;
@@ -34,7 +35,14 @@
             }
             catch (ArgumentNullException)
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.NotFound}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["ErrorParams"] = new Dictionary<string, string>
+                {
+                    ["StatusCode"] = StatusCodes.NotFound,
+                    ["RequestId"] = this.HttpContext.TraceIdentifier,
+                    ["RequestPath"] = this.HttpContext.Request.Path,
+                };
+
+                return this.Redirect("/Home/Error");
             }
 
             this.ViewData["CategoryId"] = id;

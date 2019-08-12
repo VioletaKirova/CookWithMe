@@ -1,6 +1,7 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -21,6 +22,9 @@
     [Authorize]
     public class ShoppingListsController : BaseController
     {
+        private const string GetErrorMessage = "Failed to get the shopping list.";
+        private const string DeleteErrorMessage = "Failed to delete the shopping list.";
+
         private readonly IShoppingListService shoppingListService;
         private readonly IRecipeService recipeService;
         private readonly IUserService userService;
@@ -55,11 +59,11 @@
             {
                 if (!await this.userService.SetShoppingListAsync(userId, shoppingListServiceModel))
                 {
-                    return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                    this.TempData["Error"] = GetErrorMessage;
                 }
             }
 
-            return this.RedirectToAction("All");
+            return this.RedirectToAction(nameof(this.All));
         }
 
         [HttpGet]
@@ -73,8 +77,14 @@
             }
             catch (ArgumentNullException)
             {
+                this.TempData["ErrorParams"] = new Dictionary<string, string>
+                {
+                    ["StatusCode"] = StatusCodes.NotFound,
+                    ["RequestId"] = this.HttpContext.TraceIdentifier,
+                    ["RequestPath"] = this.HttpContext.Request.Path,
+                };
 
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.NotFound}&id={this.HttpContext.TraceIdentifier}");
+                return this.Redirect("/Home/Error");
             }
 
             var shoppingListDetailsViewModel = shoppingListServiceModel.To<ShoppingListDetailsViewModel>();
@@ -94,10 +104,12 @@
 
             if (!await this.userShoppingListService.DeleteByUserIdAndShoppingListIdAsync(userId, id))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = DeleteErrorMessage;
+
+                return this.Redirect($"/ShoppingLists/Details/{id}");
             }
 
-            return this.RedirectToAction("All");
+            return this.RedirectToAction(nameof(this.All));
         }
 
         [HttpGet]

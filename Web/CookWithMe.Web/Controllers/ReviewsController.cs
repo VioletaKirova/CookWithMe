@@ -3,7 +3,6 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using CookWithMe.Common;
     using CookWithMe.Services.Data.Recipes;
     using CookWithMe.Services.Data.Reviews;
     using CookWithMe.Services.Mapping;
@@ -16,6 +15,9 @@
     [Authorize]
     public class ReviewsController : BaseController
     {
+        private const string CreateErrorMessage = "Failed to create the review.";
+        private const string DeleteErrorMessage = "Failed to delete the review.";
+
         private readonly IReviewService reviewService;
         private readonly IRecipeService recipeService;
 
@@ -56,7 +58,9 @@
 
             if (!await this.reviewService.CreateAsync(reviewServiceModel))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = CreateErrorMessage;
+
+                return this.View();
             }
 
             return this.Redirect($"/Recipes/Details/{reviewServiceModel.RecipeId}");
@@ -67,7 +71,7 @@
         {
             if (!await this.reviewService.DeleteByIdAsync(id))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = DeleteErrorMessage;
             }
 
             var recipeId = (await this.reviewService.GetByIdAsync(id)).RecipeId;

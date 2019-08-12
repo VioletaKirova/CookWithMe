@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -64,13 +65,16 @@
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error(string id, string statusCode)
+        public IActionResult Error()
         {
-            var errorViewModel = new ErrorViewModel
+            var errorViewModel = new ErrorViewModel();
+
+            if (this.TempData["ErrorParams"] is Dictionary<string, string> dict)
             {
-                StatusCode = statusCode,
-                RequestId = id,
-            };
+                errorViewModel.StatusCode = dict["StatusCode"];
+                errorViewModel.RequestId = dict["RequestId"];
+                errorViewModel.RequestPath = dict["RequestPath"];
+            }
 
             return this.View(errorViewModel);
         }

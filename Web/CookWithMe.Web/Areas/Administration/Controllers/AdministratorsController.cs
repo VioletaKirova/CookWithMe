@@ -2,7 +2,6 @@
 {
     using System.Threading.Tasks;
 
-    using CookWithMe.Common;
     using CookWithMe.Services.Data.Administrators;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Administrators;
@@ -13,6 +12,10 @@
 
     public class AdministratorsController : AdministrationController
     {
+        private const string RegistrationErrorMessage = "The administrator registration failed.";
+        private const string RemoveFromRoleErrorMessage = "Failed to remove administrator from role.";
+        private const string RemoveFromRoleSuccessMessage = "You successfully removed administrator from role!";
+
         private readonly IAdministratorService administratorService;
 
         public AdministratorsController(IAdministratorService administratorService)
@@ -46,20 +49,31 @@
             var administratorRegisterServiceModel = administratorRegisterInputModel
                 .To<AdministratorServiceModel>();
 
+            await this.administratorService.RegisterAsync(administratorRegisterServiceModel);
+
             if (!await this.administratorService.RegisterAsync(administratorRegisterServiceModel))
             {
-                return this.Redirect($"/Home/Error?statusCode={StatusCodes.InternalServerError}&id={this.HttpContext.TraceIdentifier}");
+                this.TempData["Error"] = RegistrationErrorMessage;
+
+                return this.View();
             }
 
-            return this.RedirectToAction("All");
+            return this.RedirectToAction(nameof(this.All));
         }
 
         [HttpGet]
         public async Task<IActionResult> RemoveFromRole(string id)
         {
-            await this.administratorService.RemoveFromRoleByIdAsync(id);
+            if (!await this.administratorService.RemoveFromRoleByIdAsync(id))
+            {
+                this.TempData["Error"] = RemoveFromRoleErrorMessage;
 
-            return this.RedirectToAction("All");
+                return this.RedirectToAction(nameof(this.All));
+            }
+
+            this.TempData["Success"] = RemoveFromRoleSuccessMessage;
+
+            return this.RedirectToAction(nameof(this.All));
         }
     }
 }
