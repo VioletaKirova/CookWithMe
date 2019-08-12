@@ -18,6 +18,8 @@
 
     public class RecipeService : IRecipeService
     {
+        private const string InvalidRecipeIdErrorMessage = "Recipe with ID: {0} doesn't exist.";
+
         private readonly IDeletableEntityRepository<Recipe> recipeRepository;
         private readonly ICategoryService categoryService;
         private readonly ILifestyleService lifestyleService;
@@ -144,7 +146,7 @@
 
             if (recipe == null)
             {
-                throw new ArgumentNullException($"Recipe with ID: {id} doesn't exist.");
+                throw new ArgumentNullException(string.Format(InvalidRecipeIdErrorMessage, id));
             }
 
             var recipeServiceModel = recipe.To<RecipeServiceModel>();
@@ -361,7 +363,9 @@
                 filteredRecipes = filteredRecipes.Where(x => x.Yield == recipeSearchServiceModel.Yield);
             }
 
-            return filteredRecipes.To<RecipeServiceModel>();
+            return filteredRecipes
+                .OrderByDescending(x => x.CreatedOn)
+                .To<RecipeServiceModel>();
         }
     }
 }

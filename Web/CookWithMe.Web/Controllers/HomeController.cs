@@ -1,6 +1,5 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
-    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -62,21 +61,6 @@
 
             return this.View(await PaginatedList<RecipeHomeViewModel>
                 .CreateAsync(filteredRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            var errorViewModel = new ErrorViewModel();
-
-            if (this.TempData["ErrorParams"] is Dictionary<string, string> dict)
-            {
-                errorViewModel.StatusCode = dict["StatusCode"];
-                errorViewModel.RequestId = dict["RequestId"];
-                errorViewModel.RequestPath = dict["RequestPath"];
-            }
-
-            return this.View(errorViewModel);
         }
     }
 }

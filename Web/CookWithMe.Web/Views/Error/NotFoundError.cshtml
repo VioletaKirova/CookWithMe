@@ -1,0 +1,63 @@
+﻿@using CookWithMe.Common;
+@model CookWithMe.Web.ViewModels.ErrorViewModel
+
+@{
+    ViewData["Title"] = "NotFoundError";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Titlebar
+================================================== -->
+<section id="titlebar">
+    <!-- Container -->
+    <div class="container">
+
+        <div class="eight columns">
+            <h2>Oops!</h2>
+        </div>
+
+    </div>
+    <!-- Container / End -->
+</section>
+
+
+<!-- Content
+================================================== -->
+<div class="container">
+
+    <!-- Masonry -->
+    <div class="sixteen columns">
+
+        <h2>The page you're looking for doesn't exist!</h2>
+
+        <div class="margin-bottom-15"></div>
+
+        <h3>Check out one of these pages:</h3>
+
+        <h5><a href="/Recipes/Browse">Find the perfect recipe!</a></h5>
+        <h5><a href="/Categories/Recipes/@GlobalConstants.DessertCategoryId">Need something sweet?</a></h5>
+        <h5><a href="/Home/Index">Go to Home Page</a></h5>
+
+        <div class="margin-bottom-45"></div>
+
+        <strong>Status code:</strong> <code>@this.Model.StatusCode</code>
+
+        @if (this.Model.ShowRequestId)
+        {
+            <br />
+            <strong>Request ID:</strong> <code>@this.Model.RequestId</code>
+        }
+
+        @if (this.Model.ShowRequestPath)
+        {
+            <br />
+            <strong>Request Path:</strong> <code>@this.Model.RequestPath</code>
+        }
+
+        <div class="margin-bottom-35"></div>
+
+    </div>
+
+</div>
+
+<div class="margin-top-20"></div>

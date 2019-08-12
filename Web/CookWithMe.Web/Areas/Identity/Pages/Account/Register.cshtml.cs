@@ -43,6 +43,11 @@
 
         public void OnGet(string returnUrl = null)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                this.Response.Redirect("/");
+            }
+
             this.ReturnUrl = returnUrl;
         }
 

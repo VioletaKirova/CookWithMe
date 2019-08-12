@@ -81,12 +81,11 @@
             {
                 this.TempData["ErrorParams"] = new Dictionary<string, string>
                 {
-                    ["StatusCode"] = StatusCodes.NotFound,
                     ["RequestId"] = this.HttpContext.TraceIdentifier,
                     ["RequestPath"] = this.HttpContext.Request.Path,
                 };
 
-                return this.Redirect("/Home/Error");
+                return this.Redirect("/Error/404");
             }
 
             recipeServiceModel.Reviews = await this.reviewService.GetByRecipeId(id).ToListAsync();

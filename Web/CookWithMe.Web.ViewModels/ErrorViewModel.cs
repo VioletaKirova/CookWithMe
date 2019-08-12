@@ -8,8 +8,6 @@
 
         public string RequestPath { get; set; }
 
-        public bool ShowStatusCode => !string.IsNullOrEmpty(this.StatusCode);
-
         public bool ShowRequestId => !string.IsNullOrEmpty(this.RequestId);
 
         public bool ShowRequestPath => !string.IsNullOrEmpty(this.RequestPath);

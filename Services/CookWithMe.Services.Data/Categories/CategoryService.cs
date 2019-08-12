@@ -14,6 +14,8 @@
 
     public class CategoryService : ICategoryService
     {
+        private const string InvalidCategoryIdErrorMessage = "Category with ID: {0} doesn't exist.";
+
         private readonly IDeletableEntityRepository<Category> categoryRepository;
 
         public CategoryService(IDeletableEntityRepository<Category> categoryRepository)
@@ -50,12 +52,16 @@
 
         public async Task<bool> DeleteByIdAsync(int id)
         {
-            var categoryFromDb = await this.categoryRepository.GetByIdWithDeletedAsync(id);
+            throw new Exception();
 
-            this.categoryRepository.Delete(categoryFromDb);
-            var result = await this.categoryRepository.SaveChangesAsync();
+            return true;
 
-            return result > 0;
+            //var categoryFromDb = await this.categoryRepository.GetByIdWithDeletedAsync(id);
+
+            //this.categoryRepository.Delete(categoryFromDb);
+            //var result = await this.categoryRepository.SaveChangesAsync();
+
+            //return result > 0;
         }
 
         public async Task<bool> EditAsync(CategoryServiceModel categoryServiceModel)
@@ -92,7 +98,7 @@
 
             if (category == null)
             {
-                throw new ArgumentNullException($"Category with ID: {id} doesn't exist.");
+                throw new ArgumentNullException(string.Format(InvalidCategoryIdErrorMessage, id));
             }
 
             return category.To<CategoryServiceModel>();

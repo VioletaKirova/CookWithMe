@@ -14,6 +14,8 @@
 
     public class ShoppingListService : IShoppingListService
     {
+        private const string InvalidShoppingListIdErrorMessage = "ShoppingList with ID: {0} doesn't exist.";
+
         private readonly IDeletableEntityRepository<ShoppingList> shoppingListRepository;
 
         public ShoppingListService(IDeletableEntityRepository<ShoppingList> shoppingListRepository)
@@ -49,7 +51,7 @@
 
             if (shoppingList == null)
             {
-                throw new ArgumentNullException($"ShoppingList with ID: {id} doesn't exist.");
+                throw new ArgumentNullException(string.Format(InvalidShoppingListIdErrorMessage, id));
             }
 
             return shoppingList.To<ShoppingListServiceModel>();
@@ -59,6 +61,7 @@
         {
             return this.shoppingListRepository.All()
                 .Where(x => ids.Contains(x.Id))
+                .OrderBy(x => x.CreatedOn)
                 .To<ShoppingListServiceModel>();
         }
 

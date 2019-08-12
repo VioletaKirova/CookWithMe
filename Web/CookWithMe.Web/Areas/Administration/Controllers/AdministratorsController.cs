@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Web.Areas.Administration.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Services.Data.Administrators;
@@ -33,6 +34,7 @@
         public async Task<IActionResult> All()
         {
             var administrators = (await this.administratorService.GetAllAsync())
+                .OrderBy(x => x.FullName)
                 .To<AdministratorAllViewModel>();
 
             return this.View(administrators);

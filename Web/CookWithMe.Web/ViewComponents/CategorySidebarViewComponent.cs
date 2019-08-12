@@ -21,6 +21,7 @@
         {
             var viewModel = this.categoryService
                 .GetAll()
+                .OrderBy(x => x.Id)
                 .To<CategorySidebarViewComponentViewModel>()
                 .ToList();
 
