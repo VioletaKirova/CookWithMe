@@ -1,17 +1,14 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using CookWithMe.Common;
     using CookWithMe.Services;
     using CookWithMe.Services.Data.Recipes;
     using CookWithMe.Services.Data.ShoppingLists;
     using CookWithMe.Services.Data.Users;
     using CookWithMe.Services.Mapping;
-    using CookWithMe.Services.Models.ShoppingLists;
+    using CookWithMe.Web.Filters;
     using CookWithMe.Web.ViewModels.ShoppingLists.All;
     using CookWithMe.Web.ViewModels.ShoppingLists.Details;
 
@@ -67,24 +64,10 @@
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ArgumentNullExceptionFilterAttribute))]
         public async Task<IActionResult> Details(string id)
         {
-            ShoppingListServiceModel shoppingListServiceModel = null;
-
-            try
-            {
-                shoppingListServiceModel = await this.shoppingListService.GetByIdAsync(id);
-            }
-            catch (ArgumentNullException)
-            {
-                this.TempData["ErrorParams"] = new Dictionary<string, string>
-                {
-                    ["RequestId"] = this.HttpContext.TraceIdentifier,
-                    ["RequestPath"] = this.HttpContext.Request.Path,
-                };
-
-                return this.Redirect("/Error/404");
-            }
+            var shoppingListServiceModel = await this.shoppingListService.GetByIdAsync(id);
 
             var shoppingListDetailsViewModel = shoppingListServiceModel.To<ShoppingListDetailsViewModel>();
 
@@ -117,7 +100,7 @@
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var shoppingListIds = await this.userShoppingListService.GetShoppingListIdsByUserIdAsync(userId);
             var shoppingLists = await this.shoppingListService
-                .GetByIdsAsync(shoppingListIds)
+                .GetByIds(shoppingListIds)
                 .To<ShoppingListAllViewModel>()
                 .ToListAsync();
 

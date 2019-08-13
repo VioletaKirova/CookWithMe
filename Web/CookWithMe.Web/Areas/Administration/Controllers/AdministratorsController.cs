@@ -6,11 +6,13 @@
     using CookWithMe.Services.Data.Administrators;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Administrators;
+    using CookWithMe.Web.Filters;
     using CookWithMe.Web.InputModels.Administrators.Register;
     using CookWithMe.Web.ViewModels.Administrators.All;
 
     using Microsoft.AspNetCore.Mvc;
 
+    [ServiceFilter(typeof(AuthorizeRootUserFilterAttribute))]
     public class AdministratorsController : AdministrationController
     {
         private const string RegistrationErrorMessage = "The administrator registration failed.";

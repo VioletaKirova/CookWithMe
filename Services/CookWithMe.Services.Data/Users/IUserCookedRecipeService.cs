@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.Users
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -11,6 +12,6 @@
 
         Task<bool> DeleteByRecipeIdAsync(string recipeId);
 
-        IQueryable<string> GetRecipeIdsByUserId(string userId);
+        Task<IEnumerable<string>> GetRecipeIdsByUserIdAsync(string userId);
     }
 }

@@ -57,11 +57,10 @@
             return shoppingList.To<ShoppingListServiceModel>();
         }
 
-        public IQueryable<ShoppingListServiceModel> GetByIdsAsync(IEnumerable<string> ids)
+        public IQueryable<ShoppingListServiceModel> GetByIds(IEnumerable<string> ids)
         {
             return this.shoppingListRepository.All()
                 .Where(x => ids.Contains(x.Id))
-                .OrderBy(x => x.CreatedOn)
                 .To<ShoppingListServiceModel>();
         }
 

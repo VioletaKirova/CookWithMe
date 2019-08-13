@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -61,6 +62,17 @@
 
             return this.View(await PaginatedList<RecipeHomeViewModel>
                 .CreateAsync(filteredRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error(int? statusCode = null)
+        {
+            if (statusCode == StatusCodes.NotFound)
+            {
+                return this.Redirect($"/Error/{StatusCodes.NotFound}");
+            }
+
+            return this.Redirect($"/Error/{StatusCodes.InternalServerError}");
         }
     }
 }

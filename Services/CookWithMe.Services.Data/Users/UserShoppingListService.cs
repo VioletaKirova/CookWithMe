@@ -53,6 +53,7 @@
             return await this.userShoppingListRepository
                 .AllAsNoTracking()
                 .Where(x => x.UserId == userId)
+                .OrderByDescending(x => x.AddedOn)
                 .Select(x => x.ShoppingListId)
                 .ToListAsync();
         }

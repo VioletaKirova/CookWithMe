@@ -52,16 +52,12 @@
 
         public async Task<bool> DeleteByIdAsync(int id)
         {
-            throw new Exception();
+            var categoryFromDb = await this.categoryRepository.GetByIdWithDeletedAsync(id);
 
-            return true;
+            this.categoryRepository.Delete(categoryFromDb);
+            var result = await this.categoryRepository.SaveChangesAsync();
 
-            //var categoryFromDb = await this.categoryRepository.GetByIdWithDeletedAsync(id);
-
-            //this.categoryRepository.Delete(categoryFromDb);
-            //var result = await this.categoryRepository.SaveChangesAsync();
-
-            //return result > 0;
+            return result > 0;
         }
 
         public async Task<bool> EditAsync(CategoryServiceModel categoryServiceModel)

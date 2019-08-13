@@ -28,12 +28,17 @@
         public IActionResult NotFoundError()
         {
             var errorViewModel = new ErrorViewModel();
+            errorViewModel.StatusCode = StatusCodes.NotFound;
 
             if (this.TempData["ErrorParams"] is Dictionary<string, string> dict)
             {
-                errorViewModel.StatusCode = StatusCodes.NotFound;
                 errorViewModel.RequestId = dict["RequestId"];
                 errorViewModel.RequestPath = dict["RequestPath"];
+            }
+
+            if (errorViewModel.RequestId == null)
+            {
+                errorViewModel.RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier;
             }
 
             return this.View(errorViewModel);

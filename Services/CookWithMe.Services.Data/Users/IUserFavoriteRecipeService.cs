@@ -1,6 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.Users
 {
-    using System.Linq;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface IUserFavoriteRecipeService
@@ -11,6 +11,6 @@
 
         Task<bool> DeleteByRecipeIdAsync(string recipeId);
 
-        IQueryable<string> GetRecipeIdsByUserId(string userId);
+        Task<IEnumerable<string>> GetRecipeIdsByUserIdAsync(string userId);
     }
 }

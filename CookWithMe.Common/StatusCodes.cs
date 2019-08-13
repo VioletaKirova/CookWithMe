@@ -2,9 +2,9 @@
 {
     public class StatusCodes
     {
-        public const string NotFound = "404";
+        public const int NotFound = 404;
 
-        public const string InternalServerError = "500";
+        public const int InternalServerError = 500;
 
     }
 }

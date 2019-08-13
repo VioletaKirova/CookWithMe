@@ -17,6 +17,7 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Allergens;
     using CookWithMe.Services.Models.Recipes;
+    using CookWithMe.Web.Filters;
     using CookWithMe.Web.Infrastructure;
     using CookWithMe.Web.InputModels.Recipes.Browse;
     using CookWithMe.Web.ViewModels.Recipes.Browse;
@@ -69,24 +70,10 @@
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ArgumentNullExceptionFilterAttribute))]
         public async Task<IActionResult> Details(string id)
         {
-            RecipeServiceModel recipeServiceModel = null;
-
-            try
-            {
-                recipeServiceModel = await this.recipeService.GetByIdAsync(id);
-            }
-            catch (ArgumentNullException)
-            {
-                this.TempData["ErrorParams"] = new Dictionary<string, string>
-                {
-                    ["RequestId"] = this.HttpContext.TraceIdentifier,
-                    ["RequestPath"] = this.HttpContext.Request.Path,
-                };
-
-                return this.Redirect("/Error/404");
-            }
+            var recipeServiceModel = await this.recipeService.GetByIdAsync(id);
 
             recipeServiceModel.Reviews = await this.reviewService.GetByRecipeId(id).ToListAsync();
 
@@ -177,8 +164,7 @@
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var favoriteRecipeIds = await this.userFavoriteRecipeService
-                .GetRecipeIdsByUserId(userId)
-                .ToListAsync();
+                .GetRecipeIdsByUserIdAsync(userId);
 
             var favoriteRecipes = this.recipeService
                 .GetByIds(favoriteRecipeIds)
@@ -195,8 +181,7 @@
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var cookedRecipeIds = await this.userCookedRecipeService
-                .GetRecipeIdsByUserId(userId)
-                .ToListAsync();
+                .GetRecipeIdsByUserIdAsync(userId);
 
             var cookedRecipes = this.recipeService
                 .GetByIds(cookedRecipeIds)

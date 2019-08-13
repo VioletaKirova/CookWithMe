@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.Users
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -60,12 +61,13 @@
             return result > 0;
         }
 
-        public IQueryable<string> GetRecipeIdsByUserId(string userId)
+        public async Task<IEnumerable<string>> GetRecipeIdsByUserIdAsync(string userId)
         {
-            return this.userCookedRecipeRepository
+            return await this.userCookedRecipeRepository
                 .AllAsNoTracking()
                 .Where(x => x.UserId == userId)
-                .Select(x => x.RecipeId);
+                .Select(x => x.RecipeId)
+                .ToListAsync();
         }
     }
 }

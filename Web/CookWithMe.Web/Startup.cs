@@ -24,6 +24,7 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Messaging;
     using CookWithMe.Services.Models.Categories;
+    using CookWithMe.Web.Filters;
     using CookWithMe.Web.InputModels.Categories.Create;
     using CookWithMe.Web.ViewComponents.Models;
     using CookWithMe.Web.ViewModels;
@@ -150,6 +151,8 @@
             services.AddTransient<IRecipeLifestyleService, RecipeLifestyleService>();
             services.AddTransient<IUserAllergenService, UserAllergenService>();
             services.AddTransient<IEnumParseService, EnumParseService>();
+            services.AddTransient<AuthorizeRootUserFilterAttribute>();
+            services.AddTransient<ArgumentNullExceptionFilterAttribute>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -177,11 +180,13 @@
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
                 app.UseDatabaseErrorPage();
             }
             else
             {
-                app.UseExceptionHandler("/Error/500");
+                app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
