@@ -14,7 +14,8 @@
 
     public class CategoryService : ICategoryService
     {
-        private const string InvalidCategoryIdErrorMessage = "Category with ID: {0} doesn't exist.";
+        private const string InvalidCategoryIdErrorMessage = "Category with ID: {0} does not exist.";
+        private const string InvalidCategoryTitleErrorMessage = "Category with Title: {0} does not exist.";
 
         private readonly IDeletableEntityRepository<Category> categoryRepository;
 
@@ -52,7 +53,14 @@
 
         public async Task<bool> DeleteByIdAsync(int id)
         {
-            var categoryFromDb = await this.categoryRepository.GetByIdWithDeletedAsync(id);
+            var categoryFromDb = await this.categoryRepository
+                .GetByIdWithDeletedAsync(id);
+
+            if (categoryFromDb == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidCategoryIdErrorMessage, id));
+            }
 
             this.categoryRepository.Delete(categoryFromDb);
             var result = await this.categoryRepository.SaveChangesAsync();
@@ -62,7 +70,14 @@
 
         public async Task<bool> EditAsync(CategoryServiceModel categoryServiceModel)
         {
-            var categoryFromDb = await this.categoryRepository.GetByIdWithDeletedAsync(categoryServiceModel.Id);
+            var categoryFromDb = await this.categoryRepository
+                .GetByIdWithDeletedAsync(categoryServiceModel.Id);
+
+            if (categoryFromDb == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidCategoryIdErrorMessage, categoryServiceModel.Id));
+            }
 
             categoryFromDb.Title = categoryServiceModel.Title;
 
@@ -94,7 +109,8 @@
 
             if (category == null)
             {
-                throw new ArgumentNullException(string.Format(InvalidCategoryIdErrorMessage, id));
+                throw new ArgumentNullException(
+                    string.Format(InvalidCategoryIdErrorMessage, id));
             }
 
             return category.To<CategoryServiceModel>();
@@ -102,16 +118,32 @@
 
         public async Task<int> GetIdByTitleAsync(string categoryTitle)
         {
-            return (await this.categoryRepository
+            var category = await this.categoryRepository
                 .AllAsNoTracking()
-                .SingleOrDefaultAsync(x => x.Title == categoryTitle))
-                .Id;
+                .SingleOrDefaultAsync(x => x.Title == categoryTitle);
+
+            if (category == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidCategoryTitleErrorMessage, categoryTitle));
+            }
+
+            return category.Id;
         }
 
         public async Task SetCategoryToRecipeAsync(string categoryTitle, Recipe recipe)
         {
-            recipe.Category = await this.categoryRepository.All()
+            var category = await this.categoryRepository
+                .All()
                 .SingleOrDefaultAsync(x => x.Title == categoryTitle);
+
+            if (category == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidCategoryTitleErrorMessage, categoryTitle));
+            }
+
+            recipe.Category = category;
         }
     }
 }
