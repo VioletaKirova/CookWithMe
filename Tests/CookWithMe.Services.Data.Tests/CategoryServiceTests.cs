@@ -43,7 +43,7 @@
         }
 
         [Fact]
-        public async Task CreateAllAsync__WithDummyData_ShouldSuccessfullyCreate()
+        public async Task CreateAllAsync_WithDummyData_ShouldSuccessfullyCreate()
         {
             string errorMessagePrefix = "CategoryService CreateAllAsync() method does not work properly.";
 
@@ -55,14 +55,13 @@
 
             // Act
             await categoryService.CreateAllAsync(categoryTitles);
-            var actualData = await categoryRepository.All().Select(x => x.Title).ToListAsync();
-            var expectedData = categoryTitles;
-
+            var actualResult = await categoryRepository.All().Select(x => x.Title).ToListAsync();
+            var expectedResult = categoryTitles;
 
             // Assert
-            for (int i = 0; i < actualData.Count; i++)
+            for (int i = 0; i < actualResult.Count; i++)
             {
-                Assert.True(expectedData[i] == actualData[i], errorMessagePrefix + " " + "Expected title and actual title do not match.");
+                Assert.True(expectedResult[i] == actualResult[i], errorMessagePrefix + " " + "Expected title and actual title do not match.");
             }
         }
 
@@ -347,7 +346,7 @@
         }
 
         [Fact]
-        public async Task SetCategoryToRecipeAsync_WithIncorrectData_ShouldThrowArgumentNullException()
+        public async Task SetCategoryToRecipeAsync_WithNonExistentCategory_ShouldThrowArgumentNullException()
         {
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
@@ -401,7 +400,7 @@
             // Act
             var actualResult = await categoryService.GetIdByTitleAsync(existentTitle);
             var expectedResult = (await categoryRepository
-                .AllAsNoTracking()
+                .All()
                 .SingleOrDefaultAsync(x => x.Title == existentTitle))
                 .Id;
 
