@@ -10,22 +10,20 @@
     using CookWithMe.Data.Repositories;
     using CookWithMe.Services.Data.Allergens;
     using CookWithMe.Services.Data.Tests.Common;
+
     using Microsoft.EntityFrameworkCore;
+
     using Xunit;
 
     public class AllergenServiceTests
     {
-        public AllergenServiceTests()
-        {
-            MapperInitializer.InitializeMapper();
-        }
-
         [Fact]
         public async Task CreateAllAsync_WithDummyData_ShouldReturnCorrectResult()
         {
             string errorMessagePrefix = "AllergenService CreateAllAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var allergenRepository = new EfRepository<Allergen>(context);
             var allergenService = new AllergenService(allergenRepository);
@@ -44,6 +42,7 @@
             string errorMessagePrefix = "AllergenService CreateAllAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var allergenRepository = new EfRepository<Allergen>(context);
             var allergenService = new AllergenService(allergenRepository);
@@ -70,6 +69,7 @@
             string errorMessagePrefix = "AllergenService CreateAllAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var allergenRepository = new EfRepository<Allergen>(context);
             var allergenService = new AllergenService(allergenRepository);
@@ -88,6 +88,7 @@
             string errorMessagePrefix = "AllergenService GetAllNamesAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var allergenRepository = new EfRepository<Allergen>(context);
@@ -110,6 +111,7 @@
             string errorMessagePrefix = "AllergenService SetAllergenToRecipeAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var allergenRepository = new EfRepository<Allergen>(context);
@@ -132,6 +134,7 @@
         public async Task SetAllergenToRecipeAsync_WithNonExistentAllergen_ShouldThrowArgumentNullException()
         {
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var allergenRepository = new EfRepository<Allergen>(context);
             var allergenService = new AllergenService(allergenRepository);
@@ -152,6 +155,7 @@
             string errorMessagePrefix = "AllergenService SetAllergenToUserAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var allergenRepository = new EfRepository<Allergen>(context);
@@ -174,6 +178,7 @@
         public async Task SetAllergenToUserAsync_WithNonExistentAllergen_ShouldThrowArgumentNullException()
         {
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var allergenRepository = new EfRepository<Allergen>(context);
             var allergenService = new AllergenService(allergenRepository);
@@ -194,6 +199,7 @@
             string errorMessagePrefix = "AllergenService GetIdsByNamesAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var allergenRepository = new EfRepository<Allergen>(context);
@@ -219,6 +225,7 @@
         public async Task GetIdsByNamesAsync_WithNonExistentName_ShouldThrowArgumentNullException()
         {
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var allergenRepository = new EfRepository<Allergen>(context);

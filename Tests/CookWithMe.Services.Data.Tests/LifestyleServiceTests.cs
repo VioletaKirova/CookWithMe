@@ -18,17 +18,13 @@
 
     public class LifestyleServiceTests
     {
-        public LifestyleServiceTests()
-        {
-            MapperInitializer.InitializeMapper();
-        }
-
         [Fact]
         public async Task CreateAllAsync_WithDummyData_ShouldReturnCorrectResult()
         {
             string errorMessagePrefix = "LifestyleService CreateAllAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
@@ -47,6 +43,7 @@
             string errorMessagePrefix = "LifestyleService CreateAllAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
@@ -73,6 +70,7 @@
             string errorMessagePrefix = "LifestyleService CreateAllAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
@@ -91,6 +89,7 @@
             string errorMessagePrefix = "LifestyleService GetAllTypesAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
@@ -113,6 +112,7 @@
             string errorMessagePrefix = "LifestyleService SetLifestyleToRecipeAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
@@ -135,6 +135,7 @@
         public async Task SetLifestyleToRecipeAsync_WithNonExistentLifestyle_ShouldThrowArgumentNullException()
         {
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
@@ -155,6 +156,7 @@
             string errorMessagePrefix = "LifestyleService SetLifestyleToUserAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
@@ -177,6 +179,7 @@
         public async Task SetLifestyleToUserAsync_WithNonExistentLifestyle_ShouldThrowArgumentNullException()
         {
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
@@ -197,6 +200,7 @@
             string errorMessagePrefix = "LifestyleService GetByIdAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
@@ -219,6 +223,7 @@
         public async Task GetByIdAsync_WithNonExistentId_ShouldThrowArgumentNullException()
         {
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
@@ -239,6 +244,7 @@
             string errorMessagePrefix = "LifestyleService GetIdByTypeAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
@@ -257,9 +263,10 @@
         }
 
         [Fact]
-        public async Task GetIdByTypeAsync_WithNonExistentType_ShouldThrowNullReferenceException()
+        public async Task GetIdByTypeAsync_WithNonExistentType_ShouldThrowArgumentNullException()
         {
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
@@ -268,7 +275,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<NullReferenceException>(async () =>
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
                 await lifestyleService.GetIdByTypeAsync(nonExistentType);
             });

@@ -14,7 +14,8 @@
 
     public class LifestyleService : ILifestyleService
     {
-        private const string InvalidLifestyleTypeErrorMessage = "Category with Type: {0} does not exist.";
+        private const string InvalidLifestyleIdErrorMessage = "Lifestyle with ID: {0} does not exist.";
+        private const string InvalidLifestyleTypeErrorMessage = "Lifestyle with Type: {0} does not exist.";
 
         private readonly IRepository<Lifestyle> lifestyleRepository;
 
@@ -50,18 +51,32 @@
 
         public async Task<LifestyleServiceModel> GetByIdAsync(int id)
         {
-            return (await this.lifestyleRepository
+            var lifestyle = await this.lifestyleRepository
                 .AllAsNoTracking()
-                .SingleOrDefaultAsync(x => x.Id == id))
-                .To<LifestyleServiceModel>();
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (lifestyle == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidLifestyleIdErrorMessage, id));
+            }
+
+            return lifestyle.To<LifestyleServiceModel>();
         }
 
         public async Task<int> GetIdByTypeAsync(string lifestyleType)
         {
-            return (await this.lifestyleRepository
+            var lifestyle = await this.lifestyleRepository
                 .AllAsNoTracking()
-                .SingleOrDefaultAsync(x => x.Type == lifestyleType))
-                .Id;
+                .SingleOrDefaultAsync(x => x.Type == lifestyleType);
+
+            if (lifestyle == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidLifestyleTypeErrorMessage, lifestyleType));
+            }
+
+            return lifestyle.Id;
         }
 
         public async Task SetLifestyleToRecipeAsync(string lifestyleType, Recipe recipe)
@@ -71,7 +86,8 @@
 
             if (lifestyle == null)
             {
-                throw new ArgumentNullException(string.Format(InvalidLifestyleTypeErrorMessage, lifestyleType));
+                throw new ArgumentNullException(
+                    string.Format(InvalidLifestyleTypeErrorMessage, lifestyleType));
             }
 
             recipe.Lifestyles.Add(new RecipeLifestyle
@@ -87,7 +103,8 @@
 
             if (lifestyle == null)
             {
-                throw new ArgumentNullException(string.Format(InvalidLifestyleTypeErrorMessage, lifestyleType));
+                throw new ArgumentNullException(
+                    string.Format(InvalidLifestyleTypeErrorMessage, lifestyleType));
             }
 
             user.Lifestyle = lifestyle;

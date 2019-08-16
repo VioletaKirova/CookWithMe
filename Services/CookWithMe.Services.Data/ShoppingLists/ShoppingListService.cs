@@ -14,7 +14,9 @@
 
     public class ShoppingListService : IShoppingListService
     {
+        private const string InvalidShoppingListIdsErrorMessage = "Not all IDs are existent.";
         private const string InvalidShoppingListIdErrorMessage = "ShoppingList with ID: {0} doesn't exist.";
+        private const string InvalidRecipeIdErrorMessage = "ShoppingList with RecipeId: {0} does not exist.";
 
         private readonly IDeletableEntityRepository<ShoppingList> shoppingListRepository;
 
@@ -28,6 +30,12 @@
             var shoppingListFromDb = await this.shoppingListRepository
                 .GetByIdWithDeletedAsync(id);
 
+            if (shoppingListFromDb == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidShoppingListIdErrorMessage, id));
+            }
+
             this.shoppingListRepository.Delete(shoppingListFromDb);
             var result = await this.shoppingListRepository.SaveChangesAsync();
 
@@ -38,6 +46,12 @@
         {
             var shoppingListFromDb = await this.shoppingListRepository
                 .GetByIdWithDeletedAsync(id);
+
+            if (shoppingListFromDb == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidShoppingListIdErrorMessage, id));
+            }
 
             shoppingListFromDb.Ingredients = shoppingListServiceModel.Ingredients;
 
@@ -51,17 +65,28 @@
 
             if (shoppingList == null)
             {
-                throw new ArgumentNullException(string.Format(InvalidShoppingListIdErrorMessage, id));
+                throw new ArgumentNullException(
+                    string.Format(InvalidShoppingListIdErrorMessage, id));
             }
 
             return shoppingList.To<ShoppingListServiceModel>();
         }
 
-        public IQueryable<ShoppingListServiceModel> GetByIds(IEnumerable<string> ids)
+        public async Task<IEnumerable<ShoppingListServiceModel>> GetByIds(IEnumerable<string> ids)
         {
-            return this.shoppingListRepository.All()
+            var shoppingLists = await this.shoppingListRepository
+                .AllAsNoTracking()
                 .Where(x => ids.Contains(x.Id))
-                .To<ShoppingListServiceModel>();
+                .To<ShoppingListServiceModel>()
+                .ToListAsync();
+
+            if (shoppingLists.Count() != ids.Count())
+            {
+                throw new ArgumentNullException(
+                    InvalidShoppingListIdsErrorMessage);
+            }
+
+            return shoppingLists;
         }
 
         public async Task<string> GetIdByRecipeIdAsync(string recipeId)
@@ -69,6 +94,12 @@
             var shoppingList = await this.shoppingListRepository
                 .AllAsNoTracking()
                 .SingleOrDefaultAsync(x => x.RecipeId == recipeId);
+
+            if (shoppingList == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidRecipeIdErrorMessage, recipeId));
+            }
 
             return shoppingList.Id;
         }

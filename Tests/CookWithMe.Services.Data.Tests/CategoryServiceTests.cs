@@ -19,17 +19,13 @@
 
     public class CategoryServiceTests
     {
-        public CategoryServiceTests()
-        {
-            MapperInitializer.InitializeMapper();
-        }
-
         [Fact]
         public async Task CreateAllAsync_WithDummyData_ShouldReturnCorrectResult()
         {
             string errorMessagePrefix = "CategoryService CreateAllAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
@@ -48,6 +44,7 @@
             string errorMessagePrefix = "CategoryService CreateAllAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
@@ -71,6 +68,7 @@
             string errorMessagePrefix = "CategoryService CreateAllAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
@@ -89,6 +87,7 @@
             string errorMessagePrefix = "CategoryService GetAllTitlesAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
@@ -111,6 +110,7 @@
             string errorMessagePrefix = "CategoryService GetByIdAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
@@ -133,6 +133,7 @@
         public async Task GetByIdAsync_WithNonExistentId_ShouldThrowArgumentNullException()
         {
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
@@ -153,6 +154,7 @@
             string errorMessagePrefix = "CategoryService CreateAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
@@ -171,6 +173,7 @@
             string errorMessagePrefix = "CategoryService CreateAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
@@ -194,6 +197,7 @@
             string errorMessagePrefix = "CategoryService EditAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
@@ -214,6 +218,7 @@
             string errorMessagePrefix = "CategoryService EditAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
@@ -239,6 +244,7 @@
         public async Task EditAsync_WithNonExistentId_ShouldThrowArgumentNullException()
         {
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
@@ -263,17 +269,15 @@
             string errorMessagePrefix = "CategoryService DeleteByIdAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
-            var categoryServiceModel = categoryRepository
-                .All()
-                .First()
-                .To<CategoryServiceModel>();
+            var existentId = categoryRepository.All().First().Id;
 
             // Act
-            var result = await categoryService.DeleteByIdAsync(categoryServiceModel.Id);
+            var result = await categoryService.DeleteByIdAsync(existentId);
 
             // Assert
             Assert.True(result, errorMessagePrefix + " " + "Returns false.");
@@ -285,18 +289,16 @@
             string errorMessagePrefix = "CategoryService DeleteByIdAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
-            var categoryServiceModel = categoryRepository
-                .All()
-                .First()
-                .To<CategoryServiceModel>();
+            var existentId = categoryRepository.All().First().Id;
 
             // Act
             var categoriesCount = categoryRepository.All().Count();
-            await categoryService.DeleteByIdAsync(categoryServiceModel.Id);
+            await categoryService.DeleteByIdAsync(existentId);
             var actualResult = categoryRepository.All().Count();
             var expectedResult = categoriesCount - 1;
 
@@ -308,6 +310,7 @@
         public async Task DeleteByIdAsync_WithNonExistentId_ShouldThrowArgumentNullException()
         {
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
@@ -328,6 +331,7 @@
             string errorMessagePrefix = "CategoryService SetCategoryToRecipeAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
@@ -350,6 +354,7 @@
         public async Task SetCategoryToRecipeAsync_WithNonExistentCategory_ShouldThrowArgumentNullException()
         {
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
@@ -370,6 +375,7 @@
             string errorMessagePrefix = "CategoryService GetAll() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
@@ -392,6 +398,7 @@
             string errorMessagePrefix = "CategoryService GetIdByTitleAsync() method does not work properly.";
 
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
@@ -413,6 +420,7 @@
         public async Task GetIdByTitleAsync_WithNonExistentTitle_ShouldThrowArgumentNullException()
         {
             // Arrange
+            MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);

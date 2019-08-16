@@ -99,10 +99,9 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var shoppingListIds = await this.userShoppingListService.GetShoppingListIdsByUserIdAsync(userId);
-            var shoppingLists = await this.shoppingListService
-                .GetByIds(shoppingListIds)
-                .To<ShoppingListAllViewModel>()
-                .ToListAsync();
+            var shoppingLists = (await this.shoppingListService
+                .GetByIds(shoppingListIds))
+                .To<ShoppingListAllViewModel>();
 
             return this.View(shoppingLists);
         }

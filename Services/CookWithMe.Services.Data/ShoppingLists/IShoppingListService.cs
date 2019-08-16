@@ -13,7 +13,7 @@
 
         Task<ShoppingListServiceModel> GetByIdAsync(string id);
 
-        IQueryable<ShoppingListServiceModel> GetByIds(IEnumerable<string> ids);
+        Task<IEnumerable<ShoppingListServiceModel>> GetByIds(IEnumerable<string> ids);
 
         Task SetShoppingListToUserAsync(string id, ApplicationUser user);
 

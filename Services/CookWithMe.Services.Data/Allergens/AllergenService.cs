@@ -70,7 +70,8 @@
 
             if (allergen == null)
             {
-                throw new ArgumentNullException(string.Format(InvalidAllergenNameErrorMessage, allergenName));
+                throw new ArgumentNullException(
+                    string.Format(InvalidAllergenNameErrorMessage, allergenName));
             }
 
             recipe.Allergens.Add(new RecipeAllergen
@@ -86,7 +87,8 @@
 
             if (allergen == null)
             {
-                throw new ArgumentNullException(string.Format(InvalidAllergenNameErrorMessage, allergenName));
+                throw new ArgumentNullException(
+                    string.Format(InvalidAllergenNameErrorMessage, allergenName));
             }
 
             user.Allergies.Add(new UserAllergen
