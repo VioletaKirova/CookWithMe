@@ -89,6 +89,7 @@
 
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            await this.SeedData(context);
             var allergenRepository = new EfRepository<Allergen>(context);
             var allergenService = new AllergenService(allergenRepository);
 
@@ -117,7 +118,7 @@
 
             // Act
             await allergenService.SetAllergenToRecipeAsync("Milk", recipe);
-            var actualResult = recipe.Allergens.FirstOrDefault().Allergen;
+            var actualResult = recipe.Allergens.First().Allergen;
             var expectedResult = await allergenRepository
                 .All()
                 .SingleOrDefaultAsync(x => x.Name == "Milk");
@@ -159,7 +160,7 @@
 
             // Act
             await allergenService.SetAllergenToUserAsync("Milk", user);
-            var actualResult = user.Allergies.FirstOrDefault().Allergen;
+            var actualResult = user.Allergies.First().Allergen;
             var expectedResult = await allergenRepository
                 .All()
                 .SingleOrDefaultAsync(x => x.Name == "Milk");
@@ -217,8 +218,6 @@
         [Fact]
         public async Task GetIdsByNamesAsync_WithNonExistentName_ShouldThrowArgumentNullException()
         {
-            string errorMessagePrefix = "AllergenService GetIdsByNamesAsync() method does not work properly.";
-
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             await this.SeedData(context);

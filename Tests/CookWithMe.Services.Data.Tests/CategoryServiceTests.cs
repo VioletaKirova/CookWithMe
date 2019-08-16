@@ -115,7 +115,7 @@
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
-            var existentId = (await categoryRepository.All().FirstOrDefaultAsync()).Id;
+            var existentId = categoryRepository.All().First().Id;
 
             // Act
             var actualResult = await categoryService.GetByIdAsync(existentId);
@@ -198,7 +198,7 @@
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
-            var categoryServiceModel = (await categoryRepository.All().FirstOrDefaultAsync()).To<CategoryServiceModel>();
+            var categoryServiceModel = categoryRepository.All().First().To<CategoryServiceModel>();
             categoryServiceModel.Title = "New Title";
 
             // Act
@@ -218,17 +218,18 @@
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
-            var categoryServiceModel = (await categoryRepository.All().FirstOrDefaultAsync()).To<CategoryServiceModel>();
-            categoryServiceModel.Title = "New Title";
+            var categoryServiceModel = categoryRepository.All().First().To<CategoryServiceModel>();
+            var newTitle = "New Title";
+            categoryServiceModel.Title = newTitle;
 
             // Act
             await categoryService.EditAsync(categoryServiceModel);
-            var actualResult = (await categoryRepository
+            var actualResult = categoryRepository
                 .All()
-                .FirstOrDefaultAsync())
+                .First()
                 .To<CategoryServiceModel>()
                 .Title;
-            var expectedResult = categoryServiceModel.Title;
+            var expectedResult = newTitle;
 
             // Assert
             Assert.True(actualResult == expectedResult, errorMessagePrefix + " " + "Title is not returned properly.");
@@ -266,9 +267,9 @@
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
-            var categoryServiceModel = (await categoryRepository
+            var categoryServiceModel = categoryRepository
                 .All()
-                .FirstOrDefaultAsync())
+                .First()
                 .To<CategoryServiceModel>();
 
             // Act
@@ -288,9 +289,9 @@
             await this.SeedData(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
-            var categoryServiceModel = (await categoryRepository
+            var categoryServiceModel = categoryRepository
                 .All()
-                .FirstOrDefaultAsync())
+                .First()
                 .To<CategoryServiceModel>();
 
             // Act

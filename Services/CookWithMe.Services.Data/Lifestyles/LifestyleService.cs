@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.Lifestyles
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -13,6 +14,8 @@
 
     public class LifestyleService : ILifestyleService
     {
+        private const string InvalidLifestyleTypeErrorMessage = "Category with Type: {0} does not exist.";
+
         private readonly IRepository<Lifestyle> lifestyleRepository;
 
         public LifestyleService(IRepository<Lifestyle> lifestyleRepository)
@@ -63,17 +66,31 @@
 
         public async Task SetLifestyleToRecipeAsync(string lifestyleType, Recipe recipe)
         {
+            var lifestyle = await this.lifestyleRepository.All()
+                    .SingleOrDefaultAsync(x => x.Type == lifestyleType);
+
+            if (lifestyle == null)
+            {
+                throw new ArgumentNullException(string.Format(InvalidLifestyleTypeErrorMessage, lifestyleType));
+            }
+
             recipe.Lifestyles.Add(new RecipeLifestyle
             {
-                Lifestyle = await this.lifestyleRepository.All()
-                    .SingleOrDefaultAsync(x => x.Type == lifestyleType),
+                Lifestyle = lifestyle,
             });
         }
 
         public async Task SetLifestyleToUserAsync(string lifestyleType, ApplicationUser user)
         {
-            user.Lifestyle = await this.lifestyleRepository.All()
+            var lifestyle = await this.lifestyleRepository.All()
                 .SingleOrDefaultAsync(x => x.Type == lifestyleType);
+
+            if (lifestyle == null)
+            {
+                throw new ArgumentNullException(string.Format(InvalidLifestyleTypeErrorMessage, lifestyleType));
+            }
+
+            user.Lifestyle = lifestyle;
         }
     }
 }

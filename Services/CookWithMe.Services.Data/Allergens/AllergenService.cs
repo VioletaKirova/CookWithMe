@@ -12,6 +12,9 @@
 
     public class AllergenService : IAllergenService
     {
+        private const string InvalidAllergenIdsErrorMessage = "Not all IDs are existent.";
+        private const string InvalidAllergenNameErrorMessage = "Allergen with Name: {0} does not exist.";
+
         private readonly IRepository<Allergen> allergenRepository;
 
         public AllergenService(IRepository<Allergen> allergenRepository)
@@ -46,7 +49,7 @@
 
             if (allergenIds.Count != allergenNames.Count())
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(InvalidAllergenIdsErrorMessage);
             }
 
             return allergenIds;
@@ -67,7 +70,7 @@
 
             if (allergen == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(string.Format(InvalidAllergenNameErrorMessage, allergenName));
             }
 
             recipe.Allergens.Add(new RecipeAllergen
@@ -83,7 +86,7 @@
 
             if (allergen == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(string.Format(InvalidAllergenNameErrorMessage, allergenName));
             }
 
             user.Allergies.Add(new UserAllergen
