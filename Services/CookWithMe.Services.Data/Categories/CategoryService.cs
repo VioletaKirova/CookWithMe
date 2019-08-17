@@ -14,6 +14,7 @@
 
     public class CategoryService : ICategoryService
     {
+        private const string NullOrEmptyTitleErrorMessage = "Category title is null or empty.";
         private const string InvalidCategoryIdErrorMessage = "Category with ID: {0} does not exist.";
         private const string InvalidCategoryTitleErrorMessage = "Category with Title: {0} does not exist.";
 
@@ -44,6 +45,12 @@
         public async Task<bool> CreateAsync(CategoryServiceModel categoryServiceModel)
         {
             var category = categoryServiceModel.To<Category>();
+
+            if (string.IsNullOrEmpty(category.Title) ||
+                string.IsNullOrWhiteSpace(category.Title))
+            {
+                throw new ArgumentNullException(NullOrEmptyTitleErrorMessage);
+            }
 
             await this.categoryRepository.AddAsync(category);
             var result = await this.categoryRepository.SaveChangesAsync();

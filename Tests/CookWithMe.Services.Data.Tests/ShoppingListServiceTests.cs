@@ -279,7 +279,7 @@
                     ShoppingList = new ShoppingList { Ingredients = "Ingredients" },
                 };
 
-                context.Add(recipe);
+                await context.AddAsync(recipe);
             }
 
             await context.SaveChangesAsync();

@@ -19,7 +19,7 @@
     public class LifestyleServiceTests
     {
         [Fact]
-        public async Task CreateAllAsync_WithDummyData_ShouldReturnCorrectResult()
+        public async Task CreateAllAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
             string errorMessagePrefix = "LifestyleService CreateAllAsync() method does not work properly.";
 
@@ -38,7 +38,7 @@
         }
 
         [Fact]
-        public async Task CreateAllAsync_WithDummyData_ShouldSuccessfullyCreate()
+        public async Task CreateAllAsync_WithCorrectData_ShouldSuccessfullyCreate()
         {
             string errorMessagePrefix = "LifestyleService CreateAllAsync() method does not work properly.";
 

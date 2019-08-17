@@ -20,7 +20,7 @@
     public class CategoryServiceTests
     {
         [Fact]
-        public async Task CreateAllAsync_WithDummyData_ShouldReturnCorrectResult()
+        public async Task CreateAllAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
             string errorMessagePrefix = "CategoryService CreateAllAsync() method does not work properly.";
 
@@ -39,7 +39,7 @@
         }
 
         [Fact]
-        public async Task CreateAllAsync_WithDummyData_ShouldSuccessfullyCreate()
+        public async Task CreateAllAsync_WithCorrectData_ShouldSuccessfullyCreate()
         {
             string errorMessagePrefix = "CategoryService CreateAllAsync() method does not work properly.";
 
@@ -149,7 +149,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_WithDummyData_ShouldReturnCorrectResult()
+        public async Task CreateAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
             string errorMessagePrefix = "CategoryService CreateAsync() method does not work properly.";
 
@@ -168,7 +168,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_WithDummyData_ShouldSuccessfullyCreate()
+        public async Task CreateAsync_WithCorrectData_ShouldSuccessfullyCreate()
         {
             string errorMessagePrefix = "CategoryService CreateAsync() method does not work properly.";
 
@@ -192,7 +192,26 @@
         }
 
         [Fact]
-        public async Task EditAsync_WithDummyData_ShouldReturnCorrectResult()
+        public async Task CreateAsync_WithIncorrectData_ShouldThrowArgumentNullException()
+        {
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var categoryRepository = new EfDeletableEntityRepository<Category>(context);
+            var categoryService = new CategoryService(categoryRepository);
+            var categoryServiceModel = new Category { Title = " " }.To<CategoryServiceModel>();
+
+            // Act
+
+            // Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await categoryService.CreateAsync(categoryServiceModel);
+            });
+        }
+
+        [Fact]
+        public async Task EditAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
             string errorMessagePrefix = "CategoryService EditAsync() method does not work properly.";
 

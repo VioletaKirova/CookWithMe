@@ -242,7 +242,7 @@
                 NutritionalValue = new NutritionalValue(),
             };
 
-            context.Add(recipe);
+            await context.AddAsync(recipe);
             await context.SaveChangesAsync();
         }
     }

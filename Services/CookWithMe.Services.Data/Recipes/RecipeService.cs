@@ -18,6 +18,7 @@
 
     public class RecipeService : IRecipeService
     {
+        private const string InvalidRecipePropertyErrorMessage = "One or more required properties are null.";
         private const string InvalidRecipeIdErrorMessage = "Recipe with ID: {0} doesn't exist.";
 
         private readonly IDeletableEntityRepository<Recipe> recipeRepository;
@@ -69,6 +70,18 @@
 
         public async Task<bool> CreateAsync(RecipeServiceModel recipeServiceModel)
         {
+            if (recipeServiceModel.Title == null ||
+                recipeServiceModel.Photo == null ||
+                recipeServiceModel.Category == null ||
+                recipeServiceModel.Summary == null ||
+                recipeServiceModel.Directions == null ||
+                recipeServiceModel.ShoppingList == null ||
+                recipeServiceModel.NutritionalValue == null ||
+                recipeServiceModel.UserId == null)
+            {
+                throw new ArgumentNullException(InvalidRecipePropertyErrorMessage);
+            }
+
             var recipe = recipeServiceModel.To<Recipe>();
 
             await this.categoryService.SetCategoryToRecipeAsync(recipeServiceModel.Category.Title, recipe);

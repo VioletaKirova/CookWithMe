@@ -13,6 +13,9 @@
 
     public class ReviewService : IReviewService
     {
+        private const string InvalidReviewPropertyErrorMessage = "One or more required properties are null.";
+        private const string InvalidReviewIdErrorMessage = "Review with ID: {0} does not exist.";
+
         private readonly IDeletableEntityRepository<Review> reviewRepository;
         private readonly IUserService userService;
         private readonly IRecipeService recipeService;
@@ -30,6 +33,14 @@
         public async Task<bool> CreateAsync(ReviewServiceModel reviewServiceModel)
         {
             var review = reviewServiceModel.To<Review>();
+
+            if (review.Comment == null ||
+                review.Rating == 0 ||
+                review.RecipeId == null ||
+                review.ReviewerId == null)
+            {
+                throw new ArgumentNullException(InvalidReviewPropertyErrorMessage);
+            }
 
             review.Id = Guid.NewGuid().ToString();
 
@@ -49,6 +60,12 @@
         {
             var reviewFromDb = await this.reviewRepository.GetByIdWithDeletedAsync(id);
 
+            if (reviewFromDb == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidReviewIdErrorMessage, id));
+            }
+
             this.reviewRepository.Delete(reviewFromDb);
             var result = await this.reviewRepository.SaveChangesAsync();
 
@@ -66,9 +83,16 @@
 
         public async Task<ReviewServiceModel> GetByIdAsync(string id)
         {
-            return (await this.reviewRepository
-                .GetByIdWithDeletedAsync(id))
-                .To<ReviewServiceModel>();
+            var review = await this.reviewRepository
+                .GetByIdWithDeletedAsync(id);
+
+            if (review == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidReviewIdErrorMessage, id));
+            }
+
+            return review.To<ReviewServiceModel>();
         }
     }
 }
