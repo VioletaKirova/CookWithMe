@@ -77,7 +77,8 @@
                 recipeServiceModel.Directions == null ||
                 recipeServiceModel.ShoppingList == null ||
                 recipeServiceModel.NutritionalValue == null ||
-                recipeServiceModel.UserId == null)
+                recipeServiceModel.UserId == null ||
+                recipeServiceModel.Lifestyles.Count == 0)
             {
                 throw new ArgumentNullException(InvalidRecipePropertyErrorMessage);
             }
@@ -159,7 +160,8 @@
 
             if (recipe == null)
             {
-                throw new ArgumentNullException(string.Format(InvalidRecipeIdErrorMessage, id));
+                throw new ArgumentNullException(
+                    string.Format(InvalidRecipeIdErrorMessage, id));
             }
 
             var recipeServiceModel = recipe.To<RecipeServiceModel>();
@@ -178,12 +180,24 @@
         {
             var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(recipeId);
 
+            if (recipe == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidRecipeIdErrorMessage, recipeId));
+            }
+
             review.Recipe = recipe;
         }
 
         public async Task<bool> SetRecipeToUserFavoriteRecipesAsync(string userId, string recipeId)
         {
             var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(recipeId);
+
+            if (recipe == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidRecipeIdErrorMessage, recipeId));
+            }
 
             var result = await this.userService.SetFavoriteRecipeAsync(userId, recipe);
 
@@ -194,6 +208,12 @@
         {
             var recipe = await this.recipeRepository.GetByIdWithDeletedAsync(recipeId);
 
+            if (recipe == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidRecipeIdErrorMessage, recipeId));
+            }
+
             var result = await this.userService.SetCookedRecipeAsync(userId, recipe);
 
             return result;
@@ -202,6 +222,25 @@
         public async Task<bool> EditAsync(string id, RecipeServiceModel recipeServiceModel)
         {
             var recipeFromDb = await this.recipeRepository.GetByIdWithDeletedAsync(id);
+
+            if (recipeFromDb == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidRecipeIdErrorMessage, id));
+            }
+
+            if (recipeServiceModel.Title == null ||
+                recipeServiceModel.Photo == null ||
+                recipeServiceModel.Category == null ||
+                recipeServiceModel.Summary == null ||
+                recipeServiceModel.Directions == null ||
+                recipeServiceModel.ShoppingList == null ||
+                recipeServiceModel.NutritionalValue == null ||
+                recipeServiceModel.UserId == null ||
+                recipeServiceModel.Lifestyles.Count == 0)
+            {
+                throw new ArgumentNullException(InvalidRecipePropertyErrorMessage);
+            }
 
             recipeFromDb.Title = recipeServiceModel.Title;
             recipeFromDb.Summary = recipeServiceModel.Summary;
@@ -240,6 +279,12 @@
         public async Task<bool> DeleteByIdAsync(string id)
         {
             var recipeFromDb = await this.recipeRepository.GetByIdWithDeletedAsync(id);
+
+            if (recipeFromDb == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidRecipeIdErrorMessage, id));
+            }
 
             await this.userShoppingListService.DeleteByShoppingListIdAsync(recipeFromDb.ShoppingListId);
             await this.userFavoriteRecipeService.DeleteByRecipeIdAsync(id);
