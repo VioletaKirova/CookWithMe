@@ -44,7 +44,15 @@
         public async Task<bool> SetShoppingListAsync(string userId, ShoppingListServiceModel shoppingListServiceModel)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
-            await this.shoppingListService.SetShoppingListToUserAsync(shoppingListServiceModel.Id, user);
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserIdErrorMessage, userId));
+            }
+
+            await this.shoppingListService
+                .SetShoppingListToUserAsync(shoppingListServiceModel.Id, user);
 
             var result = await this.userManager.UpdateAsync(user);
 
@@ -69,6 +77,12 @@
         public async Task<bool> AddAdditionalInfoAsync(string userId, UserAdditionalInfoServiceModel userAdditionalInfoServiceModel)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserIdErrorMessage, userId));
+            }
 
             user.HasAdditionalInfo = true;
             user.Biography = userAdditionalInfoServiceModel.Biography;
@@ -98,7 +112,18 @@
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
-            user.FullName = userAdditionalInfoServiceModel.FullName;
+            if (user == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserIdErrorMessage, userId));
+            }
+
+            if (!string.IsNullOrEmpty(userAdditionalInfoServiceModel.FullName) &&
+                !string.IsNullOrWhiteSpace(userAdditionalInfoServiceModel.FullName))
+            {
+                user.FullName = userAdditionalInfoServiceModel.FullName;
+            }
+
             user.Biography = userAdditionalInfoServiceModel.Biography;
             user.ProfilePhoto = userAdditionalInfoServiceModel.ProfilePhoto;
 
@@ -128,6 +153,12 @@
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
+            if (user == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserIdErrorMessage, userId));
+            }
+
             review.Reviewer = user;
         }
 
@@ -135,12 +166,24 @@
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
 
+            if (user == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserIdErrorMessage, userId));
+            }
+
             recipe.User = user;
         }
 
         public async Task<bool> SetFavoriteRecipeAsync(string userId, Recipe recipe)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserIdErrorMessage, userId));
+            }
 
             user.FavoriteRecipes.Add(new UserFavoriteRecipe
             {
@@ -155,6 +198,12 @@
         public async Task<bool> SetCookedRecipeAsync(string userId, Recipe recipe)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserIdErrorMessage, userId));
+            }
 
             user.CookedRecipes.Add(new UserCookedRecipe
             {
@@ -171,6 +220,12 @@
             var additionalInfoServiceModel = (await this.userRepository
                 .GetByIdWithDeletedAsync(userId))
                 .To<UserAdditionalInfoServiceModel>();
+
+            if (additionalInfoServiceModel == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserIdErrorMessage, userId));
+            }
 
             if (additionalInfoServiceModel.LifestyleId != null)
             {

@@ -12,7 +12,7 @@
 
         public ApplicationUserServiceModel User { get; set; }
 
-        public int ShoppingListId { get; set; }
+        public string ShoppingListId { get; set; }
 
         public ShoppingListServiceModel ShoppingList { get; set; }
 

@@ -1,5 +1,7 @@
 ﻿namespace CookWithMe.Services.Data.Tests
 {
+    using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Common;
@@ -30,13 +32,7 @@
             var userManager = this.GetUserManagerMock().Object;
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var administratorService = new AdministratorService(userManager, userRepository);
-            var administratorServiceModel = new AdministratorServiceModel
-            {
-                Username = "administrator",
-                FullName = "Admin Admin",
-                Email = "admin@admin.com",
-                Password = "123456",
-            };
+            var administratorServiceModel = new AdministratorServiceModel();
 
             // Act
             var result = await administratorService.RegisterAsync(administratorServiceModel);
@@ -45,47 +41,56 @@
             Assert.True(result, errorMessagePrefix + " " + "Returns false.");
         }
 
-        //[Fact]
-        //public async Task GetAllAsync_WithDummyData_ShouldReturnCorrectResult()
-        //{
-        //    string errorMessagePrefix = "AdministratorService RegisterAsync() method does not work properly.";
+        [Fact]
+        public async Task RemoveFromRoleByIdAsync_WithExistentUserId_ShouldReturnCorrectResult()
+        {
+            string errorMessagePrefix = "AdministratorService RemoveFromRoleByIdAsync() method does not work properly.";
 
-        //    // Arrange
-        //    MapperInitializer.InitializeMapper();
-        //    var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-        //    await this.SeedRoles(context);
-        //    var userManager = this.GetUserManagerMock().Object;
-        //    var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
-        //    var administratorService = new AdministratorService(userManager, userRepository);
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            await this.SeedRoles(context);
+            var userManager = this.GetUserManagerMock().Object;
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var administratorService = new AdministratorService(userManager, userRepository);
+            await userRepository.AddAsync(new ApplicationUser());
+            await userRepository.SaveChangesAsync();
+            var user = userRepository.All().First();
 
-        //    // Creating three users
-        //    for (int i = 0; i < 3; i++)
-        //    {
-        //        await userManager.CreateAsync(
-        //        new ApplicationUser
-        //        {
-        //            UserName = $"administrator{i}",
-        //            FullName = $"Admin {i}",
-        //            Email = $"admin{i}@admin.com",
-        //        },
-        //        password: $"administrator{i}");
-        //    }
+            // Act
+            var result = await administratorService.RemoveFromRoleByIdAsync(user.Id);
 
-        //    var users = await userRepository.All().ToListAsync();
+            // Assert
+            Assert.True(result, errorMessagePrefix + " " + "Returns false.");
+        }
 
-        //    // Adding the first two users to Administrator Role
-        //    for (int i = 0; i < users.Count - 1; i++)
-        //    {
-        //        await userManager.AddToRoleAsync(users[i], GlobalConstants.AdministratorRoleName);
-        //    }
+        [Fact]
+        public async Task RemoveFromRoleByIdAsync_WithNonExistentUserId_ShouldThrowArgumentNullException()
+        {
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var userManager = this.GetUserManagerMock().Object;
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var administratorService = new AdministratorService(userManager, userRepository);
+            var nonExistentUserId = Guid.NewGuid().ToString();
 
-        //    // Act
-        //    var actualResult = (await administratorService.GetAllAsync()).Count();
-        //    var expectedResult = users.Count - 1;
+            // Act
 
-        //    // Assert
-        //    Assert.True(expectedResult == actualResult, errorMessagePrefix + " " + "Collections count mismatch.");
-        //}
+            // Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await administratorService.RemoveFromRoleByIdAsync(nonExistentUserId);
+            });
+        }
+
+        private async Task SeedRoles(ApplicationDbContext context)
+        {
+            await context.Roles.AddAsync(new ApplicationRole(GlobalConstants.AdministratorRoleName));
+            await context.Roles.AddAsync(new ApplicationRole(GlobalConstants.UserRoleName));
+
+            await context.SaveChangesAsync();
+        }
 
         private Mock<UserManager<ApplicationUser>> GetUserManagerMock()
         {
@@ -107,14 +112,6 @@
                 .ReturnsAsync(IdentityResult.Success);
 
             return userManagerMock;
-        }
-
-        private async Task SeedRoles(ApplicationDbContext context)
-        {
-            await context.Roles.AddAsync(new ApplicationRole(GlobalConstants.AdministratorRoleName));
-            await context.Roles.AddAsync(new ApplicationRole(GlobalConstants.UserRoleName));
-
-            await context.SaveChangesAsync();
         }
     }
 }

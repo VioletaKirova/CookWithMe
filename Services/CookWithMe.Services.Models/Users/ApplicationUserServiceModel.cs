@@ -18,7 +18,7 @@
             this.Recipes = new HashSet<RecipeServiceModel>();
             this.FavoriteRecipes = new HashSet<UserFavoriteRecipeServiceModel>();
             this.CookedRecipes = new HashSet<UserCookedRecipeServiceModel>();
-            this.UserShoppingLists = new HashSet<UserShoppingListServiceModel>();
+            this.ShoppingLists = new HashSet<UserShoppingListServiceModel>();
             this.Reviews = new HashSet<ReviewServiceModel>();
         }
 
@@ -42,7 +42,7 @@
 
         public ICollection<UserCookedRecipeServiceModel> CookedRecipes { get; set; }
 
-        public ICollection<UserShoppingListServiceModel> UserShoppingLists { get; set; }
+        public ICollection<UserShoppingListServiceModel> ShoppingLists { get; set; }
 
         public ICollection<ReviewServiceModel> Reviews { get; set; }
     }

@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.Administrators
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -14,6 +15,8 @@
 
     public class AdministratorService : IAdministratorService
     {
+        private const string InvalidUserIdErrorMessage = "User with ID: {0} doesn't exist.";
+
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
@@ -55,6 +58,12 @@
         {
             var administrator = await this.userRepository
                 .GetByIdWithDeletedAsync(userId);
+
+            if (administrator == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserIdErrorMessage, userId));
+            }
 
             var result = await this.userManager.RemoveFromRoleAsync(
                 administrator,
