@@ -335,100 +335,101 @@
                 .To<RecipeServiceModel>();
         }
 
-        public async Task<IQueryable<RecipeServiceModel>> GetBySearchValuesAsync(RecipeBrowseServiceModel recipeSearchServiceModel)
+        public async Task<IQueryable<RecipeServiceModel>> GetBySearchValuesAsync(RecipeBrowseServiceModel recipeBrowseServiceModel)
         {
             var filteredRecipes = this.recipeRepository.AllAsNoTracking();
 
-            if (recipeSearchServiceModel.KeyWords != null)
+            if (!string.IsNullOrEmpty(recipeBrowseServiceModel.KeyWords) &&
+                !string.IsNullOrWhiteSpace(recipeBrowseServiceModel.KeyWords))
             {
                 var keyWords = this.stringFormatService
-                    .SplitByCommaAndWhitespace(recipeSearchServiceModel.KeyWords.ToLower());
+                    .SplitByCommaAndWhitespace(recipeBrowseServiceModel.KeyWords.ToLower());
 
                 filteredRecipes = filteredRecipes.Where(x =>
                     keyWords.Any(kw => x.Title.ToLower().Contains(kw)));
             }
 
-            if (recipeSearchServiceModel.Category.Title != null)
+            if (recipeBrowseServiceModel.Category.Title != null)
             {
-                var categoryId = await this.categoryService.GetIdByTitleAsync(recipeSearchServiceModel.Category.Title);
+                var categoryId = await this.categoryService.GetIdByTitleAsync(recipeBrowseServiceModel.Category.Title);
                 filteredRecipes = filteredRecipes.Where(x => x.CategoryId == categoryId);
             }
 
-            if (recipeSearchServiceModel.Lifestyle.Type != null)
+            if (recipeBrowseServiceModel.Lifestyle.Type != null)
             {
-                var lifestyleId = await this.lifestyleService.GetIdByTypeAsync(recipeSearchServiceModel.Lifestyle.Type);
+                var lifestyleId = await this.lifestyleService.GetIdByTypeAsync(recipeBrowseServiceModel.Lifestyle.Type);
                 var recipeLifestyleIds = await this.recipeLifestyleService.GetRecipeIdsByLifestyleIdAsync(lifestyleId);
                 filteredRecipes = filteredRecipes.Where(x => recipeLifestyleIds.Contains(x.Id));
             }
 
-            if (recipeSearchServiceModel.Allergens.Any())
+            if (recipeBrowseServiceModel.Allergens.Any())
             {
-                var allergenIds = await this.allergenService.GetIdsByNamesAsync(recipeSearchServiceModel.Allergens.Select(x => x.Allergen.Name));
+                var allergenIds = await this.allergenService.GetIdsByNamesAsync(recipeBrowseServiceModel.Allergens.Select(x => x.Allergen.Name));
                 var recipeAllergenIds = await this.recipeAllergenService.GetRecipeIdsByAllergenIdsAsync(allergenIds);
                 filteredRecipes = filteredRecipes.Where(x => !recipeAllergenIds.Contains(x.Id));
             }
 
-            if (recipeSearchServiceModel.SkillLevel != null)
+            if (recipeBrowseServiceModel.SkillLevel != null)
             {
-                filteredRecipes = filteredRecipes.Where(x => x.SkillLevel == recipeSearchServiceModel.SkillLevel);
+                filteredRecipes = filteredRecipes.Where(x => x.SkillLevel == recipeBrowseServiceModel.SkillLevel);
             }
 
-            if (recipeSearchServiceModel.Serving != null)
+            if (recipeBrowseServiceModel.Serving != null)
             {
-                filteredRecipes = filteredRecipes.Where(x => x.Serving == recipeSearchServiceModel.Serving);
+                filteredRecipes = filteredRecipes.Where(x => x.Serving == recipeBrowseServiceModel.Serving);
             }
 
-            if (recipeSearchServiceModel.NeededTime != null)
+            if (recipeBrowseServiceModel.NeededTime != null)
             {
-                filteredRecipes = filteredRecipes.Where(x => x.NeededTime == recipeSearchServiceModel.NeededTime);
+                filteredRecipes = filteredRecipes.Where(x => x.NeededTime == recipeBrowseServiceModel.NeededTime);
             }
 
-            if (recipeSearchServiceModel.NutritionalValue != null)
+            if (recipeBrowseServiceModel.NutritionalValue != null)
             {
-                if (recipeSearchServiceModel.NutritionalValue.Calories != null)
+                if (recipeBrowseServiceModel.NutritionalValue.Calories != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Calories == recipeSearchServiceModel.NutritionalValue.Calories);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Calories == recipeBrowseServiceModel.NutritionalValue.Calories);
                 }
 
-                if (recipeSearchServiceModel.NutritionalValue.Fats != null)
+                if (recipeBrowseServiceModel.NutritionalValue.Fats != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Fats == recipeSearchServiceModel.NutritionalValue.Fats);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Fats == recipeBrowseServiceModel.NutritionalValue.Fats);
                 }
 
-                if (recipeSearchServiceModel.NutritionalValue.SaturatedFats != null)
+                if (recipeBrowseServiceModel.NutritionalValue.SaturatedFats != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.SaturatedFats == recipeSearchServiceModel.NutritionalValue.SaturatedFats);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.SaturatedFats == recipeBrowseServiceModel.NutritionalValue.SaturatedFats);
                 }
 
-                if (recipeSearchServiceModel.NutritionalValue.Carbohydrates != null)
+                if (recipeBrowseServiceModel.NutritionalValue.Carbohydrates != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Carbohydrates == recipeSearchServiceModel.NutritionalValue.Carbohydrates);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Carbohydrates == recipeBrowseServiceModel.NutritionalValue.Carbohydrates);
                 }
 
-                if (recipeSearchServiceModel.NutritionalValue.Sugar != null)
+                if (recipeBrowseServiceModel.NutritionalValue.Sugar != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Sugar == recipeSearchServiceModel.NutritionalValue.Sugar);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Sugar == recipeBrowseServiceModel.NutritionalValue.Sugar);
                 }
 
-                if (recipeSearchServiceModel.NutritionalValue.Protein != null)
+                if (recipeBrowseServiceModel.NutritionalValue.Protein != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Protein == recipeSearchServiceModel.NutritionalValue.Protein);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Protein == recipeBrowseServiceModel.NutritionalValue.Protein);
                 }
 
-                if (recipeSearchServiceModel.NutritionalValue.Fiber != null)
+                if (recipeBrowseServiceModel.NutritionalValue.Fiber != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Fiber == recipeSearchServiceModel.NutritionalValue.Fiber);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Fiber == recipeBrowseServiceModel.NutritionalValue.Fiber);
                 }
 
-                if (recipeSearchServiceModel.NutritionalValue.Salt != null)
+                if (recipeBrowseServiceModel.NutritionalValue.Salt != null)
                 {
-                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Salt == recipeSearchServiceModel.NutritionalValue.Salt);
+                    filteredRecipes = filteredRecipes.Where(x => x.NutritionalValue.Salt == recipeBrowseServiceModel.NutritionalValue.Salt);
                 }
             }
 
-            if (recipeSearchServiceModel.Yield != null)
+            if (recipeBrowseServiceModel.Yield != null)
             {
-                filteredRecipes = filteredRecipes.Where(x => x.Yield == recipeSearchServiceModel.Yield);
+                filteredRecipes = filteredRecipes.Where(x => x.Yield == recipeBrowseServiceModel.Yield);
             }
 
             return filteredRecipes
