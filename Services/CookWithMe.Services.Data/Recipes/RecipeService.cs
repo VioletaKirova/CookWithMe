@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using CookWithMe.Common.Exceptions;
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Data.Allergens;
@@ -18,8 +19,9 @@
 
     public class RecipeService : IRecipeService
     {
-        private const string InvalidRecipePropertyErrorMessage = "One or more required properties are null.";
         private const string InvalidRecipeIdErrorMessage = "Recipe with ID: {0} doesn't exist.";
+        private const string InvalidRecipePropertyErrorMessage = "One or more required properties are null.";
+        private const string EmptyLifestylesCollectionErrorMessage = "Lifestyles collection is empty.";
 
         private readonly IDeletableEntityRepository<Recipe> recipeRepository;
         private readonly ICategoryService categoryService;
@@ -77,10 +79,14 @@
                 recipeServiceModel.Directions == null ||
                 recipeServiceModel.ShoppingList == null ||
                 recipeServiceModel.NutritionalValue == null ||
-                recipeServiceModel.UserId == null ||
-                recipeServiceModel.Lifestyles.Count == 0)
+                recipeServiceModel.UserId == null)
             {
                 throw new ArgumentNullException(InvalidRecipePropertyErrorMessage);
+            }
+
+            if (recipeServiceModel.Lifestyles.Count == 0)
+            {
+                throw new EmptyCollectionException(EmptyLifestylesCollectionErrorMessage);
             }
 
             var recipe = recipeServiceModel.To<Recipe>();
@@ -236,10 +242,14 @@
                 recipeServiceModel.Directions == null ||
                 recipeServiceModel.ShoppingList == null ||
                 recipeServiceModel.NutritionalValue == null ||
-                recipeServiceModel.UserId == null ||
-                recipeServiceModel.Lifestyles.Count == 0)
+                recipeServiceModel.UserId == null)
             {
                 throw new ArgumentNullException(InvalidRecipePropertyErrorMessage);
+            }
+
+            if (recipeServiceModel.Lifestyles.Count == 0)
+            {
+                throw new EmptyCollectionException(EmptyLifestylesCollectionErrorMessage);
             }
 
             recipeFromDb.Title = recipeServiceModel.Title;

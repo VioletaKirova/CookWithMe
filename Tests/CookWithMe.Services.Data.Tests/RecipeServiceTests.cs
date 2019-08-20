@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using CookWithMe.Common.Exceptions;
     using CookWithMe.Data;
     using CookWithMe.Data.Models;
     using CookWithMe.Data.Models.Enums;
@@ -24,7 +25,7 @@
     using CookWithMe.Services.Models.NutritionalValues;
     using CookWithMe.Services.Models.Recipes;
     using CookWithMe.Services.Models.ShoppingLists;
-
+    using CookWithMe.Services.Models.Users;
     using Microsoft.EntityFrameworkCore;
 
     using Moq;
@@ -199,7 +200,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_WithEmptyLifestylesCollection_ShouldThrowArgumentNullException()
+        public async Task CreateAsync_WithEmptyLifestylesCollection_ShouldThrowEmptyCollectionException()
         {
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -235,7 +236,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<EmptyCollectionException>(async () =>
             {
                 await recipeService.CreateAsync(recipeServiceModel);
             });
@@ -415,7 +416,7 @@
         }
 
         [Fact]
-        public async Task EditAsync_WithEmptyLifestylesCollection_ShouldThrowArgumentNullException()
+        public async Task EditAsync_WithEmptyLifestylesCollection_ShouldThrowEmptyCollectionException()
         {
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -448,7 +449,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<EmptyCollectionException>(async () =>
             {
                 await recipeService.EditAsync(recipeServiceModel.Id, recipeServiceModel);
             });
@@ -704,6 +705,393 @@
             });
         }
 
+        [Fact]
+        public async Task GetByCategoryId_WithExistentCategoryId_ShouldReturnCorrectResult()
+        {
+            string errorMessagePrefix = "RecipeService GetByCategoryId() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            await this.SeedRecipes(context);
+            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
+            var recipeService = this.GetRecipeService(recipeRepository, context);
+            var categoryId = context.Categories.First(x => x.Title == "Category 1").Id;
+
+            // Act
+            var actualResult = await recipeService.GetByCategoryId(categoryId).ToListAsync();
+            var expectedResult = await recipeRepository
+                .All()
+                .Where(x => x.CategoryId == categoryId)
+                .OrderByDescending(x => x.CreatedOn)
+                .To<RecipeServiceModel>()
+                .ToListAsync();
+
+            // Assert
+            Assert.True(actualResult.Count == 2, errorMessagePrefix + " " + "Recipes count is not equal to 2.");
+
+            for (int i = 0; i < actualResult.Count; i++)
+            {
+                Assert.True(expectedResult[i].Id == actualResult[i].Id, errorMessagePrefix + " " + "Recipe is not returned properly.");
+            }
+        }
+
+        [Fact]
+        public async Task GetByCategoryId_WithExistentCategoryIdWithNoRecipes_ShouldReturnCorrectResult()
+        {
+            string errorMessagePrefix = "RecipeService GetByCategoryId() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            await this.SeedRecipes(context);
+            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
+            var recipeService = this.GetRecipeService(recipeRepository, context);
+            var categoryId = context.Categories.First(x => x.Title == "Empty category").Id;
+
+            // Act
+            var result = await recipeService.GetByCategoryId(categoryId).ToListAsync();
+            var expectedResult = await recipeRepository
+                .All()
+                .Where(x => x.CategoryId == categoryId)
+                .OrderByDescending(x => x.CreatedOn)
+                .To<RecipeServiceModel>()
+                .ToListAsync();
+
+            // Assert
+            Assert.True(result.Count == 0, errorMessagePrefix + " " + "Recipes count is not equal to 0.");
+        }
+
+        [Fact]
+        public async Task GetByUserId_WithExistentUserId_ShouldReturnCorrectResult()
+        {
+            string errorMessagePrefix = "RecipeService GetByUserId() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            await this.SeedRecipes(context);
+            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
+            var recipeService = this.GetRecipeService(recipeRepository, context);
+            var userId = context.Users.First(x => x.Biography == "User with 2 recipes").Id;
+
+            // Act
+            var actualResult = await recipeService.GetByUserId(userId).ToListAsync();
+            var expectedResult = await recipeRepository
+                .All()
+                .Where(x => x.UserId == userId)
+                .OrderByDescending(x => x.CreatedOn)
+                .To<RecipeServiceModel>()
+                .ToListAsync();
+
+            // Assert
+            Assert.True(actualResult.Count == 2, errorMessagePrefix + " " + "Recipes count is not equal to 2.");
+
+            for (int i = 0; i < actualResult.Count; i++)
+            {
+                Assert.True(expectedResult[i].Id == actualResult[i].Id, errorMessagePrefix + " " + "Recipe is not returned properly.");
+            }
+        }
+
+        [Fact]
+        public async Task GetByUserId_WithExistentUserIdWithNoRecipes_ShouldReturnCorrectResult()
+        {
+            string errorMessagePrefix = "RecipeService GetByUserId() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            await this.SeedRecipes(context);
+            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
+            var recipeService = this.GetRecipeService(recipeRepository, context);
+            var userId = context.Users.First(x => x.Biography == "User with 0 recipes").Id;
+
+            // Act
+            var result = await recipeService.GetByUserId(userId).ToListAsync();
+
+            // Assert
+            Assert.True(result.Count == 0, errorMessagePrefix + " " + "Recipes count is not equal to 0.");
+        }
+
+        [Fact]
+        public async Task GetByIds_WithExistentIds_ShouldReturnCorrectResult()
+        {
+            string errorMessagePrefix = "RecipeService GetByIds() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            await this.SeedRecipes(context);
+            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
+            var recipeService = this.GetRecipeService(recipeRepository, context);
+            var ids = await recipeRepository.All().Select(x => x.Id).ToListAsync();
+
+            // Act
+            var actualResult = await recipeService.GetByIds(ids).ToListAsync();
+            var expectedResult = await recipeRepository
+                .All()
+                .Where(x => ids.Contains(x.Id))
+                .To<RecipeServiceModel>()
+                .ToListAsync();
+
+            // Assert
+            for (int i = 0; i < actualResult.Count; i++)
+            {
+                Assert.True(expectedResult[i].Id == actualResult[i].Id, errorMessagePrefix + " " + "Recipe is not returned properly.");
+            }
+        }
+
+        [Fact]
+        public async Task GetByIds_WithNonExistentIds_ShouldReturnCorrectResult()
+        {
+            string errorMessagePrefix = "RecipeService GetByIds() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            await this.SeedRecipes(context);
+            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
+            var recipeService = this.GetRecipeService(recipeRepository, context);
+            var nonExistentIds = new List<string>()
+            {
+                Guid.NewGuid().ToString(),
+                Guid.NewGuid().ToString(),
+                Guid.NewGuid().ToString(),
+            };
+
+            // Act
+            var result = await recipeService.GetByIds(nonExistentIds).ToListAsync(); ;
+
+            // Assert
+            Assert.True(result.Count == 0, errorMessagePrefix + " " + "Recipes count is not equal to 0.");
+        }
+
+        [Fact]
+        public async Task GetAllFilteredAsync_WithSpecifiedLifestyleAndAllergies_ShouldReturnCorrectResult()
+        {
+            string errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            await this.SeedDataForGetAllFilteredAsyncMethodWithSpecifiedLifestyleAndAllergies(context);
+            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
+            var recipeService = this.GetRecipeServiceForGetAllFilteredAsyncMethod(recipeRepository, context);
+            var userId = context.Users.First().Id;
+
+            // Act
+            var actualResult = await recipeService.GetAllFilteredAsync(userId);
+            var expectedResult = recipeRepository
+                .All()
+                .First(x => x.Title == "Vegetarian Recipe without Milk");
+
+            // Assert
+            Assert.True(actualResult.Count() == 1, errorMessagePrefix + " " + "Filtered recipes should be 1.");
+            Assert.True(expectedResult.Id == actualResult.First().Id, errorMessagePrefix + " " + "Recipe is not returned properly.");
+        }
+
+        [Fact]
+        public async Task GetAllFilteredAsync_WithSpecifiedLifestyleAndNoAllergies_ShouldReturnCorrectResult()
+        {
+            string errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            await this.SeedDataForGetAllFilteredAsyncMethodWithSpecifiedLifestyleAndNoAllergies(context);
+            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
+            var recipeService = this.GetRecipeServiceForGetAllFilteredAsyncMethod(recipeRepository, context);
+            var userId = context.Users.First().Id;
+
+            // Act
+            var actualResult = await (await recipeService.GetAllFilteredAsync(userId)).ToListAsync();
+            var expectedResult = await recipeRepository
+                .All()
+                .Where(x => x.Title == "Vegetarian Recipe without Milk" ||
+                            x.Title == "Vegetarian Recipe with Milk")
+                .OrderByDescending(x => x.CreatedOn)
+                .To<RecipeServiceModel>()
+                .ToListAsync();
+
+            // Assert
+            Assert.True(actualResult.Count == expectedResult.Count, errorMessagePrefix + " " + "Filtered recipes should be 2.");
+
+            for (int i = 0; i < actualResult.Count; i++)
+            {
+                Assert.True(expectedResult[i].Id == actualResult[i].Id, errorMessagePrefix + " " + "Recipe is not returned properly.");
+            }
+        }
+
+        [Fact]
+        public async Task GetAllFilteredAsync_WithSpecifiedAllergiesAndNoLifestyle_ShouldReturnCorrectResult()
+        {
+            string errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            await this.SeedDataForGetAllFilteredAsyncMethodWithSpecifiedAllergiesAndNoLifestyle(context);
+            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
+            var recipeService = this.GetRecipeServiceForGetAllFilteredAsyncMethod(recipeRepository, context);
+            var userId = context.Users.First().Id;
+
+            // Act
+            var actualResult = await (await recipeService.GetAllFilteredAsync(userId)).ToListAsync();
+            var expectedResult = await recipeRepository
+                .All()
+                .Where(x => x.Title == "Vegetarian Recipe without Milk" ||
+                            x.Title == "Not Vegetarian Recipe without Milk")
+                .OrderByDescending(x => x.CreatedOn)
+                .To<RecipeServiceModel>()
+                .ToListAsync();
+
+            // Assert
+            Assert.True(actualResult.Count == expectedResult.Count, errorMessagePrefix + " " + "Filtered recipes should be 2.");
+
+            for (int i = 0; i < actualResult.Count; i++)
+            {
+                Assert.True(expectedResult[i].Id == actualResult[i].Id, errorMessagePrefix + " " + "Recipe is not returned properly.");
+            }
+        }
+
+        [Fact]
+        public async Task GetAllFilteredAsync_WithNoSpecifiedLifestyleAndNoAllergies_ShouldReturnCorrectResult()
+        {
+            string errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            await this.SeedDataForGetAllFilteredAsyncMethodWithNoSpecifiedLifestyleAndNoAllergies(context);
+            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
+            var recipeService = this.GetRecipeServiceForGetAllFilteredAsyncMethod(recipeRepository, context);
+            var userId = context.Users.First().Id;
+
+            // Act
+            var actualResult = await (await recipeService.GetAllFilteredAsync(userId)).ToListAsync();
+            var expectedResult = await recipeRepository
+                .All()
+                .OrderByDescending(x => x.CreatedOn)
+                .To<RecipeServiceModel>()
+                .ToListAsync();
+
+            // Assert
+            Assert.True(actualResult.Count == expectedResult.Count, errorMessagePrefix + " " + "Filtered recipes should be 3.");
+
+            for (int i = 0; i < actualResult.Count; i++)
+            {
+                Assert.True(expectedResult[i].Id == actualResult[i].Id, errorMessagePrefix + " " + "Recipe is not returned properly.");
+            }
+        }
+
+        private async Task SeedRecipes(ApplicationDbContext context)
+        {
+            await context.Categories.AddAsync(new Category() { Title = "Category 1" });
+            await context.Categories.AddAsync(new Category() { Title = "Category 2" });
+            await context.Categories.AddAsync(new Category() { Title = "Empty category" });
+            await context.Users.AddAsync(new ApplicationUser() { Biography = "User with 2 recipes" });
+            await context.Users.AddAsync(new ApplicationUser() { Biography = "User with 1 recipe" });
+            await context.Users.AddAsync(new ApplicationUser() { Biography = "User with 0 recipes" });
+            await context.SaveChangesAsync();
+
+            var recipes = new List<Recipe>()
+            {
+                new Recipe()
+                {
+                    Title = "Title 1",
+                    Photo = "Photo",
+                    Category = context.Categories.First(x => x.Title == "Category 1"),
+                    Summary = "Summary",
+                    Directions = "Directions",
+                    ShoppingList = new ShoppingList(),
+                    Allergens = new HashSet<RecipeAllergen>
+                    {
+                        new RecipeAllergen
+                        {
+                            Allergen = new Allergen() { Name = "AllergenName" },
+                        },
+                    },
+                    Lifestyles = new HashSet<RecipeLifestyle>
+                    {
+                        new RecipeLifestyle
+                        {
+                            Lifestyle = new Lifestyle() { Type = "LifestyleType" },
+                        },
+                    },
+                    SkillLevel = Level.Easy,
+                    PreparationTime = 10,
+                    CookingTime = 10,
+                    NeededTime = Period.ALaMinute,
+                    Serving = Size.One,
+                    NutritionalValue = new NutritionalValue(),
+                    User = context.Users.First(x => x.Biography == "User with 2 recipes"),
+                },
+                new Recipe()
+                {
+                    Title = "Title 2",
+                    Photo = "Photo",
+                    Category = context.Categories.First(x => x.Title == "Category 1"),
+                    Summary = "Summary",
+                    Directions = "Directions",
+                    ShoppingList = new ShoppingList(),
+                    Allergens = new HashSet<RecipeAllergen>
+                    {
+                        new RecipeAllergen
+                        {
+                            Allergen = new Allergen() { Name = "AllergenName" },
+                        },
+                    },
+                    Lifestyles = new HashSet<RecipeLifestyle>
+                    {
+                        new RecipeLifestyle
+                        {
+                            Lifestyle = new Lifestyle() { Type = "LifestyleType" },
+                        },
+                    },
+                    SkillLevel = Level.Easy,
+                    PreparationTime = 10,
+                    CookingTime = 10,
+                    NeededTime = Period.ALaMinute,
+                    Serving = Size.One,
+                    NutritionalValue = new NutritionalValue(),
+                    User = context.Users.First(x => x.Biography == "User with 2 recipes"),
+                },
+                new Recipe()
+                {
+                    Title = "Title 3",
+                    Photo = "Photo",
+                    Category = context.Categories.First(x => x.Title == "Category 2"),
+                    Summary = "Summary",
+                    Directions = "Directions",
+                    ShoppingList = new ShoppingList(),
+                    Allergens = new HashSet<RecipeAllergen>
+                    {
+                        new RecipeAllergen
+                        {
+                            Allergen = new Allergen() { Name = "AllergenName" },
+                        },
+                    },
+                    Lifestyles = new HashSet<RecipeLifestyle>
+                    {
+                        new RecipeLifestyle
+                        {
+                            Lifestyle = new Lifestyle() { Type = "LifestyleType" },
+                        },
+                    },
+                    SkillLevel = Level.Easy,
+                    PreparationTime = 10,
+                    CookingTime = 10,
+                    NeededTime = Period.ALaMinute,
+                    Serving = Size.One,
+                    NutritionalValue = new NutritionalValue(),
+                    User = context.Users.First(x => x.Biography == "User with 1 recipe"),
+                },
+            };
+
+            await context.Recipes.AddRangeAsync(recipes);
+            await context.SaveChangesAsync();
+        }
+
         private async Task SeedRecipe(ApplicationDbContext context)
         {
             var recipe = new Recipe()
@@ -738,6 +1126,148 @@
             };
 
             await context.Recipes.AddAsync(recipe);
+            await context.SaveChangesAsync();
+        }
+
+        private async Task SeedDataForGetAllFilteredAsyncMethodWithNoSpecifiedLifestyleAndNoAllergies(ApplicationDbContext context)
+        {
+            var user = new ApplicationUser();
+            await context.Users.AddAsync(user);
+            await context.Lifestyles.AddAsync(new Lifestyle() { Type = "Vegetarian" });
+            await context.Allergens.AddAsync(new Allergen() { Name = "Milk" });
+            await context.SaveChangesAsync();
+
+            await this.SeedRecipesForGetAllFilteredAsyncMethod(context);
+        }
+
+        private async Task SeedDataForGetAllFilteredAsyncMethodWithSpecifiedAllergiesAndNoLifestyle(ApplicationDbContext context)
+        {
+            var user = new ApplicationUser();
+            user.Allergies.Add(new UserAllergen() { Allergen = new Allergen() { Name = "Milk" } });
+            await context.Users.AddAsync(user);
+            await context.Lifestyles.AddAsync(new Lifestyle() { Type = "Vegetarian" });
+            await context.SaveChangesAsync();
+
+            await this.SeedRecipesForGetAllFilteredAsyncMethod(context);
+        }
+
+        private async Task SeedDataForGetAllFilteredAsyncMethodWithSpecifiedLifestyleAndNoAllergies(ApplicationDbContext context)
+        {
+            var user = new ApplicationUser() { Lifestyle = new Lifestyle() { Type = "Vegetarian" }, };
+            await context.Users.AddAsync(user);
+            await context.Allergens.AddAsync(new Allergen() { Name = "Milk" });
+            await context.SaveChangesAsync();
+
+            await this.SeedRecipesForGetAllFilteredAsyncMethod(context);
+        }
+
+        private async Task SeedDataForGetAllFilteredAsyncMethodWithSpecifiedLifestyleAndAllergies(ApplicationDbContext context)
+        {
+            var user = new ApplicationUser() { Lifestyle = new Lifestyle() { Type = "Vegetarian" }, };
+            user.Allergies.Add(new UserAllergen() { Allergen = new Allergen() { Name = "Milk" } });
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
+
+            await this.SeedRecipesForGetAllFilteredAsyncMethod(context);
+        }
+
+        private async Task SeedRecipesForGetAllFilteredAsyncMethod(ApplicationDbContext context)
+        {
+            var recipes = new List<Recipe>()
+            {
+                new Recipe()
+                {
+                    Title = "Vegetarian Recipe without Milk",
+                    Photo = "Photo",
+                    Category = new Category() { Title = "Category"},
+                    Summary = "Summary",
+                    Directions = "Directions",
+                    ShoppingList = new ShoppingList(),
+                    Allergens = new HashSet<RecipeAllergen>()
+                    {
+                        new RecipeAllergen
+                        {
+                            Allergen = new Allergen() { Name = "AllergenName" },
+                        },
+                    },
+                    Lifestyles = new HashSet<RecipeLifestyle>()
+                    {
+                        new RecipeLifestyle
+                        {
+                            Lifestyle = context.Lifestyles.First(x => x.Type == "Vegetarian"),
+                        },
+                    },
+                    SkillLevel = Level.Easy,
+                    PreparationTime = 10,
+                    CookingTime = 10,
+                    NeededTime = Period.ALaMinute,
+                    Serving = Size.One,
+                    NutritionalValue = new NutritionalValue(),
+                    User = new ApplicationUser(),
+                },
+                new Recipe()
+                {
+                    Title = "Vegetarian Recipe with Milk",
+                    Photo = "Photo",
+                    Category = new Category() { Title = "Category" },
+                    Summary = "Summary",
+                    Directions = "Directions",
+                    ShoppingList = new ShoppingList(),
+                    Allergens = new HashSet<RecipeAllergen>()
+                    {
+                        new RecipeAllergen
+                        {
+                            Allergen = context.Allergens.First(x => x.Name == "Milk"),
+                        },
+                    },
+                    Lifestyles = new HashSet<RecipeLifestyle>()
+                    {
+                        new RecipeLifestyle
+                        {
+                            Lifestyle = context.Lifestyles.First(x => x.Type == "Vegetarian"),
+                        },
+                    },
+                    SkillLevel = Level.Easy,
+                    PreparationTime = 10,
+                    CookingTime = 10,
+                    NeededTime = Period.ALaMinute,
+                    Serving = Size.One,
+                    NutritionalValue = new NutritionalValue(),
+                    User = new ApplicationUser(),
+                },
+                new Recipe()
+                {
+                    Title = "Not Vegetarian Recipe without Milk",
+                    Photo = "Photo",
+                    Category = new Category() { Title = "Category" },
+                    Summary = "Summary",
+                    Directions = "Directions",
+                    ShoppingList = new ShoppingList(),
+                    Allergens = new HashSet<RecipeAllergen>()
+                    {
+                        new RecipeAllergen
+                        {
+                            Allergen = new Allergen() { Name = "AllergenName" },
+                        },
+                    },
+                    Lifestyles = new HashSet<RecipeLifestyle>()
+                    {
+                        new RecipeLifestyle
+                        {
+                            Lifestyle = new Lifestyle() { Type = "LifestyleType" },
+                        },
+                    },
+                    SkillLevel = Level.Easy,
+                    PreparationTime = 10,
+                    CookingTime = 10,
+                    NeededTime = Period.ALaMinute,
+                    Serving = Size.One,
+                    NutritionalValue = new NutritionalValue(),
+                    User = new ApplicationUser(),
+                },
+            };
+
+            await context.Recipes.AddRangeAsync(recipes);
             await context.SaveChangesAsync();
         }
 
@@ -788,6 +1318,83 @@
             await context.Allergens.AddAsync(new Allergen() { Name = "AllergenName" });
             await context.Lifestyles.AddAsync(new Lifestyle() { Type = "LifestyleType" });
             await context.SaveChangesAsync();
+        }
+
+        private RecipeService GetRecipeServiceForGetAllFilteredAsyncMethod(EfDeletableEntityRepository<Recipe> recipeRepository, ApplicationDbContext context)
+        {
+            // CategoryService
+            var categoryServiceMock = new Mock<ICategoryService>();
+
+            // LifestyleService
+            var lifestyleServiceMock = new Mock<ILifestyleService>();
+
+            // RecipeLifestyleService
+            var recipeLifestyleServiceMock = new Mock<IRecipeLifestyleService>();
+
+            // UserService
+            var userServiceMock = new Mock<IUserService>();
+            userServiceMock
+               .Setup(x => x.GetByIdAsync(It.IsAny<string>()))
+               .Returns(Task.FromResult<ApplicationUserServiceModel>(context.Users.First().To<ApplicationUserServiceModel>()));
+
+            // ShoppingListService
+            var shoppingListServiceMock = new Mock<IShoppingListService>();
+
+            // UserShoppingListService
+            var userShoppingListServiceMock = new Mock<IUserShoppingListService>();
+
+            // NutritionalValueService
+            var nutritionalValueServiceMock = new Mock<INutritionalValueService>();
+
+            // AllergenService
+            var allergenServiceMock = new Mock<IAllergenService>();
+
+            // RecipeAllergenService
+            var recipeAllergenServiceMock = new Mock<IRecipeAllergenService>();
+            recipeAllergenServiceMock
+              .Setup(x => x.GetRecipeIdsByAllergenIdsAsync(It.IsAny<IEnumerable<int>>()))
+              .Returns((IEnumerable<int> allergenIds) =>
+                    Task.FromResult((ICollection<string>)context.RecipeAllergens
+                        .Where(x => allergenIds.Contains(x.AllergenId))
+                        .Select(x => x.RecipeId)
+                        .ToList()));
+
+            // UserFavoriteRecipeService
+            var userFavoriteRecipeServiceMock = new Mock<IUserFavoriteRecipeService>();
+
+            // UserCookedRecipeService
+            var userCookedRecipeServiceMock = new Mock<IUserCookedRecipeService>();
+
+            // UserAllergenService
+            var userAllergenServiceMock = new Mock<IUserAllergenService>();
+            userAllergenServiceMock
+               .Setup(x => x.GetByUserIdAsync(It.IsAny<string>()))
+               .Returns((string userId) =>
+                    Task.FromResult((ICollection<UserAllergenServiceModel>)context.UserAllergens
+                        .Where(x => x.UserId == userId)
+                        .To<UserAllergenServiceModel>()
+                        .ToList()));
+
+            // StringFormatService
+            var stringFormatServiceMock = new Mock<IStringFormatService>();
+
+            var recipeService = new RecipeService(
+                recipeRepository,
+                categoryServiceMock.Object,
+                lifestyleServiceMock.Object,
+                recipeLifestyleServiceMock.Object,
+                userServiceMock.Object,
+                shoppingListServiceMock.Object,
+                userShoppingListServiceMock.Object,
+                nutritionalValueServiceMock.Object,
+                allergenServiceMock.Object,
+                recipeAllergenServiceMock.Object,
+                userFavoriteRecipeServiceMock.Object,
+                userCookedRecipeServiceMock.Object,
+                userAllergenServiceMock.Object,
+                stringFormatServiceMock.Object);
+
+            return recipeService;
         }
 
         private RecipeService GetRecipeService(EfDeletableEntityRepository<Recipe> recipeRepository, ApplicationDbContext context)

@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.Users
 {
+    using System;
     using System.Threading.Tasks;
 
     using CookWithMe.Data.Common.Repositories;
@@ -15,6 +16,8 @@
 
     public class UserService : IUserService
     {
+        private const string InvalidUserIdErrorMessage = "User with ID: {0} doesn't exist.";
+
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
         private readonly ILifestyleService lifestyleService;
@@ -51,6 +54,13 @@
         public async Task<ApplicationUserServiceModel> GetByIdAsync(string userId)
         {
             var user = await this.userRepository.GetByIdWithDeletedAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserIdErrorMessage, userId));
+            }
+
             var userServiceModel = user.To<ApplicationUserServiceModel>();
 
             return userServiceModel;
