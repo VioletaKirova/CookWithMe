@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.Users
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -11,6 +12,8 @@
 
     public class UserShoppingListService : IUserShoppingListService
     {
+        private const string InvalidUserShoppingListErrorMessage = "UserShoppingList with UserId: {0} and ShoppingListId: {1} does not exist.";
+
         private readonly IRepository<UserShoppingList> userShoppingListRepository;
 
         public UserShoppingListService(IRepository<UserShoppingList> userShoppingListRepository)
@@ -63,6 +66,12 @@
             var userShoppingList = await this.userShoppingListRepository
                 .All()
                 .SingleOrDefaultAsync(x => x.UserId == userId && x.ShoppingListId == shoppingListId);
+
+            if (userShoppingList == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserShoppingListErrorMessage, userId, shoppingListId));
+            }
 
             this.userShoppingListRepository.Delete(userShoppingList);
 

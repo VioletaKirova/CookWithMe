@@ -14,6 +14,7 @@
     using CookWithMe.Services.Models.Lifestyles;
 
     using Microsoft.EntityFrameworkCore;
+
     using Xunit;
 
     public class LifestyleServiceTests
