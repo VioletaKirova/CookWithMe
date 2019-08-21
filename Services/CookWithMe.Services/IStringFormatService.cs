@@ -6,7 +6,7 @@
     {
         string FormatTime(int time);
 
-        IList<string> SplitBySemicollonAndWhitespace(string text);
+        IList<string> SplitBySemicollon(string text);
 
         IList<string> SplitByCommaAndWhitespace(string text);
 

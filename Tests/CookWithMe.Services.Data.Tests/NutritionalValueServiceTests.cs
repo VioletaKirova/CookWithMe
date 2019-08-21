@@ -21,7 +21,7 @@
         [Fact]
         public async Task GetIdByRecipeIdAsync_WithExistentRecipeId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "NutritionalValueService GetIdByRecipeIdAsync() method does not work properly.";
+            var errorMessagePrefix = "NutritionalValueService GetIdByRecipeIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -62,7 +62,7 @@
         [Fact]
         public async Task GetByIdAsync_WithExistentId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "NutritionalValueService GetByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "NutritionalValueService GetByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -114,7 +114,7 @@
         [Fact]
         public async Task EditAsync_WithCorrectData_ShouldSuccessfullyEdit()
         {
-            string errorMessagePrefix = "NutritionalValueService EditAsync() method does not work properly.";
+            var errorMessagePrefix = "NutritionalValueService EditAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -176,7 +176,7 @@
         [Fact]
         public async Task DeleteByIdAsync_WithExistentId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "NutritionalValueService DeleteByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "NutritionalValueService DeleteByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -196,7 +196,7 @@
         [Fact]
         public async Task DeleteByIdAsync_WithExistentId_ShouldSuccessfullyDelete()
         {
-            string errorMessagePrefix = "NutritionalValueService DeleteByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "NutritionalValueService DeleteByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();

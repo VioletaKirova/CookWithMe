@@ -21,7 +21,7 @@
         [Fact]
         public async Task GetByUserIdAsync_WithExistentUserId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserAllergenService GetByUserIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserAllergenService GetByUserIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -55,7 +55,7 @@
         [Fact]
         public async Task GetByUserIdAsync_WithNonExistentUserId_ShouldReturnEmptyCollection()
         {
-            string errorMessagePrefix = "UserAllergenService GetByUserIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserAllergenService GetByUserIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -76,7 +76,7 @@
         [Fact]
         public async Task DeletePreviousUserAllergensByUserId_WithExistentUserId_ShouldSuccessfullyDelete()
         {
-            string errorMessagePrefix = "UserAllergenService DeletePreviousUserAllergensByUserId() method does not work properly.";
+            var errorMessagePrefix = "UserAllergenService DeletePreviousUserAllergensByUserId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -100,7 +100,7 @@
         [Fact]
         public async Task DeletePreviousUserAllergensByUserId_WithNonExistentUserId_ShouldWorkProperly()
         {
-            string errorMessagePrefix = "RecipeAllergenService DeletePreviousRecipeAllergensByRecipeId() method does not work properly.";
+            var errorMessagePrefix = "RecipeAllergenService DeletePreviousRecipeAllergensByRecipeId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();

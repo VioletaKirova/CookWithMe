@@ -25,7 +25,7 @@
         [Fact]
         public async Task CreateAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "ReviewService CreateAsync() method does not work properly.";
+            var errorMessagePrefix = "ReviewService CreateAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -51,7 +51,7 @@
         [Fact]
         public async Task CreateAsync_WithCorrectData_ShouldSuccessfullyCreate()
         {
-            string errorMessagePrefix = "ReviewService CreateAsync() method does not work properly.";
+            var errorMessagePrefix = "ReviewService CreateAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -108,7 +108,7 @@
         [Fact]
         public async Task DeleteByIdAsync_WithExistentId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "ReviewService DeleteByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "ReviewService DeleteByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -137,7 +137,7 @@
         [Fact]
         public async Task DeleteByIdAsync_WithExistentId_ShouldSuccessfullyDelete()
         {
-            string errorMessagePrefix = "ReviewService DeleteByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "ReviewService DeleteByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -188,7 +188,7 @@
         [Fact]
         public async Task GetByIdAsync_WithExistentId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "ReviewService GetByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "ReviewService GetByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -244,7 +244,7 @@
         [Fact]
         public async Task GetByRecipeId_WithExistentRecipeId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "ReviewService GetByRecipeId() method does not work properly.";
+            var errorMessagePrefix = "ReviewService GetByRecipeId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -286,7 +286,7 @@
         [Fact]
         public async Task GetByRecipeId_WithNonExistentRecipeId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "ReviewService GetByRecipeId() method does not work properly.";
+            var errorMessagePrefix = "ReviewService GetByRecipeId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();

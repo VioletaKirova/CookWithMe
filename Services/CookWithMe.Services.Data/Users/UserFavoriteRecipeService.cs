@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.Users
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -11,6 +12,8 @@
 
     public class UserFavoriteRecipeService : IUserFavoriteRecipeService
     {
+        private const string InvalidUserFavoriteRecipeErrorMessage = "UserFavoriteRecipe with UserId: {0} and RecipeId: {1} does not exist.";
+
         private readonly IRepository<UserFavoriteRecipe> userFavoriteRecipeRepository;
 
         public UserFavoriteRecipeService(IRepository<UserFavoriteRecipe> userFavoriteRecipeRepository)
@@ -53,6 +56,12 @@
             var userFavoriteRecipe = await this.userFavoriteRecipeRepository
                 .All()
                 .SingleOrDefaultAsync(x => x.UserId == userId && x.RecipeId == recipeId);
+
+            if (userFavoriteRecipe == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserFavoriteRecipeErrorMessage, userId, recipeId));
+            }
 
             this.userFavoriteRecipeRepository.Delete(userFavoriteRecipe);
 

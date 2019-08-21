@@ -74,7 +74,7 @@
             shoppingListDetailsViewModel.RecipeTitle = (await this.recipeService
                 .GetByIdAsync(shoppingListServiceModel.RecipeId)).Title;
             shoppingListDetailsViewModel.IngredientsList = this.stringFormatService
-                .SplitBySemicollonAndWhitespace(shoppingListServiceModel.Ingredients);
+                .SplitBySemicollon(shoppingListServiceModel.Ingredients);
 
             return this.View(shoppingListDetailsViewModel);
         }

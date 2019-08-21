@@ -1,5 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.Users
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -11,6 +12,8 @@
 
     public class UserCookedRecipeService : IUserCookedRecipeService
     {
+        private const string InvalidUserCookedRecipeErrorMessage = "UserCookedRecipe with UserId: {0} and RecipeId: {1} does not exist.";
+
         private readonly IRepository<UserCookedRecipe> userCookedRecipeRepository;
 
         public UserCookedRecipeService(IRepository<UserCookedRecipe> userCookedRecipeRepository)
@@ -54,6 +57,12 @@
                 .All()
                 .SingleOrDefaultAsync(x => x.UserId == userId && x.RecipeId == recipeId);
 
+            if (userCookedRecipe == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserCookedRecipeErrorMessage, userId, recipeId));
+            }
+
             this.userCookedRecipeRepository.Delete(userCookedRecipe);
 
             var result = await this.userCookedRecipeRepository.SaveChangesAsync();
@@ -66,6 +75,7 @@
             return await this.userCookedRecipeRepository
                 .AllAsNoTracking()
                 .Where(x => x.UserId == userId)
+                .OrderByDescending(x => x.AddedOn)
                 .Select(x => x.RecipeId)
                 .ToListAsync();
         }

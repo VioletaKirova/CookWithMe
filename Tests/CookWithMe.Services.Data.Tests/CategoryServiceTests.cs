@@ -22,7 +22,7 @@
         [Fact]
         public async Task CreateAllAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "CategoryService CreateAllAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService CreateAllAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -41,7 +41,7 @@
         [Fact]
         public async Task CreateAllAsync_WithCorrectData_ShouldSuccessfullyCreate()
         {
-            string errorMessagePrefix = "CategoryService CreateAllAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService CreateAllAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -65,7 +65,7 @@
         [Fact]
         public async Task CreateAllAsync_WithZeroData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "CategoryService CreateAllAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService CreateAllAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -84,7 +84,7 @@
         [Fact]
         public async Task GetAllTitlesAsync_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "CategoryService GetAllTitlesAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService GetAllTitlesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -107,7 +107,7 @@
         [Fact]
         public async Task GetByIdAsync_WithExistentId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "CategoryService GetByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService GetByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -151,7 +151,7 @@
         [Fact]
         public async Task CreateAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "CategoryService CreateAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService CreateAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -170,7 +170,7 @@
         [Fact]
         public async Task CreateAsync_WithCorrectData_ShouldSuccessfullyCreate()
         {
-            string errorMessagePrefix = "CategoryService CreateAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService CreateAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -213,7 +213,7 @@
         [Fact]
         public async Task EditAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "CategoryService EditAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService EditAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -234,7 +234,7 @@
         [Fact]
         public async Task EditAsync_WithCorrectData_ShouldSuccessfullyEdit()
         {
-            string errorMessagePrefix = "CategoryService EditAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService EditAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -285,7 +285,7 @@
         [Fact]
         public async Task DeleteByIdAsync_WithExistentId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "CategoryService DeleteByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService DeleteByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -305,7 +305,7 @@
         [Fact]
         public async Task DeleteByIdAsync_WithExistentId_ShouldSuccessfullyDelete()
         {
-            string errorMessagePrefix = "CategoryService DeleteByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService DeleteByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -347,7 +347,7 @@
         [Fact]
         public async Task SetCategoryToRecipeAsync_WithCorrectData_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "CategoryService SetCategoryToRecipeAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService SetCategoryToRecipeAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -391,7 +391,7 @@
         [Fact]
         public async Task GetAll_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "CategoryService GetAll() method does not work properly.";
+            var errorMessagePrefix = "CategoryService GetAll() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -414,7 +414,7 @@
         [Fact]
         public async Task GetIdByTitleAsync_WithExistentTitle_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "CategoryService GetIdByTitleAsync() method does not work properly.";
+            var errorMessagePrefix = "CategoryService GetIdByTitleAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();

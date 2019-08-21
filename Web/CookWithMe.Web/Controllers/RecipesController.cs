@@ -80,10 +80,10 @@
             var recipeDetailsViewModel = recipeServiceModel.To<RecipeDetailsViewModel>();
 
             recipeDetailsViewModel.DirectionsList = this.stringFormatService
-                .SplitBySemicollonAndWhitespace(recipeServiceModel.Directions);
+                .SplitBySemicollon(recipeServiceModel.Directions);
 
             recipeDetailsViewModel.ShoppingListIngredients = this.stringFormatService
-                .SplitBySemicollonAndWhitespace(recipeServiceModel.ShoppingList.Ingredients);
+                .SplitBySemicollon(recipeServiceModel.ShoppingList.Ingredients);
 
             recipeDetailsViewModel.FormatedPreparationTime = this.stringFormatService
                 .FormatTime(recipeServiceModel.PreparationTime);

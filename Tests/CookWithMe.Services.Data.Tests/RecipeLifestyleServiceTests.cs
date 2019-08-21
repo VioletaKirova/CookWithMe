@@ -21,7 +21,7 @@
         [Fact]
         public async Task GetByRecipeIdAsync_WithExistentRecipeId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeLifestyleService GetByRecipeIdAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeLifestyleService GetByRecipeIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -55,7 +55,7 @@
         [Fact]
         public async Task GetByRecipeIdAsync_WithNonExistentRecipeId_ShouldReturnEmptyCollection()
         {
-            string errorMessagePrefix = "RecipeLifestyleService GetByRecipeIdAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeLifestyleService GetByRecipeIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -76,7 +76,7 @@
         [Fact]
         public async Task DeletePreviousRecipeLifestylesByRecipeId_WithExistentRecipeId_ShouldSuccessfullyDelete()
         {
-            string errorMessagePrefix = "RecipeLifestyleService DeletePreviousRecipeLifestylesByRecipeId() method does not work properly.";
+            var errorMessagePrefix = "RecipeLifestyleService DeletePreviousRecipeLifestylesByRecipeId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -100,7 +100,7 @@
         [Fact]
         public async Task DeletePreviousRecipeLifestylesByRecipeId_WithNonExistentRecipeId_ShouldWorkProperly()
         {
-            string errorMessagePrefix = "RecipeLifestyleService DeletePreviousRecipeLifestylesByRecipeId() method does not work properly.";
+            var errorMessagePrefix = "RecipeLifestyleService DeletePreviousRecipeLifestylesByRecipeId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -124,7 +124,7 @@
         [Fact]
         public async Task GetRecipeIdsByLifestyleIdAsync_WithExistentLifestyleId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeLifestyleService GetRecipeIdsByLifestyleIdAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeLifestyleService GetRecipeIdsByLifestyleIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -155,7 +155,7 @@
         [Fact]
         public async Task GetRecipeIdsByLifestyleIdAsync_WithNonExistentLifestyleId_ShouldReturnEmptyCollection()
         {
-            string errorMessagePrefix = "RecipeLifestyleService GetRecipeIdsByLifestyleIdAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeLifestyleService GetRecipeIdsByLifestyleIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();

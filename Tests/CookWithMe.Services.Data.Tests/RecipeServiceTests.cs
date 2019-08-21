@@ -39,7 +39,7 @@
         [Fact]
         public async Task CreateAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService CreateAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService CreateAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -90,7 +90,7 @@
         [Fact]
         public async Task CreateAsync_WithCorrectData_ShouldSuccessfullyCreate()
         {
-            string errorMessagePrefix = "RecipeService CreateAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService CreateAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -251,7 +251,7 @@
         [Fact]
         public async Task EditAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService EditAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService EditAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -298,7 +298,7 @@
         [Fact]
         public async Task EditAsync_WithCorrectData_ShouldSuccessfullyEdit()
         {
-            string errorMessagePrefix = "RecipeService EditAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService EditAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -468,7 +468,7 @@
         [Fact]
         public async Task DeleteByIdAsync_WithExistentId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService DeleteByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService DeleteByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -489,7 +489,7 @@
         [Fact]
         public async Task DeleteByIdAsync_WithExistentId_ShouldSuccessfullyDelete()
         {
-            string errorMessagePrefix = "RecipeService DeleteByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService DeleteByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -532,7 +532,7 @@
         [Fact]
         public async Task GetByIdAsync_WithExistentId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -589,7 +589,7 @@
         [Fact]
         public async Task SetRecipeToUserFavoriteRecipesAsync_WithCorrectData_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "RecipeService SetRecipeToUserFavoriteRecipesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService SetRecipeToUserFavoriteRecipesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -633,7 +633,7 @@
         [Fact]
         public async Task SetRecipeToUserCookedRecipesAsync_WithCorrectData_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "RecipeService SetRecipeToUserCookedRecipesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService SetRecipeToUserCookedRecipesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -677,7 +677,7 @@
         [Fact]
         public async Task SetRecipeToReviewAsync_WithCorrectData_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "RecipeService SetRecipeToReviewAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService SetRecipeToReviewAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -725,7 +725,7 @@
         [Fact]
         public async Task GetByCategoryId_WithExistentCategoryId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetByCategoryId() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetByCategoryId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -757,7 +757,7 @@
         [Fact]
         public async Task GetByCategoryId_WithExistentCategoryIdWithNoRecipes_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetByCategoryId() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetByCategoryId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -784,7 +784,7 @@
         [Fact]
         public async Task GetByUserId_WithExistentUserId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetByUserId() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetByUserId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -816,7 +816,7 @@
         [Fact]
         public async Task GetByUserId_WithExistentUserIdWithNoRecipes_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetByUserId() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetByUserId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -837,7 +837,7 @@
         [Fact]
         public async Task GetByIds_WithExistentIds_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetByIds() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetByIds() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -866,7 +866,7 @@
         [Fact]
         public async Task GetByIds_WithNonExistentIds_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetByIds() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetByIds() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -892,7 +892,7 @@
         [Fact]
         public async Task GetAllFilteredAsync_WithSpecifiedLifestyleAndAllergies_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -917,7 +917,7 @@
         [Fact]
         public async Task GetAllFilteredAsync_WithSpecifiedLifestyleAndNoAllergies_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -950,7 +950,7 @@
         [Fact]
         public async Task GetAllFilteredAsync_WithSpecifiedAllergiesAndNoLifestyle_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -983,7 +983,7 @@
         [Fact]
         public async Task GetAllFilteredAsync_WithNoSpecifiedLifestyleAndNoAllergies_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1014,7 +1014,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedKeyWords_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1054,7 +1054,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedKeyWordsAndCategory_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1095,7 +1095,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedKeyWordsCategoryAndLifestyle_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1137,7 +1137,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedCategoryLifestyleAndNoKeyWords_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1178,7 +1178,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedAllergen_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1221,7 +1221,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedCategoryLifestyleAndAllergen_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1266,7 +1266,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedSkillLevel_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1304,7 +1304,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedServing_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1342,7 +1342,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedNeededTime_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1380,7 +1380,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedNutritionalValueCalories_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1421,7 +1421,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedNutritionalValueCaloriesAndFats_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1464,7 +1464,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedYield_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1502,7 +1502,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithSpecifiedKeyWordsNutritionalValueAndYield_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -1546,7 +1546,7 @@
         [Fact]
         public async Task GetBySearchValuesAsync_WithNoSpecifications_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeService GetBySearchValuesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();

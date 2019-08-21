@@ -17,7 +17,7 @@
         [Fact]
         public async Task ContainsByUserIdAndShoppingListIdAsync_WithExistentUserIdAndShoppingListId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserShoppingListService ContainsByUserIdAndShoppingListIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserShoppingListService ContainsByUserIdAndShoppingListIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -39,7 +39,7 @@
         [Fact]
         public async Task ContainsByUserIdAndShoppingListIdAsync_WithNonExistentUserIdAndExistentShoppingListId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserShoppingListService ContainsByUserIdAndShoppingListIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserShoppingListService ContainsByUserIdAndShoppingListIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -61,7 +61,7 @@
         [Fact]
         public async Task ContainsByUserIdAndShoppingListIdAsync_WithExistentUserIdAndNonExistentShoppingListId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserShoppingListService ContainsByUserIdAndShoppingListIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserShoppingListService ContainsByUserIdAndShoppingListIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -81,9 +81,31 @@
         }
 
         [Fact]
+        public async Task ContainsByUserIdAndShoppingListIdAsync_WithNonExistentUserIdAndShoppingListId_ShouldReturnCorrectResult()
+        {
+            var errorMessagePrefix = "UserShoppingListService ContainsByUserIdAndShoppingListIdAsync() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var userShoppingListRepository = new EfRepository<UserShoppingList>(context);
+            var userShoppingListService = new UserShoppingListService(userShoppingListRepository);
+            await this.SeedDataAsync(context);
+            var nonExistentUserId = Guid.NewGuid().ToString();
+            var nonExistentShoppingListId = Guid.NewGuid().ToString();
+
+            // Act
+            var result = await userShoppingListService
+                .ContainsByUserIdAndShoppingListIdAsync(nonExistentUserId, nonExistentShoppingListId);
+
+            // Assert
+            Assert.False(result, errorMessagePrefix + " " + "Returns true.");
+        }
+
+        [Fact]
         public async Task DeleteByUserIdAndShoppingListIdAsync_WithExistentUserIdAndShoppingListId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserShoppingListService DeleteByUserIdAndShoppingListIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserShoppingListService DeleteByUserIdAndShoppingListIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -105,7 +127,7 @@
         [Fact]
         public async Task DeleteByUserIdAndShoppingListIdAsync_WithExistentUserIdAndShoppingListId_ShouldSuccessfullyDelete()
         {
-            string errorMessagePrefix = "UserShoppingListService DeleteByUserIdAndShoppingListIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserShoppingListService DeleteByUserIdAndShoppingListIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -172,9 +194,31 @@
         }
 
         [Fact]
+        public async Task DeleteByUserIdAndShoppingListIdAsync_WithNonExistentUserIdAndShoppingListId_ShouldThrowArgumentNullException()
+        {
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var userShoppingListRepository = new EfRepository<UserShoppingList>(context);
+            var userShoppingListService = new UserShoppingListService(userShoppingListRepository);
+            await this.SeedDataAsync(context);
+            var nonExistentUserId = Guid.NewGuid().ToString();
+            var nonExistentShoppingListId = Guid.NewGuid().ToString();
+
+            // Act
+
+            // Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await userShoppingListService
+                    .DeleteByUserIdAndShoppingListIdAsync(nonExistentUserId, nonExistentShoppingListId);
+            });
+        }
+
+        [Fact]
         public async Task DeleteByShoppingListIdAsync_WithExistentShoppingListId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserShoppingListService DeleteByShoppingListIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserShoppingListService DeleteByShoppingListIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -194,7 +238,7 @@
         [Fact]
         public async Task DeleteByShoppingListIdAsync_WithExistentShoppingListId_ShouldSuccessfullyDelete()
         {
-            string errorMessagePrefix = "UserShoppingListService DeleteByShoppingListIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserShoppingListService DeleteByShoppingListIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -217,7 +261,7 @@
         [Fact]
         public async Task DeleteByShoppingListIdAsync_WithNonExistentShoppingListId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserShoppingListService DeleteByShoppingListIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserShoppingListService DeleteByShoppingListIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -225,10 +269,10 @@
             var userShoppingListRepository = new EfRepository<UserShoppingList>(context);
             var userShoppingListService = new UserShoppingListService(userShoppingListRepository);
             await this.SeedDataAsync(context);
-            var shoppingListId = Guid.NewGuid().ToString();
+            var nonExistentShoppingListId = Guid.NewGuid().ToString();
 
             // Act
-            var result = await userShoppingListService.DeleteByShoppingListIdAsync(shoppingListId);
+            var result = await userShoppingListService.DeleteByShoppingListIdAsync(nonExistentShoppingListId);
 
             // Assert
             Assert.False(result, errorMessagePrefix + " " + "Returns true.");
@@ -237,7 +281,7 @@
         [Fact]
         public async Task GetShoppingListIdsByUserIdAsync_WithExistentUserId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserShoppingListService GetShoppingListIdsByUserIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserShoppingListService GetShoppingListIdsByUserIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -270,7 +314,7 @@
         [Fact]
         public async Task GetShoppingListIdsByUserIdAsync_WithNonExistentUserId_ShouldReturnEmptyCollection()
         {
-            string errorMessagePrefix = "UserShoppingListService GetShoppingListIdsByUserIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserShoppingListService GetShoppingListIdsByUserIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();

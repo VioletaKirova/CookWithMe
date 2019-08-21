@@ -22,7 +22,7 @@
         [Fact]
         public async Task GetByRecipeIdAsync_WithExistentRecipeId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeAllergenService GetByRecipeIdAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeAllergenService GetByRecipeIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -56,7 +56,7 @@
         [Fact]
         public async Task GetByRecipeIdAsync_WithNonExistentRecipeId_ShouldReturnEmptyCollection()
         {
-            string errorMessagePrefix = "RecipeAllergenService GetByRecipeIdAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeAllergenService GetByRecipeIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -77,7 +77,7 @@
         [Fact]
         public async Task DeletePreviousRecipeAllergensByRecipeId_WithExistentRecipeId_ShouldSuccessfullyDelete()
         {
-            string errorMessagePrefix = "RecipeAllergenService DeletePreviousRecipeAllergensByRecipeId() method does not work properly.";
+            var errorMessagePrefix = "RecipeAllergenService DeletePreviousRecipeAllergensByRecipeId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -101,7 +101,7 @@
         [Fact]
         public async Task DeletePreviousRecipeAllergensByRecipeId_WithNonExistentRecipeId_ShouldWorkProperly()
         {
-            string errorMessagePrefix = "RecipeAllergenService DeletePreviousRecipeAllergensByRecipeId() method does not work properly.";
+            var errorMessagePrefix = "RecipeAllergenService DeletePreviousRecipeAllergensByRecipeId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -125,7 +125,7 @@
         [Fact]
         public async Task GetRecipeIdsByAllergenIdsAsync_WithExistentAllergenIds_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "RecipeAllergenService GetRecipeIdsByAllergenIdsAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeAllergenService GetRecipeIdsByAllergenIdsAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -156,7 +156,7 @@
         [Fact]
         public async Task GetRecipeIdsByAllergenIdsAsync_WithNonExistentAllergenIds_ShouldReturnEmptyCollection()
         {
-            string errorMessagePrefix = "RecipeAllergenService GetRecipeIdsByAllergenIdsAsync() method does not work properly.";
+            var errorMessagePrefix = "RecipeAllergenService GetRecipeIdsByAllergenIdsAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();

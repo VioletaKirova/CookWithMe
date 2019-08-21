@@ -21,7 +21,7 @@
         [Fact]
         public async Task RegisterAsync_WithSuccessfullActions_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "AdministratorService RegisterAsync() method does not work properly.";
+            var errorMessagePrefix = "AdministratorService RegisterAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -47,7 +47,7 @@
         [Fact]
         public async Task RegisterAsync_WithFailedCreateAsync_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "AdministratorService RegisterAsync() method does not work properly.";
+            var errorMessagePrefix = "AdministratorService RegisterAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -73,7 +73,7 @@
         [Fact]
         public async Task RegisterAsync_WithFailedAddToRoleAsync_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "AdministratorService RegisterAsync() method does not work properly.";
+            var errorMessagePrefix = "AdministratorService RegisterAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -99,7 +99,7 @@
         [Fact]
         public async Task RemoveFromRoleByIdAsync_WithExistentUserIdAndSuccessfullActions_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "AdministratorService RemoveFromRoleByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "AdministratorService RemoveFromRoleByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -127,7 +127,7 @@
         [Fact]
         public async Task RemoveFromRoleByIdAsync_WithExistentUserIdAndFailedRemoveFromRoleAsync_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "AdministratorService RemoveFromRoleByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "AdministratorService RemoveFromRoleByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -155,7 +155,7 @@
         [Fact]
         public async Task RemoveFromRoleByIdAsync_WithExistentUserIdAndFailedAddToRoleAsync_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "AdministratorService RemoveFromRoleByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "AdministratorService RemoveFromRoleByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();

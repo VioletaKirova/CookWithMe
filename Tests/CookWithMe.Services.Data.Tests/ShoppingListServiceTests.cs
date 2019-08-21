@@ -22,7 +22,7 @@
         [Fact]
         public async Task GetIdByRecipeIdAsync_WithExistentRecipeId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "ShoppingListService GetIdByRecipeIdAsync() method does not work properly.";
+            var errorMessagePrefix = "ShoppingListService GetIdByRecipeIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -63,7 +63,7 @@
         [Fact]
         public async Task GetByIdAsync_WithExistentId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "ShoppingListService GetByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "ShoppingListService GetByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -163,7 +163,7 @@
         [Fact]
         public async Task EditAsync_WithCorrectData_ShouldSuccessfullyEdit()
         {
-            string errorMessagePrefix = "ShoppingListService EditAsync() method does not work properly.";
+            var errorMessagePrefix = "ShoppingListService EditAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -211,7 +211,7 @@
         [Fact]
         public async Task DeleteByIdAsync_WithExistentId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "ShoppingListService DeleteByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "ShoppingListService DeleteByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -231,7 +231,7 @@
         [Fact]
         public async Task DeleteByIdAsync_WithExistentId_ShouldSuccessfullyDelete()
         {
-            string errorMessagePrefix = "ShoppingListService DeleteByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "ShoppingListService DeleteByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();

@@ -20,7 +20,7 @@
         [Fact]
         public async Task CreateAllAsync_WithDummyData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "AllergenService CreateAllAsync() method does not work properly.";
+            var errorMessagePrefix = "AllergenService CreateAllAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -39,7 +39,7 @@
         [Fact]
         public async Task CreateAllAsync_WithDummyData_ShouldSuccessfullyCreate()
         {
-            string errorMessagePrefix = "AllergenService CreateAllAsync() method does not work properly.";
+            var errorMessagePrefix = "AllergenService CreateAllAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -66,7 +66,7 @@
         [Fact]
         public async Task CreateAllAsync_WithZeroData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "AllergenService CreateAllAsync() method does not work properly.";
+            var errorMessagePrefix = "AllergenService CreateAllAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -85,7 +85,7 @@
         [Fact]
         public async Task GetAllNamesAsync_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "AllergenService GetAllNamesAsync() method does not work properly.";
+            var errorMessagePrefix = "AllergenService GetAllNamesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -108,7 +108,7 @@
         [Fact]
         public async Task SetAllergenToRecipeAsync_WithCorrectData_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "AllergenService SetAllergenToRecipeAsync() method does not work properly.";
+            var errorMessagePrefix = "AllergenService SetAllergenToRecipeAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -152,7 +152,7 @@
         [Fact]
         public async Task SetAllergenToUserAsync_WithCorrectData_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "AllergenService SetAllergenToUserAsync() method does not work properly.";
+            var errorMessagePrefix = "AllergenService SetAllergenToUserAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -196,7 +196,7 @@
         [Fact]
         public async Task GetIdsByNamesAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "AllergenService GetIdsByNamesAsync() method does not work properly.";
+            var errorMessagePrefix = "AllergenService GetIdsByNamesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();

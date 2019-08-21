@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class StringFormatService : IStringFormatService
     {
@@ -28,11 +29,14 @@
                 StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public IList<string> SplitBySemicollonAndWhitespace(string text)
+        public IList<string> SplitBySemicollon(string text)
         {
             return text.Split(
-                new string[] { ";", "; " },
-                StringSplitOptions.RemoveEmptyEntries);
+                new string[] { ";" },
+                StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim())
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToList();
         }
     }
 }

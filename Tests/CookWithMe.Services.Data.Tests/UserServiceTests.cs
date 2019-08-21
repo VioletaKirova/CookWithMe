@@ -30,7 +30,7 @@
         [Fact]
         public async Task AddAdditionalInfoAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserService AddAdditionalInfoAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService AddAdditionalInfoAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -60,7 +60,7 @@
         [Fact]
         public async Task AddAdditionalInfoAsync_WithCorrectData_ShouldSuccessfullyAdd()
         {
-            string errorMessagePrefix = "UserService AddAdditionalInfoAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService AddAdditionalInfoAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -116,7 +116,7 @@
         [Fact]
         public async Task EditAdditionalInfoAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserService EditAdditionalInfoAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService EditAdditionalInfoAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -147,7 +147,7 @@
         [Fact]
         public async Task EditAdditionalInfoAsync_WithCorrectData_ShouldSuccessfullyEdit()
         {
-            string errorMessagePrefix = "UserService EditAdditionalInfoAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService EditAdditionalInfoAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -204,7 +204,7 @@
         [Fact]
         public async Task SetUserToRecipeAsync_WithExistentUserId_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "UserService SetUserToRecipeAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService SetUserToRecipeAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -252,7 +252,7 @@
         [Fact]
         public async Task SetUserToReviewAsync_WithExistentUserId_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "UserService SetUserToReviewAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService SetUserToReviewAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -300,7 +300,7 @@
         [Fact]
         public async Task SetFavoriteRecipeAsync_WithExistentUserId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserService SetFavoriteRecipeAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService SetFavoriteRecipeAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -324,7 +324,7 @@
         [Fact]
         public async Task SetFavoriteRecipeAsync_WithExistentUserId_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "UserService SetFavoriteRecipeAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService SetFavoriteRecipeAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -372,7 +372,7 @@
         [Fact]
         public async Task SetCookedRecipeAsync_WithExistentUserId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserService SetCookedRecipeAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService SetCookedRecipeAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -396,7 +396,7 @@
         [Fact]
         public async Task SetCookedRecipeAsync_WithExistentUserId_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "UserService SetCookedRecipeAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService SetCookedRecipeAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -444,7 +444,7 @@
         [Fact]
         public async Task SetShoppingListAsync_WithExistentUserId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserService SetShoppingListAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService SetShoppingListAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -470,7 +470,7 @@
         [Fact]
         public async Task SetShoppingListAsync_WithExistentUserId_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "UserService SetShoppingListAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService SetShoppingListAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -529,7 +529,7 @@
         [Fact]
         public async Task GetByIdAsync_WithExistentUserId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserService GetByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService GetByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -583,7 +583,7 @@
         [Fact]
         public async Task GetAdditionalInfoByUserIdAsync_WithExistentUserId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "UserService GetAdditionalInfoByUserIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserService GetAdditionalInfoByUserIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();

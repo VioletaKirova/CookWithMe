@@ -22,7 +22,7 @@
         [Fact]
         public async Task CreateAllAsync_WithCorrectData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "LifestyleService CreateAllAsync() method does not work properly.";
+            var errorMessagePrefix = "LifestyleService CreateAllAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -41,7 +41,7 @@
         [Fact]
         public async Task CreateAllAsync_WithCorrectData_ShouldSuccessfullyCreate()
         {
-            string errorMessagePrefix = "LifestyleService CreateAllAsync() method does not work properly.";
+            var errorMessagePrefix = "LifestyleService CreateAllAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -68,7 +68,7 @@
         [Fact]
         public async Task CreateAllAsync_WithZeroData_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "LifestyleService CreateAllAsync() method does not work properly.";
+            var errorMessagePrefix = "LifestyleService CreateAllAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -87,7 +87,7 @@
         [Fact]
         public async Task GetAllTypesAsync_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "LifestyleService GetAllTypesAsync() method does not work properly.";
+            var errorMessagePrefix = "LifestyleService GetAllTypesAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -110,7 +110,7 @@
         [Fact]
         public async Task SetLifestyleToRecipeAsync_WithCorrectData_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "LifestyleService SetLifestyleToRecipeAsync() method does not work properly.";
+            var errorMessagePrefix = "LifestyleService SetLifestyleToRecipeAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -154,7 +154,7 @@
         [Fact]
         public async Task SetLifestyleToUserAsync_WithCorrectData_ShouldSuccessfullySet()
         {
-            string errorMessagePrefix = "LifestyleService SetLifestyleToUserAsync() method does not work properly.";
+            var errorMessagePrefix = "LifestyleService SetLifestyleToUserAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -198,7 +198,7 @@
         [Fact]
         public async Task GetByIdAsync_WithExistentId_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "LifestyleService GetByIdAsync() method does not work properly.";
+            var errorMessagePrefix = "LifestyleService GetByIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -242,7 +242,7 @@
         [Fact]
         public async Task GetIdByTypeAsync_WithExistentType_ShouldReturnCorrectResult()
         {
-            string errorMessagePrefix = "LifestyleService GetIdByTypeAsync() method does not work properly.";
+            var errorMessagePrefix = "LifestyleService GetIdByTypeAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
