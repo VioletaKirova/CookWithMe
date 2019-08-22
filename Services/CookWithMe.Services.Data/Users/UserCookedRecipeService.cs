@@ -1,12 +1,13 @@
 ﻿namespace CookWithMe.Services.Data.Users
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
+    using CookWithMe.Services.Mapping;
+    using CookWithMe.Services.Models.Recipes;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -70,14 +71,14 @@
             return result > 0;
         }
 
-        public async Task<IEnumerable<string>> GetRecipeIdsByUserIdAsync(string userId)
+        public IQueryable<RecipeServiceModel> GetRecipesByUserId(string userId)
         {
-            return await this.userCookedRecipeRepository
+            return this.userCookedRecipeRepository
                 .AllAsNoTracking()
                 .Where(x => x.UserId == userId)
                 .OrderByDescending(x => x.AddedOn)
-                .Select(x => x.RecipeId)
-                .ToListAsync();
+                .Select(x => x.Recipe)
+                .To<RecipeServiceModel>();
         }
     }
 }

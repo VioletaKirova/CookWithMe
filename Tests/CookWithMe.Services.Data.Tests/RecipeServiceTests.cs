@@ -835,61 +835,6 @@
         }
 
         [Fact]
-        public async Task GetByIds_WithExistentIds_ShouldReturnCorrectResult()
-        {
-            var errorMessagePrefix = "RecipeService GetByIds() method does not work properly.";
-
-            // Arrange
-            MapperInitializer.InitializeMapper();
-            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipes(context);
-            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
-            var recipeService = this.GetRecipeService(recipeRepository, context);
-            var ids = await recipeRepository.All().Select(x => x.Id).ToListAsync();
-
-            // Act
-            var actualResult = await recipeService.GetByIds(ids).ToListAsync();
-            var expectedResult = await recipeRepository
-                .All()
-                .Where(x => ids.Contains(x.Id))
-                .To<RecipeServiceModel>()
-                .ToListAsync();
-
-            // Assert
-            for (int i = 0; i < actualResult.Count; i++)
-            {
-                Assert.True(expectedResult[i].Id == actualResult[i].Id, errorMessagePrefix + " " + "Recipe is not returned properly.");
-            }
-        }
-
-        [Fact]
-        public async Task GetByIds_WithNonExistentIds_ShouldReturnCorrectResult()
-        {
-            var errorMessagePrefix = "RecipeService GetByIds() method does not work properly.";
-
-            // Arrange
-            MapperInitializer.InitializeMapper();
-            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipes(context);
-            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
-            var recipeService = this.GetRecipeService(recipeRepository, context);
-            var nonExistentIds = new List<string>()
-            {
-                Guid.NewGuid().ToString(),
-                Guid.NewGuid().ToString(),
-                Guid.NewGuid().ToString(),
-            };
-
-            // Act
-            var result = await recipeService.GetByIds(nonExistentIds).ToListAsync();
-
-            // Assert
-            Assert.True(result.Count == 0, errorMessagePrefix + " " + "Collection is not empty.");
-        }
-
-        [Fact]
         public async Task GetAllFilteredAsync_WithSpecifiedLifestyleAndAllergies_ShouldReturnCorrectResult()
         {
             var errorMessagePrefix = "RecipeService GetAllFilteredAsync() method does not work properly.";

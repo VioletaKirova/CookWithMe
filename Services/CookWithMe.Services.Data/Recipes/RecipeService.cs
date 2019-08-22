@@ -318,14 +318,6 @@
                 .To<RecipeServiceModel>();
         }
 
-        public IQueryable<RecipeServiceModel> GetByIds(IEnumerable<string> recipeIds)
-        {
-            return this.recipeRepository
-                .AllAsNoTracking()
-                .Where(x => recipeIds.Contains(x.Id))
-                .To<RecipeServiceModel>();
-        }
-
         public IQueryable<RecipeServiceModel> GetByUserId(string userId)
         {
             return this.recipeRepository

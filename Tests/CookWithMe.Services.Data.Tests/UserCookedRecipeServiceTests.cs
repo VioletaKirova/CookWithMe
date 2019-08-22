@@ -9,6 +9,8 @@
     using CookWithMe.Data.Repositories;
     using CookWithMe.Services.Data.Tests.Common;
     using CookWithMe.Services.Data.Users;
+    using CookWithMe.Services.Mapping;
+    using CookWithMe.Services.Models.Recipes;
 
     using Xunit;
 
@@ -279,9 +281,9 @@
         }
 
         [Fact]
-        public async Task GetRecipeIdsByUserIdAsync_WithExistentUserId_ShouldReturnCorrectResult()
+        public async Task GetRecipesByUserId_WithExistentUserId_ShouldReturnCorrectResult()
         {
-            var errorMessagePrefix = "UserCookedRecipeService GetRecipeIdsByUserIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserCookedRecipeService GetRecipesByUserId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -292,14 +294,15 @@
             var userId = context.Users.First(x => x.FullName == "User 1").Id;
 
             // Act
-            var actualResult = (await userCookedRecipeService
-                .GetRecipeIdsByUserIdAsync(userId))
+            var actualResult = userCookedRecipeService
+                .GetRecipesByUserId(userId)
                 .ToList();
             var expectedResult = userCookedRecipeRepository
                 .All()
                 .Where(x => x.UserId == userId)
                 .OrderByDescending(x => x.AddedOn)
-                .Select(x => x.RecipeId)
+                .Select(x => x.Recipe)
+                .To<RecipeServiceModel>()
                 .ToList();
 
             // Assert
@@ -307,14 +310,14 @@
 
             for (int i = 0; i < actualResult.Count(); i++)
             {
-                Assert.True(expectedResult[i] == actualResult[i], errorMessagePrefix + " " + "RecipeId is not returned properly.");
+                Assert.True(expectedResult[i].Id == actualResult[i].Id, errorMessagePrefix + " " + "Recipe is not returned properly.");
             }
         }
 
         [Fact]
-        public async Task GetRecipeIdsByUserIdAsync_WithNonExistentUserId_ShouldReturnEmptyCollection()
+        public async Task GetRecipesByUserId_WithNonExistentUserId_ShouldReturnEmptyCollection()
         {
-            var errorMessagePrefix = "UserCookedRecipeService GetRecipeIdsByUserIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserCookedRecipeService GetRecipesByUserId() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -325,8 +328,8 @@
             var nonExistentUserId = Guid.NewGuid().ToString();
 
             // Act
-            var actualResult = (await userCookedRecipeService
-                .GetRecipeIdsByUserIdAsync(nonExistentUserId))
+            var actualResult = userCookedRecipeService
+                .GetRecipesByUserId(nonExistentUserId)
                 .ToList()
                 .Count;
             var expectedResult = 0;

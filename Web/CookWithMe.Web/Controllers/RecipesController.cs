@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -29,6 +30,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Query.Internal;
 
     public class RecipesController : BaseController
     {
@@ -163,11 +165,8 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var favoriteRecipeIds = await this.userFavoriteRecipeService
-                .GetRecipeIdsByUserIdAsync(userId);
-
-            var favoriteRecipes = this.recipeService
-                .GetByIds(favoriteRecipeIds)
+            var favoriteRecipes = this.userFavoriteRecipeService
+                .GetRecipesByUserId(userId)
                 .To<RecipeFavoriteViewModel>();
 
             return this.View(await PaginatedList<RecipeFavoriteViewModel>
@@ -180,11 +179,8 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var cookedRecipeIds = await this.userCookedRecipeService
-                .GetRecipeIdsByUserIdAsync(userId);
-
-            var cookedRecipes = this.recipeService
-                .GetByIds(cookedRecipeIds)
+            var cookedRecipes = this.userCookedRecipeService
+                .GetRecipesByUserId(userId)
                 .To<RecipeCookedViewModel>();
 
             return this.View(await PaginatedList<RecipeCookedViewModel>

@@ -29,8 +29,6 @@
 
         IQueryable<RecipeServiceModel> GetByUserId(string userId);
 
-        IQueryable<RecipeServiceModel> GetByIds(IEnumerable<string> recipeIds);
-
         Task<IQueryable<RecipeServiceModel>> GetBySearchValuesAsync(RecipeBrowseServiceModel recipeSearchServiceModel);
     }
 }
