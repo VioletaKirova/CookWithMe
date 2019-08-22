@@ -92,7 +92,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
 
@@ -115,7 +115,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
             var recipe = new Recipe();
@@ -159,7 +159,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
             var user = new ApplicationUser();
@@ -203,7 +203,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
             var existentId = lifestyleRepository.All().First().Id;
@@ -228,7 +228,7 @@
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
-            var nonExistentId = 10;
+            var nonExistentId = 10000;
 
             // Act
 
@@ -247,7 +247,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var lifestyleRepository = new EfRepository<Lifestyle>(context);
             var lifestyleService = new LifestyleService(lifestyleRepository);
             var existentType = "Vegetarian";
@@ -291,7 +291,7 @@
             };
         }
 
-        private async Task SeedData(ApplicationDbContext context)
+        private async Task SeedDataAsync(ApplicationDbContext context)
         {
             context.AddRange(this.GetDummyData());
             await context.SaveChangesAsync();

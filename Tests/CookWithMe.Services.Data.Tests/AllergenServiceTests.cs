@@ -90,7 +90,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var allergenRepository = new EfRepository<Allergen>(context);
             var allergenService = new AllergenService(allergenRepository);
 
@@ -113,7 +113,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var allergenRepository = new EfRepository<Allergen>(context);
             var allergenService = new AllergenService(allergenRepository);
             var recipe = new Recipe();
@@ -157,7 +157,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var allergenRepository = new EfRepository<Allergen>(context);
             var allergenService = new AllergenService(allergenRepository);
             var user = new ApplicationUser();
@@ -201,7 +201,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var allergenRepository = new EfRepository<Allergen>(context);
             var allergenService = new AllergenService(allergenRepository);
             var existentNames = new string[] { "Milk", "Eggs" };
@@ -227,7 +227,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var allergenRepository = new EfRepository<Allergen>(context);
             var allergenService = new AllergenService(allergenRepository);
             var existentAndNonExistentNames = new string[] { "Milk", "NonExistent" };
@@ -250,7 +250,7 @@
             };
         }
 
-        private async Task SeedData(ApplicationDbContext context)
+        private async Task SeedDataAsync(ApplicationDbContext context)
         {
             context.AddRange(this.GetDummyData());
             await context.SaveChangesAsync();

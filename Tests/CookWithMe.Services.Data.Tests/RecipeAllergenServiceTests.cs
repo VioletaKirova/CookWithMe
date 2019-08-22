@@ -164,7 +164,7 @@
             var recipeAllergenRepository = new EfRepository<RecipeAllergen>(context);
             var recipeAllergenService = new RecipeAllergenService(recipeAllergenRepository);
             await this.SeedDataAsync(context);
-            var nonExistentAllergenIds = new List<int>() { 100, 101 };
+            var nonExistentAllergenIds = new List<int>() { 10000, 10001 };
 
             // Act
             var actualResult = (await recipeAllergenService

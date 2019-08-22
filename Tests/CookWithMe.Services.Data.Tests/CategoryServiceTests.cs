@@ -89,7 +89,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
 
@@ -112,7 +112,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
             var existentId = categoryRepository.All().First().Id;
@@ -137,7 +137,7 @@
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
-            var nonExistentId = 10;
+            var nonExistentId = 10000;
 
             // Act
 
@@ -218,7 +218,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
             var categoryServiceModel = categoryRepository.All().First().To<CategoryServiceModel>();
@@ -239,7 +239,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
             var categoryServiceModel = categoryRepository.All().First().To<CategoryServiceModel>();
@@ -269,7 +269,7 @@
             var categoryService = new CategoryService(categoryRepository);
             var categoryServiceModel = new CategoryServiceModel
             {
-                Id = 10,
+                Id = 10000,
                 Title = "NonExistent",
             };
 
@@ -290,7 +290,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
             var existentId = categoryRepository.All().First().Id;
@@ -310,7 +310,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
             var existentId = categoryRepository.All().First().Id;
@@ -333,7 +333,7 @@
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
-            var nonExistentId = 10;
+            var nonExistentId = 10000;
 
             // Act
 
@@ -352,7 +352,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
             var recipe = new Recipe();
@@ -396,7 +396,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
 
@@ -419,7 +419,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var categoryRepository = new EfDeletableEntityRepository<Category>(context);
             var categoryService = new CategoryService(categoryRepository);
             var existentTitle = "Salads";
@@ -463,7 +463,7 @@
             };
         }
 
-        private async Task SeedData(ApplicationDbContext context)
+        private async Task SeedDataAsync(ApplicationDbContext context)
         {
             context.AddRange(this.GetDummyData());
             await context.SaveChangesAsync();

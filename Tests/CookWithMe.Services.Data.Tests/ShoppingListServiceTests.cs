@@ -1,7 +1,6 @@
 ﻿namespace CookWithMe.Services.Data.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -27,11 +26,10 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var shoppingListRepository = new EfDeletableEntityRepository<ShoppingList>(context);
             var shoppingListService = new ShoppingListService(shoppingListRepository);
-            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
-            var recipeId = recipeRepository.All().First().Id;
+            var recipeId = context.Recipes.First().Id;
 
             // Act
             var actualResult = await shoppingListService.GetIdByRecipeIdAsync(recipeId);
@@ -68,7 +66,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var shoppingListRepository = new EfDeletableEntityRepository<ShoppingList>(context);
             var shoppingListService = new ShoppingListService(shoppingListRepository);
             var existentId = shoppingListRepository.All().First().Id;
@@ -105,61 +103,6 @@
             });
         }
 
-        //[Fact]
-        //public async Task GetByIds_WithExistentIds_ShouldReturnCorrectResult()
-        //{
-        //    string errorMessagePrefix = "ShoppingListService GetByIds() method does not work properly.";
-
-        //    // Arrange
-        //    MapperInitializer.InitializeMapper();
-        //    var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-        //    await this.SeedData(context);
-        //    var shoppingListRepository = new EfDeletableEntityRepository<ShoppingList>(context);
-        //    var shoppingListService = new ShoppingListService(shoppingListRepository);
-        //    var existentIds = await shoppingListRepository
-        //        .All()
-        //        .Take(2)
-        //        .Select(x => x.Id)
-        //        .ToListAsync();
-
-        //    // Act
-        //    var actualResult = (await shoppingListService.GetByIds(existentIds)).ToList();
-        //    var expectedResult = await shoppingListRepository
-        //        .All()
-        //        .Where(x => existentIds.Contains(x.Id))
-        //        .ToListAsync();
-
-        //    // Assert
-        //    for (int i = 0; i < actualResult.Count; i++)
-        //    {
-        //        Assert.True(expectedResult[i].Id == actualResult[i].Id, errorMessagePrefix + " " + "Id is not returned properly.");
-        //        Assert.True(expectedResult[i].Ingredients == actualResult[i].Ingredients, errorMessagePrefix + " " + "Ingredients are not returned properly.");
-        //        Assert.True(expectedResult[i].RecipeId == actualResult[i].RecipeId, errorMessagePrefix + " " + "RecipeId is not returned properly.");
-        //    }
-        //}
-
-        //[Fact]
-        //public async Task GetByIds_WithExistentIdAndNonExistentId_ShouldThrowArgumentNullException()
-        //{
-        //    // Arrange
-        //    MapperInitializer.InitializeMapper();
-        //    var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-        //    await this.SeedData(context);
-        //    var shoppingListRepository = new EfDeletableEntityRepository<ShoppingList>(context);
-        //    var shoppingListService = new ShoppingListService(shoppingListRepository);
-        //    var existentId = shoppingListRepository.All().First().Id;
-        //    var nonExistentId = Guid.NewGuid().ToString();
-        //    var ids = new List<string> { existentId, nonExistentId };
-
-        //    // Act
-
-        //    // Assert
-        //    await Assert.ThrowsAsync<ArgumentNullException>(async () =>
-        //    {
-        //        await shoppingListService.GetByIds(ids);
-        //    });
-        //}
-
         [Fact]
         public async Task EditAsync_WithCorrectData_ShouldSuccessfullyEdit()
         {
@@ -168,7 +111,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var shoppingListRepository = new EfDeletableEntityRepository<ShoppingList>(context);
             var shoppingListService = new ShoppingListService(shoppingListRepository);
             var shoppingListServiceModel = shoppingListRepository
@@ -216,7 +159,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var shoppingListRepository = new EfDeletableEntityRepository<ShoppingList>(context);
             var shoppingListService = new ShoppingListService(shoppingListRepository);
             var existentId = shoppingListRepository.All().First().Id;
@@ -236,7 +179,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var shoppingListRepository = new EfDeletableEntityRepository<ShoppingList>(context);
             var shoppingListService = new ShoppingListService(shoppingListRepository);
             var existentId = shoppingListRepository.All().First().Id;
@@ -270,7 +213,7 @@
             });
         }
 
-        private async Task SeedData(ApplicationDbContext context)
+        private async Task SeedDataAsync(ApplicationDbContext context)
         {
             for (int i = 0; i < 3; i++)
             {

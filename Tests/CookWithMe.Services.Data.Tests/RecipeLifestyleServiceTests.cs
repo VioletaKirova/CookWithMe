@@ -163,7 +163,7 @@
             var recipeLifestyleRepository = new EfRepository<RecipeLifestyle>(context);
             var recipeLifestyleService = new RecipeLifestyleService(recipeLifestyleRepository);
             await this.SeedDataAsync(context);
-            var nonExistentLifestyleId = 100;
+            var nonExistentLifestyleId = 10000;
 
             // Act
             var actualResult = (await recipeLifestyleService

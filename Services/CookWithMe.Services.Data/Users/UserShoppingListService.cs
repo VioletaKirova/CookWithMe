@@ -7,6 +7,8 @@
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
+    using CookWithMe.Services.Mapping;
+    using CookWithMe.Services.Models.ShoppingLists;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -51,13 +53,14 @@
             return result > 0;
         }
 
-        public async Task<IEnumerable<string>> GetShoppingListIdsByUserIdAsync(string userId)
+        public async Task<IEnumerable<ShoppingListServiceModel>> GetShoppingListsByUserIdAsync(string userId)
         {
             return await this.userShoppingListRepository
                 .AllAsNoTracking()
                 .Where(x => x.UserId == userId)
-                .OrderByDescending(x => x.AddedOn)
-                .Select(x => x.ShoppingListId)
+                .OrderBy(x => x.AddedOn)
+                .Select(x => x.ShoppingList)
+                .To<ShoppingListServiceModel>()
                 .ToListAsync();
         }
 

@@ -16,7 +16,7 @@
 
     public class UserService : IUserService
     {
-        private const string InvalidUserIdErrorMessage = "User with ID: {0} doesn't exist.";
+        private const string InvalidUserIdErrorMessage = "User with ID: {0} does not exist.";
 
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;

@@ -26,11 +26,10 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var nutritionalValueRepository = new EfDeletableEntityRepository<NutritionalValue>(context);
             var nutritionalValueService = new NutritionalValueService(nutritionalValueRepository);
-            var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
-            var recipeId = recipeRepository.All().First().Id;
+            var recipeId = context.Recipes.First().Id;
 
             // Act
             var actualResult = await nutritionalValueService.GetIdByRecipeIdAsync(recipeId);
@@ -67,7 +66,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var nutritionalValueRepository = new EfDeletableEntityRepository<NutritionalValue>(context);
             var nutritionalValueService = new NutritionalValueService(nutritionalValueRepository);
             var existentId = nutritionalValueRepository.All().First().Id;
@@ -119,7 +118,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var nutritionalValueRepository = new EfDeletableEntityRepository<NutritionalValue>(context);
             var nutritionalValueService = new NutritionalValueService(nutritionalValueRepository);
             var nutritionalValueServiceModel = nutritionalValueRepository
@@ -181,7 +180,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var nutritionalValueRepository = new EfDeletableEntityRepository<NutritionalValue>(context);
             var nutritionalValueService = new NutritionalValueService(nutritionalValueRepository);
             var existentId = nutritionalValueRepository.All().First().Id;
@@ -201,7 +200,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var nutritionalValueRepository = new EfDeletableEntityRepository<NutritionalValue>(context);
             var nutritionalValueService = new NutritionalValueService(nutritionalValueRepository);
             var existentId = nutritionalValueRepository.All().First().Id;
@@ -235,7 +234,7 @@
             });
         }
 
-        private async Task SeedData(ApplicationDbContext context)
+        private async Task SeedDataAsync(ApplicationDbContext context)
         {
             var recipe = new Recipe
             {

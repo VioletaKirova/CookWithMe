@@ -14,8 +14,7 @@
 
     public class ShoppingListService : IShoppingListService
     {
-        private const string InvalidShoppingListIdsErrorMessage = "Not all IDs are existent.";
-        private const string InvalidShoppingListIdErrorMessage = "ShoppingList with ID: {0} doesn't exist.";
+        private const string InvalidShoppingListIdErrorMessage = "ShoppingList with ID: {0} does not exist.";
         private const string InvalidRecipeIdErrorMessage = "ShoppingList with RecipeId: {0} does not exist.";
 
         private readonly IDeletableEntityRepository<ShoppingList> shoppingListRepository;
@@ -70,23 +69,6 @@
             }
 
             return shoppingList.To<ShoppingListServiceModel>();
-        }
-
-        public async Task<IEnumerable<ShoppingListServiceModel>> GetByIds(IEnumerable<string> ids)
-        {
-            var shoppingLists = await this.shoppingListRepository
-                .AllAsNoTracking()
-                .Where(x => ids.Contains(x.Id))
-                .To<ShoppingListServiceModel>()
-                .ToListAsync();
-
-            if (shoppingLists.Count() != ids.Count())
-            {
-                throw new ArgumentNullException(
-                    InvalidShoppingListIdsErrorMessage);
-            }
-
-            return shoppingLists;
         }
 
         public async Task<string> GetIdByRecipeIdAsync(string recipeId)

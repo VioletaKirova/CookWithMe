@@ -10,7 +10,7 @@
 
     public class RecipeServiceTestsSeeder
     {
-        public async Task SeedRecipe(ApplicationDbContext context)
+        public async Task SeedRecipeAsync(ApplicationDbContext context)
         {
             var recipe = new Recipe()
             {
@@ -47,7 +47,7 @@
             await context.SaveChangesAsync();
         }
 
-        public async Task SeedRecipes(ApplicationDbContext context)
+        public async Task SeedRecipesAsync(ApplicationDbContext context)
         {
             await context.Categories.AddAsync(new Category() { Title = "Category 1" });
             await context.Categories.AddAsync(new Category() { Title = "Category 2" });
@@ -155,7 +155,7 @@
             await context.SaveChangesAsync();
         }
 
-        public async Task SeedDataForEditAsyncMethod(ApplicationDbContext context)
+        public async Task SeedDataForEditAsyncMethodAsync(ApplicationDbContext context)
         {
             var recipe = new Recipe()
             {
@@ -195,7 +195,7 @@
             await context.SaveChangesAsync();
         }
 
-        public async Task SeedDataForCreateAsyncMethod(ApplicationDbContext context)
+        public async Task SeedDataForCreateAsyncMethodAsync(ApplicationDbContext context)
         {
             await context.Users.AddAsync(new ApplicationUser());
             await context.Categories.AddAsync(new Category() { Title = "CategoryTitle" });
@@ -204,7 +204,7 @@
             await context.SaveChangesAsync();
         }
 
-        public async Task SeedDataForGetAllFilteredAsyncMethodWithNoSpecifiedLifestyleAndNoAllergies(ApplicationDbContext context)
+        public async Task SeedDataForGetAllFilteredAsyncMethodWithNoSpecifiedLifestyleAndNoAllergiesAsync(ApplicationDbContext context)
         {
             var user = new ApplicationUser();
             await context.Users.AddAsync(user);
@@ -212,10 +212,10 @@
             await context.Allergens.AddAsync(new Allergen() { Name = "Milk" });
             await context.SaveChangesAsync();
 
-            await this.SeedRecipesForGetAllFilteredAsyncMethod(context);
+            await this.SeedRecipesForGetAllFilteredAsyncMethodAsync(context);
         }
 
-        public async Task SeedDataForGetAllFilteredAsyncMethodWithSpecifiedAllergiesAndNoLifestyle(ApplicationDbContext context)
+        public async Task SeedDataForGetAllFilteredAsyncMethodWithSpecifiedAllergiesAndNoLifestyleAsync(ApplicationDbContext context)
         {
             var user = new ApplicationUser();
             user.Allergies.Add(new UserAllergen() { Allergen = new Allergen() { Name = "Milk" } });
@@ -223,30 +223,30 @@
             await context.Lifestyles.AddAsync(new Lifestyle() { Type = "Vegetarian" });
             await context.SaveChangesAsync();
 
-            await this.SeedRecipesForGetAllFilteredAsyncMethod(context);
+            await this.SeedRecipesForGetAllFilteredAsyncMethodAsync(context);
         }
 
-        public async Task SeedDataForGetAllFilteredAsyncMethodWithSpecifiedLifestyleAndNoAllergies(ApplicationDbContext context)
+        public async Task SeedDataForGetAllFilteredAsyncMethodWithSpecifiedLifestyleAndNoAllergiesAsync(ApplicationDbContext context)
         {
             var user = new ApplicationUser() { Lifestyle = new Lifestyle() { Type = "Vegetarian" }, };
             await context.Users.AddAsync(user);
             await context.Allergens.AddAsync(new Allergen() { Name = "Milk" });
             await context.SaveChangesAsync();
 
-            await this.SeedRecipesForGetAllFilteredAsyncMethod(context);
+            await this.SeedRecipesForGetAllFilteredAsyncMethodAsync(context);
         }
 
-        public async Task SeedDataForGetAllFilteredAsyncMethodWithSpecifiedLifestyleAndAllergies(ApplicationDbContext context)
+        public async Task SeedDataForGetAllFilteredAsyncMethodWithSpecifiedLifestyleAndAllergiesAsync(ApplicationDbContext context)
         {
             var user = new ApplicationUser() { Lifestyle = new Lifestyle() { Type = "Vegetarian" }, };
             user.Allergies.Add(new UserAllergen() { Allergen = new Allergen() { Name = "Milk" } });
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
 
-            await this.SeedRecipesForGetAllFilteredAsyncMethod(context);
+            await this.SeedRecipesForGetAllFilteredAsyncMethodAsync(context);
         }
 
-        public async Task SeedRecipesForGetAllFilteredAsyncMethod(ApplicationDbContext context)
+        public async Task SeedRecipesForGetAllFilteredAsyncMethodAsync(ApplicationDbContext context)
         {
             var recipes = new List<Recipe>()
             {
@@ -346,7 +346,7 @@
             await context.SaveChangesAsync();
         }
 
-        public async Task SeedDataForGetBySearchValuesAsyncMethod(ApplicationDbContext context)
+        public async Task SeedDataForGetBySearchValuesAsyncMethodAsync(ApplicationDbContext context)
         {
             var categories = new List<Category>()
             {

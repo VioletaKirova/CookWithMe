@@ -9,6 +9,8 @@
     using CookWithMe.Data.Repositories;
     using CookWithMe.Services.Data.Tests.Common;
     using CookWithMe.Services.Data.Users;
+    using CookWithMe.Services.Mapping;
+    using CookWithMe.Services.Models.ShoppingLists;
 
     using Xunit;
 
@@ -279,9 +281,9 @@
         }
 
         [Fact]
-        public async Task GetShoppingListIdsByUserIdAsync_WithExistentUserId_ShouldReturnCorrectResult()
+        public async Task GetShoppingListsByUserIdAsync_WithExistentUserId_ShouldReturnCorrectResult()
         {
-            var errorMessagePrefix = "UserShoppingListService GetShoppingListIdsByUserIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserShoppingListService GetShoppingListsByUserIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -293,13 +295,14 @@
 
             // Act
             var actualResult = (await userShoppingListService
-                .GetShoppingListIdsByUserIdAsync(userId))
+                .GetShoppingListsByUserIdAsync(userId))
                 .ToList();
             var expectedResult = userShoppingListRepository
                 .All()
                 .Where(x => x.UserId == userId)
-                .OrderByDescending(x => x.AddedOn)
-                .Select(x => x.ShoppingListId)
+                .OrderBy(x => x.AddedOn)
+                .Select(x => x.ShoppingList)
+                .To<ShoppingListServiceModel>()
                 .ToList();
 
             // Assert
@@ -307,14 +310,14 @@
 
             for (int i = 0; i < actualResult.Count(); i++)
             {
-                Assert.True(expectedResult[i] == actualResult[i], errorMessagePrefix + " " + "ShoppingListId is not returned properly.");
+                Assert.True(expectedResult[i].Id == actualResult[i].Id, errorMessagePrefix + " " + "ShoppingList is not returned properly.");
             }
         }
 
         [Fact]
-        public async Task GetShoppingListIdsByUserIdAsync_WithNonExistentUserId_ShouldReturnEmptyCollection()
+        public async Task GetShoppingListsByUserIdAsync_WithNonExistentUserId_ShouldReturnEmptyCollection()
         {
-            var errorMessagePrefix = "UserShoppingListService GetShoppingListIdsByUserIdAsync() method does not work properly.";
+            var errorMessagePrefix = "UserShoppingListService GetShoppingListsByUserIdAsync() method does not work properly.";
 
             // Arrange
             MapperInitializer.InitializeMapper();
@@ -326,7 +329,7 @@
 
             // Act
             var actualResult = (await userShoppingListService
-                .GetShoppingListIdsByUserIdAsync(nonExistentUserId))
+                .GetShoppingListsByUserIdAsync(nonExistentUserId))
                 .ToList()
                 .Count;
             var expectedResult = 0;

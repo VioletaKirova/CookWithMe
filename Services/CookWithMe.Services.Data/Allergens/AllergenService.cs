@@ -12,7 +12,7 @@
 
     public class AllergenService : IAllergenService
     {
-        private const string InvalidAllergenIdsErrorMessage = "Not all IDs are existent.";
+        private const string InvalidAllergenIdsErrorMessage = "Not all Allergen IDs are existent.";
         private const string InvalidAllergenNameErrorMessage = "Allergen with Name: {0} does not exist.";
 
         private readonly IRepository<Allergen> allergenRepository;

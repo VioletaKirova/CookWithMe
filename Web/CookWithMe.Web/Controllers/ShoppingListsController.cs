@@ -14,7 +14,6 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     [Authorize]
     public class ShoppingListsController : BaseController
@@ -98,9 +97,8 @@
         public async Task<IActionResult> All()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var shoppingListIds = await this.userShoppingListService.GetShoppingListIdsByUserIdAsync(userId);
-            var shoppingLists = (await this.shoppingListService
-                .GetByIds(shoppingListIds))
+            var shoppingLists = (await this.userShoppingListService
+                .GetShoppingListsByUserIdAsync(userId))
                 .To<ShoppingListAllViewModel>();
 
             return this.View(shoppingLists);

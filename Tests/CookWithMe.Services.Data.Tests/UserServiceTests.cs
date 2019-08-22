@@ -37,7 +37,7 @@
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userService = this.GetUserService(userRepository, context);
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var userId = context.Users.First().Id;
             var userAdditionalInfoServiceModel = new UserAdditionalInfoServiceModel()
             {
@@ -67,7 +67,7 @@
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userService = this.GetUserService(userRepository, context);
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var userId = context.Users.First().Id;
             var userAdditionalInfoServiceModel = new UserAdditionalInfoServiceModel()
             {
@@ -123,7 +123,7 @@
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userService = this.GetUserService(userRepository, context);
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var userId = context.Users.First().Id;
             var userAdditionalInfoServiceModel = new UserAdditionalInfoServiceModel()
             {
@@ -154,7 +154,7 @@
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userService = this.GetUserService(userRepository, context);
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var userId = context.Users.First().Id;
             var userAdditionalInfoServiceModel = new UserAdditionalInfoServiceModel()
             {
@@ -590,7 +590,7 @@
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userService = this.GetUserService(userRepository, context);
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var user = userRepository.All().First();
             user.FullName = "FullName";
             user.Biography = "Biography";
@@ -665,7 +665,7 @@
             await context.SaveChangesAsync();
         }
 
-        private async Task SeedData(ApplicationDbContext context)
+        private async Task SeedDataAsync(ApplicationDbContext context)
         {
             var lifestyle = new Lifestyle();
             await context.Lifestyles.AddAsync(lifestyle);

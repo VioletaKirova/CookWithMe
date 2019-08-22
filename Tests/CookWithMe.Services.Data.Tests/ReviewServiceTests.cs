@@ -30,7 +30,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var reviewRepository = new EfDeletableEntityRepository<Review>(context);
             var reviewService = this.GetReviewService(reviewRepository);
             var reviewServiceModel = new ReviewServiceModel
@@ -56,7 +56,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var reviewRepository = new EfDeletableEntityRepository<Review>(context);
             var reviewService = this.GetReviewService(reviewRepository);
             var reviewServiceModel = new ReviewServiceModel
@@ -85,7 +85,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var reviewRepository = new EfDeletableEntityRepository<Review>(context);
             var reviewService = this.GetReviewService(reviewRepository);
             var reviewServiceModel = new ReviewServiceModel
@@ -113,7 +113,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var reviewRepository = new EfDeletableEntityRepository<Review>(context);
             var reviewService = this.GetReviewService(reviewRepository);
             var review = new Review
@@ -142,7 +142,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var reviewRepository = new EfDeletableEntityRepository<Review>(context);
             var reviewService = this.GetReviewService(reviewRepository);
             var review = new Review
@@ -193,7 +193,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var reviewRepository = new EfDeletableEntityRepository<Review>(context);
             var reviewService = this.GetReviewService(reviewRepository);
             var review = new Review
@@ -249,7 +249,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var reviewRepository = new EfDeletableEntityRepository<Review>(context);
             var reviewService = this.GetReviewService(reviewRepository);
             var review = new Review
@@ -291,7 +291,7 @@
             // Arrange
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            await this.SeedData(context);
+            await this.SeedDataAsync(context);
             var reviewRepository = new EfDeletableEntityRepository<Review>(context);
             var reviewService = this.GetReviewService(reviewRepository);
             var review = new Review
@@ -316,7 +316,7 @@
             Assert.True(expectedResult == actualResult, errorMessagePrefix + " " + "Collections count mismatch.");
         }
 
-        private async Task SeedData(ApplicationDbContext context)
+        private async Task SeedDataAsync(ApplicationDbContext context)
         {
             await context.Recipes.AddAsync(new Recipe());
             await context.Users.AddAsync(new ApplicationUser());

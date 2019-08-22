@@ -45,7 +45,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForCreateAsyncMethod(context);
+            await seeder.SeedDataForCreateAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeServiceModel = new RecipeServiceModel
@@ -96,7 +96,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForCreateAsyncMethod(context);
+            await seeder.SeedDataForCreateAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeServiceModel = new RecipeServiceModel
@@ -161,7 +161,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForCreateAsyncMethod(context);
+            await seeder.SeedDataForCreateAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeServiceModel = new RecipeServiceModel
@@ -211,7 +211,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForCreateAsyncMethod(context);
+            await seeder.SeedDataForCreateAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeServiceModel = new RecipeServiceModel
@@ -257,7 +257,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForEditAsyncMethod(context);
+            await seeder.SeedDataForEditAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeServiceModel = recipeRepository.All().First().To<RecipeServiceModel>();
@@ -304,7 +304,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForEditAsyncMethod(context);
+            await seeder.SeedDataForEditAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeServiceModel = recipeRepository.All().First().To<RecipeServiceModel>();
@@ -384,7 +384,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForEditAsyncMethod(context);
+            await seeder.SeedDataForEditAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeServiceModel = recipeRepository.All().First().To<RecipeServiceModel>();
@@ -431,7 +431,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForEditAsyncMethod(context);
+            await seeder.SeedDataForEditAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeServiceModel = recipeRepository.All().First().To<RecipeServiceModel>();
@@ -474,7 +474,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipe(context);
+            await seeder.SeedRecipeAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var existentId = recipeRepository.All().First().Id;
@@ -495,7 +495,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipe(context);
+            await seeder.SeedRecipeAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var existentId = recipeRepository.All().First().Id;
@@ -538,7 +538,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipe(context);
+            await seeder.SeedRecipeAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var existentId = recipeRepository.All().First().Id;
@@ -595,7 +595,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipe(context);
+            await seeder.SeedRecipeAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeId = recipeRepository.All().First().Id;
@@ -615,7 +615,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipe(context);
+            await seeder.SeedRecipeAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var nonExistentRecipeId = Guid.NewGuid().ToString();
@@ -639,7 +639,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipe(context);
+            await seeder.SeedRecipeAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeId = recipeRepository.All().First().Id;
@@ -659,7 +659,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipe(context);
+            await seeder.SeedRecipeAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var nonExistentRecipeId = Guid.NewGuid().ToString();
@@ -683,7 +683,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipe(context);
+            await seeder.SeedRecipeAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var review = new Review();
@@ -731,7 +731,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipes(context);
+            await seeder.SeedRecipesAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var categoryId = context.Categories.First(x => x.Title == "Category 1").Id;
@@ -763,7 +763,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipes(context);
+            await seeder.SeedRecipesAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var categoryId = context.Categories.First(x => x.Title == "Empty category").Id;
@@ -790,7 +790,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipes(context);
+            await seeder.SeedRecipesAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var userId = context.Users.First(x => x.Biography == "User with 2 recipes").Id;
@@ -822,7 +822,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedRecipes(context);
+            await seeder.SeedRecipesAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var userId = context.Users.First(x => x.Biography == "User with 0 recipes").Id;
@@ -843,7 +843,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetAllFilteredAsyncMethodWithSpecifiedLifestyleAndAllergies(context);
+            await seeder.SeedDataForGetAllFilteredAsyncMethodWithSpecifiedLifestyleAndAllergiesAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeServiceForGetAllFilteredAsyncMethod(recipeRepository, context);
             var userId = context.Users.First().Id;
@@ -868,7 +868,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetAllFilteredAsyncMethodWithSpecifiedLifestyleAndNoAllergies(context);
+            await seeder.SeedDataForGetAllFilteredAsyncMethodWithSpecifiedLifestyleAndNoAllergiesAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeServiceForGetAllFilteredAsyncMethod(recipeRepository, context);
             var userId = context.Users.First().Id;
@@ -901,7 +901,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetAllFilteredAsyncMethodWithSpecifiedAllergiesAndNoLifestyle(context);
+            await seeder.SeedDataForGetAllFilteredAsyncMethodWithSpecifiedAllergiesAndNoLifestyleAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeServiceForGetAllFilteredAsyncMethod(recipeRepository, context);
             var userId = context.Users.First().Id;
@@ -934,7 +934,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetAllFilteredAsyncMethodWithNoSpecifiedLifestyleAndNoAllergies(context);
+            await seeder.SeedDataForGetAllFilteredAsyncMethodWithNoSpecifiedLifestyleAndNoAllergiesAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeServiceForGetAllFilteredAsyncMethod(recipeRepository, context);
             var userId = context.Users.First().Id;
@@ -965,7 +965,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1005,7 +1005,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1046,7 +1046,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1088,7 +1088,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1129,7 +1129,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1172,7 +1172,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1217,7 +1217,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1255,7 +1255,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1293,7 +1293,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1331,7 +1331,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1372,7 +1372,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1415,7 +1415,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1453,7 +1453,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()
@@ -1497,7 +1497,7 @@
             MapperInitializer.InitializeMapper();
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var seeder = new RecipeServiceTestsSeeder();
-            await seeder.SeedDataForGetBySearchValuesAsyncMethod(context);
+            await seeder.SeedDataForGetBySearchValuesAsyncMethodAsync(context);
             var recipeRepository = new EfDeletableEntityRepository<Recipe>(context);
             var recipeService = this.GetRecipeService(recipeRepository, context);
             var recipeBrowseServiceModel = new RecipeBrowseServiceModel()

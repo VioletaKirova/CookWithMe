@@ -19,7 +19,7 @@
 
     public class RecipeService : IRecipeService
     {
-        private const string InvalidRecipeIdErrorMessage = "Recipe with ID: {0} doesn't exist.";
+        private const string InvalidRecipeIdErrorMessage = "Recipe with ID: {0} does not exist.";
         private const string InvalidRecipePropertyErrorMessage = "One or more required properties are null.";
         private const string EmptyLifestylesCollectionErrorMessage = "Lifestyles collection is empty.";
 
