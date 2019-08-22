@@ -9,6 +9,7 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Lifestyles;
     using CookWithMe.Services.Models.Users;
+    using CookWithMe.Web.ViewModels.Users.AdditionalInfo;
 
     using Microsoft.AspNetCore.Http;
 
@@ -38,6 +39,8 @@
         [Display(Name = "Allergies")]
         [MaxLength(200, ErrorMessage = AttributesErrorMessages.MaxLengthErrorMessage)]
         public IEnumerable<string> AllergenNames { get; set; }
+
+        public UserAdditionalInfoViewModel UserAdditionalInfoViewData { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

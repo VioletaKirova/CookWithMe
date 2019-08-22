@@ -10,6 +10,7 @@
     using CookWithMe.Services.Models.Categories;
     using CookWithMe.Services.Models.Lifestyles;
     using CookWithMe.Services.Models.Recipes;
+    using CookWithMe.Web.ViewModels.Recipes.ViewData;
 
     public class RecipeBrowseInputModel : IMapTo<RecipeBrowseServiceModel>, IHaveCustomMappings
     {
@@ -52,6 +53,8 @@
         [Display(Name = "Allergens")]
         [MaxLength(200, ErrorMessage = AttributesErrorMessages.MaxLengthErrorMessage)]
         public IEnumerable<string> AllergenNames { get; set; }
+
+        public RecipeViewDataModel RecipeViewData { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

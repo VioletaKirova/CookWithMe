@@ -9,6 +9,8 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Categories;
     using CookWithMe.Services.Models.Recipes;
+    using CookWithMe.Web.ViewModels.Recipes.ViewData;
+
     using Microsoft.AspNetCore.Http;
 
     public class RecipeCreateInputModel : IMapTo<RecipeServiceModel>, IHaveCustomMappings
@@ -82,6 +84,8 @@
 
         [Display(Name = "Nutritional Value")]
         public RecipeCreateNutritionalValueInputModel NutritionalValue { get; set; }
+
+        public RecipeViewDataModel RecipeViewData { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

@@ -59,10 +59,12 @@
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            // TODO: Refactor this
-            this.ViewData["Model"] = await this.GetRecipeViewDataModel();
+            var recipeCreateInputModel = new RecipeCreateInputModel()
+            {
+                RecipeViewData = await this.GetRecipeViewDataModelAsync(),
+            };
 
-            return this.View();
+            return this.View(recipeCreateInputModel);
         }
 
         [HttpPost]
@@ -70,10 +72,9 @@
         {
             if (!this.ModelState.IsValid)
             {
-                // TODO: Refactor this
-                this.ViewData["Model"] = await this.GetRecipeViewDataModel();
+                recipeCreateInputModel.RecipeViewData = await this.GetRecipeViewDataModelAsync();
 
-                return this.View();
+                return this.View(recipeCreateInputModel);
             }
 
             var recipeServiceModel = recipeCreateInputModel.To<RecipeServiceModel>();
@@ -122,9 +123,7 @@
             var recipeServiceModel = await this.recipeService.GetByIdAsync(id);
             var recipeEditInputModel = recipeServiceModel.To<RecipeEditInputModel>();
 
-            // TODO: Refactor this
-            this.ViewData["Model"] = await this.GetRecipeViewDataModel();
-
+            recipeEditInputModel.RecipeViewData = await this.GetRecipeViewDataModelAsync();
             recipeEditInputModel.NeededTime = this.enumParseService
                 .GetEnumDescription(recipeEditInputModel.NeededTime, typeof(Period));
 
@@ -152,10 +151,9 @@
         {
             if (!this.ModelState.IsValid)
             {
-                // TODO: Refactor this
-                this.ViewData["Model"] = await this.GetRecipeViewDataModel();
-
-                recipeEditInputModel.NeededTime = this.enumParseService.GetEnumDescription(recipeEditInputModel.NeededTime, typeof(Period));
+                recipeEditInputModel.RecipeViewData = await this.GetRecipeViewDataModelAsync();
+                recipeEditInputModel.NeededTime = this.enumParseService
+                    .GetEnumDescription(recipeEditInputModel.NeededTime, typeof(Period));
 
                 return this.View(recipeEditInputModel);
             }
@@ -208,9 +206,7 @@
             var recipeServiceModel = await this.recipeService.GetByIdAsync(id);
             var recipeDeleteViewModel = recipeServiceModel.To<RecipeDeleteViewModel>();
 
-            // TODO: Refactor this
-            this.ViewData["Model"] = await this.GetRecipeViewDataModel();
-
+            recipeDeleteViewModel.RecipeViewData = await this.GetRecipeViewDataModelAsync();
             recipeDeleteViewModel.NeededTime = this.enumParseService
                 .GetEnumDescription(recipeDeleteViewModel.NeededTime, typeof(Period));
 
@@ -264,7 +260,7 @@
                 .CreateAsync(allRecipesByAdmin, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
 
-        private async Task<RecipeViewDataModel> GetRecipeViewDataModel()
+        private async Task<RecipeViewDataModel> GetRecipeViewDataModelAsync()
         {
             var categoryTitles = await this.categoryService.GetAllTitlesAsync();
             var allergenNames = await this.allergenService.GetAllNamesAsync();

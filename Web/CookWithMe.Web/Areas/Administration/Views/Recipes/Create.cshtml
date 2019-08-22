@@ -39,7 +39,7 @@
             <div class="select form-group">
                 <h4>Category</h4>
                 <select asp-for="CategoryTitle" data-placeholder="Choose Category" class="chosen-select-no-single form-control">
-                    @foreach (var categoryTitle in ((RecipeViewDataModel)ViewData["Model"]).CategoryTitles)
+                    @foreach (var categoryTitle in Model.RecipeViewData.CategoryTitles)
                     {
                         <option value="@categoryTitle">@categoryTitle</option>
                     }
@@ -104,7 +104,7 @@
                         <td class="label"><label>Needed Time</label></td>
                         <td>
                             <select asp-for="NeededTime" data-placeholder="Needed Time" class="chosen-select-no-single form-control">
-                                @foreach (var periodValue in ((RecipeViewDataModel)ViewData["Model"]).PeriodValues)
+                                @foreach (var periodValue in Model.RecipeViewData.PeriodValues)
                                 {
                                     <option value="@periodValue">@periodValue</option>
                                 }
@@ -116,7 +116,7 @@
                         <td class="label"><label>Skill Level</label></td>
                         <td>
                             <select asp-for="SkillLevel" data-placeholder="Skill Level" class="chosen-select-no-single form-control">
-                                @foreach (var levelValue in ((RecipeViewDataModel)ViewData["Model"]).LevelValues)
+                                @foreach (var levelValue in Model.RecipeViewData.LevelValues)
                                 {
                                     <option value="@levelValue">@levelValue</option>
                                 }
@@ -128,7 +128,7 @@
                         <td class="label"><label>Lifestyle</label></td>
                         <td>
                             <select asp-for="LifestyleTypes" data-placeholder="Multiple selection possible" class="chosen-select-no-single form-control" multiple>
-                                @foreach (var lifestyleType in ((RecipeViewDataModel)ViewData["Model"]).LifestyleTypes)
+                                @foreach (var lifestyleType in Model.RecipeViewData.LifestyleTypes)
                                 {
                                     <option value="@lifestyleType">@lifestyleType</option>
                                 }
@@ -140,7 +140,7 @@
                         <td class="label"><label>Allergens</label></td>
                         <td>
                             <select asp-for="AllergenNames" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple>
-                                @foreach (var allergenName in ((RecipeViewDataModel)ViewData["Model"]).AllergenNames)
+                                @foreach (var allergenName in Model.RecipeViewData.AllergenNames)
                                 {
                                     <option value="@allergenName">@allergenName</option>
                                 }
@@ -152,7 +152,7 @@
                         <td class="label"><label>Serving</label></td>
                         <td>
                             <select asp-for="Serving" data-placeholder="Serving" class="chosen-select-no-single form-control">
-                                @foreach (var sizeValue in ((RecipeViewDataModel)ViewData["Model"]).SizeValues)
+                                @foreach (var sizeValue in Model.RecipeViewData.SizeValues)
                                 {
                                     <option value="@sizeValue">@sizeValue</option>
                                 }

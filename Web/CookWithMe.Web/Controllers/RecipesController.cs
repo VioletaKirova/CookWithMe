@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -30,7 +29,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Query.Internal;
 
     public class RecipesController : BaseController
     {
@@ -191,10 +189,12 @@
         [HttpGet]
         public async Task<IActionResult> Browse()
         {
-            // TODO: Refactor this
-            this.ViewData["Model"] = await this.GetRecipeViewDataModel();
+            var recipeBrowseInputModel = new RecipeBrowseInputModel()
+            {
+                RecipeViewData = await this.GetRecipeViewDataModelAsync(),
+            };
 
-            return this.View();
+            return this.View(recipeBrowseInputModel);
         }
 
         [Authorize]
@@ -203,10 +203,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                // TODO: Refactor this
-                this.ViewData["Model"] = await this.GetRecipeViewDataModel();
-
-                return this.View();
+                return this.RedirectToAction(nameof(this.Browse));
             }
 
             var recipeBrowseServiceModel = recipeBrowseInputModel.To<RecipeBrowseServiceModel>();
@@ -233,7 +230,7 @@
                 .CreateAsync(filteredRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
 
-        private async Task<RecipeViewDataModel> GetRecipeViewDataModel()
+        private async Task<RecipeViewDataModel> GetRecipeViewDataModelAsync()
         {
             var categoryTitles = await this.categoryService.GetAllTitlesAsync();
             var allergenNames = await this.allergenService.GetAllNamesAsync();

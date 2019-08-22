@@ -60,7 +60,7 @@
             <div class="select form-group">
                 <h4>Allergies</h4>
                 <select asp-for="AllergenNames" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple>
-                    @foreach (var allergenName in ((UserAdditionalInfoViewModel)ViewData["Model"]).Allergies)
+                    @foreach (var allergenName in Model.UserAdditionalInfoViewData.Allergies)
                     {
                         <option value="@allergenName">@allergenName</option>
                     }
@@ -73,7 +73,7 @@
             <div class="select form-group">
                 <h4>Lifestyle</h4>
                 <select asp-for="LifestyleType" data-placeholder="Choose Lifestyle" class="chosen-select-no-single form-control">
-                    @foreach (var lifestyleType in ((UserAdditionalInfoViewModel)ViewData["Model"]).Lifestyles)
+                    @foreach (var lifestyleType in Model.UserAdditionalInfoViewData.Lifestyles)
                     {
                         <option value="@lifestyleType">@lifestyleType</option>
                     }

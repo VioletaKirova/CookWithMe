@@ -45,9 +45,6 @@
         [HttpGet]
         public async Task<IActionResult> AddAdditionalInfo()
         {
-            // TODO: Refactor this
-            this.ViewData["Model"] = await this.GetUserAdditionalInfoViewDataModel();
-
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userFullName = (await this.userService.GetByIdAsync(userId)).FullName;
 
@@ -55,6 +52,9 @@
             {
                 FullName = userFullName,
             };
+
+            userAddAdditionalInfoInputModel
+                .UserAdditionalInfoViewData = await this.GetUserAdditionalInfoViewDataModelAsync();
 
             return this.View(userAddAdditionalInfoInputModel);
         }
@@ -64,10 +64,10 @@
         {
             if (!this.ModelState.IsValid)
             {
-                // TODO: Refactor this
-                this.ViewData["Model"] = await this.GetUserAdditionalInfoViewDataModel();
+                userAddAdditionalInfoInputModel
+                    .UserAdditionalInfoViewData = await this.GetUserAdditionalInfoViewDataModelAsync();
 
-                return this.View();
+                return this.View(userAddAdditionalInfoInputModel);
             }
 
             var userAdditionalInfoServiceModel = userAddAdditionalInfoInputModel
@@ -113,9 +113,6 @@
                 return this.RedirectToAction(nameof(this.AddAdditionalInfo));
             }
 
-            // TODO: Refactor this
-            this.ViewData["Model"] = await this.GetUserAdditionalInfoViewDataModel();
-
             var userAdditionalInfoServiceModel = await this.userService
                 .GetAdditionalInfoByUserIdAsync(userServiceModel.Id);
             var userEditAdditionalInfoInputModel = userAdditionalInfoServiceModel
@@ -129,6 +126,9 @@
 
             userEditAdditionalInfoInputModel.AllergenNames = allergenNamesViewModel;
 
+            userEditAdditionalInfoInputModel
+                .UserAdditionalInfoViewData = await this.GetUserAdditionalInfoViewDataModelAsync();
+
             return this.View(userEditAdditionalInfoInputModel);
         }
 
@@ -137,10 +137,10 @@
         {
             if (!this.ModelState.IsValid)
             {
-                // TODO: Refactor this
-                this.ViewData["Model"] = await this.GetUserAdditionalInfoViewDataModel();
+                userEditAdditionalInfoInputModel
+                    .UserAdditionalInfoViewData = await this.GetUserAdditionalInfoViewDataModelAsync();
 
-                return this.View();
+                return this.View(userEditAdditionalInfoInputModel);
             }
 
             var userAdditionalInfoServiceModel = userEditAdditionalInfoInputModel
@@ -175,7 +175,7 @@
             return this.Redirect("/");
         }
 
-        private async Task<UserAdditionalInfoViewModel> GetUserAdditionalInfoViewDataModel()
+        private async Task<UserAdditionalInfoViewModel> GetUserAdditionalInfoViewDataModelAsync()
         {
             var allergyNames = await this.allergenService.GetAllNamesAsync();
             var lifestyleTypes = await this.lifestyleService.GetAllTypesAsync();
