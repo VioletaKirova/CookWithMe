@@ -11,28 +11,22 @@
 <section id="titlebar">
     <!-- Container -->
     <div class="container">
-
         <div class="eight columns">
             <h2>@ViewData["Title"]</h2>
         </div>
-
     </div>
     <!-- Container / End -->
 </section>
-
 <!-- Content
 ================================================== -->
 <div class="container">
     <div class="sixteen columns">
-
         @if (this.TempData["Error"] != null)
         {
             @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
         }
-
         <form asp-action="AddAdditionalInfo" method="post" class="register-user-form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <!-- Full Name -->
             <h4>Full Name</h4>
             <nav class="input-val form-group">
@@ -40,40 +34,28 @@
                 <span asp-validation-for="FullName" class="text-danger"></span>
             </nav>
             <div class="clearfix"></div>
-
             <div class="margin-top-25"></div>
-
             <!-- Short Bio -->
             <h4>Short Bio</h4>
             <nav class="input-val form-group">
                 <textarea asp-for="Biography" class="WYSIWYG form-control" name="biography" cols="40" rows="3" id="biography" spellcheck="true"></textarea>
                 <span asp-validation-for="Biography" class="text-danger"></span>
             </nav>
-
             <div class="clearfix"></div>
-
             <div class="margin-top-25"></div>
-
             <!-- Upload Profile Photo -->
             <h4>Profile Photo</h4>
             <div class="form-group">
-
                 <label asp-for="ProfilePhoto" class="upload-btn">
                     <i class="fa fa-upload"></i> Upload
                     <input asp-for="ProfilePhoto" type="file" class="form-control" />
                     <span asp-validation-for="ProfilePhoto" class="text-danger"></span>
                 </label>
-
                 <div class="margin-top-0"></div>
-
                 <span id="file-selected"></span>
-
             </div>
-
             <div class="clearfxix"></div>
-
             <div class="margin-top-15"></div>
-
             <!-- Allergies -->
             <div class="select form-group">
                 <h4>Allergies</h4>
@@ -85,11 +67,8 @@
                 </select>
                 <span asp-validation-for="AllergenNames" class="text-danger"></span>
             </div>
-
             <div class="clearfxix"></div>
-
             <div class="margin-top-25"></div>
-
             <!-- Lifestyle -->
             <div class="select form-group">
                 <h4>Lifestyle</h4>
@@ -101,20 +80,14 @@
                 </select>
                 <span asp-validation-for="LifestyleType" class="text-danger"></span>
             </div>
-
             <div class="margin-top-30"></div>
-
             <button type="submit" class="button color big">Submit</button>
         </form>
-
         <div class="margin-top-15"></div>
-
         <a href="/">Skip this step</a>
-
     </div>
 </div>
 <!-- Container / End -->
-
 <div class="margin-top-50"></div>
 
 @section Scripts {

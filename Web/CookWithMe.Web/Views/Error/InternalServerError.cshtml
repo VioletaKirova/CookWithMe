@@ -5,46 +5,32 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <!-- Titlebar
 ================================================== -->
 <section id="titlebar">
     <!-- Container -->
     <div class="container">
-
         <div class="eight columns">
             <h2>Oops!</h2>
         </div>
-
     </div>
     <!-- Container / End -->
 </section>
-
-
 <!-- Content
 ================================================== -->
 <div class="container">
-
     <!-- Masonry -->
     <div class="sixteen columns">
-
         <h3>Something went wrong!</h3>
         <h3>Please try again later. If the error persists, contact the owner.</h3>
-
         <div class="margin-bottom-45"></div>
-
         <strong>Status code:</strong> <code>@this.Model.StatusCode</code>
-
         @if (this.Model.ShowRequestId)
         {
             <br />
             <strong>Request ID:</strong> <code>@this.Model.RequestId</code>
         }
-
         <div class="margin-bottom-35"></div>
-
     </div>
-
 </div>
-
-<div class="margin-top-20"></div>
+<div class="margin-top-50"></div>

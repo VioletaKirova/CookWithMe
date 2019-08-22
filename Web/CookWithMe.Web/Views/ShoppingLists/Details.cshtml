@@ -10,36 +10,26 @@
 <section id="titlebar">
     <!-- Container -->
     <div class="container">
-
         <div class="eight columns">
             <h2 style="margin: 18px 0 0 0;">@Model.RecipeTitle</h2>
             <p>Ingredients</p>
         </div>
-
     </div>
     <!-- Container / End -->
 </section>
-
-
 <!-- Content
 ================================================== -->
 <div class="container">
-
     <!-- Recipe -->
     <div class="twelve columns">
-
         @if (this.TempData["Error"] != null)
         {
             @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
         }
-
         <div class="alignment">
-
             <div class="margin-top-50"></div>
-
             <!-- Ingredients -->
             <ul class="ingredients">
-
                 @for (int i = 0; i < Model.IngredientsList.Count; i++)
                 {
                     <li>
@@ -47,16 +37,12 @@
                         <label itemprop="ingredients" for="check-@i">@Model.IngredientsList[i]</label>
                     </li>
                 }
-
             </ul>
-
+            <div class="margin-top-30"></div>
             <a href="/Recipes/Details/@Model.RecipeId" class="button medium color">Go To Recipe</a>
             <a href="/ShoppingLists/Delete/@Model.Id" class="button medium">Delete Shopping List</a>
-
-
         </div>
     </div>
-
-
 </div>
 <!-- Container / End -->
+<div class="margin-top-50"></div>

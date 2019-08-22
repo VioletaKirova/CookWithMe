@@ -1,19 +1,16 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
-    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     using CookWithMe.Common;
-    using CookWithMe.Services;
     using CookWithMe.Services.Data.Lifestyles;
     using CookWithMe.Services.Data.Recipes;
     using CookWithMe.Services.Data.Users;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Web.Infrastructure;
-    using CookWithMe.Web.ViewModels;
     using CookWithMe.Web.ViewModels.Home.Index;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
@@ -21,21 +18,19 @@
         private readonly IRecipeService recipeService;
         private readonly IUserService userService;
         private readonly ILifestyleService lifestyleService;
-        private readonly IStringFormatService stringFormatService;
 
         public HomeController(
             IRecipeService recipeService,
             IUserService userService,
-            ILifestyleService lifestyleService,
-            IStringFormatService stringFormatService)
+            ILifestyleService lifestyleService)
         {
             this.recipeService = recipeService;
             this.userService = userService;
             this.lifestyleService = lifestyleService;
-            this.stringFormatService = stringFormatService;
         }
 
         [HttpGet]
+        [Route("/")]
         public IActionResult Index()
         {
             if (this.User.Identity.IsAuthenticated)
@@ -46,6 +41,9 @@
             return this.View();
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("/Home/Index")]
         public async Task<IActionResult> IndexLoggedIn(int? pageNumber)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

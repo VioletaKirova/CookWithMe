@@ -10,61 +10,45 @@
 <section id="titlebar">
     <!-- Container -->
     <div class="container">
-
         <div class="eight columns">
             <h2 style="margin: 18px 0 0 0;">Submit Review</h2>
             <p>@Model.RecipeTitle</p>
         </div>
-
     </div>
     <!-- Container / End -->
 </section>
-
-
 <div class="container">
     <div class="sixteen columns">
-
         @if (this.TempData["Error"] != null)
         {
             @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
         }
-
         <!-- Add Comment
     ================================================== -->
         <!-- Add Comment Form -->
         <form asp-action="Create" id="add-review" class="add-comment">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <fieldset>
-
                 <input asp-for="RecipeId" type="hidden" name="recipeId" value="@Model.RecipeId">
                 <input asp-for="RecipeTitle" type="hidden" name="recipeTitle" value="@Model.RecipeTitle">
-
                 <div class="form-group">
                     <label>Rating:</label>
                     <input asp-for="Rating" class="form-control" />
                     <span asp-validation-for="Rating" class="text-danger"></span>
                 </div>
-
                 <div class="clearfix"></div>
-
                 <div class="form-group">
                     <label asp-for="Comment" class="control-label">Comment:</label>
                     <textarea asp-for="Comment" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true"></textarea>
                     <span asp-validation-for="Comment" class="text-danger"></span>
                 </div>
-
             </fieldset>
-
             <div class="margin-top-30"></div>
-
             <button type="submit" class="button color big">Submit Review</button>
-
         </form>
     </div>
 </div>
-
 <div class="margin-top-50"></div>
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

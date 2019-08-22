@@ -11,22 +11,17 @@
 <section id="titlebar" class="browse-all">
     <!-- Container -->
     <div class="container">
-
         <div class="eight columns">
             <h2>Browse Recipes</h2>
         </div>
-
     </div>
     <!-- Container / End -->
 </section>
-
-
 <!-- Container -->
 <form asp-action="Filtered" class="advanced-search-container">
     <div class="container">
         <div class="sixteen columns">
             <div id="advanced-search">
-
                 <!-- Choose Category -->
                 <div class="select form-group">
                     <label>Category</label>
@@ -40,7 +35,6 @@
                     <span asp-validation-for="CategoryTitle" class="text-danger"></span>
                 </div>
                 <div class="clearfix"></div>
-
                 <!-- Choose Lifestyle -->
                 <div class="select form-group">
                     <label>Lifestyle</label>
@@ -54,7 +48,6 @@
                     <span asp-validation-for="LifestyleType" class="text-danger"></span>
                 </div>
                 <div class="clearfix"></div>
-
                 <div class="select form-group">
                     <label>Allergens</label>
                     <select asp-for="AllergenNames" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple>
@@ -66,22 +59,16 @@
                     <span asp-validation-for="AllergenNames" class="text-danger"></span>
                 </div>
                 <div class="clearfix"></div>
-
                 <!-- Search Input -->
                 <nav class="search-by-keyword form-group">
                     <button type="submit"><span>Search for Recipes</span><i class="fa fa-search"></i></button>
                     <input asp-for="KeyWords" class="search-field form-control" type="text" placeholder="Type in keywords" value="" />
                 </nav>
                 <div class="clearfix"></div>
-
-
                 <!-- Advanced Search Button -->
                 <a href="#" class="adv-search-btn">Advanced Search <i class="fa fa-caret-down"></i></a>
-
-
                 <!-- Extra Search Options -->
                 <div class="extra-search-options closed">
-
                     <!-- Choose Skill Level -->
                     <div class="select form-group">
                         <label>Skill Level</label>
@@ -94,7 +81,6 @@
                         </select>
                         <span asp-validation-for="SkillLevel" class="text-danger"></span>
                     </div>
-
                     <!-- Choose Serving -->
                     <div class="select form-group">
                         <label>Serving</label>
@@ -107,7 +93,6 @@
                         </select>
                         <span asp-validation-for="Serving" class="text-danger"></span>
                     </div>
-
                     <!-- Choose Needed Time -->
                     <div class="select form-group">
                         <label>Needed Time</label>
@@ -120,19 +105,13 @@
                         </select>
                         <span asp-validation-for="NeededTime" class="text-danger"></span>
                     </div>
-
                     <div class="clearfix"></div>
                     <div class="margin-top-25"></div>
-
                     <fieldset class="additional-info">
-
                         <!-- Nutritional Value -->
                         <h5>Specify Nutritional Value</h5>
-
                         <div class="margin-top-10"></div>
-
                         <table>
-
                             <tr class="ingredients-cont form-group">
                                 <td class="label"><label>Calories</label></td>
                                 <td>
@@ -140,7 +119,6 @@
                                     <span asp-validation-for="NutritionalValue.Calories" class="text-danger"></span>
                                 </td>
                             </tr>
-
                             <tr class="ingredients-cont form-group">
                                 <td class="label"><label>Fats</label></td>
                                 <td>
@@ -148,7 +126,6 @@
                                     <span asp-validation-for="NutritionalValue.Fats" class="text-danger"></span>
                                 </td>
                             </tr>
-
                             <tr class="ingredients-cont form-group">
                                 <td class="label"><label>Saturated Fats</label></td>
                                 <td>
@@ -156,7 +133,6 @@
                                     <span asp-validation-for="NutritionalValue.SaturatedFats" class="text-danger"></span>
                                 </td>
                             </tr>
-
                             <tr class="ingredients-cont form-group">
                                 <td class="label"><label>Carbohydrates</label></td>
                                 <td>
@@ -164,7 +140,6 @@
                                     <span asp-validation-for="NutritionalValue.Carbohydrates" class="text-danger"></span>
                                 </td>
                             </tr>
-
                             <tr class="ingredients-cont form-group">
                                 <td class="label"><label>Sugar</label></td>
                                 <td>
@@ -172,7 +147,6 @@
                                     <span asp-validation-for="NutritionalValue.Sugar" class="text-danger"></span>
                                 </td>
                             </tr>
-
                             <tr class="ingredients-cont form-group">
                                 <td class="label"><label>Protein</label></td>
                                 <td>
@@ -180,7 +154,6 @@
                                     <span asp-validation-for="NutritionalValue.Protein" class="text-danger"></span>
                                 </td>
                             </tr>
-
                             <tr class="ingredients-cont form-group">
                                 <td class="label"><label>Fiber</label></td>
                                 <td>
@@ -188,7 +161,6 @@
                                     <span asp-validation-for="NutritionalValue.Fiber" class="text-danger"></span>
                                 </td>
                             </tr>
-
                             <tr class="ingredients-cont form-group">
                                 <td class="label"><label>Salt</label></td>
                                 <td>
@@ -196,16 +168,11 @@
                                     <span asp-validation-for="NutritionalValue.Salt" class="text-danger"></span>
                                 </td>
                             </tr>
-
                         </table>
-
                         <!-- Yield -->
                         <h5>Specify Yield</h5>
-
                         <div class="margin-top-10"></div>
-
                         <table>
-
                             <tr class="ingredients-cont form-group">
                                 <td class="label"><label>Maximum</label></td>
                                 <td>
@@ -213,20 +180,13 @@
                                     <span asp-validation-for="Yield" class="text-danger"></span>
                                 </td>
                             </tr>
-
                         </table>
                     </fieldset>
-
-
                 </div>
                 <!-- Extra Search Options / End -->
-
-
                 <div class="clearfix"></div>
             </div>
-
         </div>
     </div>
 </form>
-
-<div class="margin-bottom-50"></div>
+<div class="margin-top-50"></div>

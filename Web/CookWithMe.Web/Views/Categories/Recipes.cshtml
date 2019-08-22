@@ -8,22 +8,17 @@
 }
 
 <br />
-
 <!-- Content
 ================================================== -->
 <div class="container">
-
     <!-- Masonry -->
     <div class="twelve columns">
-
         @if (this.TempData["Success"] != null)
         {
             @await Component.InvokeAsync("SuccessAlert", new { message = this.TempData["Success"] });
         }
-
         <!-- Headline -->
         <h3 class="headline">@ViewData["CategoryTitle"]</h3>
-
         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <a href="/Administration/Categories/Edit/@ViewData["CategoryId"]" class="button medium color" margin: 0 5px 0 0;">Edit</a>
@@ -33,22 +28,17 @@
         {
             <span class="line rb margin-bottom-35"></span>
         }
-
         <div class="clearfix"></div>
-
         <!-- Isotope -->
         <div class="isotope">
-
             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 <div class="margin-top-20"></div>
             }
-
             @foreach (var recipe in Model)
             {
                 <!-- Recipe #1 -->
                 <div class="four recipe-box columns">
-
                     <!-- Thumbnail -->
                     <div class="thumbnail-holder">
                         <a href="/Recipes/Details/@recipe.Id">
@@ -57,7 +47,6 @@
                             <div class="hover-icon">View Recipe</div>
                         </a>
                     </div>
-
                     <!-- Content -->
                     <div class="recipe-box-content">
                         <h3><a href="/Recipes/Details/@recipe.Id" class="text-wrap">@recipe.Title</a></h3>
@@ -66,15 +55,12 @@
                     </div>
                 </div>
             }
-
         </div>
         <div class="clearfix"></div>
-
         @{
             var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
             var nextDisabled = !Model.HasNextPage ? "disabled" : "";
         }
-
         <a asp-action="Recipes"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
            class="button big @prevDisabled">
@@ -85,16 +71,10 @@
            class="button color big @nextDisabled">
             Next
         </a>
-
     </div>
-
-
     <!-- Sidebar
     ================================================== -->
     @await Component.InvokeAsync("CategorySidebar")
-
-
 </div>
 <!-- Container / End -->
-
-<div class="margin-top-5"></div>
+<div class="margin-top-50"></div>

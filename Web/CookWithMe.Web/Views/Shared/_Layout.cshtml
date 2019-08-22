@@ -7,7 +7,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>@this.ViewData["Title"]</title>
-
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/colors/green.css" id="colors" asp-append-version="true">
     <link rel="shortcut icon" href="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1565711673/common/favicon_ydl4et.ico" />
@@ -15,33 +14,26 @@
 <body>
     <!-- Wrapper -->
     <div id="wrapper">
-
-
         <!-- Header
         ================================================== -->
         <header id="header">
-
             <!-- Container -->
             <div class="container">
-
                 <!-- Logo / Mobile Menu -->
                 <div class="three columns">
                     <div id="logo">
-                        <h1><a href="/Home/Index"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1565711651/common/logo_aydqmv.png" alt="Cook With Me" /></a></h1>
+                        <h1><a href="/"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1565711651/common/logo_aydqmv.png" alt="Cook With Me" /></a></h1>
                     </div>
                 </div>
-
                 <!-- Navigation
                 ================================================== -->
-                @*// TODO: Refactor this*@
+                @*TODO: Refactor this*@
                 @if (this.User.Identity.IsAuthenticated && this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
                     <div class="thirteen columns navigation">
-
                         <nav id="navigation" class="menu nav-collapse">
                             <ul>
-                                <li><a href="/Home/Index">Home</a></li>
-
+                                <li><a href="/">Home</a></li>
                                 <li>
                                     <a href="#">Recipes</a>
                                     <ul>
@@ -49,7 +41,6 @@
                                         <li><a href="/Recipes/Browse">Browse</a></li>
                                     </ul>
                                 </li>
-
                                 <li>
                                     <a href="#">Categories</a>
                                     <ul>
@@ -57,7 +48,6 @@
                                         <li><a href="/Categories/Recipes/@GlobalConstants.FirstCategoryId">Browse</a></li>
                                     </ul>
                                 </li>
-
                                 @if (this.User.FindFirst(ClaimTypes.Name).Value == GlobalConstants.RootUsername)
                                 {
                                     <li>
@@ -68,7 +58,6 @@
                                         </ul>
                                     </li>
                                 }
-
                                 <li>
                                     <a href="#">Account</a>
                                     <ul>
@@ -79,17 +68,14 @@
                                 </li>
                             </ul>
                         </nav>
-
                     </div>
                 }
                 else if (this.User.Identity.IsAuthenticated && this.User.IsInRole(GlobalConstants.UserRoleName))
                 {
                     <div class="thirteen columns navigation">
-
                         <nav id="navigation" class="menu nav-collapse">
                             <ul>
-                                <li><a href="/Home/Index">Home</a></li>
-
+                                <li><a href="/">Home</a></li>
                                 <li>
                                     <a href="#">Recipes</a>
                                     <ul>
@@ -98,7 +84,6 @@
                                         <li><a href="/Recipes/Browse">Browse</a></li>
                                     </ul>
                                 </li>
-
                                 <li>
                                     <a href="#">Account</a>
                                     <ul>
@@ -109,47 +94,36 @@
                                 </li>
                             </ul>
                         </nav>
-
                     </div>
                 }
                 else
                 {
                     <div class="thirteen columns navigation">
-
                         <nav id="navigation" class="menu nav-collapse">
                             <ul>
-                                <li><a href="/Home/Index">Home</a></li>
+                                <li><a href="/">Home</a></li>
                                 <li><a href="/Identity/Account/Register">Register</a></li>
                                 <li><a href="/Identity/Account/Login">Login</a></li>
                             </ul>
                         </nav>
-
                     </div>
                 }
-
             </div>
             <!-- Container / End -->
         </header>
     </div>
     <!-- Container / End -->
-
     <div class="margin-top-5"></div>
-
     <!-- Wrapper / End -->
-
     <main role="main">
         @this.RenderBody()
     </main>
-
     <br />
-
     <!-- Footer
     ================================================== -->
     <div id="footer">
-
         <!-- Container -->
         <div class="container">
-
             <div class="twelve columns">
                 <!-- Headline -->
                 <h3 class="headline footer">About</h3>
@@ -157,25 +131,18 @@
                 <div class="clearfix"></div>
                 <p>The team of experts behind "Cook With Me" is here to present you with awesome recipes specific for your needs and make your experience in the kitchen as smooth as possible.</p>
             </div>
-
             @await Component.InvokeAsync("FooterLinks")
-
         </div>
         <!-- Container / End -->
-
     </div>
     <!-- Footer / End -->
     <!-- Footer Bottom / Start -->
     <div id="footer-bottom">
-
         <!-- Container -->
         <div class="container">
-
             <div class="eight columns">© Copyright @DateTime.Now.Year by <a href="#">Cook With Me</a>. All Rights Reserved.</div>
-
         </div>
         <!-- Container / End -->
-
     </div>
     <!-- Footer Bottom / End -->
 

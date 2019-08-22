@@ -11,30 +11,22 @@
 <section id="titlebar">
     <!-- Container -->
     <div class="container">
-
         <div class="eight columns">
             <h2>@ViewData["Title"] Recipe</h2>
         </div>
-
     </div>
     <!-- Container / End -->
 </section>
-
-
-
 <!-- Content
 ================================================== -->
 <div class="container">
     <div class="sixteen columns">
-
         @if (this.TempData["Error"] != null)
         {
             @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
         }
-
         <form asp-action="Create" class="submit-recipe-form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <!-- Title -->
             <h4>Title</h4>
             <nav class="title form-group">
@@ -42,11 +34,7 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </nav>
             <div class="clearfix"></div>
-
-
             <div class="margin-top-25"></div>
-
-
             <!-- Category -->
             <div class="select form-group">
                 <h4>Category</h4>
@@ -58,71 +46,46 @@
                 </select>
                 <span asp-validation-for="CategoryTitle" class="text-danger"></span>
             </div>
-
-
             <div class="margin-top-25"></div>
-
             <!-- Short Summary -->
             <h4>Short Summary</h4>
             <nav class="input-val form-group">
                 <textarea asp-for="Summary" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true"></textarea>
                 <span asp-validation-for="Summary" class="text-danger"></span>
             </nav>
-
-
             <div class="margin-top-25"></div>
-
-
             <!-- Upload Photo -->
             <h4>Photo</h4>
             <div class="form-group">
-
                 <label asp-for="Photo" class="upload-btn">
                     <i class="fa fa-upload"></i> Upload
                     <input asp-for="Photo" type="file" class="form-control" />
                 </label>
-
                 <div class="margin-top-0"></div>
-
                 <span asp-validation-for="Photo" class="text-danger"></span>
-
                 <div class="margin-top-0"></div>
-
                 <span id="file-selected"></span>
-
             </div>
-
             <div class="clearfxix"></div>
             <div class="margin-top-15"></div>
-
-
             <!-- Ingredients -->
             <h4>Ingredients</h4>
             <nav class="input-val form-group">
                 <textarea asp-for="ShoppingList.Ingredients" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Milk - 150ml; Vegetable oil - 125ml; Chocolate - 100g; Sugar - 150g; Flour - 300g; Baking powder - 2tsp;&quot;"></textarea>
                 <span asp-validation-for="ShoppingList.Ingredients" class="text-danger"></span>
             </nav>
-
             <div class="margin-top-25"></div>
-
-
             <!-- Directions -->
             <h4>Directions</h4>
             <nav class="input-val form-group">
                 <textarea asp-for="Directions" class="WYSIWYG form-control" cols="40" rows="3" spellcheck="true" placeholder="Separated by semicollon or semicollon and whitespace: e.g. &quot;Mix the dry and liquid ingredients separately; Start adding the dry mixture to the liquid one;&quot;"></textarea>
                 <span asp-validation-for="Directions" class="text-danger"></span>
             </nav>
-
             <div class="margin-top-25 clearfix"></div>
-
-
             <!-- Additional Information -->
             <h4>Additional Information</h4>
-
             <fieldset class="additional-info">
                 <table>
-
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Preparation Time</label></td>
                         <td>
@@ -130,7 +93,6 @@
                             <span asp-validation-for="PreparationTime" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Cooking Time</label></td>
                         <td>
@@ -138,7 +100,6 @@
                             <span asp-validation-for="CookingTime" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Needed Time</label></td>
                         <td>
@@ -151,7 +112,6 @@
                             <span asp-validation-for="NeededTime" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Skill Level</label></td>
                         <td>
@@ -164,7 +124,6 @@
                             <span asp-validation-for="SkillLevel" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Lifestyle</label></td>
                         <td>
@@ -177,7 +136,6 @@
                             <span asp-validation-for="LifestyleTypes" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Allergens</label></td>
                         <td>
@@ -190,7 +148,6 @@
                             <span asp-validation-for="AllergenNames" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Serving</label></td>
                         <td>
@@ -203,7 +160,6 @@
                             <span asp-validation-for="Serving" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Yield</label></td>
                         <td>
@@ -211,20 +167,13 @@
                             <span asp-validation-for="Yield" class="text-danger"></span>
                         </td>
                     </tr>
-
                 </table>
             </fieldset>
-
-
             <div class="margin-top-25"></div>
-
-
             <!-- Nutritional Value -->
             <h4>Nutritional Value</h4>
-
             <fieldset class="additional-info">
                 <table>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Calories</label></td>
                         <td>
@@ -232,7 +181,6 @@
                             <span asp-validation-for="NutritionalValue.Calories" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Fats</label></td>
                         <td>
@@ -240,7 +188,6 @@
                             <span asp-validation-for="NutritionalValue.Fats" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Saturated Fats</label></td>
                         <td>
@@ -248,7 +195,6 @@
                             <span asp-validation-for="NutritionalValue.SaturatedFats" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Carbohydrates</label></td>
                         <td>
@@ -256,7 +202,6 @@
                             <span asp-validation-for="NutritionalValue.Carbohydrates" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Sugar</label></td>
                         <td>
@@ -264,7 +209,6 @@
                             <span asp-validation-for="NutritionalValue.Sugar" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Protein</label></td>
                         <td>
@@ -272,7 +216,6 @@
                             <span asp-validation-for="NutritionalValue.Protein" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Fiber</label></td>
                         <td>
@@ -280,7 +223,6 @@
                             <span asp-validation-for="NutritionalValue.Fiber" class="text-danger"></span>
                         </td>
                     </tr>
-
                     <tr class="ingredients-cont form-group">
                         <td class="label"><label>Salt</label></td>
                         <td>
@@ -288,19 +230,14 @@
                             <span asp-validation-for="NutritionalValue.Salt" class="text-danger"></span>
                         </td>
                     </tr>
-
                 </table>
             </fieldset>
-
             <div class="margin-top-30"></div>
-
             <button type="submit" class="button color big">Submit</button>
-
         </form>
     </div>
 </div>
 <!-- Container / End -->
-
 <div class="margin-top-50"></div>
 
 @section Scripts {

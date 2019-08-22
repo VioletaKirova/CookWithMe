@@ -7,27 +7,21 @@
 }
 
 <br />
-
 <!-- Content
 ================================================== -->
 <div class="container">
-
     <!-- Masonry -->
     <div class="twelve columns">
-
         <!-- Headline -->
         <h3 class="headline">@ViewData["Title"] Recipes</h3>
         <span class="line rb margin-bottom-35"></span>
         <div class="clearfix"></div>
-
         <!-- Isotope -->
         <div class="isotope">
-
             @foreach (var recipe in Model)
             {
                 <!-- Recipe #1 -->
                 <div class="four recipe-box columns">
-
                     <!-- Thumbnail -->
                     <div class="thumbnail-holder">
                         <a href="/Recipes/Details/@recipe.Id">
@@ -36,24 +30,19 @@
                             <div class="hover-icon">View Recipe</div>
                         </a>
                     </div>
-
                     <!-- Content -->
                     <div class="recipe-box-content">
                         <h3><a href="/Recipes/Details/@recipe.Id" class="text-wrap">@recipe.Title</a></h3>
-
                         <div class="clearfix"></div>
                     </div>
                 </div>
             }
-
         </div>
         <div class="clearfix"></div>
-
         @{
             var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
             var nextDisabled = !Model.HasNextPage ? "disabled" : "";
         }
-
         <a asp-action="Cooked"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
            class="button big @prevDisabled">
@@ -64,16 +53,10 @@
            class="button color big @nextDisabled">
             Next
         </a>
-
     </div>
-
-
     <!-- Sidebar
     ================================================== -->
     @await Component.InvokeAsync("CategorySidebar")
-
-
 </div>
 <!-- Container / End -->
-
-<div class="margin-top-5"></div>
+<div class="margin-top-50"></div>

@@ -10,31 +10,24 @@
 <section id="titlebar">
     <!-- Container -->
     <div class="container">
-
         <div class="eight columns">
             <h2>@ViewData["Title"]</h2>
         </div>
-
     </div>
     <!-- Container / End -->
 </section>
-
-
 <!-- Content
 ================================================== -->
 <div class="container">
     <div class="six columns">
-
         @if (this.TempData["Success"] != null)
         {
             @await Component.InvokeAsync("SuccessAlert", new { message = this.TempData["Success"] });
         }
-
         @if (this.TempData["Error"] != null)
         {
             @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
         }
-
         @foreach (var admin in Model)
         {
             <div class="widget">
@@ -53,3 +46,4 @@
         }
     </div>
 </div>
+<div class="margin-top-50"></div>

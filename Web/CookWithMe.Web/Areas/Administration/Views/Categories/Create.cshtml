@@ -10,51 +10,37 @@
 <section id="titlebar">
     <!-- Container -->
     <div class="container">
-
         <div class="eight columns">
             <h2>@ViewData["Title"]</h2>
         </div>
-
     </div>
     <!-- Container / End -->
 </section>
-
 <!-- Content
 ================================================== -->
 <div class="container">
     <div class="sixteen columns">
-
         @if (this.TempData["Error"] != null)
         {
             @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
         }
-
         <div class="submit-recipe-form">
-
             <!-- Title -->
             <h4>Title</h4>
             <nav class="title form-group">
                 <form asp-action="Create">
-
                     <input asp-for="Title" class="search-field form-control" type="text" />
                     <span asp-validation-for="Title" class="text-danger"></span>
-
                     <div class="clearfix"></div>
-
                     <div class="margin-top-30"></div>
-
                     <button type="submit" class="button color big">Submit</button>
-
                 </form>
             </nav>
-
             <div class="margin-bottom-50"></div>
-
         </div>
     </div>
 </div>
 <!-- Container / End -->
-
 <div class="margin-top-50"></div>
 
 @section Scripts {

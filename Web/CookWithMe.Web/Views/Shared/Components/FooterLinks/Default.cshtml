@@ -1,16 +1,13 @@
 ﻿@model List<CookWithMe.Web.ViewComponents.Models.FooterLinksViewComponentViewModel>
 
 <div class="four columns">
-
     <h3 class="headline footer">Explore</h3>
     <span class="line"></span>
     <div class="clearfix"></div>
-
     <ul class="footer-links">
         @foreach (var category in Model)
         {
             <li><a href="/Categories/All/@category.Id">@category.Title</a></li>
         }
     </ul>
-
 </div>

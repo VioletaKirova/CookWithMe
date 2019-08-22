@@ -4,32 +4,25 @@
     ViewData["Title"] = "All";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <!-- Titlebar
 ================================================== -->
 <section id="titlebar">
     <!-- Container -->
     <div class="container">
-
         <div class="eight columns">
             <h2>My Shopping Lists</h2>
         </div>
-
     </div>
     <!-- Container / End -->
 </section>
-
-
 <!-- Content
 ================================================== -->
 <div class="container">
     <div class="sixteen columns">
-
         @if (this.TempData["Error"] != null)
         {
             @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
         }
-
         <ol class="directions" itemprop="recipeInstructions">
             @foreach (var shoppingList in Model)
             {
@@ -38,6 +31,14 @@
                 </li>
             }
         </ol>
+        <div class="margin-bottom-50"></div>
+        <br />
+        <div class="margin-bottom-50"></div>
+        <br />
     </div>
+    <br />
+    <div class="margin-bottom-50"></div>
+    <br />
 </div>
-
+<br />
+<div class="margin-top-50"></div>

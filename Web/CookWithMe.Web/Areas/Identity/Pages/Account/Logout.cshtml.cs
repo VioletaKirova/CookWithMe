@@ -30,7 +30,7 @@
 
             this.logger.LogInformation("User logged out.");
 
-            return this.Redirect("/Home/Index");
+            return this.Redirect("/");
         }
     }
 }
