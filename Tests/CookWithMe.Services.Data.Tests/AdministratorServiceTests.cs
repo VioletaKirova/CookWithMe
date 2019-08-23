@@ -11,6 +11,7 @@
     using CookWithMe.Services.Models.Administrators;
 
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.Configuration;
 
     using Moq;
 
@@ -18,6 +19,13 @@
 
     public class AdministratorServiceTests
     {
+        private readonly IConfiguration configuration;
+
+        public AdministratorServiceTests()
+        {
+            this.configuration = this.GetConfigurationBuilder().Build();
+        }
+
         [Fact]
         public async Task RegisterAsync_WithSuccessfullActions_ShouldReturnCorrectResult()
         {
@@ -34,7 +42,7 @@
                 .Setup(x => x.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
-            var administratorService = new AdministratorService(userManager.Object, userRepository);
+            var administratorService = new AdministratorService(this.configuration, userManager.Object, userRepository);
             var administratorServiceModel = new AdministratorServiceModel();
 
             // Act
@@ -60,7 +68,7 @@
                 .Setup(x => x.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
-            var administratorService = new AdministratorService(userManager.Object, userRepository);
+            var administratorService = new AdministratorService(this.configuration, userManager.Object, userRepository);
             var administratorServiceModel = new AdministratorServiceModel();
 
             // Act
@@ -86,7 +94,7 @@
                 .Setup(x => x.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Failed());
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
-            var administratorService = new AdministratorService(userManager.Object, userRepository);
+            var administratorService = new AdministratorService(this.configuration, userManager.Object, userRepository);
             var administratorServiceModel = new AdministratorServiceModel();
 
             // Act
@@ -112,7 +120,7 @@
                 .Setup(x => x.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
-            var administratorService = new AdministratorService(userManager.Object, userRepository);
+            var administratorService = new AdministratorService(this.configuration, userManager.Object, userRepository);
             await userRepository.AddAsync(new ApplicationUser());
             await userRepository.SaveChangesAsync();
             var user = userRepository.All().First();
@@ -140,7 +148,7 @@
                 .Setup(x => x.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
-            var administratorService = new AdministratorService(userManager.Object, userRepository);
+            var administratorService = new AdministratorService(this.configuration, userManager.Object, userRepository);
             await userRepository.AddAsync(new ApplicationUser());
             await userRepository.SaveChangesAsync();
             var user = userRepository.All().First();
@@ -168,7 +176,7 @@
                 .Setup(x => x.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Failed());
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
-            var administratorService = new AdministratorService(userManager.Object, userRepository);
+            var administratorService = new AdministratorService(this.configuration, userManager.Object, userRepository);
             await userRepository.AddAsync(new ApplicationUser());
             await userRepository.SaveChangesAsync();
             var user = userRepository.All().First();
@@ -194,7 +202,7 @@
                 .Setup(x => x.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
-            var administratorService = new AdministratorService(userManager.Object, userRepository);
+            var administratorService = new AdministratorService(this.configuration, userManager.Object, userRepository);
             var nonExistentUserId = Guid.NewGuid().ToString();
 
             // Act
@@ -213,6 +221,13 @@
                 userStoreMock.Object, null, null, null, null, null, null, null, null);
 
             return userManagerMock;
+        }
+
+        private IConfigurationBuilder GetConfigurationBuilder()
+        {
+            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder.AddJsonFile("appsettings.json");
+            return configurationBuilder;
         }
     }
 }

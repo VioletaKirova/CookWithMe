@@ -12,18 +12,22 @@
     using CookWithMe.Services.Models.Administrators;
 
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.Configuration;
 
     public class AdministratorService : IAdministratorService
     {
         private const string InvalidUserIdErrorMessage = "User with ID: {0} does not exist.";
 
+        private readonly IConfiguration configuration;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
         public AdministratorService(
+            IConfiguration configuration,
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<ApplicationUser> userRepository)
         {
+            this.configuration = configuration;
             this.userManager = userManager;
             this.userRepository = userRepository;
         }
@@ -32,7 +36,7 @@
         {
             return (await this.userManager.
                 GetUsersInRoleAsync(GlobalConstants.AdministratorRoleName))
-                .Where(x => x.UserName != GlobalConstants.RootUsername)
+                .Where(x => x.UserName != this.configuration["Root:UserName"])
                 .To<AdministratorServiceModel>();
         }
 

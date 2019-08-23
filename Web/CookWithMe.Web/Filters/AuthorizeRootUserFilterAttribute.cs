@@ -4,18 +4,20 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using CookWithMe.Common;
     using CookWithMe.Services.Data.Users;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.Extensions.Configuration;
 
     public class AuthorizeRootUserFilterAttribute : Attribute, IAsyncActionFilter
     {
+        private readonly IConfiguration configuration;
         private readonly IUserService userService;
 
-        public AuthorizeRootUserFilterAttribute(IUserService userService)
+        public AuthorizeRootUserFilterAttribute(IConfiguration configuration, IUserService userService)
         {
+            this.configuration = configuration;
             this.userService = userService;
         }
 
@@ -25,7 +27,7 @@
 
             var user = await this.userService.GetByIdAsync(userId);
 
-            if (user.UserName != GlobalConstants.RootUsername)
+            if (user.UserName != this.configuration["Root:UserName"])
             {
                 context.Result = new ForbidResult();
             }

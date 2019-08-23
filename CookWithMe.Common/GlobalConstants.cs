@@ -2,8 +2,6 @@
 {
     public static class GlobalConstants
     {
-        public const string RootUsername = "root_123";
-
         public const string AdministratorRoleName = "Administrator";
 
         public const string UserRoleName = "User";

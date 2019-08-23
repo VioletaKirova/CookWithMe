@@ -8,12 +8,14 @@
     using CookWithMe.Data.Models;
 
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     internal class RootSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             if (userManager.Users.Any())
@@ -23,12 +25,12 @@
 
             var root = new ApplicationUser
             {
-                UserName = "root_123",
-                FullName = "Root Root",
-                Email = "root@root.com",
+                UserName = configuration["Root:UserName"],
+                FullName = configuration["Root:FullName"],
+                Email = configuration["Root:Email"],
             };
 
-            var rootPassword = "root_123";
+            var rootPassword = configuration["Root:Password"];
 
             var result = await userManager.CreateAsync(root, rootPassword);
 
