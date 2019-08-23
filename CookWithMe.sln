@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookWithMe.Web.InputModels"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookWithMe.Services.Models", "Services\CookWithMe.Services.Models\CookWithMe.Services.Models.csproj", "{B0F710FD-DAA7-489F-8E13-2D77D69F7072}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookWithMe.Services.Common", "Services\CookWithMe.Services.Common\CookWithMe.Services.Common.csproj", "{CA245BCB-2818-4B9E-8DAD-6A9A0A0BE5E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{B0F710FD-DAA7-489F-8E13-2D77D69F7072}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0F710FD-DAA7-489F-8E13-2D77D69F7072}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0F710FD-DAA7-489F-8E13-2D77D69F7072}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA245BCB-2818-4B9E-8DAD-6A9A0A0BE5E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA245BCB-2818-4B9E-8DAD-6A9A0A0BE5E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA245BCB-2818-4B9E-8DAD-6A9A0A0BE5E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA245BCB-2818-4B9E-8DAD-6A9A0A0BE5E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +139,7 @@ Global
 		{13B7AACB-9C85-4409-8D4B-95A67D0DFFF7} = {E389DEB6-5F90-444B-A054-12A10D39C76F}
 		{5AB44CFF-FFD6-4B26-81DB-8C7C343D3F02} = {E389DEB6-5F90-444B-A054-12A10D39C76F}
 		{B0F710FD-DAA7-489F-8E13-2D77D69F7072} = {516E002B-9E6E-4456-B7F6-EAA353966DE6}
+		{CA245BCB-2818-4B9E-8DAD-6A9A0A0BE5E4} = {516E002B-9E6E-4456-B7F6-EAA353966DE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384484BE-4680-4529-9CC2-AD37BA4D12D1}

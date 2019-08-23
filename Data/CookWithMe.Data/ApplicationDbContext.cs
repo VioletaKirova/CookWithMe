@@ -266,6 +266,11 @@
                 .HasMany(l => l.Users)
                 .WithOne(u => u.Lifestyle)
                 .HasForeignKey(u => u.LifestyleId);
+
+            // Unique constraints
+            builder.Entity<Category>()
+                .HasIndex(x => x.Title)
+                .IsUnique();
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

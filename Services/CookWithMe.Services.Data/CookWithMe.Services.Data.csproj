@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\CookWithMe.Common\CookWithMe.Common.csproj" />
     <ProjectReference Include="..\..\Data\CookWithMe.Data.Common\CookWithMe.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\CookWithMe.Data.Models\CookWithMe.Data.Models.csproj" />
+    <ProjectReference Include="..\CookWithMe.Services.Common\CookWithMe.Services.Common.csproj" />
     <ProjectReference Include="..\CookWithMe.Services.Mapping\CookWithMe.Services.Mapping.csproj" />
     <ProjectReference Include="..\CookWithMe.Services.Models\CookWithMe.Services.Models.csproj" />
     <ProjectReference Include="..\CookWithMe.Services\CookWithMe.Services.csproj" />

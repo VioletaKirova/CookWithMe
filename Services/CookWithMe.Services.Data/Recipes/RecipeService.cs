@@ -5,9 +5,9 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using CookWithMe.Common.Exceptions;
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
+    using CookWithMe.Services.Common;
     using CookWithMe.Services.Data.Allergens;
     using CookWithMe.Services.Data.Categories;
     using CookWithMe.Services.Data.Lifestyles;

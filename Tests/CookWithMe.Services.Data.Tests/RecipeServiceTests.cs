@@ -5,11 +5,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using CookWithMe.Common.Exceptions;
     using CookWithMe.Data;
     using CookWithMe.Data.Models;
     using CookWithMe.Data.Models.Enums;
     using CookWithMe.Data.Repositories;
+    using CookWithMe.Services.Common;
     using CookWithMe.Services.Data.Allergens;
     using CookWithMe.Services.Data.Categories;
     using CookWithMe.Services.Data.Lifestyles;

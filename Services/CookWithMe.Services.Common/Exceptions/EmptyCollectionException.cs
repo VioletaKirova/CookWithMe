@@ -1,4 +1,4 @@
-﻿namespace CookWithMe.Common.Exceptions
+﻿namespace CookWithMe.Services.Common
 {
     using System;
 
