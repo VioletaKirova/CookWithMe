@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -84,6 +85,14 @@
 
             recipeDetailsViewModel.ShoppingListIngredients = this.stringFormatService
                 .SplitBySemicollon(recipeServiceModel.ShoppingList.Ingredients);
+
+            recipeDetailsViewModel.Allergens = recipeServiceModel.Allergens
+                .Select(x => x.Allergen.Name)
+                .ToList();
+
+            recipeDetailsViewModel.Lifestyles = recipeServiceModel.Lifestyles
+                .Select(x => x.Lifestyle.Type)
+                .ToList();
 
             recipeDetailsViewModel.FormatedPreparationTime = this.stringFormatService
                 .FormatTime(recipeServiceModel.PreparationTime);

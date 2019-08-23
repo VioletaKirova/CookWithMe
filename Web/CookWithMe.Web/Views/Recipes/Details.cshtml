@@ -3,7 +3,7 @@
 @model CookWithMe.Web.ViewModels.Recipes.Details.RecipeDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -23,7 +23,7 @@
 </div>
 <!-- Recipe Background -->
 <div class="recipeBackground">
-    <img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1564058151/index/index_recipe_gcxfbu.jpg" alt="" />
+    <img src=@Model.Photo alt="" />
 </div>
 <!-- Content
 ================================================== -->
@@ -59,7 +59,6 @@
                             <a href="/Recipes/RemoveFromFavorite/@Model.Id" class="button medium" style="float: right; margin: 0 5px 0 0;">&#10084</a>
                         }
                     }
-                    <!-- TODO: Refactor this -->
                     @if (Model.Rate == -1)
                     {
                         <div class="rating zero-stars">
@@ -104,7 +103,7 @@
                     <span><a href="#reviews">(@Model.Reviews.Count() review/s)</a></span>
                 </div>
             </section>
-            <!-- Slider -->
+            <!-- Photo -->
             <div class="recipeSlider rsDefault">
                 <img itemprop="image" class="rsImg" src="@Model.Photo" alt="" />
             </div>
@@ -115,7 +114,17 @@
                     <li>Prep Time: <strong itemprop="prepTime">@Model.FormatedPreparationTime</strong></li>
                     <li>Cooking: <strong itemprop="cookTime">@Model.FormatedCookingTime</strong></li>
                 </ul>
-                <div class="menu nav-collapse" style="margin: -19px 0 0 0; float: right;">
+                <div class="menu nav-collapse" style="margin: -19px -40px 0 0; float: right;">
+                    <ul>
+                        <li>
+                            <a href="#" style="color: #8dc63f">Yield</a>
+                            <ul>
+                                <li><a>@Model.Yield</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu nav-collapse" style="margin: -19px -50px 0 0; float: right;">
                     <ul>
                         <li>
                             <a href="#" style="color: #8dc63f">Nutritional Info</a>
@@ -132,9 +141,45 @@
                         </li>
                     </ul>
                 </div>
+                <div class="menu nav-collapse" style="margin: -19px -50px 0 0; float: right;">
+                    <ul>
+                        <li>
+                            <a href="#" style="color: #8dc63f">Allergens</a>
+                            <ul>
+                                @foreach (var allergen in Model.Allergens)
+                                {
+                                    <li><a>@allergen</a></li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu nav-collapse" style="margin: -19px -50px 0 0; float: right;">
+                    <ul>
+                        <li>
+                            <a href="#" style="color: #8dc63f">Lifestyle</a>
+                            <ul>
+                                @foreach (var lifestyle in Model.Lifestyles)
+                                {
+                                    <li><a>@lifestyle</a></li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu nav-collapse" style="margin: -19px -50px 0 0; float: right;">
+                    <ul>
+                        <li>
+                            <a href="#" style="color: #8dc63f">Skill Level</a>
+                            <ul>
+                                <li><a>@Model.SkillLevel</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
                 <div class="clearfix"></div>
             </section>
-            <!-- Text -->
+            <!-- Summary -->
             <p itemprop="description">@Model.Summary</p>
             <div class="margin-bottom-5"></div>
             <!-- Ingredients -->
@@ -165,8 +210,8 @@
             </ol>
             <div class="clearfix"></div>
             <div class="margin-bottom-20"></div>
-            <!-- Comments
-            ================================================== -->
+            <!-- Reviews
+    ================================================== -->
             <h3 class="headline">Reviews <span class="comments-amount">(@Model.Reviews.Count())</span></h3><span class="line"></span><div class="clearfix"></div>
             <!-- Reviews -->
             <section class="comments" id="reviews">
@@ -178,14 +223,13 @@
                                 <div class="arrow-comment"></div>
                                 <div class="comment-by">
                                     @if (review.ReviewerId == this.User.FindFirstValue(ClaimTypes.NameIdentifier) ||
-                                 this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                     {
                                         <a href="/Reviews/Delete/@review.Id" class="button small" style="float: right">Delete</a>
                                     }
                                     <strong>@review.ReviewerFullName</strong><span class="date">@review.CreatedOn.ToString("dd/MM/yyyy")</span>
                                 </div>
                                 <p>@review.Comment</p>
-                                <!-- TODO: Refactor this -->
                                 @if (review.Rating == 1)
                                 {
                                     <div class="rating one-stars">
@@ -228,8 +272,7 @@
             </section>
             <div class="clearfix"></div>
             <!-- Add Review
-            ================================================== -->
-            <!-- Add Review Form -->
+    ================================================== -->
             <a href="/Reviews/Create/@Model.Id" class="button medium color">Add Review</a>
             <div class="clearfix"></div>
         </div>
@@ -248,5 +291,4 @@
         </div>
     </div>
 </div>
-<!-- Container / End -->
 <div class="margin-top-50"></div>

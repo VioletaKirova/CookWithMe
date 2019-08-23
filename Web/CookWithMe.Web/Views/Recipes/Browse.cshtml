@@ -2,22 +2,21 @@
 @model CookWithMe.Web.InputModels.Recipes.Browse.RecipeBrowseInputModel
 
 @{
-    ViewData["Title"] = "Search";
+    ViewData["Title"] = "Browse Recipes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!-- Titlebar
 ================================================== -->
 <section id="titlebar" class="browse-all">
-    <!-- Container -->
     <div class="container">
         <div class="eight columns">
-            <h2>Browse Recipes</h2>
+            <h2>@ViewData["Title"]</h2>
         </div>
     </div>
-    <!-- Container / End -->
 </section>
-<!-- Container -->
+<!-- Content
+================================================== -->
 <form asp-action="Filtered" class="advanced-search-container">
     <div class="container">
         <div class="sixteen columns">

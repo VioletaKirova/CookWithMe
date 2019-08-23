@@ -1,19 +1,17 @@
 ﻿@model IEnumerable<CookWithMe.Web.ViewModels.ShoppingLists.All.ShoppingListAllViewModel>
 
 @{
-    ViewData["Title"] = "All";
+    ViewData["Title"] = "My Shopping Lists";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!-- Titlebar
 ================================================== -->
 <section id="titlebar">
-    <!-- Container -->
     <div class="container">
         <div class="eight columns">
-            <h2>My Shopping Lists</h2>
+            <h2>@ViewData["Title"]</h2>
         </div>
     </div>
-    <!-- Container / End -->
 </section>
 <!-- Content
 ================================================== -->

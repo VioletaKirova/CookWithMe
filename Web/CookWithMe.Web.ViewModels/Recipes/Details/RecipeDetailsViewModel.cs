@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using AutoMapper;
+
     using CookWithMe.Data.Models.Enums;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Recipes;
@@ -29,6 +31,10 @@
         public string ShoppingListId { get; set; }
 
         public ICollection<string> ShoppingListIngredients { get; set; }
+
+        public ICollection<string> Allergens { get; set; }
+
+        public ICollection<string> Lifestyles { get; set; }
 
         public Level SkillLevel { get; set; }
 

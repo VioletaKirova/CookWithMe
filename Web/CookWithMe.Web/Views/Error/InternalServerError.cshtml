@@ -1,25 +1,22 @@
 ﻿@model CookWithMe.Web.ViewModels.ErrorViewModel
 
 @{
-    ViewData["Title"] = "InternalServerError";
+    ViewData["Title"] = "Oops!";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!-- Titlebar
 ================================================== -->
 <section id="titlebar">
-    <!-- Container -->
     <div class="container">
         <div class="eight columns">
-            <h2>Oops!</h2>
+            <h2>@ViewData["Title"]</h2>
         </div>
     </div>
-    <!-- Container / End -->
 </section>
 <!-- Content
 ================================================== -->
 <div class="container">
-    <!-- Masonry -->
     <div class="sixteen columns">
         <h3>Something went wrong!</h3>
         <h3>Please try again later. If the error persists, contact the owner.</h3>

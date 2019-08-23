@@ -6,11 +6,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br />
 <!-- Content
 ================================================== -->
+<br />
 <div class="container">
-    <!-- Masonry -->
     <div class="twelve columns">
         @if (this.TempData["Success"] != null)
         {
@@ -31,7 +30,7 @@
         <div class="isotope">
             @foreach (var recipe in Model)
             {
-                <!-- Recipe #1 -->
+                <!-- Recipe -->
                 <div class="four recipe-box columns">
                     <!-- Thumbnail -->
                     <div class="thumbnail-holder">
@@ -70,5 +69,4 @@
     ================================================== -->
     @await Component.InvokeAsync("CategorySidebar")
 </div>
-<!-- Container / End -->
 <div class="margin-top-50"></div>

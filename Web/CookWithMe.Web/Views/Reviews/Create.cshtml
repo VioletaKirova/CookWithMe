@@ -1,21 +1,19 @@
 ﻿@model CookWithMe.Web.InputModels.Reviews.Create.ReviewCreateInputModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Submit Review";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!-- Titlebar
 ================================================== -->
 <section id="titlebar">
-    <!-- Container -->
     <div class="container">
         <div class="eight columns">
-            <h2 style="margin: 18px 0 0 0;">Submit Review</h2>
+            <h2 style="margin: 18px 0 0 0;">@ViewData["Title"]</h2>
             <p>@Model.RecipeTitle</p>
         </div>
     </div>
-    <!-- Container / End -->
 </section>
 <div class="container">
     <div class="sixteen columns">
@@ -23,9 +21,9 @@
         {
             @await Component.InvokeAsync("ErrorAlert", new { message = this.TempData["Error"] });
         }
-        <!-- Add Comment
+        <!-- Add Review
     ================================================== -->
-        <!-- Add Comment Form -->
+        <!-- Add Review Form -->
         <form asp-action="Create" id="add-review" class="add-comment">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <fieldset>
