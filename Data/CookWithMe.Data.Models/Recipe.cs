@@ -18,7 +18,6 @@
             this.FavoritedBy = new HashSet<UserFavoriteRecipe>();
             this.CookedBy = new HashSet<UserCookedRecipe>();
             this.Reviews = new HashSet<Review>();
-            this.Meals = new HashSet<MealRecipe>();
         }
 
         [Required]
@@ -73,7 +72,5 @@
         public ICollection<UserCookedRecipe> CookedBy { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
-
-        public ICollection<MealRecipe> Meals { get; set; }
     }
 }

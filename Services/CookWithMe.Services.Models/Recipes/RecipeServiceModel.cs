@@ -7,7 +7,6 @@
     using CookWithMe.Data.Models.Enums;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Categories;
-    using CookWithMe.Services.Models.Meals;
     using CookWithMe.Services.Models.NutritionalValues;
     using CookWithMe.Services.Models.Reviews;
     using CookWithMe.Services.Models.ShoppingLists;
@@ -22,7 +21,6 @@
             this.FavoritedBy = new HashSet<UserFavoriteRecipeServiceModel>();
             this.CookedBy = new HashSet<UserCookedRecipeServiceModel>();
             this.Reviews = new HashSet<ReviewServiceModel>();
-            this.Meals = new HashSet<MealRecipeServiceModel>();
         }
 
         public string Id { get; set; }
@@ -74,7 +72,5 @@
         public ICollection<UserCookedRecipeServiceModel> CookedBy { get; set; }
 
         public ICollection<ReviewServiceModel> Reviews { get; set; }
-
-        public ICollection<MealRecipeServiceModel> Meals { get; set; }
     }
 }

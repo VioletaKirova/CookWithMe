@@ -30,10 +30,6 @@
 
         public DbSet<Lifestyle> Lifestyles { get; set; }
 
-        public DbSet<Meal> Meals { get; set; }
-
-        public DbSet<MealRecipe> MealRecipes { get; set; }
-
         public DbSet<NutritionalValue> NutritionalValues { get; set; }
 
         public DbSet<Recipe> Recipes { get; set; }
@@ -222,20 +218,6 @@
                 .HasOne(rl => rl.Lifestyle)
                 .WithMany()
                 .HasForeignKey(rl => rl.LifestyleId);
-
-            // Many-to-one relationship between Recipes and Meals
-            builder.Entity<MealRecipe>()
-                .HasKey(mr => new { mr.MealId, mr.RecipeId });
-
-            builder.Entity<MealRecipe>()
-                .HasOne(mr => mr.Meal)
-                .WithMany(m => m.Recipes)
-                .HasForeignKey(mr => mr.MealId);
-
-            builder.Entity<MealRecipe>()
-                .HasOne(mr => mr.Recipe)
-                .WithMany(r => r.Meals)
-                .HasForeignKey(mr => mr.RecipeId);
 
             // Many-to-one relationship between Recipes and Reviews
             builder.Entity<Recipe>()

@@ -47,7 +47,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\CookWithMe.Common\CookWithMe.Common.csproj" />
     <ProjectReference Include="..\..\Services\CookWithMe.Services.Data\CookWithMe.Services.Data.csproj" />
-    <ProjectReference Include="..\CookWithMe.Data.Common\CookWithMe.Data.Common.csproj" />
     <ProjectReference Include="..\CookWithMe.Data.Models\CookWithMe.Data.Models.csproj" />
   </ItemGroup>
 
