@@ -21,7 +21,6 @@
 
             var categoryTitles = new string[]
             {
-                "All",
                 "Breakfast",
                 "Snacks",
                 "Salads",

@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\CookWithMe.Common\CookWithMe.Common.csproj" />
     <ProjectReference Include="..\..\Services\CookWithMe.Services.Mapping\CookWithMe.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\CookWithMe.Services.Models\CookWithMe.Services.Models.csproj" />
+    <ProjectReference Include="..\CookWithMe.Web.Common\CookWithMe.Web.Common.csproj" />
     <ProjectReference Include="..\CookWithMe.Web.ViewModels\CookWithMe.Web.ViewModels.csproj" />
   </ItemGroup>
 

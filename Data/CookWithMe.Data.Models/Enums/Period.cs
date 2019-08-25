@@ -4,19 +4,16 @@
 
     public enum Period
     {
-        [Description("All")]
-        All = 1,
-
         [Description("A La Minute")]
-        ALaMinute = 2,
+        ALaMinute = 1,
 
         [Description("Half An Hour")]
-        HalfAnHour = 3,
+        HalfAnHour = 2,
 
         [Description("One Hour")]
-        OneHour = 4,
+        OneHour = 3,
 
         [Description("Over One Hour")]
-        OverOneHour = 5,
+        OverOneHour = 4,
     }
 }

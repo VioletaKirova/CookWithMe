@@ -9,18 +9,13 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Categories;
     using CookWithMe.Services.Models.Recipes;
+    using CookWithMe.Web.Common.ValidationAttribures;
     using CookWithMe.Web.ViewModels.Recipes.ViewData;
 
     using Microsoft.AspNetCore.Http;
 
     public class RecipeCreateInputModel : IMapTo<RecipeServiceModel>, IHaveCustomMappings
     {
-        public RecipeCreateInputModel()
-        {
-            this.AllergenNames = new HashSet<string>();
-            this.LifestyleTypes = new HashSet<string>();
-        }
-
         [Display(Name = "Title")]
         [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
         [StringLength(50, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
@@ -36,7 +31,7 @@
 
         [Display(Name = "Summary")]
         [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
-        [StringLength(200, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 10)]
+        [StringLength(1000, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 10)]
         [DataType(DataType.MultilineText)]
         public string Summary { get; set; }
 
@@ -70,8 +65,8 @@
         [Display(Name = "Allergens")]
         public IEnumerable<string> AllergenNames { get; set; }
 
-        [Display(Name = "Lifestyle Type")]
-        [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
+        [Display(Name = "Lifestyle")]
+        [EnsureMinimumElements(1, ErrorMessage = AttributesErrorMessages.EnsureMinimumElementsErrorMessage)]
         public IEnumerable<string> LifestyleTypes { get; set; }
 
         [Display(Name = "Serving")]

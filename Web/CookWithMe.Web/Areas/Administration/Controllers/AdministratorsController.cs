@@ -53,8 +53,6 @@
             var administratorRegisterServiceModel = administratorRegisterInputModel
                 .To<AdministratorServiceModel>();
 
-            await this.administratorService.RegisterAsync(administratorRegisterServiceModel);
-
             if (!await this.administratorService.RegisterAsync(administratorRegisterServiceModel))
             {
                 this.TempData["Error"] = RegistrationErrorMessage;

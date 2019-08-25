@@ -32,7 +32,7 @@
         public Category Category { get; set; }
 
         [Required]
-        [MaxLength(200)]
+        [MaxLength(1000)]
         public string Summary { get; set; }
 
         [Required]
