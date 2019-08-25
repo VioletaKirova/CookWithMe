@@ -18,5 +18,7 @@
         public string ReviewerId { get; set; }
 
         public string ReviewerFullName { get; set; }
+
+        public string ReviewerProfilePhoto { get; set; }
     }
 }

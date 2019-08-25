@@ -22,8 +22,10 @@
     [Authorize]
     public class UsersController : BaseController
     {
-        private const string AddAdditionalInfoError = "Failed to add the additional info.";
-        private const string EditAdditionalInfoError = "Failed to edit the additional info.";
+        private const string AddAdditionalInfoErrorMessage = "Failed to add the additional info.";
+        private const string AddAdditionalInfoSuccessMessage = "You successfully added the additional info.";
+        private const string EditAdditionalInfoErrorMessage = "Failed to edit the additional info.";
+        private const string EditAdditionalInfoSuccessMessage = "You successfully edited the additional info.";
 
         private readonly IUserService userService;
         private readonly IAllergenService allergenService;
@@ -94,11 +96,15 @@
 
             if (!await this.userService.AddAdditionalInfoAsync(userId, userAdditionalInfoServiceModel))
             {
-                this.TempData["Error"] = AddAdditionalInfoError;
+                this.TempData["Error"] = AddAdditionalInfoErrorMessage;
 
-                return this.View();
+                userAddAdditionalInfoInputModel
+                    .UserAdditionalInfoViewData = await this.GetUserAdditionalInfoViewDataModelAsync();
+
+                return this.View(userAddAdditionalInfoInputModel);
             }
 
+            this.TempData["Success"] = AddAdditionalInfoSuccessMessage;
             return this.Redirect("/");
         }
 
@@ -167,11 +173,15 @@
 
             if (!await this.userService.EditAdditionalInfoAsync(userId, userAdditionalInfoServiceModel))
             {
-                this.TempData["Error"] = EditAdditionalInfoError;
+                this.TempData["Error"] = EditAdditionalInfoErrorMessage;
 
-                return this.View();
+                userEditAdditionalInfoInputModel
+                    .UserAdditionalInfoViewData = await this.GetUserAdditionalInfoViewDataModelAsync();
+
+                return this.View(userEditAdditionalInfoInputModel);
             }
 
+            this.TempData["Success"] = EditAdditionalInfoSuccessMessage;
             return this.Redirect("/");
         }
 

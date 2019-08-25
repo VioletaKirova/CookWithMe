@@ -211,19 +211,27 @@
             <div class="clearfix"></div>
             <div class="margin-bottom-20"></div>
             <!-- Reviews
-    ================================================== -->
+            ================================================== -->
             <h3 class="headline">Reviews <span class="comments-amount">(@Model.Reviews.Count())</span></h3><span class="line"></span><div class="clearfix"></div>
             <!-- Reviews -->
-            <section class="comments" id="reviews">
+            <section class="comments ten columns" id="reviews" style="float: right; margin: 10px 20px 10px 10px">
                 <ul>
                     @foreach (var review in Model.Reviews)
                     {
                         <li>
+                            @if (review.ReviewerProfilePhoto != null)
+                            {
+                                <div class="avatar"><img src=@review.ReviewerProfilePhoto alt="" /></div>
+                            }
+                            else
+                            {
+                                <div class="avatar"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1566766782/common/Blank-Photo_i40wkc.png" alt="" /></div>
+                            }
                             <div class="comment-content">
                                 <div class="arrow-comment"></div>
                                 <div class="comment-by">
                                     @if (review.ReviewerId == this.User.FindFirstValue(ClaimTypes.NameIdentifier) ||
-                                this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                         this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                     {
                                         <a href="/Reviews/Delete/@review.Id" class="button small" style="float: right">Delete</a>
                                     }
@@ -272,7 +280,7 @@
             </section>
             <div class="clearfix"></div>
             <!-- Add Review
-    ================================================== -->
+            ================================================== -->
             <a href="/Reviews/Create/@Model.Id" class="button medium color">Add Review</a>
             <div class="clearfix"></div>
         </div>

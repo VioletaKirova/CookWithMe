@@ -16,6 +16,11 @@
 
     public class RecipeCreateInputModel : IMapTo<RecipeServiceModel>, IHaveCustomMappings
     {
+        public RecipeCreateInputModel()
+        {
+            this.AllergenNames = new HashSet<string>();
+        }
+
         [Display(Name = "Title")]
         [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
         [StringLength(50, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]

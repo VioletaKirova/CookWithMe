@@ -47,7 +47,6 @@
         public async Task<IActionResult> IndexLoggedIn(int? pageNumber)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             var userLifestyleId = (await this.userService.GetByIdAsync(userId)).LifestyleId;
 
             if (userLifestyleId != null)

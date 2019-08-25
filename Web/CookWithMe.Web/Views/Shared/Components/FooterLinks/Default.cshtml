@@ -1,7 +1,23 @@
-﻿@model List<CookWithMe.Web.ViewComponents.Models.FooterLinksViewComponentViewModel>
+﻿@using CookWithMe.Common;
+@model List<CookWithMe.Web.ViewComponents.Models.FooterLinksViewComponentViewModel>
 
-<div class="four columns">
-    <h3 class="headline footer">Explore</h3>
+<div class="three columns">
+    <h3 class="headline footer">Recipes</h3>
+    <span class="line"></span>
+    <div class="clearfix"></div>
+    <ul class="footer-links">
+        @if (this.User.Identity.IsAuthenticated)
+        {
+            <li><a href="/Recipes/Browse">Browse</a></li>
+        }
+        else
+        {
+            <li><a href="/Categories/Recipes/@GlobalConstants.FirstCategoryId">Browse</a></li>
+        }
+    </ul>
+</div>
+<div class="three columns">
+    <h3 class="headline footer">Categories</h3>
     <span class="line"></span>
     <div class="clearfix"></div>
     <ul class="footer-links">

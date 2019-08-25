@@ -179,18 +179,6 @@
                 .WithMany()
                 .HasForeignKey(usl => usl.ShoppingListId);
 
-            // Many-to-one relationship between Users and Reviews
-            builder.Entity<ApplicationUser>()
-                .HasMany(u => u.Reviews)
-                .WithOne(r => r.Reviewer)
-                .HasForeignKey(r => r.ReviewerId);
-
-            // Many-to-one relationship between Users and Recipes
-            builder.Entity<ApplicationUser>()
-                .HasMany(u => u.Recipes)
-                .WithOne(r => r.User)
-                .HasForeignKey(r => r.UserId);
-
             // Many-to-many unidirectional relationship between Recipes and Allergens
             builder.Entity<RecipeAllergen>()
                 .HasKey(ra => new { ra.RecipeId, ra.AllergenId });
@@ -219,12 +207,6 @@
                 .WithMany()
                 .HasForeignKey(rl => rl.LifestyleId);
 
-            // Many-to-one relationship between Recipes and Reviews
-            builder.Entity<Recipe>()
-                .HasMany(r => r.Reviews)
-                .WithOne(r => r.Recipe)
-                .HasForeignKey(r => r.RecipeId);
-
             // One-to-one relationship between Recipes and ShoppingLists
             builder.Entity<Recipe>()
                 .HasOne(r => r.ShoppingList)
@@ -236,18 +218,6 @@
                 .HasOne(r => r.NutritionalValue)
                 .WithOne(nv => nv.Recipe)
                 .HasForeignKey<NutritionalValue>(nv => nv.RecipeId);
-
-            // Many-to-one relationship between Categories and Reviews
-            builder.Entity<Category>()
-                .HasMany(c => c.Recipes)
-                .WithOne(r => r.Category)
-                .HasForeignKey(r => r.CategoryId);
-
-            // Many-to-one relationship between Lifestyles and Users
-            builder.Entity<Lifestyle>()
-                .HasMany(l => l.Users)
-                .WithOne(u => u.Lifestyle)
-                .HasForeignKey(u => u.LifestyleId);
 
             // Unique constraints
             builder.Entity<Category>()

@@ -128,11 +128,9 @@
 
             if (user.LifestyleId != null)
             {
-                var userLifestyleId = user.LifestyleId;
-
                 recipesFilteredByLifestyle = this.recipeRepository
                     .AllAsNoTracking()
-                    .Where(x => x.Lifestyles.Select(r => r.Lifestyle.Id).Contains(userLifestyleId.Value))
+                    .Where(x => x.Lifestyles.Select(r => r.Lifestyle.Id).Contains(user.LifestyleId.Value))
                     .To<RecipeServiceModel>();
             }
             else

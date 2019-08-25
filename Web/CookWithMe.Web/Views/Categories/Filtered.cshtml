@@ -1,8 +1,9 @@
-﻿@using  CookWithMe.Web.Infrastructure;
-@model PaginatedList<CookWithMe.Web.ViewModels.Home.Index.RecipeHomeViewModel>
+﻿@using CookWithMe.Common;
+@using  CookWithMe.Web.Infrastructure;
+@model PaginatedList<CookWithMe.Web.ViewModels.Categories.Filtered.CategoryFilteredRecipeViewModel>
 
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Recipes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,18 +17,23 @@
             @await Component.InvokeAsync("SuccessAlert", new { message = this.TempData["Success"] });
         }
         <!-- Headline -->
-        @if (ViewData["Lifestyle"] != null)
+        <h3 class="headline">@ViewData["CategoryTitle"]</h3>
+        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
-            <h3 class="headline">Latest Recipes for @ViewData["Lifestyle"] Lifestyle</h3>
+            <a href="/Administration/Categories/Edit/@ViewData["CategoryId"]" class="button medium color" margin: 0 5px 0 0;">Edit</a>
+            <a href="/Administration/Categories/Delete/@ViewData["CategoryId"]" class="button medium" margin: 0 5px 0 0;">Delete</a>
         }
         else
         {
-            <h3 class="headline">Latest Recipes</h3>
+            <span class="line rb margin-bottom-35"></span>
         }
-        <span class="line rb margin-bottom-35"></span>
         <div class="clearfix"></div>
         <!-- Isotope -->
         <div class="isotope">
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <div class="margin-top-20"></div>
+            }
             @foreach (var recipe in Model)
             {
                 <!-- Recipe -->
@@ -54,12 +60,12 @@
             var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
             var nextDisabled = !Model.HasNextPage ? "disabled" : "";
         }
-        <a asp-action="IndexLoggedIn"
+        <a asp-action="Recipes"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
            class="button big @prevDisabled">
             Previous
         </a>
-        <a asp-action="IndexLoggedIn"
+        <a asp-action="Recipes"
            asp-route-pageNumber="@(Model.PageIndex + 1)"
            class="button color big @nextDisabled">
             Next
