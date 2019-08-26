@@ -1,4 +1,4 @@
-﻿namespace CookWithMe.Web.InputModels.Reviews.Create
+﻿namespace CookWithMe.Web.InputModels.Reviews.Edit
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -6,7 +6,7 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Reviews;
 
-    public class ReviewCreateInputModel : IMapTo<ReviewServiceModel>
+    public class ReviewEditInputModel : IMapTo<ReviewServiceModel>, IMapFrom<ReviewServiceModel>
     {
         [Display(Name = "Comment")]
         [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
@@ -15,9 +15,9 @@
 
         [Display(Name = "Rating")]
         [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
-        [Range(1, 5,  ErrorMessage = AttributesErrorMessages.RangeErrorMessage)]
+        [Range(1, 5, ErrorMessage = AttributesErrorMessages.RangeErrorMessage)]
         public int Rating { get; set; }
 
-        public ReviewCreateRecipeInputModel Recipe { get; set; }
+        public ReviewEditRecipeInputModel Recipe { get; set; }
     }
 }

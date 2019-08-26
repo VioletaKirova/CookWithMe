@@ -231,9 +231,13 @@
                                 <div class="arrow-comment"></div>
                                 <div class="comment-by">
                                     @if (review.ReviewerId == this.User.FindFirstValue(ClaimTypes.NameIdentifier) ||
-                                         this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                       this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                     {
                                         <a href="/Reviews/Delete/@review.Id" class="button small" style="float: right">Delete</a>
+                                    }
+                                    @if (review.ReviewerId == this.User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                    {
+                                        <a href="/Reviews/Edit/@review.Id" class="button color small" style="float: right; margin: 0 -85px 0 0;">Edit</a>
                                     }
                                     <strong>@review.ReviewerFullName</strong><span class="date">@review.CreatedOn.ToString("dd/MM/yyyy")</span>
                                 </div>

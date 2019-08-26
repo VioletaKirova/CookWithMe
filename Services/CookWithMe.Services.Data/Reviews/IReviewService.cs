@@ -9,6 +9,8 @@
     {
         Task<bool> CreateAsync(ReviewServiceModel reviewServiceModel);
 
+        Task<bool> EditAsync(string id, ReviewServiceModel reviewServiceModel);
+
         Task<bool> DeleteByIdAsync(string id);
 
         Task<ReviewServiceModel> GetByIdAsync(string id);

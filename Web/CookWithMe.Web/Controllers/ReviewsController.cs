@@ -8,7 +8,7 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Reviews;
     using CookWithMe.Web.InputModels.Reviews.Create;
-
+    using CookWithMe.Web.InputModels.Reviews.Edit;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +16,7 @@
     public class ReviewsController : BaseController
     {
         private const string CreateErrorMessage = "Failed to create the review.";
+        private const string EditErrorMessage = "Failed to edit the review.";
         private const string DeleteErrorMessage = "Failed to delete the review.";
 
         private readonly IReviewService reviewService;
@@ -36,8 +37,11 @@
 
             var reviewCreateInputModel = new ReviewCreateInputModel
             {
-                RecipeId = id,
-                RecipeTitle = recipeServiceModel.Title,
+                Recipe = new ReviewCreateRecipeInputModel
+                {
+                    Id = id,
+                    Title = recipeServiceModel.Title,
+                },
             };
 
             return this.View(reviewCreateInputModel);
@@ -48,7 +52,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View();
+                return this.View(reviewCreateInputModel);
             }
 
             var reviewServiceModel = reviewCreateInputModel.To<ReviewServiceModel>();
@@ -60,7 +64,47 @@
             {
                 this.TempData["Error"] = CreateErrorMessage;
 
-                return this.View();
+                return this.View(reviewCreateInputModel);
+            }
+
+            return this.Redirect($"/Recipes/Details/{reviewServiceModel.RecipeId}");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var reviewServiceModel = await this.reviewService.GetByIdAsync(id);
+
+            var reviewEditInputModel = reviewServiceModel
+                .To<ReviewEditInputModel>();
+
+            reviewEditInputModel.Recipe = new ReviewEditRecipeInputModel
+            {
+                Id = reviewServiceModel.RecipeId,
+                Title = (await this.recipeService.GetByIdAsync(reviewServiceModel.RecipeId)).Title,
+            };
+
+            return this.View(reviewEditInputModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, ReviewEditInputModel reviewEditInputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(reviewEditInputModel);
+            }
+
+            var reviewServiceModel = reviewEditInputModel.To<ReviewServiceModel>();
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            reviewServiceModel.ReviewerId = userId;
+
+            if (!await this.reviewService.EditAsync(id, reviewServiceModel))
+            {
+                this.TempData["Error"] = EditErrorMessage;
+
+                return this.View(reviewEditInputModel);
             }
 
             return this.Redirect($"/Recipes/Details/{reviewServiceModel.RecipeId}");

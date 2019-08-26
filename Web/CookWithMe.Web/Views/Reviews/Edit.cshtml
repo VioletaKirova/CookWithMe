@@ -1,7 +1,7 @@
-﻿@model CookWithMe.Web.InputModels.Reviews.Create.ReviewCreateInputModel
+﻿@model CookWithMe.Web.InputModels.Reviews.Edit.ReviewEditInputModel
 
 @{
-    ViewData["Title"] = "Submit Review";
+    ViewData["Title"] = "Edit Review";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -24,7 +24,7 @@
         <!-- Add Review
     ================================================== -->
         <!-- Add Review Form -->
-        <form asp-action="Create" id="add-review" class="add-comment">
+        <form asp-action="Edit" id="add-review" class="add-comment">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <fieldset>
                 <input asp-for="Recipe.Id" type="hidden" value="@Model.Recipe.Id">
@@ -42,7 +42,7 @@
                 </div>
             </fieldset>
             <div class="margin-top-30"></div>
-            <button type="submit" class="button color big">Submit Review</button>
+            <button type="submit" class="button color big">Edit Review</button>
         </form>
     </div>
 </div>

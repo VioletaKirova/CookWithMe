@@ -13,8 +13,8 @@
 
     public class ReviewService : IReviewService
     {
-        private const string InvalidReviewPropertyErrorMessage = "One or more required properties are null.";
         private const string InvalidReviewIdErrorMessage = "Review with ID: {0} does not exist.";
+        private const string InvalidReviewPropertyErrorMessage = "One or more required properties are null.";
 
         private readonly IDeletableEntityRepository<Review> reviewRepository;
         private readonly IUserService userService;
@@ -36,21 +36,16 @@
 
             if (review.Comment == null ||
                 review.Rating == 0 ||
-                review.RecipeId == null ||
-                review.ReviewerId == null)
+                review.ReviewerId == null ||
+                review.Recipe.Id == null)
             {
                 throw new ArgumentNullException(InvalidReviewPropertyErrorMessage);
             }
 
-            review.Id = Guid.NewGuid().ToString();
+            await this.userService.SetUserToReviewAsync(reviewServiceModel.ReviewerId, review);
+            await this.recipeService.SetRecipeToReviewAsync(reviewServiceModel.Recipe.Id, review);
 
             await this.reviewRepository.AddAsync(review);
-            await this.reviewRepository.SaveChangesAsync();
-
-            await this.userService.SetUserToReviewAsync(reviewServiceModel.ReviewerId, review);
-            await this.recipeService.SetRecipeToReviewAsync(reviewServiceModel.RecipeId, review);
-
-            this.reviewRepository.Update(review);
             var result = await this.reviewRepository.SaveChangesAsync();
 
             return result > 0;
@@ -93,6 +88,31 @@
             }
 
             return review.To<ReviewServiceModel>();
+        }
+
+        public async Task<bool> EditAsync(string id, ReviewServiceModel reviewServiceModel)
+        {
+            var reviewFromDb = await this.reviewRepository.GetByIdWithDeletedAsync(id);
+
+            if (reviewFromDb == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidReviewIdErrorMessage, id));
+            }
+
+            if (reviewServiceModel.Comment == null ||
+                reviewServiceModel.Rating == 0)
+            {
+                throw new ArgumentNullException(InvalidReviewPropertyErrorMessage);
+            }
+
+            reviewFromDb.Rating = reviewServiceModel.Rating;
+            reviewFromDb.Comment = reviewServiceModel.Comment;
+
+            this.reviewRepository.Update(reviewFromDb);
+            var result = await this.reviewRepository.SaveChangesAsync();
+
+            return result > 0;
         }
     }
 }
