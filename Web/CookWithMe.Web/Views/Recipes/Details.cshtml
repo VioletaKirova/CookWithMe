@@ -219,27 +219,27 @@
                     @foreach (var review in Model.Reviews)
                     {
                         <li>
-                            @if (review.ReviewerProfilePhoto != null)
+                            @if (review.Reviewer.ProfilePhoto != null)
                             {
-                                <div class="avatar"><a href="/Users/Profile/Favorite/@review.ReviewerUserName"><img src=@review.ReviewerProfilePhoto alt="" /></a></div>
+                                <div class="avatar"><a href="/Users/Profile/Favorite/@review.Reviewer.UserName"><img src=@review.Reviewer.ProfilePhoto alt="" /></a></div>
                             }
                             else
                             {
-                                <div class="avatar"><a href="/Users/Profile/Favorite/@review.ReviewerUserName"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1566904677/common/default_profile_photo_xbwz2n.jpg" alt="" /></a></div>
+                                <div class="avatar"><a href="/Users/Profile/Favorite/@review.Reviewer.UserName"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1566904677/common/default_profile_photo_xbwz2n.jpg" alt="" /></a></div>
                             }
                             <div class="comment-content">
                                 <div class="arrow-comment"></div>
                                 <div class="comment-by">
-                                    @if (review.ReviewerUserName == this.User.FindFirst(ClaimTypes.Name).Value ||
+                                    @if (review.Reviewer.UserName == this.User.FindFirst(ClaimTypes.Name).Value ||
                                       this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                     {
                                         <a href="/Reviews/Delete/@review.Id" class="button small" style="float: right">Delete</a>
                                     }
-                                    @if (review.ReviewerUserName == this.User.FindFirst(ClaimTypes.Name).Value)
+                                    @if (review.Reviewer.UserName == this.User.FindFirst(ClaimTypes.Name).Value)
                                     {
                                         <a href="/Reviews/Edit/@review.Id" class="button color small" style="float: right; margin: 0 -85px 0 0;">Edit</a>
                                     }
-                                    <strong><a href="/Users/Profile/Favorite/@review.ReviewerUserName">@review.ReviewerFullName</a></strong><span class="date">@review.CreatedOn.ToString("dd/MM/yyyy")</span>
+                                    <strong><a href="/Users/Profile/Favorite/@review.Reviewer.UserName">@review.Reviewer.FullName</a></strong><span class="date">@review.CreatedOn.ToString("dd/MM/yyyy")</span>
                                 </div>
                                 <p>@review.Comment</p>
                                 @if (review.Rating == 1)

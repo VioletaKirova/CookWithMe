@@ -581,6 +581,46 @@
         }
 
         [Fact]
+        public async Task GetIdByUserNameAsync_WithExistentUserName_ShouldReturnCorrectResult()
+        {
+            var errorMessagePrefix = "UserService GetIdByUserNameAsync() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var userService = this.GetUserService(userRepository, context);
+            await this.SeedDataForGetByIdMethod(context);
+            var user = userRepository.All().First();
+
+            // Act
+            var actualResult = await userService.GetIdByUserNameAsync(user.UserName);
+            var expectedResult = user.Id;
+
+            // Assert
+            Assert.True(expectedResult == actualResult, errorMessagePrefix + " " + "Id is not returned properly.");
+        }
+
+        [Fact]
+        public async Task GetIdByUserNameAsync_WithNonExistentUserName_ShouldThrowArgumentNullException()
+        {
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var userService = this.GetUserService(userRepository, context);
+            var nonExistentUserName = "non_existent";
+
+            // Act
+
+            // Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await userService.GetIdByUserNameAsync(nonExistentUserName);
+            });
+        }
+
+        [Fact]
         public async Task GetAdditionalInfoByUserIdAsync_WithExistentUserId_ShouldReturnCorrectResult()
         {
             var errorMessagePrefix = "UserService GetAdditionalInfoByUserIdAsync() method does not work properly.";
@@ -673,7 +713,10 @@
             var allergen = new Allergen();
             await context.Allergens.AddAsync(allergen);
 
-            var user = new ApplicationUser();
+            var user = new ApplicationUser()
+            {
+                UserName = "username",
+            };
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
         }

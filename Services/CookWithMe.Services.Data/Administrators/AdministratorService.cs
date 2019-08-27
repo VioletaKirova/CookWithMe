@@ -88,6 +88,12 @@
             var user = await this.userRepository
                 .GetByIdWithDeletedAsync(userId);
 
+            if (user == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserIdErrorMessage, userId));
+            }
+
             return await this.userManager
                 .IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
         }

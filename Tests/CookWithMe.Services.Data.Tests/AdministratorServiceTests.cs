@@ -214,6 +214,79 @@
             });
         }
 
+        [Fact]
+        public async Task IsInAdministratorRoleAsync_WithExistentUserIdAndSuccessfullIsInRoleAsync_ShouldReturnCorrectResult()
+        {
+            var errorMessagePrefix = "AdministratorService IsInAdministratorRoleAsync() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var userManager = this.GetUserManagerMock();
+            userManager
+                .Setup(x => x.IsInRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+                .ReturnsAsync(true);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var administratorService = new AdministratorService(this.configuration, userManager.Object, userRepository);
+            await userRepository.AddAsync(new ApplicationUser());
+            await userRepository.SaveChangesAsync();
+            var user = userRepository.All().First();
+
+            // Act
+            var result = await administratorService.IsInAdministratorRoleAsync(user.Id);
+
+            // Assert
+            Assert.True(result, errorMessagePrefix + " " + "Returns false.");
+        }
+
+        [Fact]
+        public async Task IsInAdministratorRoleAsync_WithExistentUserIdAndFailedIsInRoleAsync_ShouldReturnCorrectResult()
+        {
+            var errorMessagePrefix = "AdministratorService IsInAdministratorRoleAsync() method does not work properly.";
+
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var userManager = this.GetUserManagerMock();
+            userManager
+                .Setup(x => x.IsInRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+                .ReturnsAsync(false);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var administratorService = new AdministratorService(this.configuration, userManager.Object, userRepository);
+            await userRepository.AddAsync(new ApplicationUser());
+            await userRepository.SaveChangesAsync();
+            var user = userRepository.All().First();
+
+            // Act
+            var result = await administratorService.IsInAdministratorRoleAsync(user.Id);
+
+            // Assert
+            Assert.False(result, errorMessagePrefix + " " + "Returns true.");
+        }
+
+        [Fact]
+        public async Task IsInAdministratorRoleAsync_WithNonExistentUserId_ShouldThrowArgumentNullException()
+        {
+            // Arrange
+            MapperInitializer.InitializeMapper();
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var userManager = this.GetUserManagerMock();
+            userManager
+                .Setup(x => x.IsInRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+                .ReturnsAsync(true);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var administratorService = new AdministratorService(this.configuration, userManager.Object, userRepository);
+            var nonExistentUserId = Guid.NewGuid().ToString();
+
+            // Act
+
+            // Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await administratorService.IsInAdministratorRoleAsync(nonExistentUserId);
+            });
+        }
+
         private Mock<UserManager<ApplicationUser>> GetUserManagerMock()
         {
             var userStoreMock = new Mock<IUserStore<ApplicationUser>>();

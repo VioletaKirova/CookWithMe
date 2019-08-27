@@ -15,10 +15,6 @@
 
         public int Rating { get; set; }
 
-        public string ReviewerUserName { get; set; }
-
-        public string ReviewerFullName { get; set; }
-
-        public string ReviewerProfilePhoto { get; set; }
+        public RecipeDetailsReviewReviewerViewModel Reviewer { get; set; }
     }
 }

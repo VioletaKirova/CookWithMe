@@ -15,6 +15,7 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Allergens;
     using CookWithMe.Services.Models.Users;
+    using CookWithMe.Web.Filters;
     using CookWithMe.Web.InputModels.Users.AddAdditionalInfo;
     using CookWithMe.Web.InputModels.Users.EditAdditionalInfo;
     using CookWithMe.Web.ViewModels.Users.AdditionalInfo;
@@ -203,6 +204,7 @@
 
         [HttpGet]
         [Route("/Users/Profile/Favorite/{userName}")]
+        [ServiceFilter(typeof(ArgumentNullExceptionFilterAttribute))]
         public async Task<IActionResult> ProfileFavoriteRecipes(string userName)
         {
             var id = await this.userService.GetIdByUserNameAsync(userName);
@@ -230,6 +232,7 @@
 
         [HttpGet]
         [Route("/Users/Profile/Cooked/{userName}")]
+        [ServiceFilter(typeof(ArgumentNullExceptionFilterAttribute))]
         public async Task<IActionResult> ProfileCookedRecipes(string userName)
         {
             var id = await this.userService.GetIdByUserNameAsync(userName);
@@ -257,6 +260,7 @@
 
         [HttpGet]
         [Route("/Users/Profile/Admin/{userName}")]
+        [ServiceFilter(typeof(ArgumentNullExceptionFilterAttribute))]
         public async Task<IActionResult> ProfileAdminRecipes(string userName)
         {
             var id = await this.userService.GetIdByUserNameAsync(userName);

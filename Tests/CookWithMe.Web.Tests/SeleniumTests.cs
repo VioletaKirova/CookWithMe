@@ -21,14 +21,5 @@
             opts.AddArgument("no-sandbox");
             this.browser = new RemoteWebDriver(opts);
         }
-
-        //[Fact]
-        //public void FooterOfThePageContainsPrivacyLink()
-        //{
-        //    this.browser.Navigate().GoToUrl(this.server.RootUri);
-        //    Assert.Contains(
-        //        this.browser.FindElements(By.CssSelector("footer a")),
-        //        x => x.GetAttribute("href").EndsWith("/Home/Privacy"));
-        //}
     }
 }
