@@ -82,5 +82,14 @@
 
             return result.Succeeded;
         }
+
+        public async Task<bool> IsInAdministratorRoleAsync(string userId)
+        {
+            var user = await this.userRepository
+                .GetByIdWithDeletedAsync(userId);
+
+            return await this.userManager
+                .IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
+        }
     }
 }

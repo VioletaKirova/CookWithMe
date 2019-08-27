@@ -35,16 +35,16 @@
             <section class="recipe-header">
                 <div class="title-alignment">
                     <h2>@Model.Title</h2>
-                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    @if (this.User.Identity.IsAuthenticated)
                     {
-                        <a href="/Administration/Recipes/Delete/@Model.Id" class="button medium" style="float: right">Delete</a>
-                        <a href="/Administration/Recipes/Edit/@Model.Id" class="button medium color" style="float: right; margin: 0 5px 0 0;">Edit</a>
-                    }
-                    else if (this.User.IsInRole(GlobalConstants.UserRoleName))
-                    {
+                        if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <a href="/Administration/Recipes/Delete/@Model.Id" class="button medium" style="float: right">Delete</a>
+                            <a href="/Administration/Recipes/Edit/@Model.Id" class="button medium color" style="float: right; margin: 0 5px 0 0;">Edit</a>
+                        }
                         if (!Model.UserCookedCurrentRecipe)
                         {
-                            <a href="/Recipes/AddToCooked/@Model.Id" class="button medium color" style="float: right">Cooked</a>
+                            <a href="/Recipes/AddToCooked/@Model.Id" class="button medium color" style="float: right; margin: 0 5px 0 0;">Cooked</a>
                         }
                         else
                         {
@@ -193,7 +193,7 @@
                     </li>
                 }
             </ul>
-            @if (this.User.IsInRole(GlobalConstants.UserRoleName))
+            @if (this.User.Identity.IsAuthenticated)
             {
                 <div class="margin-top-20"></div>
 

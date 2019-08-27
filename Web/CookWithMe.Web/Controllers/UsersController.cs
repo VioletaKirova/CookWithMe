@@ -6,16 +6,19 @@
 
     using CookWithMe.Common;
     using CookWithMe.Services;
+    using CookWithMe.Services.Data.Administrators;
     using CookWithMe.Services.Data.Allergens;
     using CookWithMe.Services.Data.Lifestyles;
+    using CookWithMe.Services.Data.Recipes;
     using CookWithMe.Services.Data.Users;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Allergens;
     using CookWithMe.Services.Models.Users;
+    using CookWithMe.Web.Infrastructure;
     using CookWithMe.Web.InputModels.Users.AddAdditionalInfo;
     using CookWithMe.Web.InputModels.Users.EditAdditionalInfo;
     using CookWithMe.Web.ViewModels.Users.AdditionalInfo;
-
+    using CookWithMe.Web.ViewModels.Users.Profile;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -28,19 +31,31 @@
         private const string EditAdditionalInfoSuccessMessage = "You successfully edited the additional info.";
 
         private readonly IUserService userService;
+        private readonly IAdministratorService administratorService;
+        private readonly IRecipeService recipeService;
         private readonly IAllergenService allergenService;
         private readonly ILifestyleService lifestyleService;
+        private readonly IUserFavoriteRecipeService userFavoriteRecipeService;
+        private readonly IUserCookedRecipeService userCookedRecipeService;
         private readonly ICloudinaryService cloudinaryService;
 
         public UsersController(
             IUserService userService,
+            IAdministratorService administratorService,
+            IRecipeService recipeService,
             IAllergenService allergenService,
             ILifestyleService lifestyleService,
+            IUserFavoriteRecipeService userFavoriteRecipeService,
+            IUserCookedRecipeService userCookedRecipeService,
             ICloudinaryService cloudinaryService)
         {
             this.userService = userService;
+            this.administratorService = administratorService;
+            this.recipeService = recipeService;
             this.allergenService = allergenService;
             this.lifestyleService = lifestyleService;
+            this.userFavoriteRecipeService = userFavoriteRecipeService;
+            this.userCookedRecipeService = userCookedRecipeService;
             this.cloudinaryService = cloudinaryService;
         }
 
@@ -183,6 +198,66 @@
 
             this.TempData["Success"] = EditAdditionalInfoSuccessMessage;
             return this.Redirect("/");
+        }
+
+        [HttpGet]
+        [Route("/Users/Profile/Favorite/{id}")]
+        public async Task<IActionResult> ProfileFavoriteRecipes(string id, int? pageNumber)
+        {
+            // TODO: Refactor this
+            this.ViewData["UserId"] = id;
+
+            if (await this.administratorService.IsInAdministratorRoleAsync(id))
+            {
+                this.ViewData["IsAdmin"] = true;
+            }
+
+            var favoriteRecipes = this.userFavoriteRecipeService
+                .GetRecipesByUserId(id)
+                .To<UserProfileFavoriteRecipeViewModel>();
+
+            return this.View(await PaginatedList<UserProfileFavoriteRecipeViewModel>
+                .CreateAsync(favoriteRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
+        }
+
+        [HttpGet]
+        [Route("/Users/Profile/Cooked/{id}")]
+        public async Task<IActionResult> ProfileCookedRecipes(string id, int? pageNumber)
+        {
+            // TODO: Refactor this
+            this.ViewData["UserId"] = id;
+
+            if (await this.administratorService.IsInAdministratorRoleAsync(id))
+            {
+                this.ViewData["IsAdmin"] = true;
+            }
+
+            var cookedRecipes = this.userCookedRecipeService
+                .GetRecipesByUserId(id)
+                .To<UserProfileCookedRecipeViewModel>();
+
+            return this.View(await PaginatedList<UserProfileCookedRecipeViewModel>
+                .CreateAsync(cookedRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
+        }
+
+        [HttpGet]
+        [Route("/Users/Profile/Admin/{id}")]
+        public async Task<IActionResult> ProfileAdminRecipes(string id, int? pageNumber)
+        {
+            // TODO: Refactor this
+            this.ViewData["UserId"] = id;
+
+            if (await this.administratorService.IsInAdministratorRoleAsync(id))
+            {
+                this.ViewData["IsAdmin"] = true;
+            }
+
+            var adminRecipes = this.recipeService
+                .GetByUserId(id)
+                .To<UserProfileAdminRecipeViewModel>();
+
+            return this.View(await PaginatedList<UserProfileAdminRecipeViewModel>
+                .CreateAsync(adminRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
 
         private async Task<UserAdditionalInfoViewModel> GetUserAdditionalInfoViewDataModelAsync()

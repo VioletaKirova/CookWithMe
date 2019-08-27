@@ -39,14 +39,17 @@
                                 <li>
                                     <a href="#">Recipes</a>
                                     <ul>
-                                        <li><a href="/Administration/Recipes/Create">Add</a></li>
+                                        <li><a href="/Administration/Recipes/Create">Add Recipe</a></li>
+                                        <li><a href="/Administration/Recipes/All">My Recipes</a></li>
+                                        <li><a href="/Recipes/Favorite">Favorite Recipes</a></li>
+                                        <li><a href="/Recipes/Cooked">Cooked Recipes</a></li>
                                         <li><a href="/Recipes/Browse">Browse</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#">Categories</a>
                                     <ul>
-                                        <li><a href="/Administration/Categories/Create">Add</a></li>
+                                        <li><a href="/Administration/Categories/Create">Add Category</a></li>
                                         <li><a href="/Categories/Recipes/@GlobalConstants.FirstCategoryId">Browse</a></li>
                                     </ul>
                                 </li>
@@ -64,8 +67,9 @@
                                 <li>
                                     <a href="#">Account</a>
                                     <ul>
-                                        <li><a href="/Administration/Recipes/All">My Recipes</a></li>
+                                        <li><a href="/Users/Profile/Favorite/@this.User.FindFirstValue(ClaimTypes.NameIdentifier)">Profile</a></li>
                                         <li><a href="/Users/EditAdditionalInfo">Additional Info</a></li>
+                                        <li><a href="/ShoppingLists/All">Shopping Lists</a></li>
                                         <li><a href="/Identity/Account/Logout">Logout</a></li>
                                     </ul>
                                 </li>
@@ -88,8 +92,15 @@
                                     </ul>
                                 </li>
                                 <li>
+                                    <a href="#">Categories</a>
+                                    <ul>
+                                        <li><a href="/Categories/Recipes/@GlobalConstants.FirstCategoryId">Browse</a></li>
+                                    </ul>
+                                </li>
+                                <li>
                                     <a href="#">Account</a>
                                     <ul>
+                                        <li><a href="/Users/Profile/Favorite/@this.User.FindFirstValue(ClaimTypes.NameIdentifier)">Profile</a></li>
                                         <li><a href="/Users/EditAdditionalInfo">Additional Info</a></li>
                                         <li><a href="/ShoppingLists/All">Shopping Lists</a></li>
                                         <li><a href="/Identity/Account/Logout">Logout</a></li>

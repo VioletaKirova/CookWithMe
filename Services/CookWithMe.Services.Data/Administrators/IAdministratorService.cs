@@ -12,5 +12,7 @@
         Task<IEnumerable<AdministratorServiceModel>> GetAllAsync();
 
         Task<bool> RemoveFromRoleByIdAsync(string userId);
+
+        Task<bool> IsInAdministratorRoleAsync(string userId);
     }
 }
