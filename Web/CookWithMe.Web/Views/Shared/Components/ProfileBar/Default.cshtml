@@ -1,0 +1,50 @@
+﻿@using System.Security.Claims;
+@using CookWithMe.Common;
+@model CookWithMe.Web.ViewComponents.Models.ProfileBarViewComponentViewModel
+
+<div class="five columns">
+    <div class="widget">
+        <div class="author-box">
+            @if (this.ViewData["IsAdmin"] != null && this.ViewData["IsAdmin"] as bool? == true)
+            {
+                <span class="title">@GlobalConstants.AdministratorRoleName</span>
+            }
+            else
+            {
+                <span class="title">@GlobalConstants.UserRoleName</span>
+            }
+            <span class="title">@Model.LifestyleType</span>
+            <span class="name">@Model.FullName</span>
+            @if (Model.ProfilePhoto != null)
+            {
+                <img src="@Model.ProfilePhoto" alt="">
+            }
+            else
+            {
+                <img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1566904677/common/default_profile_photo_xbwz2n.jpg" alt="" />
+            }
+            <div class="margin-top-20"></div>
+            <p>@Model.Biography</p>
+            <div class="margin-top-20"></div>
+            @if (this.User.FindFirst(ClaimTypes.Name).Value == Model.UserName)
+            {
+                <a href="/Users/EditAdditionalInfo" class="button small">Edit</a>
+            }
+        </div>
+    </div>
+</div>
+<div class="four columns">
+    <div class="widget">
+        <h4 class="headline">Recipes</h4>
+        <span class="line margin-bottom-20"></span>
+        <div class="clearfix"></div>
+        <ul class="categories">
+            <li><a href="/Users/Profile/Favorite/@Model.UserName">Favorite</a></li>
+            <li><a href="/Users/Profile/Cooked/@Model.UserName">Cooked</a></li>
+            @if (this.ViewData["IsAdmin"] != null && this.ViewData["IsAdmin"] as bool? == true)
+            {
+                <li><a href="/Users/Profile/Admin/@Model.UserName">My Recipes</a></li>
+            }
+        </ul>
+    </div>
+</div>

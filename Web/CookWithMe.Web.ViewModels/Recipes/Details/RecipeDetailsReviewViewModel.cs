@@ -15,7 +15,7 @@
 
         public int Rating { get; set; }
 
-        public string ReviewerId { get; set; }
+        public string ReviewerUserName { get; set; }
 
         public string ReviewerFullName { get; set; }
 

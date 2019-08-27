@@ -3,7 +3,7 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Recipes;
 
-    public class UserProfileAdminRecipeViewModel : IMapFrom<RecipeServiceModel>
+    public class UserProfileAdminRecipesRecipeViewModel : IMapFrom<RecipeServiceModel>
     {
         public string Id { get; set; }
 

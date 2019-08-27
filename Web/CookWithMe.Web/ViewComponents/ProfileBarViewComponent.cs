@@ -9,26 +9,26 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    public class ProfileSidebarViewComponent : ViewComponent
+    public class ProfileBarViewComponent : ViewComponent
     {
         private readonly IUserService userService;
         private readonly ILifestyleService lifestyleService;
 
-        public ProfileSidebarViewComponent(IUserService userService, ILifestyleService lifestyleService)
+        public ProfileBarViewComponent(IUserService userService, ILifestyleService lifestyleService)
         {
             this.userService = userService;
             this.lifestyleService = lifestyleService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string id)
+        public async Task<IViewComponentResult> InvokeAsync(string userName)
         {
-            var userServiceModel = await this.userService
-                .GetByIdAsync(id);
+            var id = await this.userService.GetIdByUserNameAsync(userName);
+            var userServiceModel = await this.userService.GetByIdAsync(id);
 
             var viewModel = userServiceModel
-                .To<ProfileSidebarViewComponentViewModel>();
+                .To<ProfileBarViewComponentViewModel>();
 
-            viewModel.Id = id;
+            viewModel.UserName = userName;
             if (userServiceModel.LifestyleId != null)
             {
                 viewModel.LifestyleType = (await this.lifestyleService.GetByIdAsync(userServiceModel.LifestyleId.Value)).Type;

@@ -221,25 +221,25 @@
                         <li>
                             @if (review.ReviewerProfilePhoto != null)
                             {
-                                <div class="avatar"><img src=@review.ReviewerProfilePhoto alt="" /></div>
+                                <div class="avatar"><a href="/Users/Profile/Favorite/@review.ReviewerUserName"><img src=@review.ReviewerProfilePhoto alt="" /></a></div>
                             }
                             else
                             {
-                                <div class="avatar"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1566766782/common/Blank-Photo_i40wkc.png" alt="" /></div>
+                                <div class="avatar"><a href="/Users/Profile/Favorite/@review.ReviewerUserName"><img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1566904677/common/default_profile_photo_xbwz2n.jpg" alt="" /></a></div>
                             }
                             <div class="comment-content">
                                 <div class="arrow-comment"></div>
                                 <div class="comment-by">
-                                    @if (review.ReviewerId == this.User.FindFirstValue(ClaimTypes.NameIdentifier) ||
-                                       this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                    @if (review.ReviewerUserName == this.User.FindFirst(ClaimTypes.Name).Value ||
+                                      this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                     {
                                         <a href="/Reviews/Delete/@review.Id" class="button small" style="float: right">Delete</a>
                                     }
-                                    @if (review.ReviewerId == this.User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                    @if (review.ReviewerUserName == this.User.FindFirst(ClaimTypes.Name).Value)
                                     {
                                         <a href="/Reviews/Edit/@review.Id" class="button color small" style="float: right; margin: 0 -85px 0 0;">Edit</a>
                                     }
-                                    <strong>@review.ReviewerFullName</strong><span class="date">@review.CreatedOn.ToString("dd/MM/yyyy")</span>
+                                    <strong><a href="/Users/Profile/Favorite/@review.ReviewerUserName">@review.ReviewerFullName</a></strong><span class="date">@review.CreatedOn.ToString("dd/MM/yyyy")</span>
                                 </div>
                                 <p>@review.Comment</p>
                                 @if (review.Rating == 1)
@@ -296,8 +296,8 @@
         <div class="widget">
             <div class="author-box">
                 <span class="title">Author</span>
-                <span class="name">@Model.User.FullName</span>
-                <img src="@Model.User.ProfilePhoto" alt="">
+                <span class="name"><a href="/Users/Profile/Favorite/@Model.User.UserName">@Model.User.FullName</a></span>
+                <a href="/Users/Profile/Favorite/@Model.User.UserName"><img src="@Model.User.ProfilePhoto" alt=""></a>
                 <div class="margin-top-20"></div>
                 <p>@Model.User.Biography</p>
             </div>

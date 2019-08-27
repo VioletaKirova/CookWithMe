@@ -1,6 +1,7 @@
 ﻿namespace CookWithMe.Services.Data.Users
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CookWithMe.Data.Common.Repositories;
@@ -13,10 +14,12 @@
     using CookWithMe.Services.Models.Users;
 
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
 
     public class UserService : IUserService
     {
         private const string InvalidUserIdErrorMessage = "User with ID: {0} does not exist.";
+        private const string InvalidUserNameErrorMessage = "User with UserName: {0} does not exist.";
 
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
@@ -237,6 +240,21 @@
                 .GetByUserIdAsync(userId);
 
             return additionalInfoServiceModel;
+        }
+
+        public async Task<string> GetIdByUserNameAsync(string userName)
+        {
+            var user = await this.userRepository
+                .AllAsNoTracking()
+                .SingleOrDefaultAsync(x => x.UserName == userName);
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidUserNameErrorMessage, userName));
+            }
+
+            return user.Id;
         }
     }
 }

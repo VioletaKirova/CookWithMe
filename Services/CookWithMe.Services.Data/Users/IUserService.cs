@@ -25,5 +25,7 @@
         Task<bool> SetCookedRecipeAsync(string userId, Recipe recipe);
 
         Task<UserAdditionalInfoServiceModel> GetAdditionalInfoByUserIdAsync(string userId);
+
+        Task<string> GetIdByUserNameAsync(string userName);
     }
 }

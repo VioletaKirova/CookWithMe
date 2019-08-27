@@ -67,7 +67,7 @@
                                 <li>
                                     <a href="#">Account</a>
                                     <ul>
-                                        <li><a href="/Users/Profile/Favorite/@this.User.FindFirstValue(ClaimTypes.NameIdentifier)">Profile</a></li>
+                                        <li><a href="/Users/Profile/Favorite/@this.User.FindFirst(ClaimTypes.Name).Value">Profile</a></li>
                                         <li><a href="/Users/EditAdditionalInfo">Additional Info</a></li>
                                         <li><a href="/ShoppingLists/All">Shopping Lists</a></li>
                                         <li><a href="/Identity/Account/Logout">Logout</a></li>
@@ -100,7 +100,7 @@
                                 <li>
                                     <a href="#">Account</a>
                                     <ul>
-                                        <li><a href="/Users/Profile/Favorite/@this.User.FindFirstValue(ClaimTypes.NameIdentifier)">Profile</a></li>
+                                        <li><a href="/Users/Profile/Favorite/@this.User.FindFirst(ClaimTypes.Name).Value">Profile</a></li>
                                         <li><a href="/Users/EditAdditionalInfo">Additional Info</a></li>
                                         <li><a href="/ShoppingLists/All">Shopping Lists</a></li>
                                         <li><a href="/Identity/Account/Logout">Logout</a></li>

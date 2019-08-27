@@ -1,23 +1,28 @@
 ﻿@using  CookWithMe.Web.Infrastructure;
-@model PaginatedList<CookWithMe.Web.ViewModels.Users.Profile.UserProfileFavoriteRecipeViewModel>
+@model CookWithMe.Web.ViewModels.Users.Profile.UserProfileFavoriteRecipesViewModel
 
 @{
-    ViewData["Title"] = "Favorite Recipes";
+    ViewData["Title"] = $"{Model.FullName}'s Latest Favorite Recipes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Content
-================================================== -->
 <br />
 <div class="container">
     <div class="twelve columns">
+        @await Component.InvokeAsync("ProfileBar", new { userName = this.Model.UserName })
+    </div>
+</div>
+<!-- Content
+================================================== -->
+<div class="container">
+    <div class="sixteen columns">
         <!-- Headline -->
         <h3 class="headline">@ViewData["Title"]</h3>
         <span class="line rb margin-bottom-35"></span>
         <div class="clearfix"></div>
         <!-- Isotope -->
         <div class="isotope">
-            @foreach (var recipe in Model)
+            @foreach (var recipe in Model.FavoriteRecipes)
             {
                 <!-- Recipe -->
                 <div class="four recipe-box columns">
@@ -37,24 +42,7 @@
                 </div>
             }
         </div>
-        <div class="clearfix"></div>
-        @{
-            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-        }
-        <a asp-action="Favorite"
-           asp-route-pageNumber="@(Model.PageIndex - 1)"
-           class="button big @prevDisabled">
-            Previous
-        </a>
-        <a asp-action="Favorite"
-           asp-route-pageNumber="@(Model.PageIndex + 1)"
-           class="button color big @nextDisabled">
-            Next
-        </a>
     </div>
-    <!-- Sidebar
-    ================================================== -->
-    @await Component.InvokeAsync("ProfileSidebar", new { id = this.ViewData["UserId"] })
+    <div class="clearfix"></div>
 </div>
 <div class="margin-top-50"></div>

@@ -12,7 +12,7 @@
 
         public const int DefaultPageNumber = 1;
 
-        public const int PageSize = 15;
+        public const int PageSize = 16;
 
         public const int FirstCategoryId = 1;
 

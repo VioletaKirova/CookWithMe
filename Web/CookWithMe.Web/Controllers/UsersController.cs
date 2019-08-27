@@ -1,6 +1,7 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -14,13 +15,13 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Allergens;
     using CookWithMe.Services.Models.Users;
-    using CookWithMe.Web.Infrastructure;
     using CookWithMe.Web.InputModels.Users.AddAdditionalInfo;
     using CookWithMe.Web.InputModels.Users.EditAdditionalInfo;
     using CookWithMe.Web.ViewModels.Users.AdditionalInfo;
     using CookWithMe.Web.ViewModels.Users.Profile;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     [Authorize]
     public class UsersController : BaseController
@@ -201,63 +202,84 @@
         }
 
         [HttpGet]
-        [Route("/Users/Profile/Favorite/{id}")]
-        public async Task<IActionResult> ProfileFavoriteRecipes(string id, int? pageNumber)
+        [Route("/Users/Profile/Favorite/{userName}")]
+        public async Task<IActionResult> ProfileFavoriteRecipes(string userName)
         {
-            // TODO: Refactor this
-            this.ViewData["UserId"] = id;
+            var id = await this.userService.GetIdByUserNameAsync(userName);
+            var user = await this.userService.GetByIdAsync(id);
+
+            var userProfileFavoriteRecipesViewModel = new UserProfileFavoriteRecipesViewModel()
+            {
+                UserName = userName,
+                FullName = user.FullName,
+            };
 
             if (await this.administratorService.IsInAdministratorRoleAsync(id))
             {
                 this.ViewData["IsAdmin"] = true;
             }
 
-            var favoriteRecipes = this.userFavoriteRecipeService
+            userProfileFavoriteRecipesViewModel.FavoriteRecipes = await this.userFavoriteRecipeService
                 .GetRecipesByUserId(id)
-                .To<UserProfileFavoriteRecipeViewModel>();
+                .To<UserProfileFavoriteRecipesRecipeViewModel>()
+                .Take(GlobalConstants.PageSize)
+                .ToListAsync();
 
-            return this.View(await PaginatedList<UserProfileFavoriteRecipeViewModel>
-                .CreateAsync(favoriteRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
+            return this.View(userProfileFavoriteRecipesViewModel);
         }
 
         [HttpGet]
-        [Route("/Users/Profile/Cooked/{id}")]
-        public async Task<IActionResult> ProfileCookedRecipes(string id, int? pageNumber)
+        [Route("/Users/Profile/Cooked/{userName}")]
+        public async Task<IActionResult> ProfileCookedRecipes(string userName)
         {
-            // TODO: Refactor this
-            this.ViewData["UserId"] = id;
+            var id = await this.userService.GetIdByUserNameAsync(userName);
+            var user = await this.userService.GetByIdAsync(id);
+
+            var userProfileCookedRecipesViewModel = new UserProfileCookedRecipesViewModel()
+            {
+                UserName = userName,
+                FullName = user.FullName,
+            };
 
             if (await this.administratorService.IsInAdministratorRoleAsync(id))
             {
                 this.ViewData["IsAdmin"] = true;
             }
 
-            var cookedRecipes = this.userCookedRecipeService
+            userProfileCookedRecipesViewModel.CookedRecipes = await this.userCookedRecipeService
                 .GetRecipesByUserId(id)
-                .To<UserProfileCookedRecipeViewModel>();
+                .To<UserProfileCookedRecipesRecipeViewModel>()
+                .Take(GlobalConstants.PageSize)
+                .ToListAsync();
 
-            return this.View(await PaginatedList<UserProfileCookedRecipeViewModel>
-                .CreateAsync(cookedRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
+            return this.View(userProfileCookedRecipesViewModel);
         }
 
         [HttpGet]
-        [Route("/Users/Profile/Admin/{id}")]
-        public async Task<IActionResult> ProfileAdminRecipes(string id, int? pageNumber)
+        [Route("/Users/Profile/Admin/{userName}")]
+        public async Task<IActionResult> ProfileAdminRecipes(string userName)
         {
-            // TODO: Refactor this
-            this.ViewData["UserId"] = id;
+            var id = await this.userService.GetIdByUserNameAsync(userName);
+            var user = await this.userService.GetByIdAsync(id);
+
+            var userProfileAdminRecipesViewModel = new UserProfileAdminRecipesViewModel()
+            {
+                UserName = userName,
+                FullName = user.FullName,
+            };
 
             if (await this.administratorService.IsInAdministratorRoleAsync(id))
             {
                 this.ViewData["IsAdmin"] = true;
             }
 
-            var adminRecipes = this.recipeService
+            userProfileAdminRecipesViewModel.AdminRecipes = await this.recipeService
                 .GetByUserId(id)
-                .To<UserProfileAdminRecipeViewModel>();
+                .To<UserProfileAdminRecipesRecipeViewModel>()
+                .Take(GlobalConstants.PageSize)
+                .ToListAsync();
 
-            return this.View(await PaginatedList<UserProfileAdminRecipeViewModel>
-                .CreateAsync(adminRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
+            return this.View(userProfileAdminRecipesViewModel);
         }
 
         private async Task<UserAdditionalInfoViewModel> GetUserAdditionalInfoViewDataModelAsync()

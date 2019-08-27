@@ -3,9 +3,9 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Users;
 
-    public class ProfileSidebarViewComponentViewModel : IMapFrom<ApplicationUserServiceModel>
+    public class ProfileBarViewComponentViewModel : IMapFrom<ApplicationUserServiceModel>
     {
-        public string Id { get; set; }
+        public string UserName { get; set; }
 
         public string FullName { get; set; }
 
