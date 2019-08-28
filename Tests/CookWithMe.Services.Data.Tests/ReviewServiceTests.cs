@@ -364,6 +364,7 @@
             var expectedResult = await reviewRepository
                 .All()
                 .Where(x => x.RecipeId == existentRecipeId)
+                .OrderBy(x => x.CreatedOn)
                 .ToListAsync();
 
             // Assert

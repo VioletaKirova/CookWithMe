@@ -72,7 +72,7 @@
             return this.reviewRepository
                 .AllAsNoTracking()
                 .Where(x => x.RecipeId == recipeId)
-                .OrderByDescending(x => x.CreatedOn)
+                .OrderBy(x => x.CreatedOn)
                 .To<ReviewServiceModel>();
         }
 

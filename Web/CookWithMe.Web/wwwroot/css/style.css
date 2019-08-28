@@ -6404,7 +6404,8 @@ ol.directions > li:before {
     margin: 0 -85px 0 0;
 }
 
-.review-title {
+.review-title,
+.shoppinglist-title{
     margin: 18px 0 0 0;
 }
 
