@@ -251,6 +251,7 @@
             }
 
             recipeFromDb.Title = recipeServiceModel.Title;
+            recipeFromDb.Photo = recipeServiceModel.Photo;
             recipeFromDb.Summary = recipeServiceModel.Summary;
             recipeFromDb.Directions = recipeServiceModel.Directions;
             recipeFromDb.PreparationTime = recipeServiceModel.PreparationTime;
