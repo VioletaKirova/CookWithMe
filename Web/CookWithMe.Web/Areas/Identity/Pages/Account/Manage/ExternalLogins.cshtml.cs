@@ -36,20 +36,22 @@
         [TempData]
         public string StatusMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-            if (user == null)
-            {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
-            }
+            return this.NotFound();
 
-            this.CurrentLogins = await this.userManager.GetLoginsAsync(user);
-            this.OtherLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync())
-                .Where(auth => this.CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
-                .ToList();
-            this.ShowRemoveButton = user.PasswordHash != null || this.CurrentLogins.Count > 1;
-            return this.Page();
+            //var user = await this.userManager.GetUserAsync(this.User);
+            //if (user == null)
+            //{
+            //    return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            //}
+
+            //this.CurrentLogins = await this.userManager.GetLoginsAsync(user);
+            //this.OtherLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync())
+            //    .Where(auth => this.CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
+            //    .ToList();
+            //this.ShowRemoveButton = user.PasswordHash != null || this.CurrentLogins.Count > 1;
+            //return this.Page();
         }
 
         public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider, string providerKey)

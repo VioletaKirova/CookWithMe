@@ -33,20 +33,22 @@
 
         public string ReturnUrl { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(bool rememberMe, string returnUrl = null)
+        public IActionResult OnGet(bool rememberMe, string returnUrl = null)
         {
-            // Ensure the user has gone through the username & password screen first
-            var user = await this.signInManager.GetTwoFactorAuthenticationUserAsync();
+            return this.NotFound();
 
-            if (user == null)
-            {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
-            }
+            //// Ensure the user has gone through the username & password screen first
+            //var user = await this.signInManager.GetTwoFactorAuthenticationUserAsync();
 
-            this.ReturnUrl = returnUrl;
-            this.RememberMe = rememberMe;
+            //if (user == null)
+            //{
+            //    throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+            //}
 
-            return this.Page();
+            //this.ReturnUrl = returnUrl;
+            //this.RememberMe = rememberMe;
+
+            //return this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync(bool rememberMe, string returnUrl = null)

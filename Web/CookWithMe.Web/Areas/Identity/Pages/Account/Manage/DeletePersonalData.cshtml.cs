@@ -2,13 +2,16 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
 #pragma warning disable SA1649 // File name should match first type name
@@ -18,15 +21,21 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<DeletePersonalDataModel> logger;
+        private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
+        private readonly IDeletableEntityRepository<Review> reviewRepository;
 
         public DeletePersonalDataModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
+            ILogger<DeletePersonalDataModel> logger,
+            IDeletableEntityRepository<ApplicationUser> userRepository,
+            IDeletableEntityRepository<Review> reviewRepository)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
+            this.userRepository = userRepository;
+            this.reviewRepository = reviewRepository;
         }
 
         [BindProperty]
@@ -64,9 +73,30 @@
                 }
             }
 
-            var result = await this.userManager.DeleteAsync(user);
             var userId = await this.userManager.GetUserIdAsync(user);
-            if (!result.Succeeded)
+            var userReviews = await this.reviewRepository
+                .All()
+                .Where(x => x.ReviewerId == userId)
+                .ToListAsync();
+
+            foreach (var review in userReviews)
+            {
+                this.reviewRepository.Delete(review);
+            }
+
+            await this.reviewRepository.SaveChangesAsync();
+
+            user.UserName = null;
+            user.NormalizedUserName = null;
+            user.Email = null;
+            user.NormalizedEmail = null;
+            this.userRepository.Update(user);
+            await this.userRepository.SaveChangesAsync();
+
+            this.userRepository.Delete(user);
+            var result = await this.userRepository.SaveChangesAsync();
+
+            if (result > 0 == false)
             {
                 throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");
             }

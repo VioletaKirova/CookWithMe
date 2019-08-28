@@ -46,17 +46,19 @@
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-            if (user == null)
-            {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
-            }
+            return this.NotFound();
 
-            await this.LoadSharedKeyAndQrCodeUriAsync(user);
+            //var user = await this.userManager.GetUserAsync(this.User);
+            //if (user == null)
+            //{
+            //    return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            //}
 
-            return this.Page();
+            //await this.LoadSharedKeyAndQrCodeUriAsync(user);
+
+            //return this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync()

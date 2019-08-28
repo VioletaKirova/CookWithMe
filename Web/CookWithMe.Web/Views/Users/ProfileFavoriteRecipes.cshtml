@@ -2,7 +2,7 @@
 @model CookWithMe.Web.ViewModels.Users.Profile.UserProfileFavoriteRecipesViewModel
 
 @{
-    ViewData["Title"] = $"{Model.FullName}'s Latest Favorite Recipes";
+    ViewData["Title"] = $"{Model.FullName}'s Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,7 +17,7 @@
 <div class="container">
     <div class="sixteen columns">
         <!-- Headline -->
-        <h3 class="headline">@ViewData["Title"]</h3>
+        <h3 class="headline">@($"{Model.FullName}'s Latest Favorite Recipes")</h3>
         <span class="line rb margin-bottom-35"></span>
         <div class="clearfix"></div>
         <!-- Isotope -->

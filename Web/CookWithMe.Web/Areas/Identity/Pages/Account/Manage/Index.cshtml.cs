@@ -40,29 +40,31 @@
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-            if (user == null)
-            {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
-            }
+            return this.NotFound();
 
-            var userName = await this.userManager.GetUserNameAsync(user);
-            var email = await this.userManager.GetEmailAsync(user);
-            var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
+            //var user = await this.userManager.GetUserAsync(this.User);
+            //if (user == null)
+            //{
+            //    return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            //}
 
-            this.Username = userName;
+            //var userName = await this.userManager.GetUserNameAsync(user);
+            //var email = await this.userManager.GetEmailAsync(user);
+            //var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
 
-            this.Input = new InputModel
-            {
-                Email = email,
-                PhoneNumber = phoneNumber,
-            };
+            //this.Username = userName;
 
-            this.IsEmailConfirmed = await this.userManager.IsEmailConfirmedAsync(user);
+            //this.Input = new InputModel
+            //{
+            //    Email = email,
+            //    PhoneNumber = phoneNumber,
+            //};
 
-            return this.Page();
+            //this.IsEmailConfirmed = await this.userManager.IsEmailConfirmedAsync(user);
+
+            //return this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync()

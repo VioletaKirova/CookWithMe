@@ -39,24 +39,24 @@
                     {
                         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
-                            <a href="/Administration/Recipes/Delete/@Model.Id" class="button medium" style="float: right">Delete</a>
-                            <a href="/Administration/Recipes/Edit/@Model.Id" class="button medium color" style="float: right; margin: 0 5px 0 0;">Edit</a>
+                            <a href="/Administration/Recipes/Delete/@Model.Id" class="button medium float-right">Delete</a>
+                            <a href="/Administration/Recipes/Edit/@Model.Id" class="button medium color float-right-with-margin">Edit</a>
                         }
                         if (!Model.UserCookedCurrentRecipe)
                         {
-                            <a href="/Recipes/AddToCooked/@Model.Id" class="button medium color" style="float: right; margin: 0 5px 0 0;">Cooked</a>
+                            <a href="/Recipes/AddToCooked/@Model.Id" class="button medium color float-right-with-margin">Cooked</a>
                         }
                         else
                         {
-                            <a href="/Recipes/RemoveFromCooked/@Model.Id" class="button mediu" style="float: right">Didn't Cook</a>
+                            <a href="/Recipes/RemoveFromCooked/@Model.Id" class="button medium float-right">Didn't Cook</a>
                         }
                         if (!Model.UserFavoritedCurrentRecipe)
                         {
-                            <a href="/Recipes/AddToFavorite/@Model.Id" class="button medium color" style="float: right; margin: 0 5px 0 0;">&#10084</a>
+                            <a href="/Recipes/AddToFavorite/@Model.Id" class="button medium color float-right-with-margin">&#10084</a>
                         }
                         else
                         {
-                            <a href="/Recipes/RemoveFromFavorite/@Model.Id" class="button medium" style="float: right; margin: 0 5px 0 0;">&#10084</a>
+                            <a href="/Recipes/RemoveFromFavorite/@Model.Id" class="button medium float-right-with-margin">&#10084</a>
                         }
                     }
                     @if (Model.Rate == -1)
@@ -108,13 +108,13 @@
                 <img itemprop="image" class="rsImg" src="@Model.Photo" alt="" />
             </div>
             <!-- Details -->
-            <section class="recipe-details" itemprop="nutrition" style="height: 34px">
+            <section class="recipe-details height" itemprop="nutrition">
                 <ul>
                     <li>Serves: <strong itemprop="recipeYield">@Model.Serving</strong></li>
                     <li>Prep Time: <strong itemprop="prepTime">@Model.FormatedPreparationTime</strong></li>
                     <li>Cooking: <strong itemprop="cookTime">@Model.FormatedCookingTime</strong></li>
                 </ul>
-                <div class="menu nav-collapse" style="margin: -19px -40px 0 0; float: right;">
+                <div class="menu nav-collapse first">
                     <ul>
                         <li>
                             <a href="#" style="color: #8dc63f">Yield</a>
@@ -124,7 +124,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="menu nav-collapse" style="margin: -19px -50px 0 0; float: right;">
+                <div class="menu nav-collapse rest">
                     <ul>
                         <li>
                             <a href="#" style="color: #8dc63f">Nutritional Info</a>
@@ -141,7 +141,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="menu nav-collapse" style="margin: -19px -50px 0 0; float: right;">
+                <div class="menu nav-collapse rest">
                     <ul>
                         <li>
                             <a href="#" style="color: #8dc63f">Allergens</a>
@@ -154,7 +154,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="menu nav-collapse" style="margin: -19px -50px 0 0; float: right;">
+                <div class="menu nav-collapse rest">
                     <ul>
                         <li>
                             <a href="#" style="color: #8dc63f">Lifestyle</a>
@@ -167,7 +167,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="menu nav-collapse" style="margin: -19px -50px 0 0; float: right;">
+                <div class="menu nav-collapse rest">
                     <ul>
                         <li>
                             <a href="#" style="color: #8dc63f">Skill Level</a>
@@ -214,7 +214,7 @@
             ================================================== -->
             <h3 class="headline">Reviews <span class="comments-amount">(@Model.Reviews.Count())</span></h3><span class="line"></span><div class="clearfix"></div>
             <!-- Reviews -->
-            <section class="comments ten columns" id="reviews" style="float: right; margin: 10px 20px 10px 10px">
+            <section class="comments ten columns float-right-with-margin" id="reviews">
                 <ul>
                     @foreach (var review in Model.Reviews)
                     {
@@ -233,11 +233,11 @@
                                     @if (review.Reviewer.UserName == this.User.FindFirst(ClaimTypes.Name).Value ||
                                       this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                     {
-                                        <a href="/Reviews/Delete/@review.Id" class="button small" style="float: right">Delete</a>
+                                        <a href="/Reviews/Delete/@review.Id" class="button small float-right">Delete</a>
                                     }
                                     @if (review.Reviewer.UserName == this.User.FindFirst(ClaimTypes.Name).Value)
                                     {
-                                        <a href="/Reviews/Edit/@review.Id" class="button color small" style="float: right; margin: 0 -85px 0 0;">Edit</a>
+                                        <a href="/Reviews/Edit/@review.Id" class="button color small float-right-with-margin">Edit</a>
                                     }
                                     <strong><a href="/Users/Profile/Favorite/@review.Reviewer.UserName">@review.Reviewer.FullName</a></strong><span class="date">@review.CreatedOn.ToString("dd/MM/yyyy")</span>
                                 </div>

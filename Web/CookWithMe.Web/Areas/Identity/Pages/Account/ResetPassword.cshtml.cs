@@ -27,18 +27,20 @@
 
         public IActionResult OnGet(string code = null)
         {
-            if (code == null)
-            {
-                return this.BadRequest("A code must be supplied for password reset.");
-            }
-            else
-            {
-                this.Input = new InputModel
-                {
-                    Code = code,
-                };
-                return this.Page();
-            }
+            return this.NotFound();
+
+            //if (code == null)
+            //{
+            //    return this.BadRequest("A code must be supplied for password reset.");
+            //}
+            //else
+            //{
+            //    this.Input = new InputModel
+            //    {
+            //        Code = code,
+            //    };
+            //    return this.Page();
+            //}
         }
 
         public async Task<IActionResult> OnPostAsync()

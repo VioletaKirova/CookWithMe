@@ -1,8 +1,5 @@
 ﻿namespace CookWithMe.Web.Areas.Identity.Pages.Account
 {
-    using System;
-    using System.Threading.Tasks;
-
     using CookWithMe.Data.Models;
 
     using Microsoft.AspNetCore.Authorization;
@@ -22,26 +19,28 @@
             this.userManager = userManager;
         }
 
-        public async Task<IActionResult> OnGetAsync(string userId, string code)
+        public IActionResult OnGetAsync(string userId, string code)
         {
-            if (userId == null || code == null)
-            {
-                return this.RedirectToPage("/Index");
-            }
+            return this.NotFound();
 
-            var user = await this.userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return this.NotFound($"Unable to load user with ID '{userId}'.");
-            }
+            //if (userId == null || code == null)
+            //{
+            //    return this.RedirectToPage("/Index");
+            //}
 
-            var result = await this.userManager.ConfirmEmailAsync(user, code);
-            if (!result.Succeeded)
-            {
-                throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");
-            }
+            //var user = await this.userManager.FindByIdAsync(userId);
+            //if (user == null)
+            //{
+            //    return this.NotFound($"Unable to load user with ID '{userId}'.");
+            //}
 
-            return this.Page();
+            //var result = await this.userManager.ConfirmEmailAsync(user, code);
+            //if (!result.Succeeded)
+            //{
+            //    throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");
+            //}
+
+            //return this.Page();
         }
     }
 }

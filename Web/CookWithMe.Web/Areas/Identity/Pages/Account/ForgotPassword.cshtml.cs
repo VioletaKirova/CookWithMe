@@ -29,6 +29,11 @@
         [BindProperty]
         public InputModel Input { get; set; }
 
+        public IActionResult OnGet()
+        {
+            return this.NotFound();
+        }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (this.ModelState.IsValid)

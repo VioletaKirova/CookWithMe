@@ -6360,3 +6360,50 @@ ol.directions > li:before {
 	}
 	
 	@media only screen and (max-width: 1024px) { #style-switcher { display: none; } }
+
+
+/* ------------------------------------------------------------------- */
+/* Additional
+---------------------------------------------------------------------- */
+.button.medium.float-right,
+.button.medium.color.float-right {
+    float: right
+}
+
+.button.medium.float-right-with-margin,
+.button.medium.color.float-right-with-margin {
+    float: right;
+    margin: 0 5px 0 0;
+}
+
+.recipe-details.height {
+    height: 34px;
+}
+
+.menu.nav-collapse.first {
+    margin: -19px -40px 0 0;
+    float: right;
+}
+
+.menu.nav-collapse.rest {
+    margin: -19px -50px 0 0;
+    float: right;
+}
+
+.comments.ten.columns.float-right-with-margin {
+    float: right;
+    margin: 10px 20px 10px 10px
+}
+
+.button.small.float-right {
+    float: right
+}
+
+.button.color.small.float-right-with-margin {
+    float: right;
+    margin: 0 -85px 0 0;
+}
+
+.review-title {
+    margin: 18px 0 0 0;
+}

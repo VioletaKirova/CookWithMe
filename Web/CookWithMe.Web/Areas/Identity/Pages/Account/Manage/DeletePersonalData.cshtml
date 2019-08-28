@@ -5,26 +5,39 @@
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h4>@ViewData["Title"]</h4>
-
-<div class="alert alert-warning" role="alert">
-    <p>
-        <span class="glyphicon glyphicon-warning-sign"></span>
-        <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-    </p>
+<!-- Titlebar
+================================================== -->
+<section id="titlebar">
+    <div class="container">
+        <div class="eight columns">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+    </div>
+</section>
+<!-- Content
+================================================== -->
+<div class="container">
+    <div class="sixteen columns">
+        <div class="notification error closeable">
+            <p><span>Warning!</span> Deleting this data will permanently remove your account, and this cannot be recovered.</p>
+            <a class="close" href="#"></a>
+        </div>
+        <div class="margin-bottom-25"></div>
+    </div>
+    <div class="four columns">
+        <form id="delete-user" method="post" class="register-user-form">
+            @if (Model.RequirePassword)
+            {
+                <h4>Password</h4>
+                <nav class="input-val form-group">
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </nav>
+                <div class="clearfix"></div>
+                <div class="margin-top-30"></div>
+                <button type="submit" class="button color big">Delete data and close my account</button>
+            }
+        </form>
+    </div>
 </div>
-
-<div>
-    <form id="delete-user" method="post" class="form-group">
-        <div asp-validation-summary="All" class="text-danger"></div>
-        @if (Model.RequirePassword)
-        {
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-        }
-        <button class="btn btn-danger" type="submit">Delete data and close my account</button>
-    </form>
-</div>
+<div class="margin-top-50"></div>

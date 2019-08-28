@@ -32,22 +32,24 @@
         [TempData]
         public string StatusMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-            if (user == null)
-            {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
-            }
+            return this.NotFound();
 
-            var isTwoFactorEnabled = await this.userManager.GetTwoFactorEnabledAsync(user);
-            if (!isTwoFactorEnabled)
-            {
-                var userId = await this.userManager.GetUserIdAsync(user);
-                throw new InvalidOperationException($"Cannot generate recovery codes for user with ID '{userId}' because they do not have 2FA enabled.");
-            }
+            //var user = await this.userManager.GetUserAsync(this.User);
+            //if (user == null)
+            //{
+            //    return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            //}
 
-            return this.Page();
+            //var isTwoFactorEnabled = await this.userManager.GetTwoFactorEnabledAsync(user);
+            //if (!isTwoFactorEnabled)
+            //{
+            //    var userId = await this.userManager.GetUserIdAsync(user);
+            //    throw new InvalidOperationException($"Cannot generate recovery codes for user with ID '{userId}' because they do not have 2FA enabled.");
+            //}
+
+            //return this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync()

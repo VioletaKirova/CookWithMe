@@ -41,20 +41,22 @@
         [TempData]
         public string StatusMessage { get; set; }
 
-        public async Task<IActionResult> OnGet()
+        public IActionResult OnGet()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-            if (user == null)
-            {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
-            }
+            return this.NotFound();
 
-            this.HasAuthenticator = await this.userManager.GetAuthenticatorKeyAsync(user) != null;
-            this.Is2faEnabled = await this.userManager.GetTwoFactorEnabledAsync(user);
-            this.IsMachineRemembered = await this.signInManager.IsTwoFactorClientRememberedAsync(user);
-            this.RecoveryCodesLeft = await this.userManager.CountRecoveryCodesAsync(user);
+            //var user = await this.userManager.GetUserAsync(this.User);
+            //if (user == null)
+            //{
+            //    return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            //}
 
-            return this.Page();
+            //this.HasAuthenticator = await this.userManager.GetAuthenticatorKeyAsync(user) != null;
+            //this.Is2faEnabled = await this.userManager.GetTwoFactorEnabledAsync(user);
+            //this.IsMachineRemembered = await this.signInManager.IsTwoFactorClientRememberedAsync(user);
+            //this.RecoveryCodesLeft = await this.userManager.CountRecoveryCodesAsync(user);
+
+            //return this.Page();
         }
 
         public async Task<IActionResult> OnPost()

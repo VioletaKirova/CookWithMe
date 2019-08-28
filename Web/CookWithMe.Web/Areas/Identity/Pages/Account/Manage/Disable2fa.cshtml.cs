@@ -28,20 +28,22 @@
         [TempData]
         public string StatusMessage { get; set; }
 
-        public async Task<IActionResult> OnGet()
+        public IActionResult OnGet()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-            if (user == null)
-            {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
-            }
+            return this.NotFound();
 
-            if (!await this.userManager.GetTwoFactorEnabledAsync(user))
-            {
-                throw new InvalidOperationException($"Cannot disable 2FA for user with ID '{this.userManager.GetUserId(this.User)}' as it's not currently enabled.");
-            }
+            //var user = await this.userManager.GetUserAsync(this.User);
+            //if (user == null)
+            //{
+            //    return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            //}
 
-            return this.Page();
+            //if (!await this.userManager.GetTwoFactorEnabledAsync(user))
+            //{
+            //    throw new InvalidOperationException($"Cannot disable 2FA for user with ID '{this.userManager.GetUserId(this.User)}' as it's not currently enabled.");
+            //}
+
+            //return this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync()

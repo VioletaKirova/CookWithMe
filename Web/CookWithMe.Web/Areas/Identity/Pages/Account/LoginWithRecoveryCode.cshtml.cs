@@ -31,18 +31,20 @@
 
         public string ReturnUrl { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
+        public IActionResult OnGet(string returnUrl = null)
         {
-            // Ensure the user has gone through the username & password screen first
-            var user = await this.signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
-            }
+            return this.NotFound();
 
-            this.ReturnUrl = returnUrl;
+            //// Ensure the user has gone through the username & password screen first
+            //var user = await this.signInManager.GetTwoFactorAuthenticationUserAsync();
+            //if (user == null)
+            //{
+            //    throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+            //}
 
-            return this.Page();
+            //this.ReturnUrl = returnUrl;
+
+            //return this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

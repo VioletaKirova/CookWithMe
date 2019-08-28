@@ -23,12 +23,14 @@
             {
                 <img src="https://res.cloudinary.com/cookwithme-cloud/image/upload/v1566904677/common/default_profile_photo_xbwz2n.jpg" alt="" />
             }
-            <div class="margin-top-20"></div>
+            <div class="margin-top-15"></div>
             <p>@Model.Biography</p>
-            <div class="margin-top-20"></div>
+            <div class="margin-top-30"></div>
             @if (this.User.FindFirst(ClaimTypes.Name).Value == Model.UserName)
             {
                 <a href="/Users/EditAdditionalInfo" class="button small">Edit</a>
+                <div class="margin-top-5"></div>
+                <a href="/Identity/Account/Manage/PersonalData">Manage Personal Data</a>
             }
         </div>
     </div>

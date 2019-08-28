@@ -34,21 +34,23 @@
         [TempData]
         public string StatusMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-            if (user == null)
-            {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
-            }
+            return this.NotFound();
 
-            var hasPassword = await this.userManager.HasPasswordAsync(user);
-            if (!hasPassword)
-            {
-                return this.RedirectToPage("./SetPassword");
-            }
+            //var user = await this.userManager.GetUserAsync(this.User);
+            //if (user == null)
+            //{
+            //    return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            //}
 
-            return this.Page();
+            //var hasPassword = await this.userManager.HasPasswordAsync(user);
+            //if (!hasPassword)
+            //{
+            //    return this.RedirectToPage("./SetPassword");
+            //}
+
+            //return this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
