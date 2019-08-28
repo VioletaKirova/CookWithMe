@@ -6367,7 +6367,7 @@ ol.directions > li:before {
 ---------------------------------------------------------------------- */
 .button.medium.float-right,
 .button.medium.color.float-right {
-    float: right
+    float: right;
 }
 
 .button.medium.float-right-with-margin,
@@ -6392,11 +6392,11 @@ ol.directions > li:before {
 
 .comments.ten.columns.float-right-with-margin {
     float: right;
-    margin: 10px 20px 10px 10px
+    margin: 10px 20px 10px 10px;
 }
 
 .button.small.float-right {
-    float: right
+    float: right;
 }
 
 .button.color.small.float-right-with-margin {
@@ -6406,4 +6406,8 @@ ol.directions > li:before {
 
 .review-title {
     margin: 18px 0 0 0;
+}
+
+.error-image {
+    float: right;
 }

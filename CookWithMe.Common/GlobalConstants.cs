@@ -14,8 +14,8 @@
 
         public const int PageSize = 16;
 
-        public const int FirstCategoryId = 1;
+        public const int DefaultCategoryId = 1;
 
-        public const int DessertCategoryId = 6;
+        public const string DessertsCategoryTitle = "Desserts";
     }
 }

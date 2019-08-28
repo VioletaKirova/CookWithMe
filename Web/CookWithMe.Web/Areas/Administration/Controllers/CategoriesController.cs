@@ -123,7 +123,7 @@
 
             this.TempData["Success"] = string.Format(DeleteSuccessMessage, categoryTitle);
 
-            return this.Redirect($"/Categories/Recipes/{GlobalConstants.FirstCategoryId}");
+            return this.Redirect($"/Categories/Recipes/{GlobalConstants.DefaultCategoryId}");
         }
     }
 }
