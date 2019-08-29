@@ -17,6 +17,7 @@
     using CookWithMe.Services.Data.Categories;
     using CookWithMe.Services.Data.Lifestyles;
     using CookWithMe.Services.Data.NutritionalValues;
+    using CookWithMe.Services.Data.Predictions;
     using CookWithMe.Services.Data.Recipes;
     using CookWithMe.Services.Data.Reviews;
     using CookWithMe.Services.Data.ShoppingLists;
@@ -26,6 +27,7 @@
     using CookWithMe.Services.Models.Categories;
     using CookWithMe.Web.Filters;
     using CookWithMe.Web.InputModels.Categories.Create;
+    using CookWithMe.Web.MLModels.DataModels;
     using CookWithMe.Web.ViewComponents.Models;
     using CookWithMe.Web.ViewModels;
 
@@ -40,6 +42,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.ML;
 
     public class Startup
     {
@@ -93,6 +96,9 @@
                     options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
                 });
+
+            services.AddPredictionEnginePool<UserRecipe, UserRecipeScore>()
+                .FromFile("..\\CookWithMe.Web.MLModels\\CookWithMeModel.zip");
 
             services
                 .ConfigureApplicationCookie(options =>
@@ -151,6 +157,7 @@
             services.AddTransient<IRecipeLifestyleService, RecipeLifestyleService>();
             services.AddTransient<IUserAllergenService, UserAllergenService>();
             services.AddTransient<IEnumParseService, EnumParseService>();
+            services.AddTransient<IPredictionService, PredictionService>();
             services.AddTransient<AuthorizeRootUserFilterAttribute>();
             services.AddTransient<ArgumentNullExceptionFilterAttribute>();
         }

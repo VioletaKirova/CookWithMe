@@ -6412,3 +6412,7 @@ ol.directions > li:before {
 .error-image {
     float: right;
 }
+
+.recipe-box-content.ten.columns.prediction {
+    margin: 0px 0px 0px 130px;
+}

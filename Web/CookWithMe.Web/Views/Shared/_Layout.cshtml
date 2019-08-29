@@ -29,7 +29,6 @@
                 </div>
                 <!-- Navigation
                 ================================================== -->
-                @*TODO: Refactor this*@
                 @if (this.User.Identity.IsAuthenticated && this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
                     <div class="thirteen columns navigation">
@@ -44,6 +43,7 @@
                                         <li><a href="/Recipes/Favorite">Favorite Recipes</a></li>
                                         <li><a href="/Recipes/Cooked">Cooked Recipes</a></li>
                                         <li><a href="/Recipes/Browse">Browse</a></li>
+                                        <li><a href="/Recommendations/Recommend">Can't pick a recipe?</a></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -89,6 +89,7 @@
                                         <li><a href="/Recipes/Favorite">Favorite Recipes</a></li>
                                         <li><a href="/Recipes/Cooked">Cooked Recipes</a></li>
                                         <li><a href="/Recipes/Browse">Browse</a></li>
+                                        <li><a href="/Recommendations/Recommend">Can't pick a recipe?</a></li>
                                     </ul>
                                 </li>
                                 <li>
