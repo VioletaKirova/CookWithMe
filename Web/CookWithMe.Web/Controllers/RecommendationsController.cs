@@ -6,7 +6,7 @@
 
     using CookWithMe.Data.Models.Enums;
     using CookWithMe.Services;
-    using CookWithMe.Services.Data.Predictions;
+    using CookWithMe.Services.Data.Recommendations;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Web.ViewModels.Recommendations.Recommend;
 
@@ -16,14 +16,14 @@
     [Authorize]
     public class RecommendationsController : BaseController
     {
-        private readonly IPredictionService predictionService;
+        private readonly IRecommendationService recommendationService;
         private readonly IEnumParseService enumParseService;
 
         public RecommendationsController(
-            IPredictionService predictionService,
+            IRecommendationService recommendationService,
             IEnumParseService enumParseService)
         {
-            this.predictionService = predictionService;
+            this.recommendationService = recommendationService;
             this.enumParseService = enumParseService;
         }
 
@@ -31,7 +31,7 @@
         public async Task<IActionResult> Recommend()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var recommendedRecipe = await this.predictionService.GetRecommendedRecipeAsync(userId);
+            var recommendedRecipe = await this.recommendationService.GetRecommendedRecipeAsync(userId);
 
             var recommendViewModel = recommendedRecipe
                 .To<RecommendationRecommendViewModel>();

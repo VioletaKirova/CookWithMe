@@ -1,4 +1,4 @@
-﻿namespace CookWithMe.Services.Data.Predictions
+﻿namespace CookWithMe.Services.Data.Recommendations
 {
     using System;
     using System.Linq;
@@ -12,12 +12,12 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.ML;
 
-    public class PredictionService : IPredictionService
+    public class RecommendationService : IRecommendationService
     {
         private readonly PredictionEnginePool<UserRecipe, UserRecipeScore> predictionEnginePool;
         private readonly IRecipeService recipeService;
 
-        public PredictionService(
+        public RecommendationService(
             PredictionEnginePool<UserRecipe, UserRecipeScore> predictionEnginePool,
             IRecipeService recipeService)
         {

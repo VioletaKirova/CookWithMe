@@ -17,8 +17,8 @@
     using CookWithMe.Services.Data.Categories;
     using CookWithMe.Services.Data.Lifestyles;
     using CookWithMe.Services.Data.NutritionalValues;
-    using CookWithMe.Services.Data.Predictions;
     using CookWithMe.Services.Data.Recipes;
+    using CookWithMe.Services.Data.Recommendations;
     using CookWithMe.Services.Data.Reviews;
     using CookWithMe.Services.Data.ShoppingLists;
     using CookWithMe.Services.Data.Users;
@@ -157,7 +157,7 @@
             services.AddTransient<IRecipeLifestyleService, RecipeLifestyleService>();
             services.AddTransient<IUserAllergenService, UserAllergenService>();
             services.AddTransient<IEnumParseService, EnumParseService>();
-            services.AddTransient<IPredictionService, PredictionService>();
+            services.AddTransient<IRecommendationService, RecommendationService>();
             services.AddTransient<AuthorizeRootUserFilterAttribute>();
             services.AddTransient<ArgumentNullExceptionFilterAttribute>();
         }
