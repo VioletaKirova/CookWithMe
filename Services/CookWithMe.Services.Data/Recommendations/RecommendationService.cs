@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using CookWithMe.Common;
     using CookWithMe.Services.Data.Recipes;
     using CookWithMe.Services.Models.Recipes;
     using CookWithMe.Web.MLModels.DataModels;
@@ -14,6 +13,10 @@
 
     public class RecommendationService : IRecommendationService
     {
+        public const double MinimumPredictionScore = 0.9;
+        public const int MaxIterationsCount = 10;
+        public const int DefaultIndex = 0;
+
         private readonly PredictionEnginePool<UserRecipe, UserRecipeScore> predictionEnginePool;
         private readonly IRecipeService recipeService;
 
@@ -27,9 +30,12 @@
 
         public async Task<RecipeServiceModel> GetRecommendedRecipeAsync(string userId)
         {
-            var filteredRecipeIds = await (await this.recipeService
+            var random = new Random();
+
+            var filteredRecipes = await (await this.recipeService
                 .GetAllFilteredAsync(userId))
-                .Select(x => x.Id)
+                .OrderBy(x => random.Next())
+                .Take(MaxIterationsCount)
                 .ToListAsync();
 
             var userRecipe = new UserRecipe()
@@ -37,26 +43,19 @@
                 UserId = userId,
             };
 
-            var random = new Random();
-            var max = filteredRecipeIds.Count;
-            var count = 0;
-
-            while (true)
+            for (int i = 0; i < filteredRecipes.Count; i++)
             {
-                count++;
-                var index = random.Next(0, max);
-                var recipeId = filteredRecipeIds[index];
-
-                userRecipe.RecipeId = recipeId;
-
+                userRecipe.RecipeId = filteredRecipes[i].Id;
                 var prediction = this.predictionEnginePool.Predict<UserRecipe, UserRecipeScore>(userRecipe);
 
-                if (prediction.Score > GlobalConstants.MinimumPredictionScore ||
-                    count == GlobalConstants.MaxIterationsCount)
+                if (prediction.Score >= MinimumPredictionScore ||
+                    i == filteredRecipes.Count - 1)
                 {
-                    return await this.recipeService.GetByIdAsync(recipeId);
+                    return filteredRecipes[i];
                 }
             }
+
+            return new RecipeServiceModel();
         }
     }
 }

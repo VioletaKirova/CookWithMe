@@ -17,9 +17,5 @@
         public const int DefaultCategoryId = 1;
 
         public const string DessertsCategoryTitle = "Desserts";
-
-        public const double MinimumPredictionScore = 0.9;
-
-        public const int MaxIterationsCount = 10;
     }
 }

@@ -62,9 +62,6 @@
         //       .Setup(x => x.GetAllFilteredAsync(Guid.NewGuid().ToString()))
         //       .Returns((string userId) =>
         //            Task.FromResult(context.Recipes.To<RecipeServiceModel>()));
-        //    recipeService
-        //        .Setup(x => x.GetByIdAsync(It.IsAny<string>()))
-        //       .Returns(Task.FromResult<RecipeServiceModel>(context.Recipes.First().To<RecipeServiceModel>()));
 
         //    return new RecommendationService(
         //        predictionEnginePool,
