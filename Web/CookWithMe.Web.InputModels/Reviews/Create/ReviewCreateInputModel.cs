@@ -10,12 +10,12 @@
     {
         [Display(Name = "Comment")]
         [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
-        [StringLength(250, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 1)]
+        [StringLength(AttributesConstraints.ReviewCommentMaxLength, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = AttributesConstraints.ReviewCommentMinLength)]
         public string Comment { get; set; }
 
         [Display(Name = "Rating")]
         [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
-        [Range(1, 5,  ErrorMessage = AttributesErrorMessages.RangeErrorMessage)]
+        [Range(AttributesConstraints.ReviewRatingMinValue, AttributesConstraints.ReviewRatingMaxValue,  ErrorMessage = AttributesErrorMessages.RangeErrorMessage)]
         public int Rating { get; set; }
 
         public ReviewCreateRecipeInputModel Recipe { get; set; }

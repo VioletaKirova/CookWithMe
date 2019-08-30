@@ -42,10 +42,6 @@
 
         public ShoppingList ShoppingList { get; set; }
 
-        public ICollection<RecipeAllergen> Allergens { get; set; }
-
-        public ICollection<RecipeLifestyle> Lifestyles { get; set; }
-
         public Level SkillLevel { get; set; }
 
         public int PreparationTime { get; set; }
@@ -66,6 +62,10 @@
         public string UserId { get; set; }
 
         public ApplicationUser User { get; set; }
+
+        public ICollection<RecipeAllergen> Allergens { get; set; }
+
+        public ICollection<RecipeLifestyle> Lifestyles { get; set; }
 
         public ICollection<UserFavoriteRecipe> FavoritedBy { get; set; }
 

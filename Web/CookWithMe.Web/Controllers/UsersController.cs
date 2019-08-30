@@ -20,6 +20,7 @@
     using CookWithMe.Web.InputModels.Users.EditAdditionalInfo;
     using CookWithMe.Web.ViewModels.Users.AdditionalInfo;
     using CookWithMe.Web.ViewModels.Users.Profile;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;

@@ -39,7 +39,8 @@
             var errorViewModel = new ErrorViewModel();
             errorViewModel.StatusCode = StatusCodes.NotFound;
 
-            this.ViewData["DessertsCategoryId"] = await this.categoryService.GetIdByTitleAsync(GlobalConstants.DessertsCategoryTitle);
+            this.ViewData["DessertsCategoryId"] = await this.categoryService
+                .GetIdByTitleAsync(GlobalConstants.DessertsCategoryTitle);
 
             if (this.TempData["ErrorParams"] is Dictionary<string, string> dict)
             {

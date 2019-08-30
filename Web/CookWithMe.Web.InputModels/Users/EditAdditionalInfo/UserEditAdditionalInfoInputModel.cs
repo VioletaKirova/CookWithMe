@@ -22,22 +22,21 @@
 
         [Display(Name = "Full Name")]
         [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
-        [StringLength(50, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
+        [StringLength(AttributesConstraints.FullNameMaxLength, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = AttributesConstraints.FullNameMinLength)]
         public string FullName { get; set; }
 
         [Display(Name = "Biography")]
-        [MaxLength(200, ErrorMessage = AttributesErrorMessages.MaxLengthErrorMessage)]
+        [MaxLength(AttributesConstraints.BiographyMaxLength, ErrorMessage = AttributesErrorMessages.MaxLengthErrorMessage)]
         public string Biography { get; set; }
 
         [Display(Name = "Profile Photo")]
         public IFormFile ProfilePhoto { get; set; }
 
         [Display(Name = "Lifestyle Type")]
-        [MaxLength(20, ErrorMessage = AttributesErrorMessages.MaxLengthErrorMessage)]
+        [MaxLength(AttributesConstraints.UserLifestyleTypeMaxLength, ErrorMessage = AttributesErrorMessages.MaxLengthErrorMessage)]
         public string LifestyleType { get; set; }
 
         [Display(Name = "Allergies")]
-        [MaxLength(200, ErrorMessage = AttributesErrorMessages.MaxLengthErrorMessage)]
         public IEnumerable<string> AllergenNames { get; set; }
 
         public UserAdditionalInfoViewModel UserAdditionalInfoViewData { get; set; }

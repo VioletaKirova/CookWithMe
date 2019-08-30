@@ -10,7 +10,7 @@
     {
         [Display(Name = "Category Title")]
         [Required(ErrorMessage = AttributesErrorMessages.RequiredErrorMessage)]
-        [StringLength(20, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = 3)]
+        [StringLength(AttributesConstraints.CategoryTitleMaxLength, ErrorMessage = AttributesErrorMessages.StringLengthErrorMessage, MinimumLength = AttributesConstraints.CategoryTitleMinLength)]
         public string Title { get; set; }
     }
 }
