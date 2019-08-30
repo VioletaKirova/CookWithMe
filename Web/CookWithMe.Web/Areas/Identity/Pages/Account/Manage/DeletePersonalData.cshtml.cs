@@ -157,6 +157,7 @@
             user.NormalizedUserName = null;
             user.Email = null;
             user.NormalizedEmail = null;
+            user.PasswordHash = null;
             user.FullName = "DELETED";
             user.Biography = null;
             user.ProfilePhoto = null;

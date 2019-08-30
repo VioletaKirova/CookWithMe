@@ -1,7 +1,6 @@
 ﻿namespace CookWithMe.Web.Areas.Identity.Pages.Account
 {
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
     [AllowAnonymous]
@@ -9,9 +8,8 @@
     public class LockoutModel : PageModel
 #pragma warning restore SA1649 // File name should match first type name
     {
-        public IActionResult OnGet()
+        public void OnGet()
         {
-            return this.NotFound();
         }
     }
 }
