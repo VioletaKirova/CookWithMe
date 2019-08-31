@@ -3,12 +3,14 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using CookWithMe.Common;
     using CookWithMe.Services.Data.Recipes;
     using CookWithMe.Services.Data.Reviews;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Reviews;
     using CookWithMe.Web.InputModels.Reviews.Create;
     using CookWithMe.Web.InputModels.Reviews.Edit;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -73,7 +75,13 @@
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var reviewServiceModel = await this.reviewService.GetByIdAsync(id);
+
+            if (userId != reviewServiceModel.ReviewerId)
+            {
+                return new ForbidResult();
+            }
 
             var reviewEditInputModel = reviewServiceModel
                 .To<ReviewEditInputModel>();
@@ -90,6 +98,14 @@
         [HttpPost]
         public async Task<IActionResult> Edit(string id, ReviewEditInputModel reviewEditInputModel)
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var review = await this.reviewService.GetByIdAsync(id);
+
+            if (userId != review.ReviewerId)
+            {
+                return new ForbidResult();
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(reviewEditInputModel);
@@ -97,7 +113,6 @@
 
             var reviewServiceModel = reviewEditInputModel.To<ReviewServiceModel>();
 
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             reviewServiceModel.ReviewerId = userId;
 
             if (!await this.reviewService.EditAsync(id, reviewServiceModel))
@@ -113,6 +128,15 @@
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var reviewServiceModel = await this.reviewService.GetByIdAsync(id);
+
+            if (userId != reviewServiceModel.ReviewerId &&
+                !this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                return new ForbidResult();
+            }
+
             if (!await this.reviewService.DeleteByIdAsync(id))
             {
                 this.TempData["Error"] = DeleteErrorMessage;
