@@ -31,7 +31,8 @@
         public async Task<IActionResult> Recommend()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var recommendedRecipe = await this.recommendationService.GetRecommendedRecipeAsync(userId);
+            var recommendedRecipe = await this.recommendationService
+                .GetRecommendedRecipeAsync(userId);
 
             var recommendViewModel = recommendedRecipe
                 .To<RecommendationRecommendViewModel>();

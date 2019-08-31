@@ -44,7 +44,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View();
+                return this.View(categoryCreateInputModel);
             }
 
             var categoryServiceModel = categoryCreateInputModel.To<CategoryServiceModel>();
@@ -75,7 +75,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View();
+                return this.View(categoryEditInputModel);
             }
 
             var categoryServiceModel = categoryEditInputModel.To<CategoryServiceModel>();

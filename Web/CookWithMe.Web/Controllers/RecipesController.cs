@@ -239,6 +239,7 @@
                 .CreateAsync(filteredRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
 
+        // TODO: Move to service
         private async Task<RecipeViewDataModel> GetRecipeViewDataModelAsync()
         {
             var categoryTitles = await this.categoryService.GetAllTitlesAsync();

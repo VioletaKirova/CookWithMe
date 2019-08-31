@@ -48,7 +48,7 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="select form-group">
-                    <label>Allergens</label>
+                    <label>Allergic to</label>
                     <select asp-for="AllergenNames" data-placeholder="Multiple selection possible" class="chosen-select form-control" multiple>
                         @foreach (var allergenName in Model.RecipeViewData.AllergenNames)
                         {
@@ -61,7 +61,7 @@
                 <!-- Search Input -->
                 <nav class="search-by-keyword form-group">
                     <button type="submit"><span>Search for Recipes</span><i class="fa fa-search"></i></button>
-                    <input asp-for="KeyWords" class="search-field form-control" type="text" placeholder="Type in keywords" value="" />
+                    <input asp-for="KeyWords" class="search-field form-control" type="text" placeholder="Type in keywords separated by whitespace or comma" value="" />
                 </nav>
                 <div class="clearfix"></div>
                 <!-- Advanced Search Button -->

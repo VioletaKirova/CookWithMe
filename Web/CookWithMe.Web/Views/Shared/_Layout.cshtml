@@ -29,6 +29,7 @@
                 </div>
                 <!-- Navigation
                 ================================================== -->
+                <!-- TODO: Make separate layout -->
                 @if (this.User.Identity.IsAuthenticated && this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
                     <div class="thirteen columns navigation">
@@ -53,7 +54,6 @@
                                         <li><a href="/Categories/Recipes/@GlobalConstants.DefaultCategoryId">Browse</a></li>
                                     </ul>
                                 </li>
-                                @*TODO: Refactor this*@
                                 @if (this.User.FindFirst(ClaimTypes.Name).Value == @Configuration.GetSection("Root")["UserName"])
                                 {
                                     <li>

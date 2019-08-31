@@ -27,12 +27,6 @@
         }
 
         [HttpGet]
-        public IActionResult Register()
-        {
-            return this.View();
-        }
-
-        [HttpGet]
         public async Task<IActionResult> All()
         {
             var administrators = (await this.administratorService.GetAllAsync())
@@ -42,12 +36,18 @@
             return this.View(administrators);
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return this.View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Register(AdministratorRegisterInputModel administratorRegisterInputModel)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View();
+                return this.View(administratorRegisterInputModel);
             }
 
             var administratorRegisterServiceModel = administratorRegisterInputModel

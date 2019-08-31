@@ -13,7 +13,7 @@
 
     public class RecommendationService : IRecommendationService
     {
-        public const double MinimumPredictionScore = 0.9;
+        public const double MinPredictionScore = 0.8;
         public const int MaxIterationsCount = 10;
         public const int DefaultIndex = 0;
 
@@ -48,7 +48,7 @@
                 userRecipe.RecipeId = filteredRecipes[i].Id;
                 var prediction = this.predictionEnginePool.Predict<UserRecipe, UserRecipeScore>(userRecipe);
 
-                if (prediction.Score >= MinimumPredictionScore ||
+                if (prediction.Score >= MinPredictionScore ||
                     i == filteredRecipes.Count - 1)
                 {
                     return filteredRecipes[i];

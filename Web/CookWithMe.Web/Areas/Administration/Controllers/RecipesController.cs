@@ -112,7 +112,9 @@
             {
                 this.TempData["Error"] = CreateErrorMessage;
 
-                return this.View();
+                recipeCreateInputModel.RecipeViewData = await this.GetRecipeViewDataModelAsync();
+
+                return this.View(recipeCreateInputModel);
             }
 
             return this.Redirect(nameof(this.All));
@@ -193,7 +195,11 @@
             {
                 this.TempData["Error"] = EditErrorMessage;
 
-                return this.View();
+                recipeEditInputModel.RecipeViewData = await this.GetRecipeViewDataModelAsync();
+                recipeEditInputModel.NeededTime = this.enumParseService
+                    .GetEnumDescription(recipeEditInputModel.NeededTime, typeof(Period));
+
+                return this.View(recipeEditInputModel);
             }
 
             this.TempData["Success"] = EditSuccessMessage;
@@ -240,7 +246,7 @@
             {
                 this.TempData["Error"] = DeleteErrorMessage;
 
-                return this.View();
+                return this.Redirect($"/Recipes/Delete/{id}");
             }
 
             this.TempData["Success"] = string.Format(DeleteSuccessMessage, recipeTitle, id);
@@ -261,6 +267,7 @@
                 .CreateAsync(allRecipesByAdmin, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
         }
 
+        // TODO: Move to service
         private async Task<RecipeViewDataModel> GetRecipeViewDataModelAsync()
         {
             var categoryTitles = await this.categoryService.GetAllTitlesAsync();
@@ -273,7 +280,8 @@
             var periodDescriptions = new List<string>();
             foreach (var periodName in periodNames)
             {
-                periodDescriptions.Add(this.enumParseService.GetEnumDescription(periodName, typeof(Period)));
+                periodDescriptions.Add(this.enumParseService
+                    .GetEnumDescription(periodName, typeof(Period)));
             }
 
             var recipeViewDataModel = new RecipeViewDataModel
