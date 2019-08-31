@@ -4,7 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using CookWithMe.Common;
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
 
@@ -87,87 +87,95 @@
 
             var userId = await this.userManager.GetUserIdAsync(user);
 
-            // Delete all Reviews
-            var userReviews = await this.reviewRepository
-                .All()
-                .Where(x => x.ReviewerId == userId)
-                .ToListAsync();
-
-            foreach (var review in userReviews)
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
-                this.reviewRepository.HardDelete(review);
+                this.userRepository.Delete(user);
+            }
+            else
+            {
+                // Delete all Reviews
+                var userReviews = await this.reviewRepository
+                    .All()
+                    .Where(x => x.ReviewerId == userId)
+                    .ToListAsync();
+
+                foreach (var review in userReviews)
+                {
+                    this.reviewRepository.HardDelete(review);
+                }
+
+                await this.reviewRepository.SaveChangesAsync();
+
+                // Delete all UserAllergens
+                var userAllergens = await this.userAllergenRepository
+                    .All()
+                    .Where(x => x.UserId == userId)
+                    .ToListAsync();
+
+                foreach (var userAllergen in userAllergens)
+                {
+                    this.userAllergenRepository.Delete(userAllergen);
+                }
+
+                await this.userAllergenRepository.SaveChangesAsync();
+
+                // Delete all UserShoppinglists
+                var userShoppingLists = await this.userShoppingListRepository
+                    .All()
+                    .Where(x => x.UserId == userId)
+                    .ToListAsync();
+
+                foreach (var userShoppingList in userShoppingLists)
+                {
+                    this.userShoppingListRepository.Delete(userShoppingList);
+                }
+
+                await this.userShoppingListRepository.SaveChangesAsync();
+
+                // Delete all UserFavoriteRecipes
+                var userFavoriteRecipes = await this.userFavoriteRecipeRepository
+                    .All()
+                    .Where(x => x.UserId == userId)
+                    .ToListAsync();
+
+                foreach (var userFavoriteRecipe in userFavoriteRecipes)
+                {
+                    this.userFavoriteRecipeRepository.Delete(userFavoriteRecipe);
+                }
+
+                await this.userFavoriteRecipeRepository.SaveChangesAsync();
+
+                // Delete all UserCookedRecipes
+                var userCookedRecipes = await this.userCookedRecipeRepository
+                    .All()
+                    .Where(x => x.UserId == userId)
+                    .ToListAsync();
+
+                foreach (var userCookedRecipe in userCookedRecipes)
+                {
+                    this.userCookedRecipeRepository.Delete(userCookedRecipe);
+                }
+
+                await this.userCookedRecipeRepository.SaveChangesAsync();
+
+                // Delete personal data
+                user.UserName = null;
+                user.NormalizedUserName = null;
+                user.Email = null;
+                user.NormalizedEmail = null;
+                user.PasswordHash = null;
+                user.FullName = "DELETED";
+                user.Biography = null;
+                user.ProfilePhoto = null;
+                user.LifestyleId = null;
+                user.HasAdditionalInfo = false;
+
+                this.userRepository.Update(user);
+                await this.userRepository.SaveChangesAsync();
+
+                this.userRepository.Delete(user);
             }
 
-            await this.reviewRepository.SaveChangesAsync();
-
-            // Delete all UserAllergens
-            var userAllergens = await this.userAllergenRepository
-                .All()
-                .Where(x => x.UserId == userId)
-                .ToListAsync();
-
-            foreach (var userAllergen in userAllergens)
-            {
-                this.userAllergenRepository.Delete(userAllergen);
-            }
-
-            await this.userAllergenRepository.SaveChangesAsync();
-
-            // Delete all UserShoppinglists
-            var userShoppingLists = await this.userShoppingListRepository
-                .All()
-                .Where(x => x.UserId == userId)
-                .ToListAsync();
-
-            foreach (var userShoppingList in userShoppingLists)
-            {
-                this.userShoppingListRepository.Delete(userShoppingList);
-            }
-
-            await this.userShoppingListRepository.SaveChangesAsync();
-
-            // Delete all UserFavoriteRecipes
-            var userFavoriteRecipes = await this.userFavoriteRecipeRepository
-                .All()
-                .Where(x => x.UserId == userId)
-                .ToListAsync();
-
-            foreach (var userFavoriteRecipe in userFavoriteRecipes)
-            {
-                this.userFavoriteRecipeRepository.Delete(userFavoriteRecipe);
-            }
-
-            await this.userFavoriteRecipeRepository.SaveChangesAsync();
-
-            // Delete all UserCookedRecipes
-            var userCookedRecipes = await this.userCookedRecipeRepository
-                .All()
-                .Where(x => x.UserId == userId)
-                .ToListAsync();
-
-            foreach (var userCookedRecipe in userCookedRecipes)
-            {
-                this.userCookedRecipeRepository.Delete(userCookedRecipe);
-            }
-
-            await this.userCookedRecipeRepository.SaveChangesAsync();
-
-            // Delete personal data
-            user.UserName = null;
-            user.NormalizedUserName = null;
-            user.Email = null;
-            user.NormalizedEmail = null;
-            user.PasswordHash = null;
-            user.FullName = "DELETED";
-            user.Biography = null;
-            user.ProfilePhoto = null;
-            user.LifestyleId = null;
-            user.HasAdditionalInfo = false;
-
-            this.userRepository.Update(user);
-            await this.userRepository.SaveChangesAsync();
-
-            this.userRepository.Delete(user);
             var result = await this.userRepository.SaveChangesAsync();
 
             if (result > 0 == false)

@@ -101,7 +101,8 @@
                 });
 
             services.AddPredictionEnginePool<UserRecipe, UserRecipeScore>()
-                .FromFile("..\\CookWithMe.Web.MLModels\\CookWithMeModel.zip");
+                .FromFile("..\\CookWithMe.Web.MLModels\\CookWithMeModel.zip"); // Use locally
+                //.FromFile("CookWithMeModel.zip"); // Use when publishing
 
             services
                 .ConfigureApplicationCookie(options =>

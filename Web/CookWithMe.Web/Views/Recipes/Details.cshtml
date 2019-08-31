@@ -230,14 +230,17 @@
                             <div class="comment-content">
                                 <div class="arrow-comment"></div>
                                 <div class="comment-by">
-                                    @if (review.Reviewer.UserName == this.User.FindFirst(ClaimTypes.Name).Value ||
-                                      this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                    @if (this.User.Identity.IsAuthenticated)
                                     {
-                                        <a href="/Reviews/Delete/@review.Id" class="button small float-right">Delete</a>
-                                    }
-                                    @if (review.Reviewer.UserName == this.User.FindFirst(ClaimTypes.Name).Value)
-                                    {
-                                        <a href="/Reviews/Edit/@review.Id" class="button color small float-right-with-margin">Edit</a>
+                                        @if (review.Reviewer.UserName == this.User.FindFirst(ClaimTypes.Name).Value ||
+                                            this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                        {
+                                            <a href="/Reviews/Delete/@review.Id" class="button small float-right">Delete</a>
+                                        }
+                                        @if (review.Reviewer.UserName == this.User.FindFirst(ClaimTypes.Name).Value)
+                                        {
+                                            <a href="/Reviews/Edit/@review.Id" class="button color small float-right-with-margin">Edit</a>
+                                        }
                                     }
                                     <strong><a href="/Users/Profile/Favorite/@review.Reviewer.UserName">@review.Reviewer.FullName</a></strong><span class="date">@review.CreatedOn.ToString("dd/MM/yyyy")</span>
                                 </div>
