@@ -12,7 +12,7 @@
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.ShoppingLists;
     using CookWithMe.Services.Models.Users;
-
+    using CookWithMe.Web.ViewModels.Users.AdditionalInfo;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
@@ -255,6 +255,20 @@
             }
 
             return user.Id;
+        }
+
+        public async Task<UserAdditionalInfoViewModel> GetUserAdditionalInfoViewDataModelAsync()
+        {
+            var allergyNames = await this.allergenService.GetAllNamesAsync();
+            var lifestyleTypes = await this.lifestyleService.GetAllTypesAsync();
+
+            var userAdditionalInfoViewModel = new UserAdditionalInfoViewModel
+            {
+                Allergies = allergyNames,
+                Lifestyles = lifestyleTypes,
+            };
+
+            return userAdditionalInfoViewModel;
         }
     }
 }

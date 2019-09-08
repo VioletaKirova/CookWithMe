@@ -1582,6 +1582,9 @@
             // StringFormatService
             var stringFormatServiceMock = new Mock<IStringFormatService>();
 
+            // EnumParseService
+            var enumParseServiceMock = new Mock<IEnumParseService>();
+
             var recipeService = new RecipeService(
                 recipeRepository,
                 categoryServiceMock.Object,
@@ -1596,7 +1599,8 @@
                 userFavoriteRecipeServiceMock.Object,
                 userCookedRecipeServiceMock.Object,
                 userAllergenServiceMock.Object,
-                stringFormatServiceMock.Object);
+                stringFormatServiceMock.Object,
+                enumParseServiceMock.Object);
 
             return recipeService;
         }
@@ -1737,6 +1741,9 @@
                     new string[] { ",", " ", ", " },
                     StringSplitOptions.RemoveEmptyEntries));
 
+            // EnumParseService
+            var enumParseServiceMock = new Mock<IEnumParseService>();
+
             var recipeService = new RecipeService(
                 recipeRepository,
                 categoryServiceMock.Object,
@@ -1751,7 +1758,8 @@
                 userFavoriteRecipeServiceMock.Object,
                 userCookedRecipeServiceMock.Object,
                 userAllergenServiceMock.Object,
-                stringFormatServiceMock.Object);
+                stringFormatServiceMock.Object,
+                enumParseServiceMock.Object);
 
             return recipeService;
         }

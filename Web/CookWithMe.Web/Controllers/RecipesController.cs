@@ -1,7 +1,5 @@
 ﻿namespace CookWithMe.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -25,7 +23,6 @@
     using CookWithMe.Web.ViewModels.Recipes.Cooked;
     using CookWithMe.Web.ViewModels.Recipes.Details;
     using CookWithMe.Web.ViewModels.Recipes.Favorite;
-    using CookWithMe.Web.ViewModels.Recipes.ViewData;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -200,7 +197,7 @@
         {
             var recipeBrowseInputModel = new RecipeBrowseInputModel()
             {
-                RecipeViewData = await this.GetRecipeViewDataModelAsync(),
+                RecipeViewData = await this.recipeService.GetRecipeViewDataModelAsync(),
             };
 
             return this.View(recipeBrowseInputModel);
@@ -237,36 +234,6 @@
 
             return this.View(await PaginatedList<RecipeBrowseViewModel>
                 .CreateAsync(filteredRecipes, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
-        }
-
-        // TODO: Move to service
-        private async Task<RecipeViewDataModel> GetRecipeViewDataModelAsync()
-        {
-            var categoryTitles = await this.categoryService.GetAllTitlesAsync();
-            var allergenNames = await this.allergenService.GetAllNamesAsync();
-            var lifestyleTypes = await this.lifestyleService.GetAllTypesAsync();
-            var periodNames = Enum.GetNames(typeof(Period));
-            var levelNames = Enum.GetNames(typeof(Level));
-            var sizeNames = Enum.GetNames(typeof(Size));
-
-            var periodDescriptions = new List<string>();
-            foreach (var periodName in periodNames)
-            {
-                periodDescriptions.Add(this.enumParseService
-                    .GetEnumDescription(periodName, typeof(Period)));
-            }
-
-            var recipeViewDataModel = new RecipeViewDataModel
-            {
-                CategoryTitles = categoryTitles,
-                AllergenNames = allergenNames,
-                LifestyleTypes = lifestyleTypes,
-                PeriodValues = periodDescriptions,
-                LevelValues = levelNames,
-                SizeValues = sizeNames,
-            };
-
-            return recipeViewDataModel;
         }
     }
 }

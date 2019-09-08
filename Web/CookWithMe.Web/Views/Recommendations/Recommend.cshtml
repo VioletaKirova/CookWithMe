@@ -1,7 +1,7 @@
 ﻿@model CookWithMe.Web.ViewModels.Recommendations.Recommend.RecommendationRecommendViewModel
 
 @{
-    ViewData["Title"] = "Predict";
+    ViewData["Title"] = "Recommendation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,14 +11,14 @@
 <div class="container">
     <div class="twelve columns ">
         <!-- Headline -->
-        <h3 class="headline">Recommendation</h3>
+        <h3 class="headline">@ViewData["Title"]</h3>
         <span class="line rb margin-bottom-35"></span>
         <div class="clearfix"></div>
         <div class="list-style">
             <!-- Recipe -->
             <div class="four recipe-box columns">
                 <!-- Thumbnail -->
-                <div class="thumbnail-holder two columns">
+                <div class="thumbnail-holder two columns prediction">
                     <a href="/Recipes/Details/@Model.Id">
                         <img src=@Model.Photo alt="" />
                     </a>

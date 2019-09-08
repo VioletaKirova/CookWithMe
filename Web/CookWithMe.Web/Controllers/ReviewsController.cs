@@ -113,8 +113,6 @@
 
             var reviewServiceModel = reviewEditInputModel.To<ReviewServiceModel>();
 
-            reviewServiceModel.ReviewerId = userId;
-
             if (!await this.reviewService.EditAsync(id, reviewServiceModel))
             {
                 this.TempData["Error"] = EditErrorMessage;

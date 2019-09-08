@@ -18,7 +18,6 @@
     using CookWithMe.Web.Filters;
     using CookWithMe.Web.InputModels.Users.AddAdditionalInfo;
     using CookWithMe.Web.InputModels.Users.EditAdditionalInfo;
-    using CookWithMe.Web.ViewModels.Users.AdditionalInfo;
     using CookWithMe.Web.ViewModels.Users.Profile;
 
     using Microsoft.AspNetCore.Authorization;
@@ -74,7 +73,7 @@
             };
 
             userAddAdditionalInfoInputModel
-                .UserAdditionalInfoViewData = await this.GetUserAdditionalInfoViewDataModelAsync();
+                .UserAdditionalInfoViewData = await this.userService.GetUserAdditionalInfoViewDataModelAsync();
 
             return this.View(userAddAdditionalInfoInputModel);
         }
@@ -85,7 +84,7 @@
             if (!this.ModelState.IsValid)
             {
                 userAddAdditionalInfoInputModel
-                    .UserAdditionalInfoViewData = await this.GetUserAdditionalInfoViewDataModelAsync();
+                    .UserAdditionalInfoViewData = await this.userService.GetUserAdditionalInfoViewDataModelAsync();
 
                 return this.View(userAddAdditionalInfoInputModel);
             }
@@ -117,7 +116,7 @@
                 this.TempData["Error"] = AddAdditionalInfoErrorMessage;
 
                 userAddAdditionalInfoInputModel
-                    .UserAdditionalInfoViewData = await this.GetUserAdditionalInfoViewDataModelAsync();
+                    .UserAdditionalInfoViewData = await this.userService.GetUserAdditionalInfoViewDataModelAsync();
 
                 return this.View(userAddAdditionalInfoInputModel);
             }
@@ -151,7 +150,7 @@
             userEditAdditionalInfoInputModel.AllergenNames = allergenNamesViewModel;
 
             userEditAdditionalInfoInputModel
-                .UserAdditionalInfoViewData = await this.GetUserAdditionalInfoViewDataModelAsync();
+                .UserAdditionalInfoViewData = await this.userService.GetUserAdditionalInfoViewDataModelAsync();
 
             return this.View(userEditAdditionalInfoInputModel);
         }
@@ -162,7 +161,7 @@
             if (!this.ModelState.IsValid)
             {
                 userEditAdditionalInfoInputModel
-                    .UserAdditionalInfoViewData = await this.GetUserAdditionalInfoViewDataModelAsync();
+                    .UserAdditionalInfoViewData = await this.userService.GetUserAdditionalInfoViewDataModelAsync();
 
                 return this.View(userEditAdditionalInfoInputModel);
             }
@@ -194,7 +193,7 @@
                 this.TempData["Error"] = EditAdditionalInfoErrorMessage;
 
                 userEditAdditionalInfoInputModel
-                    .UserAdditionalInfoViewData = await this.GetUserAdditionalInfoViewDataModelAsync();
+                    .UserAdditionalInfoViewData = await this.userService.GetUserAdditionalInfoViewDataModelAsync();
 
                 return this.View(userEditAdditionalInfoInputModel);
             }
@@ -285,20 +284,6 @@
                 .ToListAsync();
 
             return this.View(userProfileAdminRecipesViewModel);
-        }
-
-        private async Task<UserAdditionalInfoViewModel> GetUserAdditionalInfoViewDataModelAsync()
-        {
-            var allergyNames = await this.allergenService.GetAllNamesAsync();
-            var lifestyleTypes = await this.lifestyleService.GetAllTypesAsync();
-
-            var userAdditionalInfoViewModel = new UserAdditionalInfoViewModel
-            {
-                Allergies = allergyNames,
-                Lifestyles = lifestyleTypes,
-            };
-
-            return userAdditionalInfoViewModel;
         }
     }
 }

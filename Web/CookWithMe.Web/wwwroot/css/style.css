@@ -6414,5 +6414,9 @@ ol.directions > li:before {
 }
 
 .recipe-box-content.ten.columns.prediction {
-    margin: 0px 0px 0px 130px;
+    margin: 0px 0px 0px 0px;
+}
+
+.thumbnail-holder.two.columns.prediction {
+    margin: 0px 0px 0px 0px;
 }

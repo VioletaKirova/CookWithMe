@@ -7,6 +7,7 @@
 
     using CookWithMe.Data.Common.Repositories;
     using CookWithMe.Data.Models;
+    using CookWithMe.Data.Models.Enums;
     using CookWithMe.Services.Common;
     using CookWithMe.Services.Data.Allergens;
     using CookWithMe.Services.Data.Categories;
@@ -16,6 +17,7 @@
     using CookWithMe.Services.Data.Users;
     using CookWithMe.Services.Mapping;
     using CookWithMe.Services.Models.Recipes;
+    using CookWithMe.Web.ViewModels.Recipes.ViewData;
 
     public class RecipeService : IRecipeService
     {
@@ -37,6 +39,7 @@
         private readonly IUserCookedRecipeService userCookedRecipeService;
         private readonly IUserAllergenService userAllergenService;
         private readonly IStringFormatService stringFormatService;
+        private readonly IEnumParseService enumParseService;
 
         public RecipeService(
             IDeletableEntityRepository<Recipe> recipeRepository,
@@ -52,7 +55,8 @@
             IUserFavoriteRecipeService userFavoriteRecipeService,
             IUserCookedRecipeService userCookedRecipeService,
             IUserAllergenService userAllergenService,
-            IStringFormatService stringFormatService)
+            IStringFormatService stringFormatService,
+            IEnumParseService enumParseService)
         {
             this.recipeRepository = recipeRepository;
             this.categoryService = categoryService;
@@ -68,6 +72,7 @@
             this.userCookedRecipeService = userCookedRecipeService;
             this.userAllergenService = userAllergenService;
             this.stringFormatService = stringFormatService;
+            this.enumParseService = enumParseService;
         }
 
         public async Task<bool> CreateAsync(RecipeServiceModel recipeServiceModel)
@@ -426,6 +431,35 @@
             return filteredRecipes
                 .OrderByDescending(x => x.CreatedOn)
                 .To<RecipeServiceModel>();
+        }
+
+        public async Task<RecipeViewDataModel> GetRecipeViewDataModelAsync()
+        {
+            var categoryTitles = await this.categoryService.GetAllTitlesAsync();
+            var allergenNames = await this.allergenService.GetAllNamesAsync();
+            var lifestyleTypes = await this.lifestyleService.GetAllTypesAsync();
+            var periodNames = Enum.GetNames(typeof(Period));
+            var levelNames = Enum.GetNames(typeof(Level));
+            var sizeNames = Enum.GetNames(typeof(Size));
+
+            var periodDescriptions = new List<string>();
+            foreach (var periodName in periodNames)
+            {
+                periodDescriptions.Add(this.enumParseService
+                    .GetEnumDescription(periodName, typeof(Period)));
+            }
+
+            var recipeViewDataModel = new RecipeViewDataModel
+            {
+                CategoryTitles = categoryTitles,
+                AllergenNames = allergenNames,
+                LifestyleTypes = lifestyleTypes,
+                PeriodValues = periodDescriptions,
+                LevelValues = levelNames,
+                SizeValues = sizeNames,
+            };
+
+            return recipeViewDataModel;
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿namespace CookWithMe.Web.Areas.Administration.Controllers
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -22,7 +20,6 @@
     using CookWithMe.Web.InputModels.Recipes.Edit;
     using CookWithMe.Web.ViewModels.Recipes.All;
     using CookWithMe.Web.ViewModels.Recipes.Delete;
-    using CookWithMe.Web.ViewModels.Recipes.ViewData;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -62,7 +59,7 @@
         {
             var recipeCreateInputModel = new RecipeCreateInputModel()
             {
-                RecipeViewData = await this.GetRecipeViewDataModelAsync(),
+                RecipeViewData = await this.recipeService.GetRecipeViewDataModelAsync(),
             };
 
             return this.View(recipeCreateInputModel);
@@ -73,7 +70,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                recipeCreateInputModel.RecipeViewData = await this.GetRecipeViewDataModelAsync();
+                recipeCreateInputModel.RecipeViewData = await this.recipeService.GetRecipeViewDataModelAsync();
 
                 return this.View(recipeCreateInputModel);
             }
@@ -112,7 +109,7 @@
             {
                 this.TempData["Error"] = CreateErrorMessage;
 
-                recipeCreateInputModel.RecipeViewData = await this.GetRecipeViewDataModelAsync();
+                recipeCreateInputModel.RecipeViewData = await this.recipeService.GetRecipeViewDataModelAsync();
 
                 return this.View(recipeCreateInputModel);
             }
@@ -126,7 +123,7 @@
             var recipeServiceModel = await this.recipeService.GetByIdAsync(id);
             var recipeEditInputModel = recipeServiceModel.To<RecipeEditInputModel>();
 
-            recipeEditInputModel.RecipeViewData = await this.GetRecipeViewDataModelAsync();
+            recipeEditInputModel.RecipeViewData = await this.recipeService.GetRecipeViewDataModelAsync();
             recipeEditInputModel.NeededTime = this.enumParseService
                 .GetEnumDescription(recipeEditInputModel.NeededTime, typeof(Period));
 
@@ -154,7 +151,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                recipeEditInputModel.RecipeViewData = await this.GetRecipeViewDataModelAsync();
+                recipeEditInputModel.RecipeViewData = await this.recipeService.GetRecipeViewDataModelAsync();
                 recipeEditInputModel.NeededTime = this.enumParseService
                     .GetEnumDescription(recipeEditInputModel.NeededTime, typeof(Period));
 
@@ -195,7 +192,7 @@
             {
                 this.TempData["Error"] = EditErrorMessage;
 
-                recipeEditInputModel.RecipeViewData = await this.GetRecipeViewDataModelAsync();
+                recipeEditInputModel.RecipeViewData = await this.recipeService.GetRecipeViewDataModelAsync();
                 recipeEditInputModel.NeededTime = this.enumParseService
                     .GetEnumDescription(recipeEditInputModel.NeededTime, typeof(Period));
 
@@ -213,7 +210,7 @@
             var recipeServiceModel = await this.recipeService.GetByIdAsync(id);
             var recipeDeleteViewModel = recipeServiceModel.To<RecipeDeleteViewModel>();
 
-            recipeDeleteViewModel.RecipeViewData = await this.GetRecipeViewDataModelAsync();
+            recipeDeleteViewModel.RecipeViewData = await this.recipeService.GetRecipeViewDataModelAsync();
             recipeDeleteViewModel.NeededTime = this.enumParseService
                 .GetEnumDescription(recipeDeleteViewModel.NeededTime, typeof(Period));
 
@@ -265,36 +262,6 @@
 
             return this.View(await PaginatedList<RecipeAllViewModel>
                 .CreateAsync(allRecipesByAdmin, pageNumber ?? GlobalConstants.DefaultPageNumber, GlobalConstants.PageSize));
-        }
-
-        // TODO: Move to service
-        private async Task<RecipeViewDataModel> GetRecipeViewDataModelAsync()
-        {
-            var categoryTitles = await this.categoryService.GetAllTitlesAsync();
-            var allergenNames = await this.allergenService.GetAllNamesAsync();
-            var lifestyleTypes = await this.lifestyleService.GetAllTypesAsync();
-            var periodNames = Enum.GetNames(typeof(Period));
-            var levelNames = Enum.GetNames(typeof(Level));
-            var sizeNames = Enum.GetNames(typeof(Size));
-
-            var periodDescriptions = new List<string>();
-            foreach (var periodName in periodNames)
-            {
-                periodDescriptions.Add(this.enumParseService
-                    .GetEnumDescription(periodName, typeof(Period)));
-            }
-
-            var recipeViewDataModel = new RecipeViewDataModel
-            {
-                CategoryTitles = categoryTitles,
-                AllergenNames = allergenNames,
-                LifestyleTypes = lifestyleTypes,
-                PeriodValues = periodDescriptions,
-                LevelValues = levelNames,
-                SizeValues = sizeNames,
-            };
-
-            return recipeViewDataModel;
         }
     }
 }

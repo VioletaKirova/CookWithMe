@@ -5,6 +5,7 @@
 
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Models.Recipes;
+    using CookWithMe.Web.ViewModels.Recipes.ViewData;
 
     public interface IRecipeService
     {
@@ -29,5 +30,7 @@
         IQueryable<RecipeServiceModel> GetByUserId(string userId);
 
         Task<IQueryable<RecipeServiceModel>> GetBySearchValuesAsync(RecipeBrowseServiceModel recipeSearchServiceModel);
+
+        Task<RecipeViewDataModel> GetRecipeViewDataModelAsync();
     }
 }

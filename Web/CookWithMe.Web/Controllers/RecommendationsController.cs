@@ -36,10 +36,14 @@
 
             var recommendViewModel = recommendedRecipe
                 .To<RecommendationRecommendViewModel>();
-            recommendViewModel.NeededTimeDescription = this.enumParseService
+
+            if (recommendedRecipe.NeededTime != 0)
+            {
+                recommendViewModel.NeededTimeDescription = this.enumParseService
                 .GetEnumDescription(
                     Enum.GetName(typeof(Period), recommendedRecipe.NeededTime),
                     typeof(Period));
+            }
 
             return this.View(recommendViewModel);
         }

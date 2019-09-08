@@ -5,6 +5,7 @@
     using CookWithMe.Data.Models;
     using CookWithMe.Services.Models.ShoppingLists;
     using CookWithMe.Services.Models.Users;
+    using CookWithMe.Web.ViewModels.Users.AdditionalInfo;
 
     public interface IUserService
     {
@@ -27,5 +28,7 @@
         Task<UserAdditionalInfoServiceModel> GetAdditionalInfoByUserIdAsync(string userId);
 
         Task<string> GetIdByUserNameAsync(string userName);
+
+        Task<UserAdditionalInfoViewModel> GetUserAdditionalInfoViewDataModelAsync();
     }
 }
